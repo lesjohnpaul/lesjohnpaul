@@ -33,18 +33,20 @@ export function MagneticElement({
       gsap.to(element, {
         x: deltaX,
         y: deltaY,
-        duration: 0.4,
-        ease: "power2.out",
+        duration: 0.3,
+        ease: "power3.out",
+        overwrite: "auto",
       });
     };
 
     const handleMouseLeave = () => {
-      // Smooth linear return instead of elastic/jelly
+      // Smooth, sweet return to base position
       gsap.to(element, {
         x: 0,
         y: 0,
-        duration: 0.3,
-        ease: "power2.out",
+        duration: 0.8,
+        ease: "elastic.out(0.4, 0.3)",
+        overwrite: "auto",
       });
     };
 

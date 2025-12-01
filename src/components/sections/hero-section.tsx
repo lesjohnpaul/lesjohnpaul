@@ -243,20 +243,20 @@ export function HeroSection() {
           </div>
 
           {/* Right Column - Profile Image & Stats */}
-          <div className="lg:col-span-5 relative">
+          <div className="lg:col-span-5 relative flex justify-center">
             {/* Profile Image with Architectural Frame */}
             <MagneticElement strength={0.15}>
               <div
                 data-hero-image
-                className="relative group/image"
+                className="relative group/image max-w-sm w-full"
               >
                 {/* Main Image Container */}
-                <div className="relative aspect-[4/5] overflow-hidden">
+                <div className="relative aspect-square overflow-hidden">
                   {/* Gold Corner Frames */}
-                  <div data-hero-image-frame className="absolute top-0 left-0 w-16 h-16 border-l-2 border-t-2 border-primary z-20 transition-all duration-500 group-hover/image:w-20 group-hover/image:h-20" />
-                  <div data-hero-image-frame className="absolute top-0 right-0 w-16 h-16 border-r-2 border-t-2 border-primary z-20 transition-all duration-500 group-hover/image:w-20 group-hover/image:h-20" />
-                  <div data-hero-image-frame className="absolute bottom-0 left-0 w-16 h-16 border-l-2 border-b-2 border-primary z-20 transition-all duration-500 group-hover/image:w-20 group-hover/image:h-20" />
-                  <div data-hero-image-frame className="absolute bottom-0 right-0 w-16 h-16 border-r-2 border-b-2 border-primary z-20 transition-all duration-500 group-hover/image:w-20 group-hover/image:h-20" />
+                  <div data-hero-image-frame className="absolute top-0 left-0 w-16 h-16 border-l-2 border-t-2 border-primary z-20 transition-[width,height] duration-500 ease-out group-hover/image:w-20 group-hover/image:h-20" />
+                  <div data-hero-image-frame className="absolute top-0 right-0 w-16 h-16 border-r-2 border-t-2 border-primary z-20 transition-[width,height] duration-500 ease-out group-hover/image:w-20 group-hover/image:h-20" />
+                  <div data-hero-image-frame className="absolute bottom-0 left-0 w-16 h-16 border-l-2 border-b-2 border-primary z-20 transition-[width,height] duration-500 ease-out group-hover/image:w-20 group-hover/image:h-20" />
+                  <div data-hero-image-frame className="absolute bottom-0 right-0 w-16 h-16 border-r-2 border-b-2 border-primary z-20 transition-[width,height] duration-500 ease-out group-hover/image:w-20 group-hover/image:h-20" />
 
                   {/* Image */}
                   <div className="relative w-full h-full">
@@ -264,18 +264,18 @@ export function HeroSection() {
                       src="/images/LesPaul.jpeg"
                       alt="Les John Paul Oliver - Software Engineer & Cloud Architect"
                       fill
-                      className="object-cover object-center transition-transform duration-700 group-hover/image:scale-105"
+                      className="object-cover object-center transition-transform duration-700 ease-out group-hover/image:scale-105"
                       priority
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 500px"
                     />
                     {/* Subtle Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-60" />
                     {/* Gold Tint on Hover */}
-                    <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover/image:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover/image:opacity-100 transition-opacity duration-500 ease-out" />
                   </div>
 
                   {/* Decorative Background Frame */}
-                  <div className="absolute -z-10 top-4 left-4 right-4 bottom-4 border border-primary/30 transition-all duration-500 group-hover/image:top-6 group-hover/image:left-6 group-hover/image:right-6 group-hover/image:bottom-6" />
+                  <div className="absolute -z-10 top-4 left-4 right-4 bottom-4 border border-primary/30 transition-[top,left,right,bottom] duration-500 ease-out group-hover/image:top-6 group-hover/image:left-6 group-hover/image:right-6 group-hover/image:bottom-6" />
                 </div>
 
                 {/* Stats Bar Below Image */}
@@ -328,23 +328,23 @@ export function HeroSection() {
               </button>
             </MagneticElement>
 
-            {/* Quick Links */}
-            <div className="hidden md:flex items-center gap-6 text-sm">
+            {/* Quick Links with Icons */}
+            <div className="hidden md:flex items-center gap-4">
               {[
-                { label: "GitHub", href: personalInfo.social.github, icon: Github },
-                { label: "LinkedIn", href: personalInfo.social.linkedin, icon: Linkedin },
-                { label: "Contact", href: `mailto:${personalInfo.email}`, icon: Mail },
+                { icon: Github, label: "GitHub", href: personalInfo.social.github, ariaLabel: "View GitHub Profile" },
+                { icon: Linkedin, label: "LinkedIn", href: personalInfo.social.linkedin, ariaLabel: "Connect on LinkedIn" },
+                { icon: Mail, label: "Contact", href: `mailto:${personalInfo.email}`, ariaLabel: "Send Email" },
               ].map((link) => (
                 <MagneticElement key={link.label} strength={0.3}>
                   <a
                     href={link.href}
                     target={link.href.startsWith("mailto") ? undefined : "_blank"}
                     rel={link.href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-                    className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors relative group"
+                    aria-label={link.ariaLabel}
+                    className="flex items-center gap-2 px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-all duration-300 rounded-md group"
                   >
                     <link.icon className="w-4 h-4 group-hover:text-primary transition-colors" />
-                    {link.label}
-                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary group-hover:w-full transition-all duration-300" />
+                    <span className="text-sm">{link.label}</span>
                   </a>
                 </MagneticElement>
               ))}
