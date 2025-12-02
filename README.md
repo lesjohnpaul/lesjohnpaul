@@ -1,276 +1,615 @@
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,14,16,18,20&height=180&section=header&text=Les%20John%20Paul%20Oliver&fontSize=42&fontColor=fff&animation=fadeIn&fontAlignY=35&desc=Building%20systems%20that%20scale.%20Crafting%20solutions%20that%20matter.&descAlignY=55&descSize=18"/>
-
 <div align="center">
 
-  [![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&duration=3000&pause=1000&color=D4AF37&center=true&vCenter=true&multiline=true&repeat=false&random=false&width=600&height=80&lines=IT+Expert+%7C+Software+Engineer+%7C+Cloud+Architect;Transforming+Ideas+into+Scalable+Solutions)](https://git.io/typing-svg)
+<!-- ANIMATED HEADER WITH CUSTOM SVG -->
+<img src="https://capsule-render.vercel.app/api?type=venom&color=gradient&customColorList=0,2,2,5,30&height=300&section=header&text=Les%20John%20Paul%20Oliver&fontSize=50&fontColor=fff&animation=twinkling&fontAlignY=40&desc=IT%20Expert%20%7C%20Software%20Engineer%20%7C%20Cloud%20Architect&descAlignY=60&descSize=20"/>
 
-  <br/>
+<!-- ANIMATED BANNER -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/platane/snk/output/github-contribution-grid-snake-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/platane/snk/output/github-contribution-grid-snake.svg">
+  <img alt="github contribution grid snake animation" src="https://raw.githubusercontent.com/platane/snk/output/github-contribution-grid-snake-dark.svg">
+</picture>
 
-  [![Portfolio](https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://lesjohnpaul.dev)
-  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/lesjohnpaul/)
-  [![Email](https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:lesjohnpauloliver@gmail.com)
+<br/><br/>
 
-</div>
-
-<br/>
-
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20professions/Man%20Technologist%20Light%20Skin%20Tone.png" alt="Developer" width="28" /> &nbsp;About Me
-
-```typescript
-const lesJohnPaul = {
-  location: "Philippines 🇵🇭",
-  role: "IT Expert & Software Engineer",
-  experience: "8+ years",
-
-  expertise: {
-    cloud: ["AWS", "Google Cloud", "Azure"],
-    infrastructure: ["Terraform", "Kubernetes", "Docker"],
-    backend: ["Node.js", "Python", "FastAPI", "GraphQL"],
-    frontend: ["React", "Next.js", "TypeScript"],
-    databases: ["PostgreSQL", "MongoDB", "Redis"],
-    ai: ["OpenAI", "LangChain", "ML Pipelines"]
-  },
-
-  currentFocus: "Building AI-powered automation systems",
-  funFact: "I also produce music and create digital art 🎵🎨"
-};
-```
+<!-- ANIMATED TYPING -->
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=28&duration=3000&pause=1000&color=D4AF37&center=true&vCenter=true&multiline=true&repeat=true&random=false&width=800&height=100&lines=%F0%9F%9A%80+Building+systems+that+scale;%E2%9C%A8+Crafting+solutions+that+matter;%F0%9F%8C%9F+Transforming+ideas+into+reality)](https://git.io/typing-svg)
 
 <br/>
 
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" alt="Rocket" width="28" /> &nbsp;What I Do
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Cloud.png" alt="Cloud" width="20" /> Cloud Engineering
-- Multi-region AWS infrastructure
-- Kubernetes orchestration at scale
-- Zero-downtime deployments
-- Cost optimization (40%+ savings)
-
-### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Gear.png" alt="Gear" width="20" /> System Architecture
-- Microservices design patterns
-- Event-driven architectures
-- High-availability systems
-- 99.99% uptime solutions
-
-</td>
-<td width="50%" valign="top">
-
-### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Desktop%20Computer.png" alt="Computer" width="20" /> Full Stack Development
-- Modern React/Next.js apps
-- Scalable API design
-- Real-time features
-- Performance optimization
-
-### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Robot.png" alt="Robot" width="20" /> AI & Automation
-- LLM integration & workflows
-- Intelligent process automation
-- Custom AI solutions
-- Data pipeline optimization
-
-</td>
-</tr>
-</table>
-
-<br/>
-
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Hammer%20and%20Wrench.png" alt="Tools" width="28" /> &nbsp;Tech Stack
-
-<div align="center">
-
-### Cloud & Infrastructure
-![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazonwebservices&logoColor=FF9900)
-![Google Cloud](https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)
-![Azure](https://img.shields.io/badge/Azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)
-![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)
-![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-
-### Languages & Frameworks
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-
-### Databases & Tools
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
-![Elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=for-the-badge&logo=elasticsearch&logoColor=white)
-![GraphQL](https://img.shields.io/badge/GraphQL-E10098?style=for-the-badge&logo=graphql&logoColor=white)
-![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
-
-</div>
-
-<br/>
-
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Fire.png" alt="Fire" width="28" /> &nbsp;Impact & Achievements
-
-<div align="center">
-
-| <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Glowing%20Star.png" alt="Star" width="20" /> Metric | Value |
-|:---:|:---:|
-| Years of Experience | **8+** |
-| Projects Delivered | **50+** |
-| Cloud Migrations | **25+** |
-| Systems Optimized | **100+** |
-| Users Served | **1M+** |
-| Uptime Achieved | **99.99%** |
-
-</div>
-
-<br/>
-
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Milky%20Way.png" alt="Galaxy" width="28" /> &nbsp;Featured Projects
-
-<div align="center">
-
-<a href="#">
-  <img src="https://github-readme-stats.vercel.app/api/pin/?username=lesjohnpaul&repo=cloud-migration-platform&theme=dark&bg_color=0d1117&border_color=30363d&title_color=d4af37&icon_color=d4af37&text_color=8b949e" />
+<!-- SOCIAL BADGES WITH ANIMATIONS -->
+<a href="https://lesjohnpaul.dev">
+  <img src="https://img.shields.io/badge/Portfolio-FF5722?style=for-the-badge&logo=todoist&logoColor=white" alt="Portfolio"/>
 </a>
-<a href="#">
-  <img src="https://github-readme-stats.vercel.app/api/pin/?username=lesjohnpaul&repo=realtime-analytics&theme=dark&bg_color=0d1117&border_color=30363d&title_color=d4af37&icon_color=d4af37&text_color=8b949e" />
-</a>
-
-</div>
-
-<br/>
-
-<table>
-<tr>
-<td width="33%" align="center">
-
-**Cloud Migration Platform**
-
-*Zero-downtime enterprise migrations to AWS*
-
-`AWS` `Terraform` `Python` `React`
-
-</td>
-<td width="33%" align="center">
-
-**Real-time Analytics**
-
-*10M+ events/day processing system*
-
-`Kafka` `ClickHouse` `Next.js` `D3.js`
-
-</td>
-<td width="33%" align="center">
-
-**AI Workflow Engine**
-
-*LLM-powered process automation*
-
-`OpenAI` `LangChain` `FastAPI` `PostgreSQL`
-
-</td>
-</tr>
-</table>
-
-<br/>
-
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Crystal%20Ball.png" alt="Crystal Ball" width="28" /> &nbsp;Beyond The Code
-
-<div align="center">
-
-*There's more to me than algorithms and architecture*
-
-</div>
-
-<table>
-<tr>
-<td align="center" width="20%">
-  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Musical%20Notes.png" alt="Music" width="40" />
-  <br/><b>Music Production</b>
-  <br/><sub>Composing & Audio Engineering</sub>
-</td>
-<td align="center" width="20%">
-  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Artist%20Palette.png" alt="Art" width="40" />
-  <br/><b>Visual Art</b>
-  <br/><sub>Digital Art & Design</sub>
-</td>
-<td align="center" width="20%">
-  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Chart%20Increasing.png" alt="Marketing" width="40" />
-  <br/><b>Digital Marketing</b>
-  <br/><sub>SEO & Growth Strategy</sub>
-</td>
-<td align="center" width="20%">
-  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" alt="Startup" width="40" />
-  <br/><b>Entrepreneurship</b>
-  <br/><sub>Venture Building</sub>
-</td>
-<td align="center" width="20%">
-  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Shuffle%20Tracks%20Button.png" alt="Automation" width="40" />
-  <br/><b>Workflow Automation</b>
-  <br/><sub>n8n, Zapier, Make</sub>
-</td>
-</tr>
-</table>
-
-<br/>
-
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Bar%20Chart.png" alt="Stats" width="28" /> &nbsp;GitHub Stats
-
-<div align="center">
-
-  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=lesjohnpaul&show_icons=true&theme=dark&bg_color=0d1117&border_color=30363d&title_color=d4af37&icon_color=d4af37&text_color=8b949e&hide_border=false" />
-  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=lesjohnpaul&layout=compact&theme=dark&bg_color=0d1117&border_color=30363d&title_color=d4af37&text_color=8b949e&hide_border=false" />
-
-</div>
-
-<div align="center">
-
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=lesjohnpaul&theme=dark&background=0d1117&border=30363d&ring=d4af37&fire=d4af37&currStreakLabel=d4af37&sideLabels=8b949e&currStreakNum=ffffff&dates=8b949e" />
-
-</div>
-
-<br/>
-
-<div align="center">
-
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=lesjohnpaul&bg_color=0d1117&color=d4af37&line=d4af37&point=ffffff&area=true&area_color=d4af37&hide_border=true" width="95%" />
-
-</div>
-
-<br/>
-
-## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Handshake.png" alt="Handshake" width="28" /> &nbsp;Let's Connect
-
-<div align="center">
-
+<img src="https://img.shields.io/badge/-%7C-333?style=for-the-badge"/>
 <a href="https://www.linkedin.com/in/lesjohnpaul/">
-  <img src="https://img.shields.io/badge/Let's_Connect_on_LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" />
+  <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
 </a>
+<img src="https://img.shields.io/badge/-%7C-333?style=for-the-badge"/>
 <a href="mailto:lesjohnpauloliver@gmail.com">
-  <img src="https://img.shields.io/badge/Send_Me_an_Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white" />
+  <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/>
+</a>
+<img src="https://img.shields.io/badge/-%7C-333?style=for-the-badge"/>
+<a href="https://github.com/lesjohnpaul">
+  <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
 </a>
 
 <br/><br/>
 
-**Open to:**
+<!-- PROFILE VIEWS & FOLLOWERS -->
+<img src="https://komarev.com/ghpvc/?username=lesjohnpaul&style=for-the-badge&color=D4AF37&label=PROFILE+VIEWS"/>
+&nbsp;&nbsp;
+<img src="https://img.shields.io/github/followers/lesjohnpaul?style=for-the-badge&color=D4AF37&labelColor=000&logo=github&label=FOLLOWERS"/>
+&nbsp;&nbsp;
+<img src="https://img.shields.io/github/stars/lesjohnpaul?style=for-the-badge&color=D4AF37&labelColor=000&logo=github&label=STARS"/>
 
-`Consulting` `Full-time Opportunities` `Collaborations` `Speaking Engagements`
+</div>
 
 <br/>
 
-<img src="https://komarev.com/ghpvc/?username=lesjohnpaul&color=d4af37&style=for-the-badge&label=Profile+Views" />
+<!-- ANIMATED DIVIDER -->
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
 
+<br/>
+
+<!-- ABOUT ME SECTION WITH CUSTOM STYLING -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People%20with%20professions/Man%20Technologist%20Light%20Skin%20Tone.png" alt="Developer" width="80"/>
+  <h2>
+    <img src="https://media.giphy.com/media/iY8CRBdQXODJSCERIr/giphy.gif" width="30"/>
+    &nbsp;About Me
+  </h2>
+</div>
+
+<table align="center">
+<tr>
+<td width="50%">
+
+```typescript
+class LesJohnPaul extends Developer {
+
+  readonly name = "Les John Paul Oliver";
+  readonly location = "Philippines 🇵🇭";
+  readonly title = "IT Expert & Software Engineer";
+
+  private experience = "8+ years";
+  private projectsDelivered = "50+";
+  private systemsOptimized = "100+";
+
+  get currentMission(): string {
+    return "Building AI-powered systems that scale";
+  }
+
+  get expertise(): TechStack {
+    return {
+      cloud: ["AWS", "GCP", "Azure"],
+      infrastructure: ["K8s", "Docker", "Terraform"],
+      backend: ["Node.js", "Python", "FastAPI"],
+      frontend: ["React", "Next.js", "TypeScript"],
+      databases: ["PostgreSQL", "MongoDB", "Redis"],
+      ai: ["OpenAI", "LangChain", "ML Pipelines"]
+    };
+  }
+
+  get superpower(): string {
+    return "Turning coffee into scalable systems ☕→🚀";
+  }
+}
+```
+
+</td>
+<td width="50%">
+
+<div align="center">
+
+### <img src="https://media.giphy.com/media/WUlplcMpOCEmTGBtBW/giphy.gif" width="30"> Quick Facts
+
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Globe%20Showing%20Asia-Australia.png" width="20"/> **Based in** Philippines
+
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Laptop.png" width="20"/> **8+ years** crafting solutions
+
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" width="20"/> **50+ projects** delivered
+
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Cloud.png" width="20"/> **25+ cloud** migrations
+
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People/Bust%20in%20Silhouette.png" width="20"/> **1M+ users** served
+
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/High%20Voltage.png" width="20"/> **99.99%** uptime achieved
+
+<br/><br/>
+
+### <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Nerd%20Face.png" width="25"/> Currently
+
+🔭 Building **AI-powered automation**
+
+🌱 Exploring **LLM architectures**
+
+⚡ Crafting **scalable cloud solutions**
+
+🎵 Producing **music** in free time
+
+</div>
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+<!-- ANIMATED DIVIDER -->
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+<br/>
+
+<!-- EXPERTISE SECTION -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" alt="Rocket" width="80"/>
+  <h2>
+    <img src="https://media.giphy.com/media/QssGEmpkyEOhBCb7e1/giphy.gif" width="30"/>
+    &nbsp;What I Bring to the Table
+  </h2>
+</div>
+
+<br/>
+
+<div align="center">
+<table>
+<tr>
+<td align="center" width="25%">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Cloud.png" width="60"/>
+<br/><br/>
+<b>☁️ Cloud Engineering</b>
+<br/><br/>
+<img src="https://skillicons.dev/icons?i=aws,gcp,azure&theme=dark"/>
+<br/><br/>
+<sub>Multi-region infrastructure<br/>Zero-downtime deployments<br/>40%+ cost optimization</sub>
+</td>
+<td align="center" width="25%">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Gear.png" width="60"/>
+<br/><br/>
+<b>⚙️ DevOps & Infra</b>
+<br/><br/>
+<img src="https://skillicons.dev/icons?i=kubernetes,docker,terraform&theme=dark"/>
+<br/><br/>
+<sub>Container orchestration<br/>Infrastructure as Code<br/>CI/CD automation</sub>
+</td>
+<td align="center" width="25%">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Desktop%20Computer.png" width="60"/>
+<br/><br/>
+<b>💻 Full Stack Dev</b>
+<br/><br/>
+<img src="https://skillicons.dev/icons?i=react,nextjs,nodejs&theme=dark"/>
+<br/><br/>
+<sub>Modern web applications<br/>Scalable API design<br/>Real-time systems</sub>
+</td>
+<td align="center" width="25%">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Robot.png" width="60"/>
+<br/><br/>
+<b>🤖 AI & Automation</b>
+<br/><br/>
+<img src="https://skillicons.dev/icons?i=python,tensorflow,pytorch&theme=dark"/>
+<br/><br/>
+<sub>LLM integration<br/>Workflow automation<br/>ML pipelines</sub>
+</td>
+</tr>
+</table>
+</div>
+
+<br/>
+
+<!-- ANIMATED DIVIDER -->
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+<br/>
+
+<!-- TECH ARSENAL -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Hammer%20and%20Wrench.png" alt="Tools" width="80"/>
+  <h2>
+    <img src="https://media2.giphy.com/media/QssGEmpkyEOhBCb7e1/giphy.gif?cid=ecf05e47a0n3gi1bfqntqmob8g9aid1oyj2gy3z0c24teleq&rid=giphy.gif" width="30"/>
+    &nbsp;Tech Arsenal
+  </h2>
 </div>
 
 <br/>
 
 <div align="center">
 
-  ```
-  "Building systems that scale. Crafting solutions that matter."
-  ```
+<!-- LANGUAGES -->
+<h3>
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Keyboard.png" width="25"/>
+  Languages
+</h3>
+
+<img src="https://skillicons.dev/icons?i=ts,js,python,go,rust,bash&theme=dark&perline=6"/>
+
+<br/><br/>
+
+<!-- FRONTEND -->
+<h3>
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Artist%20Palette.png" width="25"/>
+  Frontend
+</h3>
+
+<img src="https://skillicons.dev/icons?i=react,nextjs,vue,tailwind,sass,figma&theme=dark&perline=6"/>
+
+<br/><br/>
+
+<!-- BACKEND -->
+<h3>
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Gear.png" width="25"/>
+  Backend
+</h3>
+
+<img src="https://skillicons.dev/icons?i=nodejs,express,fastapi,graphql,prisma,rabbitmq&theme=dark&perline=6"/>
+
+<br/><br/>
+
+<!-- CLOUD & DEVOPS -->
+<h3>
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Cloud.png" width="25"/>
+  Cloud & DevOps
+</h3>
+
+<img src="https://skillicons.dev/icons?i=aws,gcp,azure,kubernetes,docker,terraform&theme=dark&perline=6"/>
+
+<br/><br/>
+
+<!-- DATABASES -->
+<h3>
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Card%20File%20Box.png" width="25"/>
+  Databases
+</h3>
+
+<img src="https://skillicons.dev/icons?i=postgres,mongodb,redis,elasticsearch,mysql,dynamodb&theme=dark&perline=6"/>
+
+<br/><br/>
+
+<!-- TOOLS -->
+<h3>
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Toolbox.png" width="25"/>
+  Tools & More
+</h3>
+
+<img src="https://skillicons.dev/icons?i=git,github,gitlab,vscode,vim,linux&theme=dark&perline=6"/>
 
 </div>
 
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,14,16,18,20&height=120&section=footer"/>
+<br/>
+
+<!-- ANIMATED DIVIDER -->
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+<br/>
+
+<!-- IMPACT METRICS -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Fire.png" alt="Fire" width="80"/>
+  <h2>
+    <img src="https://media.giphy.com/media/W5eoZHPpUx9sapR0eu/giphy.gif" width="30"/>
+    &nbsp;Impact & Metrics
+  </h2>
+</div>
+
+<br/>
+
+<div align="center">
+<table>
+<tr>
+<td align="center">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Calendar.png" width="40"/>
+<br/>
+<h1 style="margin:0">8+</h1>
+<sub><b>Years Experience</b></sub>
+</td>
+<td align="center">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" width="40"/>
+<br/>
+<h1 style="margin:0">50+</h1>
+<sub><b>Projects Delivered</b></sub>
+</td>
+<td align="center">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Cloud.png" width="40"/>
+<br/>
+<h1 style="margin:0">25+</h1>
+<sub><b>Cloud Migrations</b></sub>
+</td>
+<td align="center">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Gear.png" width="40"/>
+<br/>
+<h1 style="margin:0">100+</h1>
+<sub><b>Systems Optimized</b></sub>
+</td>
+<td align="center">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People/Bust%20in%20Silhouette.png" width="40"/>
+<br/>
+<h1 style="margin:0">1M+</h1>
+<sub><b>Users Served</b></sub>
+</td>
+<td align="center">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/High%20Voltage.png" width="40"/>
+<br/>
+<h1 style="margin:0">99.99%</h1>
+<sub><b>Uptime Achieved</b></sub>
+</td>
+</tr>
+</table>
+</div>
+
+<br/>
+
+<!-- ANIMATED DIVIDER -->
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+<br/>
+
+<!-- FEATURED PROJECTS -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Milky%20Way.png" alt="Galaxy" width="80"/>
+  <h2>
+    <img src="https://media.giphy.com/media/iY8CRBdQXODJSCERIr/giphy.gif" width="30"/>
+    &nbsp;Featured Work
+  </h2>
+</div>
+
+<br/>
+
+<div align="center">
+<table>
+<tr>
+<td width="33%" align="center">
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Cloud.png" width="50"/>
+  <h3>Cloud Migration Platform</h3>
+  <p><i>Zero-downtime enterprise migrations to AWS</i></p>
+  <br/>
+  <img src="https://skillicons.dev/icons?i=aws,terraform,python,react&theme=dark&perline=4"/>
+  <br/><br/>
+  <img src="https://img.shields.io/badge/Enterprise-Grade-D4AF37?style=flat-square"/>
+  <img src="https://img.shields.io/badge/Zero-Downtime-00C853?style=flat-square"/>
+</td>
+<td width="33%" align="center">
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Bar%20Chart.png" width="50"/>
+  <h3>Real-time Analytics</h3>
+  <p><i>10M+ events/day processing system</i></p>
+  <br/>
+  <img src="https://skillicons.dev/icons?i=kafka,redis,nextjs,d3&theme=dark&perline=4"/>
+  <br/><br/>
+  <img src="https://img.shields.io/badge/10M+-Events/Day-D4AF37?style=flat-square"/>
+  <img src="https://img.shields.io/badge/Real-Time-00C853?style=flat-square"/>
+</td>
+<td width="33%" align="center">
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Smilies/Robot.png" width="50"/>
+  <h3>AI Workflow Engine</h3>
+  <p><i>LLM-powered process automation</i></p>
+  <br/>
+  <img src="https://skillicons.dev/icons?i=python,fastapi,postgres,redis&theme=dark&perline=4"/>
+  <br/><br/>
+  <img src="https://img.shields.io/badge/AI-Powered-D4AF37?style=flat-square"/>
+  <img src="https://img.shields.io/badge/LLM-Integration-00C853?style=flat-square"/>
+</td>
+</tr>
+</table>
+</div>
+
+<br/>
+
+<!-- ANIMATED DIVIDER -->
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+<br/>
+
+<!-- BEYOND THE CODE -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Crystal%20Ball.png" alt="Crystal Ball" width="80"/>
+  <h2>
+    <img src="https://media.giphy.com/media/VgCDAzcKvsR6OM0uWg/giphy.gif" width="30"/>
+    &nbsp;Beyond The Code
+  </h2>
+  <p><i>There's more to me than algorithms and architecture</i></p>
+</div>
+
+<br/>
+
+<div align="center">
+<table>
+<tr>
+<td align="center" width="20%">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Musical%20Notes.png" width="60"/>
+<br/><br/>
+<b>🎵 Music Production</b>
+<br/>
+<sub>Composing & Producing<br/>Audio Engineering<br/>Sound Design</sub>
+</td>
+<td align="center" width="20%">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Artist%20Palette.png" width="60"/>
+<br/><br/>
+<b>🎨 Visual Art</b>
+<br/>
+<sub>Digital Art<br/>UI/UX Design<br/>Photography</sub>
+</td>
+<td align="center" width="20%">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Chart%20Increasing.png" width="60"/>
+<br/><br/>
+<b>📈 Digital Marketing</b>
+<br/>
+<sub>SEO Strategy<br/>Growth Hacking<br/>Analytics</sub>
+</td>
+<td align="center" width="20%">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" width="60"/>
+<br/><br/>
+<b>🚀 Entrepreneurship</b>
+<br/>
+<sub>Venture Building<br/>Product Strategy<br/>Team Leadership</sub>
+</td>
+<td align="center" width="20%">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Symbols/Shuffle%20Tracks%20Button.png" width="60"/>
+<br/><br/>
+<b>🔄 Automation</b>
+<br/>
+<sub>n8n & Zapier<br/>API Integration<br/>Process Optimization</sub>
+</td>
+</tr>
+</table>
+</div>
+
+<br/>
+
+<!-- ANIMATED DIVIDER -->
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+<br/>
+
+<!-- GITHUB STATS -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Bar%20Chart.png" alt="Stats" width="80"/>
+  <h2>
+    <img src="https://media.giphy.com/media/W5eoZHPpUx9sapR0eu/giphy.gif" width="30"/>
+    &nbsp;GitHub Analytics
+  </h2>
+</div>
+
+<br/>
+
+<div align="center">
+
+<!-- STATS CARDS ROW -->
+<a href="https://github.com/lesjohnpaul">
+  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=lesjohnpaul&show_icons=true&theme=radical&bg_color=0d1117&border_color=D4AF37&title_color=D4AF37&icon_color=D4AF37&text_color=fff&ring_color=D4AF37&hide_border=false&count_private=true&include_all_commits=true"/>
+</a>
+<a href="https://github.com/lesjohnpaul">
+  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=lesjohnpaul&layout=compact&theme=radical&bg_color=0d1117&border_color=D4AF37&title_color=D4AF37&text_color=fff&hide_border=false&langs_count=8"/>
+</a>
+
+<br/><br/>
+
+<!-- STREAK STATS -->
+<a href="https://github.com/lesjohnpaul">
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=lesjohnpaul&theme=radical&background=0d1117&border=D4AF37&ring=D4AF37&fire=D4AF37&currStreakLabel=D4AF37&sideLabels=fff&currStreakNum=fff&dates=888"/>
+</a>
+
+<br/><br/>
+
+<!-- ACTIVITY GRAPH -->
+<a href="https://github.com/lesjohnpaul">
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=lesjohnpaul&bg_color=0d1117&color=D4AF37&line=D4AF37&point=fff&area=true&area_color=D4AF37&hide_border=true&custom_title=Contribution%20Graph"/>
+</a>
+
+<br/><br/>
+
+<!-- TROPHIES -->
+<a href="https://github.com/lesjohnpaul">
+  <img src="https://github-profile-trophy.vercel.app/?username=lesjohnpaul&theme=radical&no-frame=true&no-bg=true&column=7&margin-w=15&margin-h=15"/>
+</a>
+
+</div>
+
+<br/>
+
+<!-- ANIMATED DIVIDER -->
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+<br/>
+
+<!-- SPOTIFY / CODING MUSIC -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Headphone.png" alt="Music" width="60"/>
+  <h3>🎧 Coding Vibes</h3>
+  <p><i>What I listen to while building the future</i></p>
+
+  [![spotify-github-profile](https://spotify-github-profile.kittinanx.com/api/view?uid=your_spotify_id&cover_image=true&theme=novatorem&show_offline=false&background_color=0d1117&interchange=false&bar_color=D4AF37&bar_color_cover=true)](https://spotify-github-profile.kittinanx.com/api/view?uid=your_spotify_id&redirect=true)
+</div>
+
+<br/>
+
+<!-- ANIMATED DIVIDER -->
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif">
+
+<br/>
+
+<!-- CONNECT -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Handshake.png" alt="Handshake" width="80"/>
+  <h2>
+    <img src="https://media.giphy.com/media/LnQjpWaON8nhr21vNW/giphy.gif" width="30"/>
+    &nbsp;Let's Connect!
+  </h2>
+</div>
+
+<br/>
+
+<div align="center">
+
+<!-- ANIMATED CONNECT BUTTONS -->
+<a href="https://www.linkedin.com/in/lesjohnpaul/">
+  <img src="https://img.shields.io/badge/-%20Let's%20Connect%20on%20LinkedIn%20-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"/>
+</a>
+&nbsp;&nbsp;
+<a href="mailto:lesjohnpauloliver@gmail.com">
+  <img src="https://img.shields.io/badge/-%20Send%20Me%20an%20Email%20-D14836?style=for-the-badge&logo=gmail&logoColor=white"/>
+</a>
+&nbsp;&nbsp;
+<a href="https://lesjohnpaul.dev">
+  <img src="https://img.shields.io/badge/-%20Visit%20My%20Portfolio%20-000000?style=for-the-badge&logo=vercel&logoColor=white"/>
+</a>
+
+<br/><br/>
+
+<!-- AVAILABILITY -->
+<table>
+<tr>
+<td align="center">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Check%20Mark%20Button.png" width="20"/>
+<b>Consulting</b>
+</td>
+<td align="center">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Check%20Mark%20Button.png" width="20"/>
+<b>Full-time Roles</b>
+</td>
+<td align="center">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Check%20Mark%20Button.png" width="20"/>
+<b>Collaborations</b>
+</td>
+<td align="center">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Check%20Mark%20Button.png" width="20"/>
+<b>Speaking</b>
+</td>
+<td align="center">
+<img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Check%20Mark%20Button.png" width="20"/>
+<b>Mentoring</b>
+</td>
+</tr>
+</table>
+
+<br/>
+
+<!-- QUOTE -->
+```
+💡 "Building systems that scale. Crafting solutions that matter."
+```
+
+<br/>
+
+<!-- RANDOM DEV QUOTE -->
+<img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical&border=true"/>
+
+</div>
+
+<br/>
+
+<!-- FOOTER -->
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,2,2,5,30&height=150&section=footer&animation=twinkling"/>
+
+<!-- HIDDEN EASTER EGG -->
+<!--
+  🎉 You found the easter egg!
+  Thanks for checking out my profile so thoroughly!
+
+  Fun facts about this README:
+  - Built with ❤️ and way too much coffee
+  - Animated emojis from Tarikul-Islam-Anik's amazing collection
+  - Stats powered by various open-source tools
+  - Golden accent color #D4AF37 because I believe in standing out
+
+  Want to connect? I'd love to hear from you!
+  Email: lesjohnpauloliver@gmail.com
+-->
