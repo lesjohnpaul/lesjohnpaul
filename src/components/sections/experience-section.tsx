@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
+import Image from "next/image";
 import {
   Briefcase,
   CheckCircle2,
@@ -28,12 +29,159 @@ const careerMetrics = [
   { label: "Companies", value: "3", icon: Briefcase },
 ];
 
+// Experience images - you can replace these with actual images later
+const experienceImages = [
+  "/images/LesPaul.jpeg",
+  "/images/LesPaul.jpeg",
+  "/images/LesPaul.jpeg",
+];
+
 export function ExperienceSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
+  const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+
+  // Elegant image reveal animation with smooth delay
+  const revealImage = useCallback((index: number) => {
+    const imageContainer = imageRefs.current[index];
+    if (!imageContainer) return;
+
+    const image = imageContainer.querySelector("[data-reveal-image]");
+    const overlay = imageContainer.querySelector("[data-reveal-overlay]");
+    const corners = imageContainer.querySelectorAll("[data-reveal-corner]");
+    const glow = imageContainer.querySelector("[data-reveal-glow]");
+
+    const tl = gsap.timeline({
+      delay: 0.3, // Smooth delay before animation starts
+    });
+
+    // Set initial visibility with a fade
+    gsap.set(imageContainer, { visibility: "visible", opacity: 0 });
+
+    // Fade in the container first
+    tl.to(imageContainer, {
+      opacity: 1,
+      duration: 0.4,
+      ease: "power2.out",
+    })
+    .fromTo(
+      image,
+      {
+        clipPath: "inset(50% 0% 50% 0%)",
+        scale: 1.15,
+        filter: "grayscale(100%) blur(10px) brightness(1.3)",
+      },
+      {
+        clipPath: "inset(0% 0% 0% 0%)",
+        scale: 1.02,
+        filter: "grayscale(0%) blur(0px) brightness(1)",
+        duration: 1.2,
+        ease: "power3.out",
+      },
+      0.1
+    )
+    .fromTo(
+      glow,
+      { opacity: 0, scale: 0.9 },
+      { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" },
+      0.2
+    )
+    .fromTo(
+      overlay,
+      { opacity: 0 },
+      { opacity: 1, duration: 1, ease: "power2.out" },
+      0.4
+    )
+    .fromTo(
+      corners,
+      { scale: 0, opacity: 0 },
+      {
+        scale: 1,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "back.out(1.4)",
+      },
+      0.6
+    );
+
+    return tl;
+  }, []);
+
+  // Smooth hide animation
+  const hideImage = useCallback((index: number) => {
+    const imageContainer = imageRefs.current[index];
+    if (!imageContainer) return;
+
+    const image = imageContainer.querySelector("[data-reveal-image]");
+    const overlay = imageContainer.querySelector("[data-reveal-overlay]");
+    const corners = imageContainer.querySelectorAll("[data-reveal-corner]");
+    const glow = imageContainer.querySelector("[data-reveal-glow]");
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        gsap.set(imageContainer, { visibility: "hidden" });
+      },
+    });
+
+    tl.to(corners, {
+      scale: 0,
+      opacity: 0,
+      duration: 0.3,
+      stagger: 0.03,
+      ease: "power2.in",
+    })
+    .to(
+      glow,
+      { opacity: 0, scale: 0.9, duration: 0.4, ease: "power2.in" },
+      0
+    )
+    .to(
+      overlay,
+      { opacity: 0, duration: 0.3, ease: "power2.in" },
+      0.1
+    )
+    .to(
+      image,
+      {
+        clipPath: "inset(50% 0% 50% 0%)",
+        scale: 1.1,
+        filter: "grayscale(50%) blur(4px) brightness(1.1)",
+        duration: 0.5,
+        ease: "power3.in",
+      },
+      0.1
+    );
+
+    return tl;
+  }, []);
+
+  // Handle hover state changes
+  useEffect(() => {
+    // Hide all images first
+    imageRefs.current.forEach((_, i) => {
+      if (i !== activeIndex) {
+        const container = imageRefs.current[i];
+        if (container) {
+          gsap.set(container, { visibility: "hidden" });
+        }
+      }
+    });
+
+    // Show active image
+    if (activeIndex !== null) {
+      revealImage(activeIndex);
+    }
+  }, [activeIndex, revealImage]);
+
+  // Handle mouse leave - hide the previously active image
+  const handleMouseLeave = useCallback((index: number) => {
+    hideImage(index);
+    setActiveIndex(null);
+  }, [hideImage]);
 
   useEffect(() => {
     if (!sectionRef.current || !timelineRef.current) return;
@@ -123,21 +271,28 @@ export function ExperienceSection() {
           }
         );
 
-        // Year badge pop
+        // Year badge elegant slide-in
         gsap.fromTo(
           item.querySelector("[data-year]"),
-          { scale: 0, rotate: -180 },
           {
-            scale: 1,
-            rotate: 0,
-            duration: 0.8,
-            ease: "back.out(2)",
+            opacity: 0,
+            y: -20,
+            x: index % 2 === 0 ? 30 : -30,
+            filter: "blur(8px)",
+          },
+          {
+            opacity: 1,
+            y: 0,
+            x: 0,
+            filter: "blur(0px)",
+            duration: 1,
+            ease: "power3.out",
             scrollTrigger: {
               trigger: item,
               start: "top 80%",
               toggleActions: "play none none none",
             },
-            delay: 0.3,
+            delay: 0.2,
           }
         );
 
@@ -318,7 +473,7 @@ export function ExperienceSection() {
                   data-exp-item
                   className="relative"
                   onMouseEnter={() => setActiveIndex(index)}
-                  onMouseLeave={() => setActiveIndex(null)}
+                  onMouseLeave={() => handleMouseLeave(index)}
                 >
                   {/* Timeline Node */}
                   <div
@@ -358,37 +513,134 @@ export function ExperienceSection() {
                       isLeft ? "md:flex-row-reverse" : ""
                     }`}
                   >
-                    {/* Year Badge - Positioned on opposite side */}
+                    {/* Image Side (opposite to card) */}
                     <div
-                      className={`hidden md:flex flex-1 ${
-                        isLeft ? "justify-start pl-12" : "justify-end pr-12"
+                      className={`hidden md:flex flex-1 items-center justify-center ${
+                        isLeft ? "pl-12" : "pr-12"
                       }`}
                     >
+                      {/* Elegant Image Reveal */}
                       <div
-                        data-year
-                        className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-card/80 backdrop-blur-sm transition-all duration-500 ${
-                          isActive
-                            ? "border-primary bg-primary/10 text-primary"
-                            : "border-border text-muted-foreground"
-                        }`}
+                        ref={(el) => { imageRefs.current[index] = el; }}
+                        className="relative w-full max-w-[280px] aspect-[4/5] invisible"
                       >
-                        <Calendar className="w-4 h-4" />
-                        <span className="font-mono text-sm font-medium">
-                          {exp.period}
-                        </span>
+                        {/* Glow effect behind image */}
+                        <div
+                          data-reveal-glow
+                          className="absolute -inset-4 rounded-3xl opacity-0"
+                          style={{
+                            background: "radial-gradient(ellipse at center, rgba(212, 175, 55, 0.15) 0%, transparent 70%)",
+                            filter: "blur(20px)",
+                          }}
+                        />
+
+                        {/* Main image container */}
+                        <div
+                          data-reveal-image
+                          className="relative w-full h-full rounded-2xl overflow-hidden"
+                          style={{
+                            clipPath: "inset(50% 0% 50% 0%)",
+                          }}
+                        >
+                          <Image
+                            src={experienceImages[index] || experienceImages[0]}
+                            alt={`${exp.role} at ${exp.company}`}
+                            fill
+                            className="object-cover object-center"
+                            sizes="300px"
+                          />
+
+                          {/* Multi-layer gradient overlays for premium fade */}
+                          <div
+                            data-reveal-overlay
+                            className="absolute inset-0 opacity-0"
+                          >
+                            {/* Directional fade toward card (flipped) */}
+                            <div
+                              className={`absolute inset-0 ${
+                                isLeft
+                                  ? "bg-gradient-to-l from-transparent via-transparent to-background"
+                                  : "bg-gradient-to-r from-transparent via-transparent to-background"
+                              }`}
+                            />
+                            {/* Bottom fade */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+                            {/* Top subtle fade */}
+                            <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-transparent" />
+                            {/* Vignette */}
+                            <div
+                              className="absolute inset-0"
+                              style={{
+                                background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.3) 100%)",
+                              }}
+                            />
+                            {/* Golden tint overlay */}
+                            <div className="absolute inset-0 bg-primary/5 mix-blend-overlay" />
+                          </div>
+                        </div>
+
+                        {/* Elegant corner frames */}
+                        <div
+                          data-reveal-corner
+                          className="absolute -top-2 -left-2 w-8 h-8 border-l-2 border-t-2 border-primary rounded-tl-lg opacity-0"
+                          style={{ transformOrigin: "top left" }}
+                        />
+                        <div
+                          data-reveal-corner
+                          className="absolute -top-2 -right-2 w-8 h-8 border-r-2 border-t-2 border-primary rounded-tr-lg opacity-0"
+                          style={{ transformOrigin: "top right" }}
+                        />
+                        <div
+                          data-reveal-corner
+                          className="absolute -bottom-2 -left-2 w-8 h-8 border-l-2 border-b-2 border-primary rounded-bl-lg opacity-0"
+                          style={{ transformOrigin: "bottom left" }}
+                        />
+                        <div
+                          data-reveal-corner
+                          className="absolute -bottom-2 -right-2 w-8 h-8 border-r-2 border-b-2 border-primary rounded-br-lg opacity-0"
+                          style={{ transformOrigin: "bottom right" }}
+                        />
+
+                        {/* Floating accent line */}
+                        <div
+                          className={`absolute top-1/2 -translate-y-1/2 w-12 h-px bg-gradient-to-r from-primary/50 to-transparent transition-all duration-500 ${
+                            isActive ? "opacity-100" : "opacity-0"
+                          } ${isLeft ? "-right-14" : "-left-14 rotate-180"}`}
+                        />
                       </div>
                     </div>
 
-                    {/* Main Card */}
+                    {/* Main Card with Year Badge */}
                     <div
                       className={`flex-1 pl-20 md:pl-0 ${
                         isLeft ? "md:pr-12 md:text-right" : "md:pl-12"
                       }`}
                     >
+                      {/* Year Badge - Now above the card on the same side */}
+                      <div
+                        className={`hidden md:flex mb-4 ${
+                          isLeft ? "justify-end" : "justify-start"
+                        }`}
+                      >
+                        <div
+                          data-year
+                          className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-card/80 backdrop-blur-sm transition-all duration-500 ${
+                            isActive
+                              ? "border-primary bg-primary/10 text-primary shadow-lg shadow-primary/20"
+                              : "border-border text-muted-foreground"
+                          }`}
+                        >
+                          <Calendar className="w-4 h-4" />
+                          <span className="font-mono text-sm font-medium">
+                            {exp.period}
+                          </span>
+                        </div>
+                      </div>
+
                       <MagneticElement strength={0.08}>
                         <div
                           data-card
-                          className="group relative"
+                          className="group relative cursor-pointer"
                           style={{ perspective: "1000px" }}
                         >
                           {/* Card Container */}

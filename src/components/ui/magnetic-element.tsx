@@ -7,16 +7,14 @@ interface MagneticElementProps {
   children: ReactNode;
   className?: string;
   strength?: number;
-  as?: keyof JSX.IntrinsicElements;
 }
 
 export function MagneticElement({
   children,
   className = "",
   strength = 0.3,
-  as: Component = "div",
 }: MagneticElementProps) {
-  const elementRef = useRef<HTMLElement>(null);
+  const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const element = elementRef.current;
@@ -60,12 +58,12 @@ export function MagneticElement({
   }, [strength]);
 
   return (
-    <Component
-      ref={elementRef as any}
+    <div
+      ref={elementRef}
       className={className}
       data-cursor-magnetic
     >
       {children}
-    </Component>
+    </div>
   );
 }

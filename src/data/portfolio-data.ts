@@ -4,13 +4,13 @@ export const personalInfo = {
   name: "Les John Paul Oliver",
   title: "IT Expert & Software Engineer",
   tagline: "Building systems that scale. Crafting solutions that matter.",
-  email: "contact@yoursite.com",
+  email: "lesjohnpauloliver@gmail.com",
   location: "Philippines",
   availability: "Available for select projects",
   resumeUrl: "/resume.pdf",
   social: {
-    github: "https://github.com/yourusername",
-    linkedin: "https://linkedin.com/in/yourusername",
+    github: "https://github.com/lesjohnpaul",
+    linkedin: "https://www.linkedin.com/in/lesjohnpaul/",
     twitter: "https://twitter.com/yourusername",
   },
 };
