@@ -11,6 +11,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { MeshDistortMaterial, Line } from "@react-three/drei";
 import * as THREE from "three";
 import { hiddenTalents } from "@/data/portfolio-data";
+import { useInViewFrameloop } from "@/hooks/useInViewFrameloop";
 
 const GOLD = "#d4af37";
 
@@ -278,6 +279,7 @@ type PandoraCoreProps = {
 export default function PandoraCore({ onHoverChange, className }: PandoraCoreProps) {
   const [enabled, setEnabled] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const { ref: gateRef, frameloop } = useInViewFrameloop<HTMLDivElement>();
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -300,15 +302,21 @@ export default function PandoraCore({ onHoverChange, className }: PandoraCorePro
 
   return (
     <div
+      ref={gateRef}
       className={className ?? "absolute inset-0"}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
     >
+      {/* Canvas itself is decorative — pointerEvents:none skips R3F's
+          per-mousemove raycast entirely; hover still works via the outer
+          div above. */}
       <Canvas
         className="!absolute inset-0"
+        frameloop={frameloop}
         gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
         camera={{ position: [0, 0, 5.5], fov: 50 }}
         dpr={[1, 2]}
+        style={{ pointerEvents: "none" }}
       >
         <Suspense fallback={null}>
           <Scene hovered={hovered} />

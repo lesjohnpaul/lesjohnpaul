@@ -16,12 +16,13 @@ import { Grid } from "@react-three/drei";
 import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useInViewFrameloop } from "@/hooks/useInViewFrameloop";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-const PARTICLE_COUNT = 250;
+const PARTICLE_COUNT = 150;
 const GOLD = "#d4af37";
 
 function ParticleField() {
@@ -186,6 +187,7 @@ function Scene() {
 export default function HeroGrid() {
   const [enabled, setEnabled] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { ref: gateRef, frameloop } = useInViewFrameloop<HTMLDivElement>();
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -197,8 +199,6 @@ export default function HeroGrid() {
 
   useEffect(() => {
     if (!enabled) return;
-    // Defer the visible fade-in by one frame so the first GL render lands
-    // before opacity kicks up — avoids a visible "pop" on slower devices.
     const id = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(id);
   }, [enabled]);
@@ -207,12 +207,15 @@ export default function HeroGrid() {
 
   return (
     <div
+      ref={gateRef}
       className={`absolute inset-0 transition-opacity duration-[1400ms] ease-out ${
         mounted ? "opacity-100" : "opacity-0"
       }`}
+      style={{ pointerEvents: "none" }}
     >
       <Canvas
         className="!absolute inset-0"
+        frameloop={frameloop}
         gl={{
           alpha: true,
           antialias: true,

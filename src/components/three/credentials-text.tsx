@@ -10,6 +10,7 @@ import { Center, Text3D } from "@react-three/drei";
 import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useInViewFrameloop } from "@/hooks/useInViewFrameloop";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -73,6 +74,7 @@ function ExtrudedMark() {
 
 export default function CredentialsText() {
   const [enabled, setEnabled] = useState(false);
+  const { ref: gateRef, frameloop } = useInViewFrameloop<HTMLDivElement>();
 
   useEffect(() => {
     // Three conditions must all pass to mount a third WebGL context on this
@@ -100,12 +102,14 @@ export default function CredentialsText() {
   if (!enabled) return null;
 
   return (
-    <div className="absolute inset-0 pointer-events-none">
+    <div ref={gateRef} className="absolute inset-0 pointer-events-none">
       <Canvas
         className="!absolute inset-0"
+        frameloop={frameloop}
         gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
         camera={{ position: [0, 0, 7], fov: 40 }}
         dpr={[1, 2]}
+        style={{ pointerEvents: "none" }}
       >
         <ambientLight intensity={0.4} />
         <directionalLight position={[4, 5, 3]} intensity={1.2} color={GOLD} />

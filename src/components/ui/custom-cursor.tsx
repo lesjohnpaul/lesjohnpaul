@@ -33,24 +33,39 @@ export function CustomCursor() {
     let ringY = 0;
     let dotX = 0;
     let dotY = 0;
+    let lastMouseX = -1;
+    let lastMouseY = -1;
     let lastHover = false;
     let rafId = 0;
+    let running = false;
+
+    const start = () => {
+      if (running) return;
+      running = true;
+      rafId = requestAnimationFrame(tick);
+    };
 
     const onMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
       if (!isVisible) setIsVisible(true);
+      start(); // wake the loop on any movement
     };
 
     const onLeave = () => setIsVisible(false);
-    const onEnter = () => setIsVisible(true);
+    const onEnter = () => {
+      setIsVisible(true);
+      start();
+    };
 
     const onDown = () => {
       setCursorVariant("click");
       gsap.to(cursor, { scale: 0.9, duration: 0.15, ease: "power2.out" });
+      start();
     };
     const onUp = () => {
       gsap.to(cursor, { scale: 1, duration: 0.2, ease: "power2.out" });
+      start();
     };
 
     const tick = () => {
@@ -63,31 +78,47 @@ export function CustomCursor() {
       cursor.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
       cursorDot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)`;
 
-      // Hover hit-test — once per frame, from cursor coords (cheaper than
-      // the per-mousemove `.closest()` chain the old implementation used).
-      const under = document.elementFromPoint(mouseX, mouseY) as HTMLElement | null;
-      const hoverable = !!under?.closest(HOVER_SELECTOR);
-      if (hoverable !== lastHover) {
-        lastHover = hoverable;
-        setCursorVariant(hoverable ? "hover" : "default");
-        gsap.to(cursor, {
-          width: hoverable ? 48 : 32,
-          height: hoverable ? 48 : 32,
-          duration: 0.25,
-          ease: "power2.out",
-        });
+      // Hit-test ONLY when the pointer actually moved since the last frame.
+      // Stationary cursors don't need a new elementFromPoint probe.
+      if (mouseX !== lastMouseX || mouseY !== lastMouseY) {
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
+        const under = document.elementFromPoint(
+          mouseX,
+          mouseY
+        ) as HTMLElement | null;
+        const hoverable = !!under?.closest(HOVER_SELECTOR);
+        if (hoverable !== lastHover) {
+          lastHover = hoverable;
+          setCursorVariant(hoverable ? "hover" : "default");
+          gsap.to(cursor, {
+            width: hoverable ? 48 : 32,
+            height: hoverable ? 48 : 32,
+            duration: 0.25,
+            ease: "power2.out",
+          });
+        }
+      }
+
+      // If the lerp has converged AND the mouse is still, stop the loop.
+      // onMove will restart it — zero frames while idle.
+      const dx = mouseX - ringX;
+      const dy = mouseY - ringY;
+      const settled = dx * dx + dy * dy < 0.25; // < 0.5px from target
+      if (settled) {
+        running = false;
+        return;
       }
 
       rafId = requestAnimationFrame(tick);
     };
 
-    // Pause the rAF loop when the tab is hidden — a background portfolio
-    // tab shouldn't be spending frames on hit-tests nobody can see.
     const onVisibility = () => {
       if (document.hidden) {
         cancelAnimationFrame(rafId);
+        running = false;
       } else {
-        rafId = requestAnimationFrame(tick);
+        start();
       }
     };
 
@@ -98,10 +129,11 @@ export function CustomCursor() {
     document.addEventListener("mouseup", onUp);
     document.addEventListener("visibilitychange", onVisibility);
 
-    rafId = requestAnimationFrame(tick);
+    start();
 
     return () => {
       cancelAnimationFrame(rafId);
+      running = false;
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseleave", onLeave);
       document.removeEventListener("mouseenter", onEnter);
