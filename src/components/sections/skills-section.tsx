@@ -7,6 +7,7 @@ import {
   Code,
   Layers,
   Brain,
+  Workflow,
   ArrowUpRight,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -27,6 +28,7 @@ const iconMap = {
   Code,
   Layers,
   Brain,
+  Workflow,
 };
 
 export function SkillsSection() {
@@ -208,10 +210,10 @@ export function SkillsSection() {
           >
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
-                { label: "Technologies Mastered", value: "40+" },
-                { label: "Certifications", value: "8" },
-                { label: "Open Source Contributions", value: "100+" },
-                { label: "Articles Written", value: "25+" },
+                { label: "Years in IT", value: "10+" },
+                { label: "Certifications", value: "7" },
+                { label: "Consumers Served", value: "200K+" },
+                { label: "Cost Reduction Led", value: "45%" },
               ].map((stat) => (
                 <MagneticElement key={stat.label} strength={0.2}>
                   <div className="text-center cursor-default group">

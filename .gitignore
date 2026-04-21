@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local agent / tooling config — not portfolio content
+.claude/
+.claude-flow/
+.mcp.json
+
+# PII — resumes contain a phone number; keep local only
+docs/Resume/
+
+# unused stray assets
+/profile_image1.jfif

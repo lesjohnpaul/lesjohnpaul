@@ -3,15 +3,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Hide system cursor - custom cursor used instead */
-* {
-  cursor: none !important;
+/* Hide system cursor - custom cursor used instead.
+   Scoped to :root only so the cascade (not the universal selector) does the
+   work — using `*` forced a style recalc across every element on mutation. */
+:root {
+  cursor: none;
 }
 
-/* Show cursor on touch devices where custom cursor is hidden */
+/* Show native cursor on touch/coarse-pointer devices. */
 @media (hover: none) and (pointer: coarse) {
-  * {
-    cursor: auto !important;
+  :root {
+    cursor: auto;
   }
 }
 
@@ -72,6 +74,16 @@
 
 :root {
   --radius: 0.5rem;
+
+  /* Semantic z-index scale — no more z-[9999] scattered in components. */
+  --z-below: -1;
+  --z-base: 0;
+  --z-nav: 50;
+  --z-progress: 60;
+  --z-overlay: 80;
+  --z-modal: 100;
+  --z-cursor: 120;
+  --z-toast: 140;
 
   /* Obsidian Architect Theme - Light Mode */
   --gold: oklch(0.78 0.16 85);
@@ -198,6 +210,118 @@
   @apply bg-muted-foreground/50;
 }
 
+/* Skip-to-main link — visually hidden until keyboard focus, then slides in.
+   WCAG 2.4.1 Bypass Blocks. */
+.skip-to-main {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: var(--z-toast);
+  padding: 0.5rem 1rem;
+  background: var(--foreground);
+  color: var(--background);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+  transform: translateY(-150%);
+  transition: transform 180ms ease-out;
+}
+.skip-to-main:focus,
+.skip-to-main:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Stronger focus-visible ring — default was muted against dark bg. */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Scroll-progress bar — pinned to top, filled by JS as user scrolls. */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: transparent;
+  z-index: var(--z-progress);
+  pointer-events: none;
+}
+.scroll-progress__fill {
+  height: 100%;
+  background: var(--primary);
+  transform-origin: 0 50%;
+  will-change: transform;
+  box-shadow: 0 0 8px color-mix(in oklch, var(--primary) 60%, transparent);
+}
+
+/* Case Study — single IntersectionObserver adds .is-revealed; each
+   `.case-study__reveal` child fades up with a small index delay. */
+.case-study__reveal {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.case-study.is-revealed .case-study__reveal {
+  animation: case-study-in 620ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.case-study.is-revealed .case-study__reveal:nth-child(1) { animation-delay: 0ms; }
+.case-study.is-revealed .case-study__reveal:nth-child(2) { animation-delay: 90ms; }
+.case-study.is-revealed .case-study__reveal:nth-child(3) { animation-delay: 180ms; }
+@keyframes case-study-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .case-study__reveal,
+  .case-study.is-revealed .case-study__reveal {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
+/* Career Log — pure-CSS section reveal. One keyframe + per-item
+   animation-delay (set via inline style in the component). No GSAP,
+   no ScrollTrigger. The `.is-revealed` class is toggled once by an
+   IntersectionObserver and never again. */
+.career-log__item {
+  opacity: 0;
+  transform: translateY(14px);
+}
+.career-log.is-revealed .career-log__item {
+  animation: career-log-in 560ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.career-log__item.is-active {
+  background: color-mix(in oklch, var(--primary) 4%, transparent);
+}
+.career-log__item:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+}
+@keyframes career-log-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes career-ping {
+  0% { transform: scale(1); opacity: 0.55; }
+  75%, 100% { transform: scale(2.4); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .career-log__item,
+  .career-log.is-revealed .career-log__item {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
+
 /* Architectural Grid Lines */
 .grid-lines {
   background-image:
@@ -225,12 +349,11 @@
   z-index: 1;
 }
 
-/* Gold Gradient Text */
+/* Solid gold accent — replaces the old gradient-clipped variant.
+   Gradient text is on the skill's AI-slop ban list; a single saturated hue
+   reads cleaner and prints better in screenshots. */
 .text-gradient-gold {
-  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, var(--gold-dark) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--gold);
 }
 
 /* Text Shadow Glow Effect */

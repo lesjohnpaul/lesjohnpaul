@@ -1,13 +1,26 @@
 "use client";
 
+// Custom cursor — visual behavior matches the original (ring + dot, lerped,
+// grows on hoverable elements, pinches on click). Internal implementation
+// rewritten for performance:
+//  - One mousemove listener, writes to refs only (no DOM work per-event)
+//  - Single rAF loop owns ALL DOM writes via direct style.transform updates
+//  - Hover hit-test throttled to once per frame with last-result caching,
+//    so gsap.to() only fires when the variant actually changes
+//  - rAF + listeners cleaned up on unmount
+
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+
+const HOVER_SELECTOR =
+  "a, button, [data-cursor-hover], [data-cursor-magnetic]";
 
 export function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const cursorDotRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [cursorVariant, setCursorVariant] = useState<"default" | "hover" | "click">("default");
+  const [cursorVariant, setCursorVariant] =
+    useState<"default" | "hover" | "click">("default");
 
   useEffect(() => {
     const cursor = cursorRef.current;
@@ -16,127 +29,101 @@ export function CustomCursor() {
 
     let mouseX = 0;
     let mouseY = 0;
-    let cursorX = 0;
-    let cursorY = 0;
+    let ringX = 0;
+    let ringY = 0;
+    let dotX = 0;
+    let dotY = 0;
+    let lastHover = false;
+    let rafId = 0;
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const onMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      setIsVisible(true);
-
-      // Dot follows immediately
-      gsap.to(cursorDot, {
-        x: mouseX,
-        y: mouseY,
-        duration: 0.1,
-        ease: "power2.out",
-      });
+      if (!isVisible) setIsVisible(true);
     };
 
-    const handleMouseLeave = () => {
-      setIsVisible(false);
+    const onLeave = () => setIsVisible(false);
+    const onEnter = () => setIsVisible(true);
+
+    const onDown = () => {
+      setCursorVariant("click");
+      gsap.to(cursor, { scale: 0.9, duration: 0.15, ease: "power2.out" });
+    };
+    const onUp = () => {
+      gsap.to(cursor, { scale: 1, duration: 0.2, ease: "power2.out" });
     };
 
-    const handleMouseEnter = () => {
-      setIsVisible(true);
-    };
+    const tick = () => {
+      // Ring lerps for soft trailing; dot tracks more tightly.
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      dotX += (mouseX - dotX) * 0.5;
+      dotY += (mouseY - dotY) * 0.5;
 
-    // Smooth cursor following
-    const animateCursor = () => {
-      cursorX += (mouseX - cursorX) * 0.12;
-      cursorY += (mouseY - cursorY) * 0.12;
+      cursor.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+      cursorDot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)`;
 
-      gsap.set(cursor, {
-        x: cursorX,
-        y: cursorY,
-      });
-
-      requestAnimationFrame(animateCursor);
-    };
-
-    // Handle hover states - simplified for corporate look
-    const handleElementHover = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-
-      // Check for interactive elements
-      if (
-        target.closest("a") ||
-        target.closest("button") ||
-        target.closest("[data-cursor-hover]") ||
-        target.closest("[data-cursor-magnetic]")
-      ) {
-        setCursorVariant("hover");
+      // Hover hit-test — once per frame, from cursor coords (cheaper than
+      // the per-mousemove `.closest()` chain the old implementation used).
+      const under = document.elementFromPoint(mouseX, mouseY) as HTMLElement | null;
+      const hoverable = !!under?.closest(HOVER_SELECTOR);
+      if (hoverable !== lastHover) {
+        lastHover = hoverable;
+        setCursorVariant(hoverable ? "hover" : "default");
         gsap.to(cursor, {
-          width: 48,
-          height: 48,
-          duration: 0.25,
-          ease: "power2.out",
-        });
-      } else {
-        setCursorVariant("default");
-        gsap.to(cursor, {
-          width: 32,
-          height: 32,
+          width: hoverable ? 48 : 32,
+          height: hoverable ? 48 : 32,
           duration: 0.25,
           ease: "power2.out",
         });
       }
+
+      rafId = requestAnimationFrame(tick);
     };
 
-    // Handle clicks - subtle scale
-    const handleMouseDown = () => {
-      setCursorVariant("click");
-      gsap.to(cursor, {
-        scale: 0.9,
-        duration: 0.15,
-        ease: "power2.out",
-      });
+    // Pause the rAF loop when the tab is hidden — a background portfolio
+    // tab shouldn't be spending frames on hit-tests nobody can see.
+    const onVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(rafId);
+      } else {
+        rafId = requestAnimationFrame(tick);
+      }
     };
 
-    const handleMouseUp = () => {
-      gsap.to(cursor, {
-        scale: 1,
-        duration: 0.2,
-        ease: "power2.out",
-      });
-    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    document.addEventListener("mouseleave", onLeave);
+    document.addEventListener("mouseenter", onEnter);
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("mouseup", onUp);
+    document.addEventListener("visibilitychange", onVisibility);
 
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mousemove", handleElementHover);
-    document.addEventListener("mouseleave", handleMouseLeave);
-    document.addEventListener("mouseenter", handleMouseEnter);
-    document.addEventListener("mousedown", handleMouseDown);
-    document.addEventListener("mouseup", handleMouseUp);
-
-    animateCursor();
+    rafId = requestAnimationFrame(tick);
 
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mousemove", handleElementHover);
-      document.removeEventListener("mouseleave", handleMouseLeave);
-      document.removeEventListener("mouseenter", handleMouseEnter);
-      document.removeEventListener("mousedown", handleMouseDown);
-      document.removeEventListener("mouseup", handleMouseUp);
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseleave", onLeave);
+      document.removeEventListener("mouseenter", onEnter);
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("mouseup", onUp);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, []);
+  }, [isVisible]);
 
-  // Hide on touch devices
   if (typeof window !== "undefined" && "ontouchstart" in window) {
     return null;
   }
 
   return (
     <>
-      {/* Main cursor ring - subtle and professional */}
+      {/* Ring */}
       <div
         ref={cursorRef}
-        className={`fixed top-0 left-0 pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 mix-blend-difference transition-opacity duration-300 ${
+        className={`fixed top-0 left-0 pointer-events-none z-[var(--z-cursor)] mix-blend-difference transition-opacity duration-300 ${
           isVisible ? "opacity-100" : "opacity-0"
         }`}
-        style={{
-          width: 32,
-          height: 32,
-        }}
+        style={{ width: 32, height: 32, willChange: "transform" }}
       >
         <div
           className={`w-full h-full rounded-full border transition-all duration-200 ${
@@ -147,18 +134,17 @@ export function CustomCursor() {
         />
       </div>
 
-      {/* Cursor dot - small and precise */}
+      {/* Dot */}
       <div
         ref={cursorDotRef}
-        className={`fixed top-0 left-0 pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 ${
+        className={`fixed top-0 left-0 pointer-events-none z-[var(--z-cursor)] transition-opacity duration-300 ${
           isVisible ? "opacity-100" : "opacity-0"
         }`}
+        style={{ willChange: "transform" }}
       >
         <div
           className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${
-            cursorVariant === "hover"
-              ? "bg-white scale-150"
-              : "bg-white"
+            cursorVariant === "hover" ? "bg-white scale-150" : "bg-white"
           }`}
         />
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -21,19 +22,25 @@ import { MagneticElement } from "@/components/ui/magnetic-element";
 import { personalInfo, heroStats } from "@/data/portfolio-data";
 import gsap from "gsap";
 
+// Three.js hero scene — loaded only on the client to keep SSR/hydration safe
+// and to defer the WebGL bundle until after the first paint.
+const HeroGrid = dynamic(() => import("@/components/three/hero-grid"), {
+  ssr: false,
+});
+
 const roles = [
-  "Cloud Architect",
-  "Software Engineer",
-  "Database Expert",
-  "AI Developer",
-  "System Designer",
+  "AI-Native Engineer",
+  "Full Stack Developer",
+  "Legacy Modernizer",
+  "Database Engineer",
+  "Cloud Migration Lead",
 ];
 
 const techStack = [
-  { icon: Cloud, label: "AWS / GCP / Azure" },
-  { icon: Database, label: "PostgreSQL / MongoDB" },
-  { icon: Code2, label: "TypeScript / Python" },
-  { icon: Brain, label: "AI / ML Solutions" },
+  { icon: Brain, label: "Claude Code · Cursor · MCP" },
+  { icon: Code2, label: "Next.js · TypeScript · React" },
+  { icon: Database, label: "MS SQL Server · PostgreSQL" },
+  { icon: Cloud, label: "Azure · AWS · Docker" },
 ];
 
 export function HeroSection() {
@@ -120,13 +127,20 @@ export function HeroSection() {
       ref={containerRef}
       className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-background"
     >
-      {/* Dramatic Background */}
+      {/* Dramatic Background — WebGL grid sits under the gradient veils */}
       <div className="absolute inset-0">
+        {/* Immersive Three.js layer (mounted client-side, reduced-motion aware) */}
+        <div className="absolute inset-0 pointer-events-none">
+          <HeroGrid />
+        </div>
+
+        {/* Gradient veils — keep these above the canvas so text stays legible */}
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
         <div className="absolute bottom-0 right-0 w-2/3 h-2/3 bg-gradient-to-tl from-primary/10 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background/80 pointer-events-none" />
 
         <div
-          className="absolute inset-0 opacity-[0.03]"
+          className="absolute inset-0 opacity-[0.02]"
           style={{
             backgroundImage: `linear-gradient(var(--foreground) 1px, transparent 1px),
                               linear-gradient(90deg, var(--foreground) 1px, transparent 1px)`,
@@ -187,24 +201,28 @@ export function HeroSection() {
 
             {/* Description */}
             <p data-hero-fade className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed">
-              I build infrastructure that doesn&apos;t break, databases that don&apos;t slow down,
-              and AI solutions that actually work. <span className="text-foreground font-medium">No fluff. Just results.</span>
+              AI-native engineer running — and modernizing — the systems that power{" "}
+              <span className="text-foreground font-medium">200,000+ Filipino consumers</span>.
+              Claude Code in the toolchain. Legacy codebases turned maintainable.
+              10+ years of production discipline.
             </p>
 
-            {/* CTA Buttons with Magnetic Effect */}
+            {/* CTA buttons — "View Work" is the primary action on a
+                portfolio (a visitor wants to see the work before hiring).
+                "Start a Project" demoted to secondary ghost with underline. */}
             <div data-hero-fade className="flex flex-wrap items-center gap-4 pt-4">
               <MagneticElement strength={0.4}>
                 <Button
                   size="lg"
-                  className="group relative overflow-hidden rounded-none bg-foreground text-background hover:bg-foreground px-8 py-6 text-base font-semibold"
+                  className="group relative overflow-hidden rounded-none bg-primary text-primary-foreground hover:bg-primary px-8 py-6 text-base font-semibold"
                   asChild
                 >
-                  <Link href="#contact">
+                  <Link href="#projects">
                     <span className="relative z-10 flex items-center gap-2">
-                      Start a Project
+                      View Work
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </span>
-                    <div className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                    <div className="absolute inset-0 bg-foreground text-background translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                   </Link>
                 </Button>
               </MagneticElement>
@@ -216,14 +234,44 @@ export function HeroSection() {
                   className="rounded-none px-8 py-6 text-base font-semibold hover:bg-transparent group"
                   asChild
                 >
-                  <Link href="#projects">
+                  <Link href="#contact">
                     <span className="relative">
-                      View Work
+                      Start a Project
                       <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
                     </span>
                   </Link>
                 </Button>
               </MagneticElement>
+            </div>
+
+            {/* Trust strip — above-the-fold proof. Credentials are the
+                best credibility signal for an engineer portfolio and they
+                live seven sections below; this gives them a second life at
+                the top of the funnel without duplicating content. */}
+            <div
+              data-hero-fade
+              className="pt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs md:text-sm"
+            >
+              <span className="font-mono uppercase tracking-[0.2em] text-muted-foreground/80">
+                Trained at
+              </span>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-foreground/80 font-medium">
+                {["AWS", "GoIT", "Mapua", "TESDA", "Everywhere Consulting"].map(
+                  (name, i, arr) => (
+                    <span key={name} className="flex items-center gap-4">
+                      <span className="hover:text-primary transition-colors">
+                        {name}
+                      </span>
+                      {i < arr.length - 1 && (
+                        <span
+                          aria-hidden
+                          className="inline-block h-1 w-1 rounded-full bg-border"
+                        />
+                      )}
+                    </span>
+                  )
+                )}
+              </div>
             </div>
 
             {/* Tech Stack Pills with Hover Effects */}
@@ -262,7 +310,7 @@ export function HeroSection() {
                   <div className="relative w-full h-full">
                     <Image
                       src="/images/LesPaul.jpeg"
-                      alt="Les John Paul Oliver - Software Engineer & Cloud Architect"
+                      alt="Les John Paul Oliver - AI-Native Full Stack Engineer"
                       fill
                       className="object-cover object-center transition-transform duration-700 ease-out group-hover/image:scale-105"
                       priority
@@ -278,21 +326,44 @@ export function HeroSection() {
                   <div className="absolute -z-10 top-4 left-4 right-4 bottom-4 border border-primary/30 transition-[top,left,right,bottom] duration-500 ease-out group-hover/image:top-6 group-hover/image:left-6 group-hover/image:right-6 group-hover/image:bottom-6" />
                 </div>
 
-                {/* Stats Bar Below Image */}
-                <div className="mt-6 p-6 border border-border bg-card/80 backdrop-blur-sm">
-                  <div className="grid grid-cols-4 gap-4">
-                    {heroStats.map((stat, index) => (
-                      <div key={stat.label} data-hero-stat className="text-center group cursor-default">
-                        <div className="font-display text-2xl md:text-3xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+                {/* Stats — editorial inline data, no card wrapper.
+                    Varies weight across stats so they don't read as a
+                    generic 4-equal-columns metric grid. */}
+                <dl className="mt-8 flex flex-wrap items-baseline gap-x-6 gap-y-4">
+                  {heroStats.map((stat, index) => {
+                    const emphasized = index < 2;
+                    return (
+                      <div
+                        key={stat.label}
+                        data-hero-stat
+                        className="group flex items-baseline gap-2"
+                      >
+                        <dt className="sr-only">{stat.label}</dt>
+                        <dd
+                          className={`font-display font-bold leading-none tabular-nums transition-colors duration-300 group-hover:text-primary ${
+                            emphasized
+                              ? "text-3xl md:text-4xl text-primary"
+                              : "text-2xl md:text-3xl text-foreground/90"
+                          }`}
+                        >
                           {stat.value}
-                        </div>
-                        <div className="text-xs text-muted-foreground uppercase tracking-wider mt-1">
+                        </dd>
+                        <span
+                          className="font-mono text-[0.7rem] md:text-xs uppercase tracking-[0.18em] text-muted-foreground"
+                          aria-hidden
+                        >
                           {stat.label}
-                        </div>
+                        </span>
+                        {index < heroStats.length - 1 && (
+                          <span
+                            aria-hidden
+                            className="ml-4 hidden md:inline-block h-5 w-px bg-border align-middle"
+                          />
+                        )}
                       </div>
-                    ))}
-                  </div>
-                </div>
+                    );
+                  })}
+                </dl>
               </div>
             </MagneticElement>
 
@@ -303,7 +374,7 @@ export function HeroSection() {
                 className="absolute -top-4 -right-4 md:top-4 md:-right-6 flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-mono text-sm cursor-default shadow-lg z-30"
               >
                 <Zap className="w-4 h-4" />
-                Top 1% Engineer
+                Powering 200K+ Consumers
               </div>
             </MagneticElement>
 

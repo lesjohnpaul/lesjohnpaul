@@ -3,6 +3,7 @@ import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { CustomCursor } from "@/components/ui/custom-cursor";
+import { ReadingChrome } from "@/components/layout/reading-chrome";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -12,9 +13,10 @@ const jetbrainsMono = JetBrains_Mono({
 
 const siteUrl = "https://lesjohnpauloliver.com";
 const siteName = "Les John Paul Oliver";
-const siteTitle = "Les John Paul Oliver | Software Engineer & Cloud Architect";
+const siteTitle =
+  "Les John Paul Oliver | AI-Native Full Stack Engineer · Legacy Modernization";
 const siteDescription =
-  "Senior Software Engineer and Cloud Architect based in the Philippines. Specializing in AWS, GCP, Azure cloud infrastructure, database optimization, and AI-driven solutions. 8+ years of experience building scalable systems.";
+  "AI-native Full Stack Engineer with 10+ years shipping production systems for 200,000+ Filipino consumers at PANELCO III. Specializing in legacy modernization, React/Next.js, MS SQL Server, Azure/AWS cloud, and AI-augmented development workflows (Claude Code, Cursor, MCP, RAG). Based in Urdaneta City, Pangasinan — open to remote & AI-native roles.";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -35,30 +37,30 @@ export const metadata: Metadata = {
   description: siteDescription,
   keywords: [
     "Les John Paul Oliver",
-    "Software Engineer",
-    "Cloud Architect",
-    "AWS Expert",
-    "GCP Engineer",
-    "Azure Developer",
-    "Full Stack Developer",
-    "Database Administrator",
-    "PostgreSQL Expert",
-    "AI Solutions Developer",
-    "System Architecture",
-    "DevOps Engineer",
-    "Kubernetes",
-    "Docker",
-    "TypeScript Developer",
-    "React Developer",
+    "AI-Native Developer",
+    "AI-Augmented Engineering",
+    "Claude Code",
+    "Cursor IDE",
+    "MCP Integrations",
+    "RAG Pipelines",
+    "Full Stack Engineer",
+    "Legacy Modernization",
     "Next.js Developer",
+    "React Developer",
+    "TypeScript Developer",
     "Node.js Developer",
-    "Python Developer",
-    "Philippines Software Engineer",
-    "Remote Software Engineer",
-    "Cloud Migration Specialist",
-    "Infrastructure as Code",
-    "Terraform",
-    "CI/CD Pipeline",
+    "Python FastAPI Developer",
+    "MS SQL Server Administrator",
+    "Azure Cloud Engineer",
+    "AWS Developer",
+    "Business Systems Developer",
+    "PANELCO III",
+    "Pangasinan III Electric Cooperative",
+    "Urdaneta Pangasinan",
+    "Philippines Full Stack Developer",
+    "GoIT Graduate",
+    "Remote Developer Philippines",
+    "Freelance Engineer",
   ],
   authors: [{ name: siteName, url: siteUrl }],
   creator: siteName,
@@ -83,7 +85,7 @@ export const metadata: Metadata = {
         url: `${siteUrl}/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: `${siteName} - Software Engineer & Cloud Architect`,
+        alt: `${siteName} - AI-Native Full Stack Engineer & Legacy Modernization Specialist`,
       },
     ],
   },
@@ -107,9 +109,8 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "your-google-verification-code",
-  },
+  // TODO: add your Google Search Console verification code when you claim the domain.
+  // verification: { google: "..." },
   category: "technology",
 };
 
@@ -119,42 +120,61 @@ const jsonLd = {
   name: "Les John Paul Oliver",
   url: siteUrl,
   image: `${siteUrl}/images/LesPaul.jpeg`,
-  jobTitle: "Senior Software Engineer & Cloud Architect",
+  jobTitle: "AI-Native Full Stack Engineer & Legacy Modernization Specialist",
   worksFor: {
     "@type": "Organization",
-    name: "Freelance / Available for Projects",
+    name: "Pangasinan III Electric Cooperative (PANELCO III)",
+    url: "https://www.panelco3.com.ph/",
   },
+  alumniOf: [
+    {
+      "@type": "CollegeOrUniversity",
+      name: "Pangasinan State University",
+    },
+    {
+      "@type": "EducationalOrganization",
+      name: "GoIT — Full Stack Web Development",
+    },
+  ],
   description: siteDescription,
   address: {
     "@type": "PostalAddress",
     addressCountry: "PH",
-    addressLocality: "Philippines",
+    addressRegion: "Pangasinan",
+    addressLocality: "Urdaneta",
   },
   sameAs: [
     "https://github.com/lesjohnpaul",
-    "https://linkedin.com/in/lesjohnpauloliver",
+    "https://www.linkedin.com/in/lesjohnpaul/",
   ],
   knowsAbout: [
-    "Software Engineering",
-    "Cloud Architecture",
-    "AWS",
-    "Google Cloud Platform",
-    "Microsoft Azure",
-    "Database Administration",
-    "PostgreSQL",
-    "MongoDB",
-    "Kubernetes",
-    "Docker",
+    "AI-Augmented Software Engineering",
+    "Claude Code",
+    "Cursor IDE",
+    "MCP Integrations",
+    "RAG Pipelines",
+    "Legacy Modernization",
+    "Full Stack Web Development",
     "TypeScript",
     "React",
     "Next.js",
     "Node.js",
     "Python",
-    "AI Solutions",
-    "Machine Learning",
-    "DevOps",
-    "CI/CD",
-    "Terraform",
+    "FastAPI",
+    "PHP",
+    "C#",
+    "Android Development",
+    "MS SQL Server",
+    "PostgreSQL",
+    "MongoDB",
+    "Azure",
+    "AWS",
+    "Docker",
+    "Hyper-Converged Infrastructure",
+    "Linux Server Administration",
+    "Database Optimization",
+    "Cybersecurity",
+    "Technical Writing",
   ],
 };
 
@@ -200,6 +220,7 @@ export default function RootLayout({
       </head>
       <body className={`${jetbrainsMono.variable} antialiased`}>
         <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">
+          <ReadingChrome />
           <CustomCursor />
           {children}
         </ThemeProvider>

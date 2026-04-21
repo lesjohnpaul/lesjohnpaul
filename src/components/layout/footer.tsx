@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Linkedin, Twitter, Mail, Heart } from "lucide-react";
+import { Github, Linkedin, Mail, Heart } from "lucide-react";
 import { personalInfo, navigationItems } from "@/data/portfolio-data";
 
 export function Footer() {
@@ -10,7 +10,6 @@ export function Footer() {
   const socialLinks = [
     { icon: Github, href: personalInfo.social.github, label: "GitHub" },
     { icon: Linkedin, href: personalInfo.social.linkedin, label: "LinkedIn" },
-    { icon: Twitter, href: personalInfo.social.twitter, label: "Twitter" },
     { icon: Mail, href: `mailto:${personalInfo.email}`, label: "Email" },
   ];
 

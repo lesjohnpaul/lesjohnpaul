@@ -347,9 +347,16 @@ export default function PandoraPage() {
                     </div>
                   </div>
 
-                  {/* Quote */}
-                  <blockquote className="border-l-4 border-primary pl-6 italic text-muted-foreground">
-                    &ldquo;{details?.quote}&rdquo;
+                  {/* Quote — leading oversized open-quote glyph replaces the
+                      old left-stripe border (banned AI pattern). */}
+                  <blockquote className="relative pl-0 text-muted-foreground">
+                    <span
+                      aria-hidden
+                      className="font-display absolute -left-1 -top-6 text-6xl leading-none text-primary/40 select-none"
+                    >
+                      &ldquo;
+                    </span>
+                    <span className="italic block pl-8">{details?.quote}</span>
                   </blockquote>
                 </div>
 

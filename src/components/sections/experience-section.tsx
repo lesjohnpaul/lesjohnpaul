@@ -1,844 +1,342 @@
 "use client";
 
-import { useRef, useEffect, useState, useCallback } from "react";
-import Image from "next/image";
-import {
-  Briefcase,
-  CheckCircle2,
-  ArrowUpRight,
-  MapPin,
-  Calendar,
-  TrendingUp,
-  Sparkles,
-  ChevronRight,
-} from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { MagneticElement } from "@/components/ui/magnetic-element";
-import { experience } from "@/data/portfolio-data";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+// Career Log — git-log styled timeline. Replaces the previous 846-line
+// zigzag timeline which ran 9+ ScrollTriggers plus per-hover clipPath +
+// filter(blur) + rotateY animations.
+//
+// Design goals for this version:
+//   1. Tell the *real* story: 10 years at ONE cooperative, 3 promotions.
+//   2. Stay snappy: no GSAP, no ScrollTrigger, no scrub, no clipPath.
+//      Section reveal is a single IntersectionObserver + a CSS keyframe
+//      staggered via inline animation-delay.
+//   3. Earn its motion: every animated thing conveys either entrance
+//      (once) or focus state (user-initiated).
+//   4. Add a keyboard affordance engineers will recognize (j/k/↑/↓/1-3).
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
+import { useEffect, useRef, useState } from "react";
+import { GitCommit, KeyRound } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { experience } from "@/data/portfolio-data";
+
+// --- Date math ---------------------------------------------------------------
+
+const MONTH_INDEX: Record<string, number> = {
+  jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
+  jul: 6, aug: 7, sep: 8, sept: 8, oct: 9, nov: 10, dec: 11,
+};
+
+// Parses tokens like "Sept 2022", "Mar 2016", or "Present".
+function parseMonthYear(raw: string): Date | null {
+  const s = raw.trim().toLowerCase();
+  if (s.includes("present")) return new Date();
+  const m = s.match(/([a-z]+)\s+(\d{4})/);
+  if (!m) return null;
+  const key = m[1].slice(0, 4) in MONTH_INDEX ? m[1].slice(0, 4) : m[1].slice(0, 3);
+  const month = MONTH_INDEX[key];
+  if (month === undefined) return null;
+  return new Date(Date.UTC(parseInt(m[2], 10), month, 1));
 }
 
-// Career metrics for the journey
-const careerMetrics = [
-  { label: "Years Experience", value: "8+", icon: Calendar },
-  { label: "Projects Delivered", value: "50+", icon: TrendingUp },
-  { label: "Companies", value: "3", icon: Briefcase },
-];
+function parsePeriod(period: string) {
+  const [start, end] = period.split(/\s*[–—-]\s*/);
+  return { start: parseMonthYear(start || ""), end: parseMonthYear(end || "") };
+}
 
-// Experience images - you can replace these with actual images later
-const experienceImages = [
-  "/images/LesPaul.jpeg",
-  "/images/LesPaul.jpeg",
-  "/images/LesPaul.jpeg",
-];
+function monthsBetween(a: Date, b: Date): number {
+  return (
+    (b.getUTCFullYear() - a.getUTCFullYear()) * 12 +
+    (b.getUTCMonth() - a.getUTCMonth())
+  );
+}
+
+function formatDuration(months: number): string {
+  if (months <= 0) return "—";
+  const y = Math.floor(months / 12);
+  const m = months % 12;
+  if (y === 0) return `${m}m`;
+  if (m === 0) return `${y}y`;
+  return `${y}y ${m}m`;
+}
+
+// Deterministic short hash → fake commit SHA. DJB2 → 7 hex chars.
+function shortHash(input: string): string {
+  let h = 5381;
+  for (let i = 0; i < input.length; i++) {
+    h = ((h << 5) + h + input.charCodeAt(i)) >>> 0;
+  }
+  return h.toString(16).padStart(7, "0").slice(0, 7);
+}
+
+// --- Component ---------------------------------------------------------------
 
 export function ExperienceSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const timelineRef = useRef<HTMLDivElement>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
-  const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const itemRefs = useRef<Array<HTMLLIElement | null>>([]);
+  const [activeIdx, setActiveIdx] = useState(0);
 
-  // Elegant image reveal animation with smooth delay
-  const revealImage = useCallback((index: number) => {
-    const imageContainer = imageRefs.current[index];
-    if (!imageContainer) return;
+  // Precompute role metadata once. experience[0] is the current role.
+  const roles = experience.map((exp) => {
+    const { start, end } = parsePeriod(exp.period);
+    const months = start && end ? monthsBetween(start, end) : 0;
+    return {
+      ...exp,
+      start,
+      end,
+      months,
+      hash: shortHash(`${exp.role}:${exp.period}`),
+    };
+  });
 
-    const image = imageContainer.querySelector("[data-reveal-image]");
-    const overlay = imageContainer.querySelector("[data-reveal-overlay]");
-    const corners = imageContainer.querySelectorAll("[data-reveal-corner]");
-    const glow = imageContainer.querySelector("[data-reveal-glow]");
+  // Total tenure = from oldest role's start to newest role's end.
+  const oldest = roles[roles.length - 1];
+  const newest = roles[0];
+  const totalMonths =
+    oldest?.start && newest?.end ? monthsBetween(oldest.start, newest.end) : 0;
 
-    const tl = gsap.timeline({
-      delay: 0.3, // Smooth delay before animation starts
-    });
-
-    // Set initial visibility with a fade
-    gsap.set(imageContainer, { visibility: "visible", opacity: 0 });
-
-    // Fade in the container first
-    tl.to(imageContainer, {
-      opacity: 1,
-      duration: 0.4,
-      ease: "power2.out",
-    })
-    .fromTo(
-      image,
-      {
-        clipPath: "inset(50% 0% 50% 0%)",
-        scale: 1.15,
-        filter: "grayscale(100%) blur(10px) brightness(1.3)",
-      },
-      {
-        clipPath: "inset(0% 0% 0% 0%)",
-        scale: 1.02,
-        filter: "grayscale(0%) blur(0px) brightness(1)",
-        duration: 1.2,
-        ease: "power3.out",
-      },
-      0.1
-    )
-    .fromTo(
-      glow,
-      { opacity: 0, scale: 0.9 },
-      { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" },
-      0.2
-    )
-    .fromTo(
-      overlay,
-      { opacity: 0 },
-      { opacity: 1, duration: 1, ease: "power2.out" },
-      0.4
-    )
-    .fromTo(
-      corners,
-      { scale: 0, opacity: 0 },
-      {
-        scale: 1,
-        opacity: 1,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "back.out(1.4)",
-      },
-      0.6
-    );
-
-    return tl;
-  }, []);
-
-  // Smooth hide animation
-  const hideImage = useCallback((index: number) => {
-    const imageContainer = imageRefs.current[index];
-    if (!imageContainer) return;
-
-    const image = imageContainer.querySelector("[data-reveal-image]");
-    const overlay = imageContainer.querySelector("[data-reveal-overlay]");
-    const corners = imageContainer.querySelectorAll("[data-reveal-corner]");
-    const glow = imageContainer.querySelector("[data-reveal-glow]");
-
-    const tl = gsap.timeline({
-      onComplete: () => {
-        gsap.set(imageContainer, { visibility: "hidden" });
-      },
-    });
-
-    tl.to(corners, {
-      scale: 0,
-      opacity: 0,
-      duration: 0.3,
-      stagger: 0.03,
-      ease: "power2.in",
-    })
-    .to(
-      glow,
-      { opacity: 0, scale: 0.9, duration: 0.4, ease: "power2.in" },
-      0
-    )
-    .to(
-      overlay,
-      { opacity: 0, duration: 0.3, ease: "power2.in" },
-      0.1
-    )
-    .to(
-      image,
-      {
-        clipPath: "inset(50% 0% 50% 0%)",
-        scale: 1.1,
-        filter: "grayscale(50%) blur(4px) brightness(1.1)",
-        duration: 0.5,
-        ease: "power3.in",
-      },
-      0.1
-    );
-
-    return tl;
-  }, []);
-
-  // Handle hover state changes
+  // Section reveal — one IntersectionObserver, one CSS class toggle.
   useEffect(() => {
-    // Hide all images first
-    imageRefs.current.forEach((_, i) => {
-      if (i !== activeIndex) {
-        const container = imageRefs.current[i];
-        if (container) {
-          gsap.set(container, { visibility: "hidden" });
-        }
-      }
-    });
-
-    // Show active image
-    if (activeIndex !== null) {
-      revealImage(activeIndex);
-    }
-  }, [activeIndex, revealImage]);
-
-  // Handle mouse leave - hide the previously active image
-  const handleMouseLeave = useCallback((index: number) => {
-    hideImage(index);
-    setActiveIndex(null);
-  }, [hideImage]);
-
-  useEffect(() => {
-    if (!sectionRef.current || !timelineRef.current) return;
-
-    const ctx = gsap.context(() => {
-      // Header stagger animation
-      gsap.fromTo(
-        "[data-exp-header]",
-        { opacity: 0, y: 60, filter: "blur(10px)" },
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 1,
-          stagger: 0.15,
-          ease: "power4.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-
-      // Metrics animation
-      gsap.fromTo(
-        "[data-metric]",
-        { opacity: 0, scale: 0.8, y: 30 },
-        {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "back.out(1.7)",
-          scrollTrigger: {
-            trigger: "[data-metrics]",
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-
-      // Main timeline progress line
-      gsap.fromTo(
-        progressRef.current,
-        { scaleY: 0 },
-        {
-          scaleY: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: timelineRef.current,
-            start: "top 60%",
-            end: "bottom 40%",
-            scrub: 1,
-            onUpdate: (self) => setScrollProgress(self.progress),
-          },
-        }
-      );
-
-      // Timeline items with 3D effect
-      const items = timelineRef.current?.querySelectorAll("[data-exp-item]");
-      items?.forEach((item, index) => {
-        const direction = index % 2 === 0 ? -1 : 1;
-
-        // Card entrance
-        gsap.fromTo(
-          item.querySelector("[data-card]"),
-          {
-            opacity: 0,
-            x: 100 * direction,
-            rotateY: 15 * direction,
-            scale: 0.9,
-          },
-          {
-            opacity: 1,
-            x: 0,
-            rotateY: 0,
-            scale: 1,
-            duration: 1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: item,
-              start: "top 80%",
-              toggleActions: "play none none none",
-            },
+    const node = sectionRef.current;
+    if (!node) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            node.classList.add("is-revealed");
+            io.disconnect();
+            break;
           }
-        );
-
-        // Year badge elegant slide-in
-        gsap.fromTo(
-          item.querySelector("[data-year]"),
-          {
-            opacity: 0,
-            y: -20,
-            x: index % 2 === 0 ? 30 : -30,
-            filter: "blur(8px)",
-          },
-          {
-            opacity: 1,
-            y: 0,
-            x: 0,
-            filter: "blur(0px)",
-            duration: 1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: item,
-              start: "top 80%",
-              toggleActions: "play none none none",
-            },
-            delay: 0.2,
-          }
-        );
-
-        // Node pulse animation
-        const node = item.querySelector("[data-node]");
-        if (node) {
-          gsap.fromTo(
-            node,
-            { scale: 0 },
-            {
-              scale: 1,
-              duration: 0.6,
-              ease: "elastic.out(1, 0.5)",
-              scrollTrigger: {
-                trigger: item,
-                start: "top 80%",
-                toggleActions: "play none none none",
-              },
-              delay: 0.2,
-            }
-          );
         }
-
-        // Achievement items stagger
-        const achievements = item.querySelectorAll("[data-achievement]");
-        gsap.fromTo(
-          achievements,
-          { opacity: 0, x: 20 * direction, y: 10 },
-          {
-            opacity: 1,
-            x: 0,
-            y: 0,
-            duration: 0.5,
-            stagger: 0.1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: item,
-              start: "top 75%",
-              toggleActions: "play none none none",
-            },
-            delay: 0.5,
-          }
-        );
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
+      },
+      { threshold: 0.12 }
+    );
+    io.observe(node);
+    return () => io.disconnect();
   }, []);
+
+  // Keyboard navigation: j/k/↑/↓/1-3 step through roles. Guards:
+  //  - section must be visible in viewport
+  //  - focus must not be inside an editable field
+  //  - no modifier keys pressed (avoid colliding with browser shortcuts)
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      const tag = (document.activeElement?.tagName || "").toLowerCase();
+      const editable =
+        tag === "input" ||
+        tag === "textarea" ||
+        (document.activeElement as HTMLElement | null)?.isContentEditable;
+      if (editable) return;
+
+      const node = sectionRef.current;
+      if (!node) return;
+      const rect = node.getBoundingClientRect();
+      const onScreen =
+        rect.top < window.innerHeight * 0.9 && rect.bottom > window.innerHeight * 0.1;
+      if (!onScreen) return;
+
+      let next = activeIdx;
+      if (e.key === "j" || e.key === "ArrowDown") next = Math.min(roles.length - 1, activeIdx + 1);
+      else if (e.key === "k" || e.key === "ArrowUp") next = Math.max(0, activeIdx - 1);
+      else if (/^[1-9]$/.test(e.key)) {
+        const target = parseInt(e.key, 10) - 1;
+        if (target < roles.length) next = target;
+        else return;
+      } else return;
+
+      e.preventDefault();
+      setActiveIdx(next);
+      itemRefs.current[next]?.focus({ preventScroll: false });
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [activeIdx, roles.length]);
 
   return (
     <section
       ref={sectionRef}
       id="experience"
-      className="relative py-32 overflow-hidden"
+      className="career-log relative py-28 md:py-32 overflow-hidden"
     >
-      {/* Layered Background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-card/30 to-background" />
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, var(--foreground) 1px, transparent 0)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
-        {/* Ambient glow */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      </div>
+      {/* Background — lean. One subtle gradient + a faint grid. */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-card/10 to-background" />
+      <div className="absolute inset-0 grid-lines-subtle opacity-30 pointer-events-none" />
 
-      {/* Large background text */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 font-display text-[20rem] font-bold text-foreground/[0.02] select-none pointer-events-none leading-none tracking-tighter">
-        EXP
-      </div>
-
-      <div className="container mx-auto px-6 relative z-10">
-        {/* Section Header */}
-        <div className="max-w-3xl mb-16">
-          <div data-exp-header>
-            <Badge
-              variant="outline"
-              className="px-4 py-2 rounded-full border-primary/30 bg-primary/5 text-primary mb-6 backdrop-blur-sm"
-            >
-              <Briefcase className="w-4 h-4 mr-2" />
-              Career Journey
-            </Badge>
-          </div>
-          <h2
-            data-exp-header
-            className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
+      <div className="container mx-auto px-6 relative z-10 max-w-5xl">
+        {/* Header */}
+        <div className="mb-12 max-w-3xl">
+          <Badge
+            variant="outline"
+            className="px-3 py-1.5 rounded-full border-primary/30 bg-primary/5 text-primary mb-6 font-mono text-[0.7rem] uppercase tracking-[0.18em]"
           >
-            Where I&apos;ve{" "}
-            <span className="relative inline-block">
-              <span className="text-gradient-gold">Built & Grown</span>
-              <svg
-                className="absolute -bottom-2 left-0 w-full"
-                height="8"
-                viewBox="0 0 200 8"
-                fill="none"
-              >
-                <path
-                  d="M1 5.5C47.6667 2.16667 141.4 -2.3 199 5.5"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="text-primary/40"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>
+            <GitCommit className="w-3.5 h-3.5 mr-2" />
+            $ git log --career
+          </Badge>
+          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05] mb-6">
+            Ten years. One cooperative.
+            <br />
+            <span className="text-primary">Three elevations.</span>
           </h2>
-          <p
-            data-exp-header
-            className="text-lg text-muted-foreground leading-relaxed"
-          >
-            A track record of delivering impact across startups and enterprises,
-            scaling systems from thousands to millions of users.
+          <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
+            One employer since March 2016. Grew from the consumer desk to
+            infrastructure lead — same building, bigger impact each year.
           </p>
         </div>
 
-        {/* Career Metrics */}
-        <div
-          data-metrics
-          className="grid grid-cols-3 gap-4 md:gap-8 max-w-2xl mb-20"
-        >
-          {careerMetrics.map((metric, index) => (
-            <MagneticElement key={metric.label} strength={0.2}>
-              <div
-                data-metric
-                className="group relative p-4 md:p-6 rounded-2xl border border-border bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-all duration-500 cursor-default"
-              >
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <metric.icon className="w-5 h-5 text-primary mb-3 group-hover:scale-110 transition-transform duration-300" />
-                <div className="font-display text-2xl md:text-3xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
-                  {metric.value}
-                </div>
-                <div className="text-xs md:text-sm text-muted-foreground mt-1">
-                  {metric.label}
-                </div>
-              </div>
-            </MagneticElement>
-          ))}
-        </div>
-
-        {/* Interactive Timeline */}
-        <div ref={timelineRef} className="relative max-w-5xl mx-auto">
-          {/* Central Timeline Track */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 md:-translate-x-1/2 w-1">
-            {/* Background track */}
-            <div className="absolute inset-0 bg-border/50 rounded-full" />
-            {/* Progress fill */}
-            <div
-              ref={progressRef}
-              className="absolute inset-0 bg-gradient-to-b from-primary via-primary to-primary/50 rounded-full origin-top"
-              style={{ boxShadow: "0 0 20px rgba(212, 175, 55, 0.4)" }}
-            />
-            {/* Glowing orb that follows progress */}
-            <div
-              className="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-primary rounded-full transition-all duration-300"
-              style={{
-                top: `${scrollProgress * 100}%`,
-                boxShadow:
-                  "0 0 20px rgba(212, 175, 55, 0.8), 0 0 40px rgba(212, 175, 55, 0.4)",
-              }}
-            >
-              <div className="absolute inset-0 bg-primary rounded-full animate-ping opacity-50" />
-            </div>
+        {/* Tenure bar — proportional widths show how the 10 years distributed. */}
+        <div className="mb-14" aria-hidden>
+          <div className="flex items-center gap-3 mb-2 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
+            <span>Tenure</span>
+            <span className="h-px flex-1 bg-border" />
+            <span className="text-foreground">{formatDuration(totalMonths)}</span>
           </div>
-
-          {/* Experience Items */}
-          <div className="space-y-16 md:space-y-24">
-            {experience.map((exp, index) => {
-              const isLeft = index % 2 === 0;
-              const isActive = activeIndex === index;
-
-              return (
-                <div
-                  key={exp.role}
-                  data-exp-item
-                  className="relative"
-                  onMouseEnter={() => setActiveIndex(index)}
-                  onMouseLeave={() => handleMouseLeave(index)}
-                >
-                  {/* Timeline Node */}
+          <div className="flex h-2 rounded-full overflow-hidden bg-card/40 border border-border">
+            {/* Oldest → newest so the current role caps the right edge. */}
+            {roles
+              .slice()
+              .reverse()
+              .map((role, i) => {
+                const isCurrent = i === roles.length - 1;
+                const width = totalMonths > 0 ? (role.months / totalMonths) * 100 : 0;
+                return (
                   <div
-                    data-node
-                    className="absolute left-8 md:left-1/2 -translate-x-1/2 z-20 flex items-center justify-center"
-                  >
-                    {/* Outer ring */}
-                    <div
-                      className={`absolute w-11 h-11 rounded-full border-2 transition-all duration-500 ease-out ${
-                        isActive
-                          ? "border-primary/60 scale-100 opacity-100"
-                          : "border-transparent scale-75 opacity-0"
-                      }`}
-                    />
-                    {/* Inner node */}
-                    <div
-                      className={`relative w-5 h-5 rounded-full border-4 border-background transition-all duration-500 ease-out flex items-center justify-center ${
-                        isActive ? "bg-primary scale-110" : "bg-card scale-100"
-                      }`}
-                      style={{
-                        boxShadow: isActive
-                          ? "0 0 20px rgba(212, 175, 55, 0.6)"
-                          : "none",
-                      }}
-                    >
-                      <Sparkles
-                        className={`w-2.5 h-2.5 text-primary-foreground transition-all duration-300 ${
-                          isActive ? "opacity-100 scale-100" : "opacity-0 scale-0"
-                        }`}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Content Layout */}
-                  <div
-                    className={`flex flex-col md:flex-row items-start gap-8 ${
-                      isLeft ? "md:flex-row-reverse" : ""
-                    }`}
-                  >
-                    {/* Image Side (opposite to card) */}
-                    <div
-                      className={`hidden md:flex flex-1 items-center justify-center ${
-                        isLeft ? "pl-12" : "pr-12"
-                      }`}
-                    >
-                      {/* Elegant Image Reveal */}
-                      <div
-                        ref={(el) => { imageRefs.current[index] = el; }}
-                        className="relative w-full max-w-[280px] aspect-[4/5] invisible"
-                      >
-                        {/* Glow effect behind image */}
-                        <div
-                          data-reveal-glow
-                          className="absolute -inset-4 rounded-3xl opacity-0"
-                          style={{
-                            background: "radial-gradient(ellipse at center, rgba(212, 175, 55, 0.15) 0%, transparent 70%)",
-                            filter: "blur(20px)",
-                          }}
-                        />
-
-                        {/* Main image container */}
-                        <div
-                          data-reveal-image
-                          className="relative w-full h-full rounded-2xl overflow-hidden"
-                          style={{
-                            clipPath: "inset(50% 0% 50% 0%)",
-                          }}
-                        >
-                          <Image
-                            src={experienceImages[index] || experienceImages[0]}
-                            alt={`${exp.role} at ${exp.company}`}
-                            fill
-                            className="object-cover object-center"
-                            sizes="300px"
-                          />
-
-                          {/* Multi-layer gradient overlays for premium fade */}
-                          <div
-                            data-reveal-overlay
-                            className="absolute inset-0 opacity-0"
-                          >
-                            {/* Directional fade toward card (flipped) */}
-                            <div
-                              className={`absolute inset-0 ${
-                                isLeft
-                                  ? "bg-gradient-to-l from-transparent via-transparent to-background"
-                                  : "bg-gradient-to-r from-transparent via-transparent to-background"
-                              }`}
-                            />
-                            {/* Bottom fade */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-                            {/* Top subtle fade */}
-                            <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-transparent" />
-                            {/* Vignette */}
-                            <div
-                              className="absolute inset-0"
-                              style={{
-                                background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.3) 100%)",
-                              }}
-                            />
-                            {/* Golden tint overlay */}
-                            <div className="absolute inset-0 bg-primary/5 mix-blend-overlay" />
-                          </div>
-                        </div>
-
-                        {/* Elegant corner frames */}
-                        <div
-                          data-reveal-corner
-                          className="absolute -top-2 -left-2 w-8 h-8 border-l-2 border-t-2 border-primary rounded-tl-lg opacity-0"
-                          style={{ transformOrigin: "top left" }}
-                        />
-                        <div
-                          data-reveal-corner
-                          className="absolute -top-2 -right-2 w-8 h-8 border-r-2 border-t-2 border-primary rounded-tr-lg opacity-0"
-                          style={{ transformOrigin: "top right" }}
-                        />
-                        <div
-                          data-reveal-corner
-                          className="absolute -bottom-2 -left-2 w-8 h-8 border-l-2 border-b-2 border-primary rounded-bl-lg opacity-0"
-                          style={{ transformOrigin: "bottom left" }}
-                        />
-                        <div
-                          data-reveal-corner
-                          className="absolute -bottom-2 -right-2 w-8 h-8 border-r-2 border-b-2 border-primary rounded-br-lg opacity-0"
-                          style={{ transformOrigin: "bottom right" }}
-                        />
-
-                        {/* Floating accent line */}
-                        <div
-                          className={`absolute top-1/2 -translate-y-1/2 w-12 h-px bg-gradient-to-r from-primary/50 to-transparent transition-all duration-500 ${
-                            isActive ? "opacity-100" : "opacity-0"
-                          } ${isLeft ? "-right-14" : "-left-14 rotate-180"}`}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Main Card with Year Badge */}
-                    <div
-                      className={`flex-1 pl-20 md:pl-0 ${
-                        isLeft ? "md:pr-12 md:text-right" : "md:pl-12"
-                      }`}
-                    >
-                      {/* Year Badge - Now above the card on the same side */}
-                      <div
-                        className={`hidden md:flex mb-4 ${
-                          isLeft ? "justify-end" : "justify-start"
-                        }`}
-                      >
-                        <div
-                          data-year
-                          className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-card/80 backdrop-blur-sm transition-all duration-500 ${
-                            isActive
-                              ? "border-primary bg-primary/10 text-primary shadow-lg shadow-primary/20"
-                              : "border-border text-muted-foreground"
-                          }`}
-                        >
-                          <Calendar className="w-4 h-4" />
-                          <span className="font-mono text-sm font-medium">
-                            {exp.period}
-                          </span>
-                        </div>
-                      </div>
-
-                      <MagneticElement strength={0.08}>
-                        <div
-                          data-card
-                          className="group relative cursor-pointer"
-                          style={{ perspective: "1000px" }}
-                        >
-                          {/* Card Container */}
-                          <div
-                            className={`relative overflow-hidden rounded-2xl border bg-card/80 backdrop-blur-sm transition-all duration-500 ${
-                              isActive
-                                ? "border-primary/50 shadow-2xl shadow-primary/10"
-                                : "border-border hover:border-primary/30"
-                            }`}
-                            style={{
-                              transform: isActive
-                                ? "translateZ(20px)"
-                                : "translateZ(0)",
-                              transformStyle: "preserve-3d",
-                            }}
-                          >
-                            {/* Gradient overlay on hover */}
-                            <div
-                              className={`absolute inset-0 bg-gradient-to-br transition-opacity duration-500 ${
-                                isLeft
-                                  ? "from-transparent via-transparent to-primary/10"
-                                  : "from-primary/10 via-transparent to-transparent"
-                              } ${isActive ? "opacity-100" : "opacity-0"}`}
-                            />
-
-                            {/* Top accent line */}
-                            <div
-                              className={`absolute top-0 ${
-                                isLeft ? "right-0" : "left-0"
-                              } h-1 bg-gradient-to-r from-primary to-primary/50 transition-all duration-500 ${
-                                isActive ? "w-full" : "w-0"
-                              }`}
-                            />
-
-                            <div className="relative p-6 md:p-8">
-                              {/* Mobile Period */}
-                              <div className="md:hidden flex items-center gap-2 text-primary text-sm font-medium mb-3">
-                                <Calendar className="w-4 h-4" />
-                                {exp.period}
-                              </div>
-
-                              {/* Role Title */}
-                              <h3
-                                className={`font-display text-xl md:text-2xl font-bold mb-2 transition-colors duration-300 flex items-center gap-3 ${
-                                  isLeft
-                                    ? "md:flex-row-reverse md:justify-start"
-                                    : ""
-                                } ${isActive ? "text-primary" : ""}`}
-                              >
-                                {exp.role}
-                                <ChevronRight
-                                  className={`w-5 h-5 transition-all duration-300 ${
-                                    isActive
-                                      ? "opacity-100 translate-x-0"
-                                      : "opacity-0 -translate-x-2"
-                                  } ${isLeft ? "md:rotate-180" : ""}`}
-                                />
-                              </h3>
-
-                              {/* Company */}
-                              <div
-                                className={`flex items-center gap-2 mb-4 ${
-                                  isLeft ? "md:justify-end" : ""
-                                }`}
-                              >
-                                <MapPin className="w-4 h-4 text-muted-foreground" />
-                                <span className="text-muted-foreground font-medium">
-                                  {exp.company}
-                                </span>
-                                <ArrowUpRight
-                                  className={`w-4 h-4 text-primary transition-all duration-300 ${
-                                    isActive
-                                      ? "opacity-100 translate-x-0 translate-y-0"
-                                      : "opacity-0 -translate-x-1 translate-y-1"
-                                  }`}
-                                />
-                              </div>
-
-                              {/* Description */}
-                              <p
-                                className={`text-muted-foreground text-sm mb-6 leading-relaxed ${
-                                  isLeft ? "md:text-right" : ""
-                                }`}
-                              >
-                                {exp.description}
-                              </p>
-
-                              {/* Achievements */}
-                              <div className="space-y-3">
-                                {exp.achievements.map((achievement, achIndex) => (
-                                  <div
-                                    key={achievement}
-                                    data-achievement
-                                    className={`flex items-start gap-3 group/item ${
-                                      isLeft ? "md:flex-row-reverse" : ""
-                                    }`}
-                                  >
-                                    <div
-                                      className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 ${
-                                        isActive
-                                          ? "bg-primary/20"
-                                          : "bg-muted/50"
-                                      }`}
-                                    >
-                                      <CheckCircle2
-                                        className={`w-4 h-4 transition-colors duration-300 ${
-                                          isActive
-                                            ? "text-primary"
-                                            : "text-muted-foreground"
-                                        }`}
-                                      />
-                                    </div>
-                                    <span
-                                      className={`text-sm leading-relaxed transition-colors duration-300 ${
-                                        isLeft ? "md:text-right" : ""
-                                      } ${
-                                        isActive
-                                          ? "text-foreground"
-                                          : "text-foreground/70"
-                                      }`}
-                                    >
-                                      {achievement}
-                                    </span>
-                                  </div>
-                                ))}
-                              </div>
-
-                              {/* Bottom decorative element */}
-                              <div
-                                className={`absolute bottom-0 ${
-                                  isLeft ? "left-0" : "right-0"
-                                } w-24 h-24 opacity-5 pointer-events-none`}
-                              >
-                                <div className="absolute inset-0 border-2 border-current rounded-full" />
-                                <div className="absolute inset-4 border border-current rounded-full" />
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Floating index number */}
-                          <div
-                            className={`absolute -top-3 ${
-                              isLeft ? "-left-3 md:-right-3 md:left-auto" : "-left-3"
-                            } w-8 h-8 rounded-full bg-background border-2 flex items-center justify-center font-mono text-sm font-bold transition-all duration-300 ${
-                              isActive
-                                ? "border-primary text-primary scale-110"
-                                : "border-border text-muted-foreground"
-                            }`}
-                            style={{
-                              boxShadow: isActive
-                                ? "0 4px 20px rgba(212, 175, 55, 0.3)"
-                                : "none",
-                            }}
-                          >
-                            {String(index + 1).padStart(2, "0")}
-                          </div>
-                        </div>
-                      </MagneticElement>
-                    </div>
-                  </div>
-
-                  {/* Connection line to node (mobile) */}
-                  <div
-                    className={`absolute left-8 top-2 w-12 h-0.5 bg-gradient-to-r md:hidden ${
-                      isActive
-                        ? "from-primary to-transparent"
-                        : "from-border to-transparent"
-                    } transition-colors duration-300`}
-                    style={{ transform: "translateX(-50%)" }}
+                    key={role.role}
+                    className={
+                      isCurrent
+                        ? "h-full bg-primary"
+                        : i === roles.length - 2
+                        ? "h-full bg-primary/55"
+                        : "h-full bg-primary/25"
+                    }
+                    style={{ width: `${width}%` }}
+                    title={`${role.role} — ${formatDuration(role.months)}`}
                   />
-                </div>
-              );
-            })}
-          </div>
-
-          {/* End node */}
-          <div className="absolute left-8 md:left-1/2 -translate-x-1/2 -bottom-4">
-            <div className="relative">
-              <div className="w-4 h-4 rounded-full bg-primary/30 animate-pulse" />
-              <div className="absolute inset-0 w-4 h-4 rounded-full bg-primary/20 animate-ping" />
-            </div>
+                );
+              })}
           </div>
         </div>
 
-        {/* Call to action */}
-        <div className="text-center mt-20">
-          <p className="text-muted-foreground mb-4">
-            Interested in working together?
-          </p>
-          <MagneticElement strength={0.3}>
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 text-primary font-medium hover:gap-4 transition-all duration-300 group"
-            >
-              Let&apos;s connect
-              <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-            </a>
-          </MagneticElement>
+        {/* Career log */}
+        <ol className="career-log__list relative">
+          {roles.map((role, i) => {
+            const isCurrent = i === 0;
+            const isActive = activeIdx === i;
+            return (
+              <li
+                key={role.role}
+                ref={(el) => {
+                  itemRefs.current[i] = el;
+                }}
+                tabIndex={0}
+                aria-current={isCurrent ? "true" : undefined}
+                onFocus={() => setActiveIdx(i)}
+                onMouseEnter={() => setActiveIdx(i)}
+                className={`career-log__item group relative pl-10 md:pl-14 pb-12 md:pb-14 outline-none rounded-md transition-[background,transform] duration-200 ${
+                  isActive ? "is-active" : ""
+                }`}
+                style={{ animationDelay: `${i * 90}ms` }}
+              >
+                {/* Spine — one thin line runs the full height of each item
+                    except the last, where it stops at the node. */}
+                {i < roles.length - 1 && (
+                  <span
+                    aria-hidden
+                    className="absolute top-3 bottom-0 w-px bg-border left-[12px] md:left-[18px]"
+                  />
+                )}
+
+                {/* Commit node — aligned to spine center.
+                    Mobile: spine at 12px, node left 6px. Desktop: spine at 18px, node left 12px. */}
+                <span
+                  aria-hidden
+                  className={`absolute top-2.5 w-3 h-3 rounded-full border-2 z-10 left-[6px] md:left-[12px] ${
+                    isCurrent
+                      ? "border-primary bg-primary/20"
+                      : "border-border bg-card"
+                  }`}
+                />
+                {isCurrent && (
+                  <span
+                    aria-hidden
+                    className="absolute top-2.5 w-3 h-3 rounded-full bg-primary/40 left-[6px] md:left-[12px] z-10"
+                    style={{
+                      animation: "career-ping 2.2s cubic-bezier(0,0,0.2,1) infinite",
+                    }}
+                  />
+                )}
+
+                {/* Commit metadata line — hash · period · duration · HEAD */}
+                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-3 font-mono text-[0.72rem] md:text-xs">
+                  <span className="text-primary">{role.hash}</span>
+                  <span className="text-muted-foreground/60">·</span>
+                  <span className="text-foreground/70">{role.period}</span>
+                  <span className="text-muted-foreground/60">·</span>
+                  <span className="text-muted-foreground">
+                    {formatDuration(role.months)}
+                  </span>
+                  {isCurrent && (
+                    <span className="inline-flex items-center gap-1.5 ml-1 px-2 py-0.5 rounded-full border border-primary/40 bg-primary/10 text-primary text-[0.62rem] uppercase tracking-[0.18em]">
+                      <span className="inline-block w-1 h-1 rounded-full bg-primary animate-pulse" />
+                      HEAD → present
+                    </span>
+                  )}
+                </div>
+
+                {/* Role title */}
+                <h3 className="font-display text-2xl md:text-3xl font-bold leading-tight mb-1 transition-colors duration-200 group-hover:text-primary group-focus:text-primary">
+                  {role.role}
+                </h3>
+
+                {/* Company */}
+                <p className="text-sm md:text-base text-muted-foreground mb-5">
+                  {role.company}
+                </p>
+
+                {/* Description */}
+                <p className="text-foreground/80 leading-relaxed mb-6 max-w-2xl">
+                  {role.description}
+                </p>
+
+                {/* Achievements as monospace bullets — code-review feel. */}
+                <ul className="space-y-2 font-mono text-[13px] md:text-sm max-w-3xl">
+                  {role.achievements.map((achievement) => (
+                    <li
+                      key={achievement}
+                      className="flex items-start gap-3 text-foreground/78 leading-relaxed"
+                    >
+                      <span aria-hidden className="text-primary/60 mt-0.5 select-none">
+                        {">"}
+                      </span>
+                      <span>{achievement}</span>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            );
+          })}
+        </ol>
+
+        {/* Keyboard hint — only shown on fine-pointer devices. */}
+        <div className="mt-10 hidden md:flex items-center gap-2 text-[0.72rem] text-muted-foreground font-mono">
+          <KeyRound className="w-3.5 h-3.5" />
+          <span>Walk through roles:</span>
+          <kbd className="px-1.5 py-0.5 rounded border border-border bg-card/50 text-foreground">
+            j
+          </kbd>
+          <kbd className="px-1.5 py-0.5 rounded border border-border bg-card/50 text-foreground">
+            k
+          </kbd>
+          <span className="text-muted-foreground/70">or</span>
+          <kbd className="px-1.5 py-0.5 rounded border border-border bg-card/50 text-foreground">
+            ↑
+          </kbd>
+          <kbd className="px-1.5 py-0.5 rounded border border-border bg-card/50 text-foreground">
+            ↓
+          </kbd>
+          <span className="text-muted-foreground/70">or</span>
+          <kbd className="px-1.5 py-0.5 rounded border border-border bg-card/50 text-foreground">
+            1-3
+          </kbd>
         </div>
       </div>
     </section>

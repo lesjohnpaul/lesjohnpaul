@@ -7,7 +7,6 @@ import {
   MapPin,
   Github,
   Linkedin,
-  Twitter,
   ArrowRight,
   Sparkles,
   CheckCircle2,
@@ -36,6 +35,7 @@ export function ContactSection() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [submittedName, setSubmittedName] = useState<string | null>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -186,7 +186,6 @@ export function ContactSection() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Subtle form feedback
     gsap.to(formRef.current, {
       scale: 0.995,
       duration: 0.15,
@@ -195,17 +194,17 @@ export function ContactSection() {
       ease: "power2.inOut",
     });
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, 1200));
 
+    const firstName = formState.name.trim().split(/\s+/)[0] || "there";
+    setSubmittedName(firstName);
     setFormState({ name: "", email: "", message: "" });
     setIsSubmitting(false);
-    alert("Message sent! I'll get back to you soon.");
   };
 
   const socialLinks = [
     { icon: Github, href: personalInfo.social.github, label: "GitHub" },
     { icon: Linkedin, href: personalInfo.social.linkedin, label: "LinkedIn" },
-    { icon: Twitter, href: personalInfo.social.twitter, label: "Twitter" },
   ];
 
   const highlights = [
@@ -345,6 +344,32 @@ export function ContactSection() {
 
             {/* Right Side - Contact Form */}
             <div className="lg:col-span-3" data-form-container>
+              {submittedName ? (
+                <div
+                  role="status"
+                  aria-live="polite"
+                  className="p-10 rounded-3xl bg-card/40 border border-primary/30 backdrop-blur-sm text-center"
+                >
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary/10 border border-primary/30 mb-5">
+                    <CheckCircle2 className="w-7 h-7 text-primary" />
+                  </div>
+                  <h3 className="font-display text-2xl md:text-3xl font-semibold mb-2">
+                    Thanks, {submittedName}.
+                  </h3>
+                  <p className="text-muted-foreground mb-6 max-w-sm mx-auto">
+                    Your message is in. I typically reply within 24 hours —
+                    check your inbox (and spam, just in case).
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setSubmittedName(null)}
+                    className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:gap-3 transition-all"
+                  >
+                    Send another message
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
               <form
                 ref={formRef}
                 onSubmit={handleSubmit}
@@ -456,6 +481,7 @@ export function ContactSection() {
                   </p>
                 </div>
               </form>
+              )}
             </div>
           </div>
         </div>

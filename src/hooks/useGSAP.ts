@@ -9,6 +9,14 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// Single source of truth for reduced-motion preference. Reading once on mount
+// of a hook is fine — users rarely flip this during a session, and the cost
+// of reading matchMedia on every tick would dwarf the win.
+function prefersReducedMotion() {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 // Custom hook for scroll-triggered animations
 export function useScrollReveal<T extends HTMLElement>(
   options: {
@@ -35,9 +43,14 @@ export function useScrollReveal<T extends HTMLElement>(
       ease = "power3.out",
     } = options;
 
-    // Check if element has children to animate
     const children = element.querySelectorAll("[data-reveal]");
     const targets = children.length > 0 ? children : element;
+
+    // Reduced motion: reveal everything in place, skip the GSAP tween entirely.
+    if (prefersReducedMotion()) {
+      gsap.set(targets, { opacity: 1, y: 0 });
+      return;
+    }
 
     gsap.set(targets, { opacity: 0, y });
 
@@ -76,6 +89,15 @@ export function useHeroAnimation() {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
+
+    // Reduced-motion: leave everything visible in its final state.
+    if (prefersReducedMotion()) {
+      gsap.set(
+        "[data-hero-title], [data-hero-subtitle], [data-hero-text], [data-hero-cta], [data-hero-stat], [data-hero-image], [data-hero-badge], [data-hero-decoration]",
+        { opacity: 1, y: 0, scale: 1, clipPath: "inset(0% 0 0 0)", filter: "none" }
+      );
+      return;
+    }
 
     const ctx = gsap.context(() => {
       timeline.current = gsap.timeline({ defaults: { ease: "power3.out" } });
