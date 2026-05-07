@@ -261,8 +261,14 @@ export const projects = [
     description:
       "Distributed QR-based digital registration platform for an Annual General Assembly Meeting handling 13,000 attendees across 5 simultaneous venues. Solved chronic abuse in token and meal distribution with cryptographically verifiable check-ins, real-time membership validation, automated counting, and a verifiable audit trail accepted as official NEA documentary requirement.",
     tech: ["Distributed Systems", "QR Auth", "Real-time Validation", "Anti-fraud", "Claude Code"],
-    link: "#",
-    image: "/images/projects/agam-2026.jpg",
+    link: "https://agam.panelco3.online/agam-registration",
+    image: "/images/projects/agam/01-command-center.png",
+    images: [
+      "/images/projects/agam/01-command-center.png",
+      "/images/projects/agam/02-live-by-venue.png",
+      "/images/projects/agam/03-login.png",
+      "/images/projects/agam/04-pre-register.png",
+    ],
     featured: true,
   },
   {
@@ -316,7 +322,12 @@ export const projects = [
       "Solo full-stack Philippine sneaker marketplace at sneakersymphony.com. Mobile-first checkout, GCash/Maya/PayMongo dual-gateway payments, AI-driven content automation pipeline across FB/IG/TikTok, and Cloudflare R2 invoice storage. Stack: Next.js 15 + Supabase + Vercel + Inngest + Claude API.",
     tech: ["Next.js 15", "Supabase", "PayMongo", "Cloudflare R2", "Claude API"],
     link: "https://sneakersymphony.com",
-    image: "/images/projects/sneaker-symphony.jpg",
+    image: "/images/projects/sneaker-symphony/01-home.png",
+    images: [
+      "/images/projects/sneaker-symphony/01-home.png",
+      "/images/projects/sneaker-symphony/02-listing.png",
+      "/images/projects/sneaker-symphony/03-checkout.png",
+    ],
     featured: true,
   },
   {

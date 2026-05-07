@@ -2,12 +2,14 @@
 
 import { useRef, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Folder, ExternalLink, Github, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MagneticElement } from "@/components/ui/magnetic-element";
+import { ProjectImageCarousel } from "@/components/ui/project-image-carousel";
 import { projects } from "@/data/portfolio-data";
+
+const isExternal = (href: string) => /^https?:\/\//i.test(href);
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -125,20 +127,23 @@ export function ProjectsSection() {
               >
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
                 {/* Image Side */}
-                <div className="relative h-64 lg:h-auto overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-32 h-32 rounded-2xl bg-primary/20 flex items-center justify-center">
-                      <Folder className="w-16 h-16 text-primary" />
+                <div className="relative h-64 lg:h-auto min-h-[20rem] overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
+                  {project.images && project.images.length > 0 ? (
+                    <ProjectImageCarousel
+                      images={project.images}
+                      alt={project.title}
+                      intervalMs={3500}
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-32 h-32 rounded-2xl bg-primary/20 flex items-center justify-center">
+                        <Folder className="w-16 h-16 text-primary" />
+                      </div>
                     </div>
-                  </div>
-                  {/* Placeholder for actual image */}
-                  {/* <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                  /> */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
+                  )}
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
                 </div>
 
                 {/* Content Side */}
@@ -168,7 +173,11 @@ export function ProjectsSection() {
                         className="rounded-full gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
                         asChild
                       >
-                        <Link href={project.link}>
+                        <Link
+                          href={project.link}
+                          target={isExternal(project.link) ? "_blank" : undefined}
+                          rel={isExternal(project.link) ? "noopener noreferrer" : undefined}
+                        >
                           View Project
                           <ExternalLink className="w-4 h-4" />
                         </Link>
@@ -197,12 +206,22 @@ export function ProjectsSection() {
               >
               {/* Image */}
               <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-20 h-20 rounded-xl bg-primary/20 flex items-center justify-center">
-                    <Folder className="w-10 h-10 text-primary" />
+                {project.images && project.images.length > 0 ? (
+                  <ProjectImageCarousel
+                    images={project.images}
+                    alt={project.title}
+                    intervalMs={4000}
+                    showIndicators={false}
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-20 h-20 rounded-xl bg-primary/20 flex items-center justify-center">
+                      <Folder className="w-10 h-10 text-primary" />
+                    </div>
                   </div>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
+                )}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-card/70 via-transparent to-transparent" />
 
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-primary/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -211,7 +230,11 @@ export function ProjectsSection() {
                     className="rounded-full gap-2"
                     asChild
                   >
-                    <Link href={project.link}>
+                    <Link
+                      href={project.link}
+                      target={isExternal(project.link) ? "_blank" : undefined}
+                      rel={isExternal(project.link) ? "noopener noreferrer" : undefined}
+                    >
                       View Details
                       <ArrowRight className="w-4 h-4" />
                     </Link>
