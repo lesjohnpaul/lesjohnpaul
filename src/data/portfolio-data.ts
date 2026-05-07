@@ -10,7 +10,7 @@ export const personalInfo = {
   email: "lesjohnpauloliver@gmail.com",
   location: "Pangasinan, Philippines",
   availability: "Open to senior remote roles & AU sponsorship",
-  resumeUrl: "/resume.pdf",
+  resumeUrl: "/lesjohnpaulolver.pdf",
   social: {
     github: "https://github.com/lesjohnpaul",
     linkedin: "https://www.linkedin.com/in/lesjohnpaul/",
