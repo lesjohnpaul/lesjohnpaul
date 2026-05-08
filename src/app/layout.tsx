@@ -118,7 +118,7 @@ const jsonLd = {
   "@type": "Person",
   name: "Les John Paul Oliver",
   url: siteUrl,
-  image: `${siteUrl}/images/LesPaul.jpeg`,
+  image: `${siteUrl}/images/lesjohnpaul.jpg`,
   jobTitle: "Senior Software Engineer & Cloud Architect",
   worksFor: {
     "@type": "Organization",
