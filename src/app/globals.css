@@ -429,3 +429,13 @@
   opacity: 0;
   transition: opacity 0.2s ease;
 }
+
+/* Sneaker portal showcase: autoplay progress bar */
+@keyframes portal-progress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+.portal-progress {
+  animation: portal-progress var(--portal-progress-duration, 5000ms) linear forwards;
+  transform-origin: left center;
+}
