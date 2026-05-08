@@ -322,7 +322,14 @@ export const projects = [
       "Solo full-stack Philippine sneaker marketplace at sneakersymphony.com. Mobile-first checkout, GCash/Maya/PayMongo dual-gateway payments, AI-driven content automation pipeline across FB/IG/TikTok, and Cloudflare R2 invoice storage. Stack: Next.js 15 + Supabase + Vercel + Inngest + Claude API.",
     tech: ["Next.js 15", "Supabase", "PayMongo", "Cloudflare R2", "Claude API"],
     link: "https://sneakersymphony.com",
-    image: "/images/projects/sneaker-symphony.jpg",
+    image: "/images/projects/sneaker-symphony/01-hero.jpg",
+    images: [
+      "/images/projects/sneaker-symphony/01-hero.jpg",
+      "/images/projects/sneaker-symphony/02-catalog.jpg",
+      "/images/projects/sneaker-symphony/03-reviews.png",
+      "/images/projects/sneaker-symphony/04-admin-portal.jpg",
+      "/images/projects/sneaker-symphony/05-admin-dashboard.png",
+    ],
     featured: true,
   },
   {
