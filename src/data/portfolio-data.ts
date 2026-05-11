@@ -111,6 +111,23 @@ export const coreSkills = [
     ],
     highlight: true,
   },
+  {
+    category: "Music Production & Audio Engineering",
+    icon: "Music",
+    description:
+      "Working musician on Nord Stage 4 88 — keyboardist in an indie band with originals in label conversations, arranger for a locally-released album, and Logic Pro X recording/mixing engineer. 15+ years directing SATB choirs. AI-literate music annotator with stem-level analysis fluency.",
+    skills: [
+      "Nord Stage 4 88",
+      "Logic Pro X",
+      "Music Arrangement",
+      "Recording & Mixing",
+      "Stem-Level Analysis",
+      "Multi-Genre Fluency",
+      "Choir Direction (SATB)",
+      "Music Annotation",
+    ],
+    highlight: true,
+  },
 ];
 
 // Hidden talents — kept honest. These are real practices, not bullet padding.
@@ -119,13 +136,16 @@ export const hiddenTalents = [
     category: "Music Production",
     icon: "Music",
     description:
-      "Working keys player on Nord Stage 4 88. Project band in the Marina Pop / laidback-OPM space with members from established Philippine acts. Original songs in active label conversations.",
+      "Working keys player on Nord Stage 4 88 in an indie band with three originals in pre-release and major-label discussions in progress. Music arranger for a locally-released indie album. Recording/mixing engineer in Logic Pro X on MacBook Pro. AI-literate music annotator with stem-level analysis across hip-hop, R&B, OPM, jazz, rock, worship, and electronic music.",
     skills: [
       "Nord Stage 4 88",
-      "Marina Pop / Laidback OPM",
+      "Logic Pro X",
+      "Music Arrangement",
+      "Recording & Mixing",
+      "Stem-Level Analysis",
+      "Music Annotation (AI Training Data)",
+      "Multi-Genre Fluency",
       "Original Composition",
-      "Studio Production",
-      "Live Performance",
     ],
     color: "from-purple-500 to-pink-500",
   },
@@ -133,13 +153,14 @@ export const hiddenTalents = [
     category: "Choir Direction",
     icon: "Music",
     description:
-      "15+ years directing and teaching Catholic liturgical choirs — the practiced ensemble leadership behind every architecture decision.",
+      "15+ years directing and teaching a Catholic liturgical SATB choir — arranging and adapting hymns weekly, deep multi-part harmonic analysis, voice leading, and ensemble leadership. Recently composed an original Communion hymn in 8.8.8.8 Long Meter compatible with traditional tune families.",
     skills: [
-      "Choral Direction",
-      "Vocal Arrangement",
-      "Liturgical Music",
+      "SATB Direction (15+ yrs)",
+      "Hymn Arrangement",
+      "Harmonic Analysis",
+      "Voice Leading",
+      "Liturgical Composition",
       "Ensemble Leadership",
-      "Volunteer Coordination",
     ],
     color: "from-blue-500 to-cyan-500",
   },

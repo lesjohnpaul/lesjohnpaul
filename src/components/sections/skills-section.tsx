@@ -7,6 +7,7 @@ import {
   Code,
   Layers,
   Brain,
+  Music,
   ArrowUpRight,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -27,6 +28,7 @@ const iconMap = {
   Code,
   Layers,
   Brain,
+  Music,
 };
 
 export function SkillsSection() {
