@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -37,18 +38,41 @@ const iconMap = {
 // Extended data for each talent
 const talentDetails = {
   "Music Production": {
-    headline: "Where Code Meets Composition",
+    headline: "Working Musician, Arranger & Audio Engineer",
     description:
-      "Music production taught me the art of layering complexity into something beautiful. Every track I produce follows the same principles I use in software architecture—modular components, clean structure, and attention to the smallest details.",
+      "Active keyboardist on a Nord Stage 4 88 in an indie band — three originals in pre-release with major-label discussions underway. Arranged a full locally-released indie album plus singles for independent artists. Tracking, comping, mixing, and stem export in Logic Pro X on MacBook Pro. A trained ear across hip-hop, R&B, OPM, pop, jazz, rock, worship/choral, electronic, and folk — comfortable working at the stem level (drums, bass, vocals, synths, FX) and identifying production techniques like reverb, delay, sidechain, automation, and vocal processing.",
     showcase: [
-      { type: "stat", label: "Tracks Produced", value: "50+" },
-      { type: "stat", label: "Genres Explored", value: "8" },
-      { type: "stat", label: "Years Active", value: "10+" },
+      { type: "stat", label: "Years Choir Direction", value: "15+" },
+      { type: "stat", label: "Album Arranged", value: "1" },
+      { type: "stat", label: "Genres Fluent", value: "9" },
     ],
-    tools: ["Ableton Live", "FL Studio", "Logic Pro", "Native Instruments", "Serum"],
-    quote: "Music is the space between the notes. In code, it's the whitespace that matters.",
+    tools: ["Nord Stage 4 88", "Logic Pro X", "MacBook Pro", "Stem Separation", "Vocal Processing"],
+    quote: "Music annotation isn't just listening — it's understanding how labeled audio compounds into model quality across thousands of examples.",
     gradient: "from-purple-600 via-pink-600 to-rose-600",
     bgGradient: "from-purple-950/50 via-background to-background",
+    image: "/images/music/keyboard-performance.jpg",
+    imageAlt: "Performing on Nord Stage 4 88 in a chapel setting",
+    genres: ["Hip-Hop / Rap", "R&B", "Pop", "OPM", "Rock", "Jazz", "Worship / Choral", "Electronic", "Folk"],
+    aiLiteracy: [
+      "Training-data thinking — aware of how labeled audio feeds supervised/contrastive learning and why label noise hurts model quality.",
+      "Schema & guideline reasoning — spot ambiguous categories, overlapping labels, and edge cases that hurt models downstream.",
+      "Edge-case flagging — tag uncertain or out-of-distribution examples explicitly rather than forcing them into the wrong bucket.",
+      "Production AI background — Claude Code, Cursor, GitHub Copilot, Anthropic & OpenAI APIs in daily use.",
+    ],
+  },
+  "Choir Direction": {
+    headline: "Fifteen Years of SATB Ear Training",
+    description:
+      "Directed a Catholic liturgical SATB choir for weekly services — arranging and adapting hymns, training voice leading, and developing the multi-part listening that powers every harmonic decision I make. Long-form repertoire across sacred, choral, and folk music. Recently composed an original Communion hymn in 8.8.8.8 Long Meter compatible with traditional tune families.",
+    showcase: [
+      { type: "stat", label: "Years Directing", value: "15+" },
+      { type: "stat", label: "Weekly Services", value: "780+" },
+      { type: "stat", label: "Original Hymns", value: "1" },
+    ],
+    tools: ["SATB Direction", "Hymn Arrangement", "Voice Leading", "Harmonic Analysis", "Liturgical Composition"],
+    quote: "Choral direction is the practiced ensemble leadership behind every architecture decision.",
+    gradient: "from-blue-600 via-cyan-600 to-teal-600",
+    bgGradient: "from-blue-950/50 via-background to-background",
   },
   "Visual Art": {
     headline: "Designing What Words Can't Express",
@@ -271,7 +295,14 @@ export default function PandoraPage() {
       {/* Talent Sections */}
       {hiddenTalents.map((talent, index) => {
         const Icon = iconMap[talent.icon as keyof typeof iconMap] || Sparkles;
-        const details = talentDetails[talent.category as keyof typeof talentDetails];
+        const details = talentDetails[talent.category as keyof typeof talentDetails] as
+          | (typeof talentDetails[keyof typeof talentDetails] & {
+              image?: string;
+              imageAlt?: string;
+              genres?: string[];
+              aiLiteracy?: string[];
+            })
+          | undefined;
 
         return (
           <section
@@ -330,6 +361,46 @@ export default function PandoraPage() {
                     ))}
                   </div>
 
+                  {/* Genres (Music only) */}
+                  {details?.genres && (
+                    <div className="mb-8">
+                      <h4 className="text-sm text-muted-foreground uppercase tracking-wider mb-3">
+                        Genre Fluency
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {details.genres.map((g) => (
+                          <span
+                            key={g}
+                            className="px-3 py-1 rounded-full bg-purple-500/10 text-purple-200 text-xs font-medium border border-purple-500/30"
+                          >
+                            {g}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* AI Literacy (Music only) */}
+                  {details?.aiLiteracy && (
+                    <div className="mb-8 p-6 rounded-2xl border border-primary/20 bg-primary/5">
+                      <h4 className="text-sm text-primary uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <Sparkles className="w-4 h-4" />
+                        AI Literacy & Annotation Quality
+                      </h4>
+                      <ul className="space-y-3">
+                        {details.aiLiteracy.map((point) => (
+                          <li
+                            key={point}
+                            className="text-sm text-muted-foreground leading-relaxed flex gap-3"
+                          >
+                            <span className="text-primary mt-1">▸</span>
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
                   {/* Tools */}
                   <div className="mb-8">
                     <h4 className="text-sm text-muted-foreground uppercase tracking-wider mb-3">
@@ -355,6 +426,25 @@ export default function PandoraPage() {
 
                 {/* Stats Side */}
                 <div className={index % 2 === 0 ? "lg:order-2" : "lg:order-1"}>
+                  {/* Performance image (Music only) */}
+                  {details?.image && (
+                    <div className="relative mb-8 overflow-hidden rounded-3xl border border-border bg-card/50">
+                      <Image
+                        src={details.image}
+                        alt={details.imageAlt || talent.category}
+                        width={1200}
+                        height={800}
+                        className="w-full h-auto object-cover"
+                        priority={false}
+                      />
+                      <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                        <p className="text-sm text-white/90">
+                          Nord Stage 4 88 — live keys session
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="relative p-8 md:p-12 border border-border bg-card/50 backdrop-blur-sm rounded-3xl">
                     {/* Decorative gradient */}
                     <div
