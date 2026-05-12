@@ -111,23 +111,6 @@ export const coreSkills = [
     ],
     highlight: true,
   },
-  {
-    category: "Music Production & Audio Engineering",
-    icon: "Music",
-    description:
-      "Working musician on Nord Stage 4 88 — keyboardist in an indie band with originals in label conversations, arranger for a locally-released album, and Logic Pro X recording/mixing engineer. 15+ years directing SATB choirs. AI-literate music annotator with stem-level analysis fluency.",
-    skills: [
-      "Nord Stage 4 88",
-      "Logic Pro X",
-      "Music Arrangement",
-      "Recording & Mixing",
-      "Stem-Level Analysis",
-      "Multi-Genre Fluency",
-      "Choir Direction (SATB)",
-      "Music Annotation",
-    ],
-    highlight: true,
-  },
 ];
 
 // Hidden talents — kept honest. These are real practices, not bullet padding.
