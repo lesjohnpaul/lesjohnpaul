@@ -40,10 +40,10 @@ const talentDetails = {
   "Music Production": {
     headline: "Working Musician, Arranger & Audio Engineer",
     description:
-      "Active keyboardist on a Nord Stage 4 88 in an indie band — three originals in pre-release with major-label discussions underway. Arranged a full locally-released indie album plus singles for independent artists. Tracking, comping, mixing, and stem export in Logic Pro X on MacBook Pro. A trained ear across hip-hop, R&B, OPM, pop, jazz, rock, worship/choral, electronic, and folk — comfortable working at the stem level (drums, bass, vocals, synths, FX) and identifying production techniques like reverb, delay, sidechain, automation, and vocal processing.",
+      "Active keyboardist on a Nord Stage 4 88 in an indie band — three originals in pre-release with major-label discussions underway. Arranged two locally-released indie albums plus singles for independent artists. Tracking, comping, mixing, and stem export in Logic Pro X on MacBook Pro. A trained ear across R&B, OPM, pop, jazz, rock, worship/choral, electronic, indie, and folk — comfortable working at the stem level (drums, bass, vocals, synths, FX) and identifying production techniques like reverb, delay, sidechain, automation, and vocal processing.",
     showcase: [
-      { type: "stat", label: "Years Choir Direction", value: "15+" },
-      { type: "stat", label: "Album Arranged", value: "1" },
+      { type: "stat", label: "Producing · Arranging · Performing Live", value: "Active" },
+      { type: "stat", label: "Albums Arranged", value: "2" },
       { type: "stat", label: "Genres Fluent", value: "9" },
     ],
     tools: ["Nord Stage 4 88", "Logic Pro X", "MacBook Pro", "Stem Separation", "Vocal Processing"],
@@ -52,7 +52,7 @@ const talentDetails = {
     bgGradient: "from-purple-950/50 via-background to-background",
     image: "/images/music/keyboard-performance.jpg",
     imageAlt: "Performing on Nord Stage 4 88 in a chapel setting",
-    genres: ["Hip-Hop / Rap", "R&B", "Pop", "OPM", "Rock", "Jazz", "Worship / Choral", "Electronic", "Folk"],
+    genres: ["R&B", "Pop", "OPM", "Rock", "Jazz", "Worship / Choral", "Electronic", "Indie / Marina Pop", "Folk"],
     aiLiteracy: [
       "Training-data thinking — aware of how labeled audio feeds supervised/contrastive learning and why label noise hurts model quality.",
       "Schema & guideline reasoning — spot ambiguous categories, overlapping labels, and edge cases that hurt models downstream.",
