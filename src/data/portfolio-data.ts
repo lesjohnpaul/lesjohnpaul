@@ -136,7 +136,7 @@ export const hiddenTalents = [
     category: "Music Production",
     icon: "Music",
     description:
-      "Working keys player on Nord Stage 4 88 in an indie band with three originals in pre-release and major-label discussions in progress. Music arranger for a locally-released indie album. Recording/mixing engineer in Logic Pro X on MacBook Pro. AI-literate music annotator with stem-level analysis across hip-hop, R&B, OPM, jazz, rock, worship, and electronic music.",
+      "Working keys player on Nord Stage 4 88 in an indie band with three originals in pre-release and major-label discussions in progress. Producer and arranger across two locally-released indie albums plus singles, performing professionally on stages. Recording/mixing engineer in Logic Pro X on MacBook Pro. AI-literate music annotator with stem-level analysis across R&B, OPM, jazz, rock, worship, indie, and electronic music.",
     skills: [
       "Nord Stage 4 88",
       "Logic Pro X",
