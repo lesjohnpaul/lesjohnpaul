@@ -303,7 +303,7 @@ export function HeroSection() {
                 className="absolute -top-4 -right-4 md:top-4 md:-right-6 flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-mono text-sm cursor-default shadow-lg z-30"
               >
                 <Zap className="w-4 h-4" />
-                Top 1% Engineer
+                Architect • DBA • Builder
               </div>
             </MagneticElement>
 
