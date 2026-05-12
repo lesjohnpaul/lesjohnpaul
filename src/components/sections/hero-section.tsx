@@ -11,7 +11,6 @@ import {
   Database,
   Brain,
   Code2,
-  Music,
   Zap,
   Github,
   Linkedin,
@@ -28,7 +27,6 @@ const roles = [
   "Database Expert",
   "AI Developer",
   "System Designer",
-  "Working Musician",
 ];
 
 const techStack = [
@@ -36,7 +34,6 @@ const techStack = [
   { icon: Database, label: "PostgreSQL / MongoDB" },
   { icon: Code2, label: "TypeScript / Python" },
   { icon: Brain, label: "AI / ML Solutions" },
-  { icon: Music, label: "Nord Stage 4 / Logic Pro X" },
 ];
 
 export function HeroSection() {
@@ -192,11 +189,6 @@ export function HeroSection() {
             <p data-hero-fade className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed">
               I build infrastructure that doesn&apos;t break, databases that don&apos;t slow down,
               and AI solutions that actually work. <span className="text-foreground font-medium">No fluff. Just results.</span>
-              <span className="block mt-3 text-base text-muted-foreground/80">
-                Off the keyboard, I&apos;m on the other kind —{" "}
-                <span className="text-primary font-medium">working keys player on a Nord Stage 4 88</span>,
-                arranger, and 15-year choir director.
-              </span>
             </p>
 
             {/* CTA Buttons with Magnetic Effect */}
