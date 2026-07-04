@@ -31,7 +31,7 @@ const roles = [
 
 const techStack = [
   { icon: Cloud, label: "AWS / GCP / Azure" },
-  { icon: Database, label: "PostgreSQL / MongoDB" },
+  { icon: Database, label: "MS SQL / PostgreSQL" },
   { icon: Code2, label: "TypeScript / Python" },
   { icon: Brain, label: "AI / ML Solutions" },
 ];
