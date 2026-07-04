@@ -208,10 +208,10 @@ export function SkillsSection() {
           >
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {[
-                { label: "Technologies Mastered", value: "40+" },
-                { label: "Certifications", value: "8" },
-                { label: "Open Source Contributions", value: "100+" },
-                { label: "Articles Written", value: "25+" },
+                { label: "Cloud Migration Led", value: "₱14.95M" },
+                { label: "Attendees, 5 Live Venues", value: "13K" },
+                { label: "Hours Saved per Tax Cycle", value: "160" },
+                { label: "Consumers on Bulk Invoicing", value: "183K+" },
               ].map((stat) => (
                 <MagneticElement key={stat.label} strength={0.2}>
                   <div className="text-center cursor-default group">

@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import Link from "next/link";
-import { Folder, ExternalLink, Github, ArrowRight } from "lucide-react";
+import { Folder, ExternalLink, Github, ArrowRight, Lock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MagneticElement } from "@/components/ui/magnetic-element";
@@ -10,6 +10,10 @@ import { ProjectImageCarousel } from "@/components/ui/project-image-carousel";
 import { projects } from "@/data/portfolio-data";
 
 const isExternal = (href: string) => /^https?:\/\//i.test(href);
+const hasLink = (p: { link: string; private?: boolean }) =>
+  !p.private && p.link !== "#";
+const cardImages = (p: { image: string; images?: string[] }) =>
+  p.images && p.images.length > 0 ? p.images : p.image ? [p.image] : [];
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -107,8 +111,12 @@ export function ProjectsSection() {
                 className="rounded-full gap-2 hover:border-primary/50 hover:bg-primary/5"
                 asChild
               >
-                <Link href="/projects">
-                  View All Projects
+                <Link
+                  href="https://github.com/lesjohnpaul"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  More on GitHub
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </Button>
@@ -128,9 +136,9 @@ export function ProjectsSection() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
                 {/* Image Side */}
                 <div className="relative h-64 lg:h-auto min-h-[20rem] overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
-                  {project.images && project.images.length > 0 ? (
+                  {cardImages(project).length > 0 ? (
                     <ProjectImageCarousel
-                      images={project.images}
+                      images={cardImages(project)}
                       alt={project.title}
                       intervalMs={3500}
                       priority
@@ -168,24 +176,36 @@ export function ProjectsSection() {
                     ))}
                   </div>
                   <div className="flex items-center gap-4">
-                    <MagneticElement strength={0.3}>
-                      <Button
-                        className="rounded-full gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
-                        asChild
-                      >
-                        <Link
-                          href={project.link}
-                          target={isExternal(project.link) ? "_blank" : undefined}
-                          rel={isExternal(project.link) ? "noopener noreferrer" : undefined}
+                    {hasLink(project) ? (
+                      <MagneticElement strength={0.3}>
+                        <Button
+                          className="rounded-full gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
+                          asChild
                         >
-                          View Project
-                          <ExternalLink className="w-4 h-4" />
-                        </Link>
-                      </Button>
-                    </MagneticElement>
+                          <Link
+                            href={project.link}
+                            target={isExternal(project.link) ? "_blank" : undefined}
+                            rel={isExternal(project.link) ? "noopener noreferrer" : undefined}
+                          >
+                            View Project
+                            <ExternalLink className="w-4 h-4" />
+                          </Link>
+                        </Button>
+                      </MagneticElement>
+                    ) : (
+                      <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+                        <Lock className="w-4 h-4" />
+                        Private build — demo available on request
+                      </span>
+                    )}
                     <MagneticElement strength={0.4}>
                       <Button variant="outline" size="icon" className="rounded-full" asChild>
-                        <Link href="#">
+                        <Link
+                          href="https://github.com/lesjohnpaul"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label="GitHub profile"
+                        >
                           <Github className="w-5 h-5" />
                         </Link>
                       </Button>
@@ -197,8 +217,11 @@ export function ProjectsSection() {
             </MagneticElement>
           ))}
 
-          {/* Other Featured Projects */}
-          {projects.filter((p) => p.featured).slice(1).map((project) => (
+          {/* Remaining projects — featured first, then the rest */}
+          {[
+            ...projects.filter((p) => p.featured).slice(1),
+            ...projects.filter((p) => !p.featured),
+          ].map((project) => (
             <MagneticElement key={project.title} strength={0.15}>
               <div
                 data-project-card
@@ -206,9 +229,9 @@ export function ProjectsSection() {
               >
               {/* Image */}
               <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
-                {project.images && project.images.length > 0 ? (
+                {cardImages(project).length > 0 ? (
                   <ProjectImageCarousel
-                    images={project.images}
+                    images={cardImages(project)}
                     alt={project.title}
                     intervalMs={4000}
                     showIndicators={false}
@@ -224,22 +247,30 @@ export function ProjectsSection() {
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-card/70 via-transparent to-transparent" />
 
                 {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-primary/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Button
-                    variant="secondary"
-                    className="rounded-full gap-2"
-                    asChild
-                  >
-                    <Link
-                      href={project.link}
-                      target={isExternal(project.link) ? "_blank" : undefined}
-                      rel={isExternal(project.link) ? "noopener noreferrer" : undefined}
+                {hasLink(project) && (
+                  <div className="absolute inset-0 bg-primary/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <Button
+                      variant="secondary"
+                      className="rounded-full gap-2"
+                      asChild
                     >
-                      View Details
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  </Button>
-                </div>
+                      <Link
+                        href={project.link}
+                        target={isExternal(project.link) ? "_blank" : undefined}
+                        rel={isExternal(project.link) ? "noopener noreferrer" : undefined}
+                      >
+                        View Details
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    </Button>
+                  </div>
+                )}
+                {project.private && (
+                  <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-background/70 backdrop-blur-sm border border-border px-2.5 py-1 text-xs text-muted-foreground">
+                    <Lock className="w-3 h-3" />
+                    Private
+                  </span>
+                )}
               </div>
 
               {/* Content */}

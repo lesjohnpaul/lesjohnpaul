@@ -195,6 +195,15 @@ export default function PandoraPage() {
       <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
         {/* Animated Background */}
         <div className="absolute inset-0">
+          <Image
+            src="/images/music/pandora-box.jpg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-30"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background" />
           <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-transparent" />
           <div className="absolute inset-0 grid-lines opacity-20" />
 

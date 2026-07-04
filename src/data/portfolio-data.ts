@@ -14,7 +14,6 @@ export const personalInfo = {
   social: {
     github: "https://github.com/lesjohnpaul",
     linkedin: "https://www.linkedin.com/in/lesjohnpaul/",
-    twitter: "https://twitter.com/yourusername", // update or remove
   },
 };
 
@@ -209,6 +208,9 @@ export const experience = [
       "Reduced a 4-week tax compliance reporting cycle to a 2-click operation (~160 hours saved per cycle)",
       "Architected bulk PDF email invoicing for 183K+ consumers with sectorial filtering and AWS SES",
       "Authored PFAS — a partner file ETL platform replacing manual SFTP/email ingestion workflows",
+      "Automated WESM settlement invoicing — a full-workday, ~50-invoice manual batch now runs in under 30 seconds with zero transcription errors",
+      "Modernized the meter reading system from procedural PHP/jQuery to Fastify + React 18 with zero-migration coexistence against the live MySQL database",
+      "Delivered a real-time QR-ballot election platform for the employee cooperative with live tallies and admin-approved ballot access",
     ],
   },
   {
@@ -239,32 +241,25 @@ export const experience = [
 ];
 
 // Projects — real ones, with the kind of detail a hiring manager actually wants.
-// The "Cloud Migration Platform / Real-time Analytics / AI Workflow Engine"
-// generic placeholders are gone.
-export const projects = [
+// `private: true` = closed-source client/employer system shown for demo purposes
+// only; no repository or live link is exposed.
+export type Project = {
+  title: string;
+  description: string;
+  tech: string[];
+  link: string;
+  image: string;
+  images?: string[];
+  featured: boolean;
+  private?: boolean;
+};
+
+export const projects: Project[] = [
   {
-    title: "Azure Hybrid Cloud Migration",
+    title: "AGAM Distributed Registration",
     description:
-      "Sole architect of a ₱14.95M multi-milestone migration of core operational workloads to Microsoft Azure for a 200K-member utility cooperative. Hybrid topology preserving on-prem HCI for compliance-bound workloads while moving identity, collaboration, and disaster recovery to Azure.",
-    tech: ["Azure", "Hybrid Cloud", "Identity & DR", "ArcherOS HCI", "Vendor Mgmt"],
-    link: "#",
-    image: "/images/projects/azure-migration.jpg",
-    featured: true,
-  },
-  {
-    title: "ACIRS — AI Omnichannel CRM",
-    description:
-      "AI-powered customer interaction and resolution platform integrating phone, social media, Viber, and Telegram. Auto-classifies inbound concerns and routes to the correct department. Drafted full PRD and 36-month service agreement covering performance security, liquidated damages, and milestone payments.",
-    tech: ["AI Routing", "CRM", "Multi-channel", "WhatsApp Business", "Service Design"],
-    link: "#",
-    image: "/images/projects/acirs.jpg",
-    featured: true,
-  },
-  {
-    title: "AGAM 2026 Distributed Registration",
-    description:
-      "Distributed QR-based digital registration platform for an Annual General Assembly Meeting handling 13,000 attendees across 5 simultaneous venues. Solved chronic abuse in token and meal distribution with cryptographically verifiable check-ins, real-time membership validation, automated counting, and a verifiable audit trail accepted as official NEA documentary requirement.",
-    tech: ["Distributed Systems", "QR Auth", "Real-time Validation", "Anti-fraud", "Claude Code"],
+      "Distributed QR-based digital registration platform for an Annual General Assembly Meeting handling 13,000 attendees across 5 simultaneous venues. Hybrid architecture pairing Supabase Realtime with the cooperative's MS SQL system of record — 115+ source files, 25+ API endpoints. Solved chronic abuse in token and meal distribution with cryptographically verifiable check-ins, real-time membership validation, and an audit trail accepted as official NEA documentary requirement.",
+    tech: ["Next.js 16", "React 19", "Supabase Realtime", "MS SQL Server", "Distributed Systems"],
     link: "https://agam.panelco3.online/agam-registration",
     image: "/images/projects/agam/01-command-center.jpg",
     images: [
@@ -276,6 +271,26 @@ export const projects = [
     featured: true,
   },
   {
+    title: "Azure Hybrid Cloud Migration",
+    description:
+      "Sole architect of a ₱14.95M multi-milestone migration of core operational workloads to Microsoft Azure for a 200K-member utility cooperative. Hybrid topology preserving on-prem HCI for compliance-bound workloads while moving identity, collaboration, and disaster recovery to Azure.",
+    tech: ["Azure", "Hybrid Cloud", "Identity & DR", "ArcherOS HCI", "Vendor Mgmt"],
+    link: "#",
+    image: "/images/projects/azure-migration.jpg",
+    featured: true,
+    private: true,
+  },
+  {
+    title: "ACIRS — AI Omnichannel CRM",
+    description:
+      "AI-powered customer interaction and resolution platform integrating phone, social media, Viber, and Telegram. Auto-classifies inbound concerns and routes to the correct department. Drafted full PRD and 36-month service agreement covering performance security, liquidated damages, and milestone payments.",
+    tech: ["AI Routing", "CRM", "Multi-channel", "WhatsApp Business", "Service Design"],
+    link: "#",
+    image: "/images/projects/acirs.jpg",
+    featured: true,
+    private: true,
+  },
+  {
     title: "Internal NDR-Class Network Detection",
     description:
       "Architected an internal network behavioral monitoring system focused on east-west traffic, lateral movement, and anomaly detection — territory typically owned by Darktrace, Vectra, or ExtraHop at enterprise license costs. Built in-house using open tooling.",
@@ -283,6 +298,7 @@ export const projects = [
     link: "#",
     image: "/images/projects/ndr.jpg",
     featured: true,
+    private: true,
   },
   {
     title: "Bulk Email Invoicing System",
@@ -292,6 +308,7 @@ export const projects = [
     link: "#",
     image: "/images/projects/bulk-email.jpg",
     featured: true,
+    private: true,
   },
   {
     title: "Tax Compliance PDF Automation",
@@ -301,6 +318,7 @@ export const projects = [
     link: "#",
     image: "/images/projects/tax-automation.jpg",
     featured: false,
+    private: true,
   },
   {
     title: "PFAS — Partner File Automation System",
@@ -310,6 +328,7 @@ export const projects = [
     link: "#",
     image: "/images/projects/pfas.jpg",
     featured: false,
+    private: true,
   },
   {
     title: "HCI Server Infrastructure",
@@ -319,6 +338,7 @@ export const projects = [
     link: "#",
     image: "/images/projects/hci.jpg",
     featured: false,
+    private: true,
   },
   {
     title: "Sneaker Symphony Marketplace",
@@ -353,46 +373,122 @@ export const projects = [
     link: "#",
     image: "/images/projects/api-middleware.jpg",
     featured: false,
+    private: true,
+  },
+  {
+    title: "IEMOP WESM Invoice Automation",
+    description:
+      "Automated PDF invoice generation for the Philippine wholesale electricity spot market. Replaced a manual workflow where a ~50-invoice settlement batch took a full workday: ingests IEMOP CSVs, resolves participant TIN/address from a registry, atomically allocates invoice numbers from a shared live ledger, and renders pixel-accurate PDFs — now under 30 seconds with zero transcription errors, a fail-closed write gate, and 59 passing tests.",
+    tech: ["React 19", "FastAPI", "MS SQL Server", "TypeScript", "PDF Pipeline"],
+    link: "#",
+    image: "/images/projects/iemop.jpg",
+    featured: true,
+    private: true,
+  },
+  {
+    title: "MRMS — Meter Reading Management",
+    description:
+      "Full-stack modernization of the cooperative's meter reading operations: rebuilt a production procedural-PHP/jQuery system into a Fastify + React 18 SPA with zero-migration backward compatibility against the live MySQL database — legacy and modern stacks run side by side. 11 route-level pages, 12 report modules, role-based routing, JWT access/refresh auth.",
+    tech: ["React 18", "Fastify", "Prisma", "MySQL", "Legacy Modernization"],
+    link: "#",
+    image: "/images/projects/mrms.jpg",
+    featured: true,
+    private: true,
+  },
+  {
+    title: "PEMCC Real-Time Election Platform",
+    description:
+      "Digitized the full election lifecycle for the employee cooperative — voter registration, admin-approved QR ballot access from members' own phones, live vote tallies on a presentation dashboard, and exportable reports. Deliberate single-port monolith (Express serves SPA + REST + WebSocket) so election-day LAN deployment is trivial. Hundreds of members voting simultaneously.",
+    tech: ["React 19", "Express 5", "Socket.IO", "MS SQL Server", "Real-time"],
+    link: "#",
+    image: "/images/projects/pemcc.jpg",
+    featured: false,
+    private: true,
+  },
+  {
+    title: "Event Registration & Raffle Platform",
+    description:
+      "All-in-one corporate event system: QR self-registration validated against an employee database, unique ticket codes with automated email confirmations and duplicate prevention, real-time check-in, and a multi-mode raffle engine with OBS broadcast overlays for live projection. Fully serverless on Supabase — no backend to operate on event day.",
+    tech: ["React 18", "Supabase", "PostgreSQL", "Vercel", "OBS Overlays"],
+    link: "https://panelco3-yearend.vercel.app/",
+    image: "/images/projects/event-registration.jpg",
+    featured: false,
+  },
+  {
+    title: "NetPulse — Network Monitoring",
+    description:
+      "Real-time IP and node monitoring for servers, routers, and network devices. Hybrid architecture: an on-prem Python agent performs ICMP monitoring with configurable intervals and timeout detection, pushing to a cloud Next.js dashboard with live WebSocket updates, charts, bulk CRUD, and CSV/JSON export. Supabase Auth with row-level security.",
+    tech: ["Next.js 15", "Python", "Supabase Realtime", "WebSockets", "RLS"],
+    link: "#",
+    image: "/images/projects/netpulse.jpg",
+    featured: false,
+    private: true,
+  },
+  {
+    title: "GM Executive Collections Dashboard",
+    description:
+      "Read-only daily collections dashboard for the General Manager — teller performance, monthly targets, and collection figures surfaced live from the production SQL Server. Runs 24/7 as a Windows service on-prem with a least-privilege read-only database login, so an executive reporting tool can never touch the financial system of record.",
+    tech: ["Node.js", "MS SQL Server", "Windows Service", "Least-Privilege Design"],
+    link: "#",
+    image: "/images/projects/gm-dashboard.jpg",
+    featured: false,
+    private: true,
+  },
+  {
+    title: "Refund Classification Automation",
+    description:
+      "Python automation for the consumer refund pipeline across two billing systems (EBS + MIMS): fetches and enriches account data, classifies refund natures through a decision engine, executes actions with undo support, sends email notifications, and exports reports behind an internal dashboard. Reversible operations by design, with a pytest suite.",
+    tech: ["Python", "MS SQL Server", "Decision Engine", "pytest"],
+    link: "#",
+    image: "/images/projects/refund-automation.jpg",
+    featured: false,
+    private: true,
+  },
+  {
+    title: "WeCare — Pharmacy Claims Platform",
+    description:
+      "Healthcare operations prototype for PhilHealth-accredited pharmacies and clinics covering the full dispense-to-reimbursement loop: real-time eligibility checks at the counter, FEFO batch dispensing with BIR receipts, and automatic assembly of clean claims to cut denials and beat the 60-day filing deadline. Ships as a partner briefing deck, owner dashboard, and POS terminal prototype.",
+    tech: ["TypeScript", "Supabase", "PLpgSQL", "Healthcare", "Product Design"],
+    link: "#",
+    image: "/images/projects/wecare.jpg",
+    featured: false,
+    private: true,
+  },
+  {
+    title: "SonicSense — AI Annotation Copilot",
+    description:
+      "Chrome side-panel extension that accelerates professional music-annotation workflows: Anthropic tool-use extracts 13 structured global fields plus per-section narratives from a raw description — instruments, vibe tags, and arrangement notes inferred automatically. Where the engineering day job meets the musician side.",
+    tech: ["TypeScript", "Chrome MV3", "Anthropic API", "Tool Use", "Vite"],
+    link: "#",
+    image: "/images/projects/sonicsense.jpg",
+    featured: false,
+    private: true,
+  },
+  {
+    title: "SOURCE — Interactive Book Prototype",
+    description:
+      "Answer a 24-question guided questionnaire — typed or by voice via the Web Speech API, with autosave/resume — and receive a personalized 4-chapter illustrated storybook with a print-to-PDF reader. Includes a separate dark-mode executive dashboard with KPI cards, funnels, and live reader data. Backend-free V1 with a custom 'Crayon Storybook' design system.",
+    tech: ["Next.js 15", "Tailwind v4", "Web Speech API", "shadcn/ui", "Recharts"],
+    link: "https://lesjohnpaul.github.io/Interactive_Book_Prototype/",
+    image: "/images/projects/interactive-book.jpg",
+    featured: false,
   },
 ];
 
-// Photo gallery — placeholders kept; you'll fill these as you collect them.
+// Photo gallery — only real photos that exist on disk. Add more real shots
+// (speaking, datacenter, band) to /public/images/gallery/ as you collect them.
 export const photoGallery = [
   {
-    src: "/images/gallery/speaking-1.jpg",
-    alt: "Cybersecurity orientation delivery",
-    category: "speaking",
-    caption: "Cybersecurity orientation for new employees",
-  },
-  {
-    src: "/images/gallery/office-1.jpg",
-    alt: "Production datacenter work",
-    category: "work",
-    caption: "Production infrastructure operations",
-  },
-  {
-    src: "/images/gallery/deployment-1.jpg",
-    alt: "Server deployment",
-    category: "deployment",
-    caption: "HCI cluster deployment",
-  },
-  {
-    src: "/images/gallery/music-1.jpg",
-    alt: "Studio session — Marina Pop project band",
+    src: "/images/music/keyboard-performance.jpg",
+    alt: "Performing on Nord Stage 4 88 in a chapel setting",
     category: "creative",
-    caption: "Studio session — original material",
+    caption: "Live performance — Nord Stage 4 88",
   },
   {
-    src: "/images/gallery/team-1.jpg",
-    alt: "CSD/SAD team collaboration",
+    src: "/images/lesjohnpaul.jpg",
+    alt: "Les John Paul Oliver",
     category: "work",
-    caption: "Team architecture review",
-  },
-  {
-    src: "/images/gallery/performance-1.jpg",
-    alt: "Live performance — Nord Stage 4 88",
-    category: "creative",
-    caption: "Live performance",
+    caption: "Portrait",
   },
 ];
 

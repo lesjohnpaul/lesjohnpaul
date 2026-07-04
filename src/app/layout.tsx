@@ -10,11 +10,11 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const siteUrl = "https://lesjohnpauloliver.com";
+const siteUrl = "https://lesjohnpauloliver.dev";
 const siteName = "Les John Paul Oliver";
-const siteTitle = "Les John Paul Oliver | Software Engineer & Cloud Architect";
+const siteTitle = "Les John Paul Oliver | Solutions Architect & Senior Software Engineer";
 const siteDescription =
-  "Senior Software Engineer and Cloud Architect based in the Philippines. Specializing in AWS, GCP, Azure cloud infrastructure, database optimization, and AI-driven solutions. 8+ years of experience building scalable systems.";
+  "Solutions Architect and Senior Software Engineer in Pangasinan, Philippines. Sole architect of enterprise systems for a 200K-member utility cooperative — Azure hybrid cloud, production MS SQL DBA, distributed real-time apps, and AI integrations. 10+ years in enterprise IT.";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -37,16 +37,13 @@ export const metadata: Metadata = {
     "Les John Paul Oliver",
     "Software Engineer",
     "Cloud Architect",
-    "AWS Expert",
-    "GCP Engineer",
-    "Azure Developer",
+    "Solutions Architect",
+    "Azure Hybrid Cloud",
     "Full Stack Developer",
     "Database Administrator",
-    "PostgreSQL Expert",
+    "MS SQL Server DBA",
     "AI Solutions Developer",
     "System Architecture",
-    "DevOps Engineer",
-    "Kubernetes",
     "Docker",
     "TypeScript Developer",
     "React Developer",
@@ -56,9 +53,8 @@ export const metadata: Metadata = {
     "Philippines Software Engineer",
     "Remote Software Engineer",
     "Cloud Migration Specialist",
-    "Infrastructure as Code",
-    "Terraform",
-    "CI/CD Pipeline",
+    "FastAPI Developer",
+    "Supabase",
   ],
   authors: [{ name: siteName, url: siteUrl }],
   creator: siteName,
@@ -107,9 +103,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "your-google-verification-code",
-  },
   category: "technology",
 };
 
@@ -119,42 +112,46 @@ const jsonLd = {
   name: "Les John Paul Oliver",
   url: siteUrl,
   image: `${siteUrl}/images/lesjohnpaul.jpg`,
-  jobTitle: "Senior Software Engineer & Cloud Architect",
+  jobTitle: "Solutions Architect & Senior Software Engineer",
   worksFor: {
     "@type": "Organization",
-    name: "Freelance / Available for Projects",
+    name: "PANELCO III (Pangasinan III Electric Cooperative)",
+  },
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "Pangasinan State University",
   },
   description: siteDescription,
   address: {
     "@type": "PostalAddress",
     addressCountry: "PH",
-    addressLocality: "Philippines",
+    addressLocality: "Pangasinan",
   },
   sameAs: [
     "https://github.com/lesjohnpaul",
-    "https://linkedin.com/in/lesjohnpauloliver",
+    "https://www.linkedin.com/in/lesjohnpaul/",
   ],
   knowsAbout: [
     "Software Engineering",
-    "Cloud Architecture",
-    "AWS",
-    "Google Cloud Platform",
+    "Solutions Architecture",
     "Microsoft Azure",
+    "AWS",
+    "Hybrid Cloud Migration",
     "Database Administration",
+    "MS SQL Server",
+    "MySQL",
     "PostgreSQL",
-    "MongoDB",
-    "Kubernetes",
+    "Supabase",
     "Docker",
     "TypeScript",
     "React",
     "Next.js",
     "Node.js",
     "Python",
-    "AI Solutions",
-    "Machine Learning",
-    "DevOps",
-    "CI/CD",
-    "Terraform",
+    "FastAPI",
+    "AI Integrations",
+    "Network Security",
+    "Process Automation",
   ],
 };
 
@@ -178,16 +175,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Preload Custom Fonts */}
-        <link
-          rel="preconnect"
-          href="https://api.fontshare.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&f[]=satoshi@300,400,500,600,700,900&display=swap"
-          rel="stylesheet"
-        />
+        {/* Preload critical self-hosted fonts */}
+        <link rel="preload" href="/fonts/clash-display-700.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/satoshi-400.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/satoshi-500.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"

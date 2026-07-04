@@ -7,7 +7,6 @@ import {
   MapPin,
   Github,
   Linkedin,
-  Twitter,
   ArrowRight,
   Sparkles,
   CheckCircle2,
@@ -205,7 +204,6 @@ export function ContactSection() {
   const socialLinks = [
     { icon: Github, href: personalInfo.social.github, label: "GitHub" },
     { icon: Linkedin, href: personalInfo.social.linkedin, label: "LinkedIn" },
-    { icon: Twitter, href: personalInfo.social.twitter, label: "Twitter" },
   ];
 
   const highlights = [

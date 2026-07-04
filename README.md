@@ -18,7 +18,7 @@
 <br/>
 
 <!-- SOCIAL BADGES -->
-<a href="https://lesjohnpaul.dev">
+<a href="https://lesjohnpauloliver.dev">
   <img src="https://img.shields.io/badge/Portfolio-FF5722?style=for-the-badge&logo=todoist&logoColor=white" alt="Portfolio"/>
 </a>
 &nbsp;
@@ -564,7 +564,7 @@ Designed and deployed the hyperconverged infrastructure cluster running producti
   <img src="https://img.shields.io/badge/-%20Email%20Me%20-D14836?style=for-the-badge&logo=gmail&logoColor=white"/>
 </a>
 &nbsp;
-<a href="https://lesjohnpaul.dev">
+<a href="https://lesjohnpauloliver.dev">
   <img src="https://img.shields.io/badge/-%20Visit%20Portfolio%20-000000?style=for-the-badge&logo=vercel&logoColor=white"/>
 </a>
 
