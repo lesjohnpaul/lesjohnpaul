@@ -118,14 +118,13 @@ export const hiddenTalents = [
     category: "Music Production",
     icon: "Music",
     description:
-      "Working keys player on Nord Stage 4 88 in an indie band with three originals in pre-release and major-label discussions in progress. Producer and arranger across two locally-released indie albums plus singles, performing professionally on stages. Recording/mixing engineer in Logic Pro X on MacBook Pro. AI-literate music annotator with stem-level analysis across R&B, OPM, jazz, rock, worship, indie, and electronic music.",
+      "Working keys player on Nord Stage 4 88 in an indie band with three originals in pre-release and major-label discussions in progress. Producer and arranger across two locally-released indie albums plus singles, performing professionally on stages. Recording/mixing engineer in Logic Pro X on MacBook Pro. Deep stem-level listening across R&B, OPM, jazz, rock, worship, indie, and electronic music.",
     skills: [
       "Nord Stage 4 88",
       "Logic Pro X",
       "Music Arrangement",
       "Recording & Mixing",
       "Stem-Level Analysis",
-      "Music Annotation (AI Training Data)",
       "Multi-Genre Fluency",
       "Original Composition",
     ],
@@ -455,9 +454,9 @@ export const projects: Project[] = [
     private: true,
   },
   {
-    title: "SonicSense — AI Annotation Copilot",
+    title: "SonicSense — AI Music Metadata Engine",
     description:
-      "Chrome side-panel extension that accelerates professional music-annotation workflows: Anthropic tool-use extracts 13 structured global fields plus per-section narratives from a raw description — instruments, vibe tags, and arrangement notes inferred automatically. Where the engineering day job meets the musician side.",
+      "Chrome side-panel extension that turns a raw track description into structured release metadata: Anthropic tool-use extracts 13 global fields plus per-section narratives — instruments, vibe tags, and arrangement notes inferred automatically. Built to catalog my own productions and prep metadata for releases and sync-licensing pitches. Where the engineering day job meets the musician side.",
     tech: ["TypeScript", "Chrome MV3", "Anthropic API", "Tool Use", "Vite"],
     link: "#",
     image: "/images/projects/sonicsense.jpg",

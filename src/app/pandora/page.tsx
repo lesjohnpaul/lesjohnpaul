@@ -47,18 +47,12 @@ const talentDetails = {
       { type: "stat", label: "Genres Fluent", value: "9" },
     ],
     tools: ["Nord Stage 4 88", "Logic Pro X", "MacBook Pro", "Stem Separation", "Vocal Processing"],
-    quote: "Music annotation isn't just listening — it's understanding how labeled audio compounds into model quality across thousands of examples.",
+    quote: "Great production is architecture you can hear — every stem has a job, and the mix is the system design.",
     gradient: "from-purple-600 via-pink-600 to-rose-600",
     bgGradient: "from-purple-950/50 via-background to-background",
     image: "/images/music/keyboard-performance.jpg",
     imageAlt: "Performing on Nord Stage 4 88 in a chapel setting",
     genres: ["R&B", "Pop", "OPM", "Rock", "Jazz", "Worship / Choral", "Electronic", "Indie / Marina Pop", "Folk"],
-    aiLiteracy: [
-      "Training-data thinking — aware of how labeled audio feeds supervised/contrastive learning and why label noise hurts model quality.",
-      "Schema & guideline reasoning — spot ambiguous categories, overlapping labels, and edge cases that hurt models downstream.",
-      "Edge-case flagging — tag uncertain or out-of-distribution examples explicitly rather than forcing them into the wrong bucket.",
-      "Production AI background — Claude Code, Cursor, GitHub Copilot, Anthropic & OpenAI APIs in daily use.",
-    ],
   },
   "Choir Direction": {
     headline: "Fifteen Years of SATB Ear Training",
@@ -386,27 +380,6 @@ export default function PandoraPage() {
                           </span>
                         ))}
                       </div>
-                    </div>
-                  )}
-
-                  {/* AI Literacy (Music only) */}
-                  {details?.aiLiteracy && (
-                    <div className="mb-8 p-6 rounded-2xl border border-primary/20 bg-primary/5">
-                      <h4 className="text-sm text-primary uppercase tracking-wider mb-4 flex items-center gap-2">
-                        <Sparkles className="w-4 h-4" />
-                        AI Literacy & Annotation Quality
-                      </h4>
-                      <ul className="space-y-3">
-                        {details.aiLiteracy.map((point) => (
-                          <li
-                            key={point}
-                            className="text-sm text-muted-foreground leading-relaxed flex gap-3"
-                          >
-                            <span className="text-primary mt-1">▸</span>
-                            <span>{point}</span>
-                          </li>
-                        ))}
-                      </ul>
                     </div>
                   )}
 
