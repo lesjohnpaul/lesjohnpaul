@@ -8,7 +8,6 @@ import {
   Github,
   Linkedin,
   ArrowRight,
-  Sparkles,
   CheckCircle2,
   Clock,
   MessageSquare,
@@ -243,7 +242,6 @@ export function ContactSection() {
                 variant="outline"
                 className="px-4 py-2 rounded-full border-primary/20 bg-primary/5 text-primary mb-6"
               >
-                <Sparkles className="w-4 h-4 mr-2" />
                 Let&apos;s Connect
               </Badge>
             </div>

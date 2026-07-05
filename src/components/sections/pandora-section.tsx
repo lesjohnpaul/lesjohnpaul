@@ -8,7 +8,7 @@ import {
   TrendingUp,
   Rocket,
   Workflow,
-  Sparkles,
+  Gem,
   ArrowRight,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -475,9 +475,9 @@ export function PandoraSection() {
       </div>
 
       {/* Ambient corner glows */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
-      <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "2s" }} />
+      <div className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+      
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
@@ -487,7 +487,6 @@ export function PandoraSection() {
               variant="outline"
               className="px-4 py-2 rounded-full border-purple-500/30 bg-purple-500/5 text-purple-400 mb-6"
             >
-              <Sparkles className="w-4 h-4 mr-2" />
               Hidden Depths
             </Badge>
           </div>
@@ -696,7 +695,7 @@ export function PandoraSection() {
 
                   {/* Core center icon */}
                   <div className="relative z-10 w-14 h-14 rounded-full bg-gradient-to-br from-primary/30 to-purple-500/30 backdrop-blur-sm flex items-center justify-center border border-primary/30">
-                    <Sparkles className={`w-7 h-7 text-primary transition-all duration-500 ${isHovered ? "scale-125 rotate-180" : ""}`} />
+                    <Gem className={`w-7 h-7 text-primary transition-all duration-500 ${isHovered ? "scale-110" : ""}`} />
                   </div>
 
                   {/* Ambient shine */}
@@ -711,7 +710,7 @@ export function PandoraSection() {
                 style={{ transformStyle: "preserve-3d" }}
               >
                 {hiddenTalents.slice(0, 5).map((talent, index) => {
-                  const Icon = iconMap[talent.icon as keyof typeof iconMap] || Sparkles;
+                  const Icon = iconMap[talent.icon as keyof typeof iconMap] || Gem;
                   return (
                     <div
                       key={talent.category}
@@ -749,7 +748,7 @@ export function PandoraSection() {
                   Pandora&apos;s Vault
                 </h3>
                 <p className="text-sm text-muted-foreground mb-2">
-                  {isHovered ? "✨ Secrets unlocked" : "Hover to reveal"}
+                  {isHovered ? "Secrets unlocked" : "Hover to reveal"}
                 </p>
                 <div className={`flex items-center justify-center gap-2 text-sm transition-all duration-300 ${isHovered ? "text-primary" : "text-muted-foreground"}`}>
                   <span>Explore my talents</span>

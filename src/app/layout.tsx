@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/layout/theme-provider";
-import { CustomCursor } from "@/components/ui/custom-cursor";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -14,7 +13,7 @@ const siteUrl = "https://lesjohnpauloliver.dev";
 const siteName = "Les John Paul Oliver";
 const siteTitle = "Les John Paul Oliver | Solutions Architect & Senior Software Engineer";
 const siteDescription =
-  "Solutions Architect and Senior Software Engineer in Pangasinan, Philippines. Sole architect of enterprise systems for a 200K-member utility cooperative — Azure hybrid cloud, production MS SQL DBA, distributed real-time apps, and AI integrations. 10+ years in enterprise IT.";
+  "Solutions Architect and Senior Software Engineer in Pangasinan, Philippines. Sole architect of enterprise systems for a 250K-member utility cooperative: Azure hybrid cloud, production MS SQL DBA, distributed real-time apps, and AI integrations. 10+ years in enterprise IT.";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -191,7 +190,6 @@ export default function RootLayout({
       </head>
       <body className={`${jetbrainsMono.variable} antialiased`}>
         <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">
-          <CustomCursor />
           {children}
         </ThemeProvider>
       </body>

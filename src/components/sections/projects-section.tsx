@@ -195,7 +195,7 @@ export function ProjectsSection() {
                     ) : (
                       <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
                         <Lock className="w-4 h-4" />
-                        Private build — demo available on request
+                        Private build, demo available on request
                       </span>
                     )}
                     <MagneticElement strength={0.4}>
@@ -217,7 +217,7 @@ export function ProjectsSection() {
             </MagneticElement>
           ))}
 
-          {/* Remaining projects — featured first, then the rest */}
+          {/* Remaining projects: featured first, then the rest */}
           {[
             ...projects.filter((p) => p.featured).slice(1),
             ...projects.filter((p) => !p.featured),

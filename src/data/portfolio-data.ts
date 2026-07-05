@@ -1,4 +1,4 @@
-// Portfolio Data — Senior IC voice, hybrid attribution
+// Portfolio Data: Senior IC voice, hybrid attribution
 // Last updated: 2026-04-30
 // Hero stats are calibrated to actual scope. No inflated numbers.
 
@@ -6,7 +6,7 @@ export const personalInfo = {
   name: "Les John Paul Oliver",
   title: "Solutions Architect & Senior Software Engineer",
   tagline:
-    "I architect enterprise systems for a 200K-member utility cooperative by day, and ship products solo by night.",
+    "I architect enterprise systems for a 250K-member utility cooperative by day, and ship products solo by night.",
   email: "lesjohnpauloliver@gmail.com",
   location: "Pangasinan, Philippines",
   availability: "Open to senior remote roles & AU sponsorship",
@@ -23,7 +23,7 @@ export const heroStats = [
   { label: "Years in Enterprise IT", value: "10+" },
   { label: "Systems Architected", value: "16+" },
   { label: "Production DB Managed", value: "1.17TB" },
-  { label: "End Users Served", value: "200K+" },
+  { label: "End Users Served", value: "250K+" },
 ];
 
 export const coreSkills = [
@@ -65,7 +65,7 @@ export const coreSkills = [
     category: "Distributed & Web Systems",
     icon: "Code",
     description:
-      "End-to-end design and implementation of distributed registration, real-time analytics, and integration platforms — solo or with very small teams.",
+      "End-to-end design and implementation of distributed registration, real-time analytics, and integration platforms, solo or with very small teams.",
     skills: [
       "Next.js 15",
       "React 19",
@@ -82,7 +82,7 @@ export const coreSkills = [
     category: "Network & Security Engineering",
     icon: "Layers",
     description:
-      "Built an internal NDR-class lateral-movement detection system in-house — territory typically owned by enterprise vendors at premium licensing.",
+      "Built an internal NDR-class lateral-movement detection system in-house, territory typically owned by enterprise vendors at premium licensing.",
     skills: [
       "NDR / Behavioral Detection",
       "Network Monitoring",
@@ -112,7 +112,7 @@ export const coreSkills = [
   },
 ];
 
-// Hidden talents — kept honest. These are real practices, not bullet padding.
+// Hidden talents: kept honest. These are real practices, not bullet padding.
 export const hiddenTalents = [
   {
     category: "Music Production",
@@ -134,7 +134,7 @@ export const hiddenTalents = [
     category: "Choir Direction",
     icon: "Music",
     description:
-      "15+ years directing and teaching a Catholic liturgical SATB choir — arranging and adapting hymns weekly, deep multi-part harmonic analysis, voice leading, and ensemble leadership. Recently composed an original Communion hymn in 8.8.8.8 Long Meter compatible with traditional tune families.",
+      "15+ years directing and teaching a Catholic liturgical SATB choir: arranging and adapting hymns weekly, deep multi-part harmonic analysis, voice leading, and ensemble leadership. Recently composed an original Communion hymn in 8.8.8.8 Long Meter compatible with traditional tune families.",
     skills: [
       "SATB Direction (15+ yrs)",
       "Hymn Arrangement",
@@ -149,7 +149,7 @@ export const hiddenTalents = [
     category: "Visual Art",
     icon: "Palette",
     description:
-      "Abstract painting as a hobby practice — composition, color theory, and the same intuition I bring to UI work.",
+      "Abstract painting as a hobby practice: composition, color theory, and the same intuition I bring to UI work.",
     skills: [
       "Abstract Painting",
       "Color Composition",
@@ -162,7 +162,7 @@ export const hiddenTalents = [
     category: "Solo Building",
     icon: "Rocket",
     description:
-      "Shipping personal products without a team — Sneaker Symphony marketplace, FocusCanvas desktop SaaS, and this portfolio. Full ownership end-to-end.",
+      "Shipping personal products without a team: Sneaker Symphony marketplace, FocusCanvas desktop SaaS, and this portfolio. Full ownership end-to-end.",
     skills: [
       "Solo Full-Stack",
       "Product Strategy",
@@ -188,26 +188,26 @@ export const hiddenTalents = [
   },
 ];
 
-// Experience — real timeline, hybrid attribution.
+// Experience: real timeline, hybrid attribution.
 // PANELCO III is named (it's public-facing employment).
 // Specific systems with security implications stay anonymized in description.
 export const experience = [
   {
     role: "System Administration Officer & Solutions Architect",
     company: "PANELCO III · Electric Cooperative",
-    period: "2016 — Present",
+    period: "2016 - Present",
     description:
-      "Sole-architect role spanning cloud infrastructure, AI systems, network security, distributed apps, and production DBA work for a 200,000+ member utility. Reports through CSD/SAD chain.",
+      "Sole-architect role spanning cloud infrastructure, AI systems, network security, distributed apps, and production DBA work for a 250,000+ member utility. Reports through CSD/SAD chain.",
     achievements: [
       "Sole architect of a ₱14.95M Azure hybrid cloud migration covering identity, collaboration, and DR",
       "Designed an AI-powered omnichannel CRM with auto-escalation across phone, social, Viber, and Telegram",
       "Built a distributed QR-based registration platform handling 13K attendees across 5 simultaneous venues",
-      "Authored an internal NDR-class lateral-movement detection system — east-west monitoring, in-house build",
+      "Authored an internal NDR-class lateral-movement detection system: east-west monitoring, in-house build",
       "Manage a 1.17TB production MS SQL Server billing instance plus MySQL/MIMS/CAS databases as DBA",
       "Reduced a 4-week tax compliance reporting cycle to a 2-click operation (~160 hours saved per cycle)",
       "Architected bulk PDF email invoicing for 183K+ consumers with sectorial filtering and AWS SES",
-      "Authored PFAS — a partner file ETL platform replacing manual SFTP/email ingestion workflows",
-      "Automated WESM settlement invoicing — a full-workday, ~50-invoice manual batch now runs in under 30 seconds with zero transcription errors",
+      "Authored PFAS, a partner file ETL platform replacing manual SFTP/email ingestion workflows",
+      "Automated WESM settlement invoicing: a full-workday, ~50-invoice manual batch now runs in under 30 seconds with zero transcription errors",
       "Modernized the meter reading system from procedural PHP/jQuery to Fastify + React 18 with zero-migration coexistence against the live MySQL database",
       "Delivered a real-time QR-ballot election platform for the employee cooperative with live tallies and admin-approved ballot access",
     ],
@@ -215,7 +215,7 @@ export const experience = [
   {
     role: "Founder & Solo Full-Stack Developer",
     company: "Sneaker Symphony · sneakersymphony.com",
-    period: "2024 — Present",
+    period: "2024 - Present",
     description:
       "Building a Philippine sneaker marketplace as a solo technical founder. Mobile-first checkout, dual-gateway payments (PayMongo + HitPay), and an AI-driven content automation pipeline across FB, IG, and TikTok.",
     achievements: [
@@ -228,7 +228,7 @@ export const experience = [
   {
     role: "Builder · FocusCanvas Desktop SaaS",
     company: "Personal Venture",
-    period: "2025 — Present",
+    period: "2025 - Present",
     description:
       "Cross-platform desktop productivity tool that auto-changes wallpapers based on scheduled 'Day Types'. Built with Tauri 2.0 + Rust + React for native performance.",
     achievements: [
@@ -239,7 +239,7 @@ export const experience = [
   },
 ];
 
-// Projects — real ones, with the kind of detail a hiring manager actually wants.
+// Projects: real ones, with the kind of detail a hiring manager actually wants.
 // `private: true` = closed-source client/employer system shown for demo purposes
 // only; no repository or live link is exposed.
 export type Project = {
@@ -257,7 +257,7 @@ export const projects: Project[] = [
   {
     title: "AGAM Distributed Registration",
     description:
-      "Distributed QR-based digital registration platform for an Annual General Assembly Meeting handling 13,000 attendees across 5 simultaneous venues. Hybrid architecture pairing Supabase Realtime with the cooperative's MS SQL system of record — 115+ source files, 25+ API endpoints. Solved chronic abuse in token and meal distribution with cryptographically verifiable check-ins, real-time membership validation, and an audit trail accepted as official NEA documentary requirement.",
+      "Distributed QR-based digital registration platform for an Annual General Assembly Meeting handling 13,000 attendees across 5 simultaneous venues. Hybrid architecture pairing Supabase Realtime with the cooperative's MS SQL system of record: 115+ source files, 25+ API endpoints. Solved chronic abuse in token and meal distribution with cryptographically verifiable check-ins, real-time membership validation, and an audit trail accepted as official NEA documentary requirement.",
     tech: ["Next.js 16", "React 19", "Supabase Realtime", "MS SQL Server", "Distributed Systems"],
     link: "https://agam.panelco3.online/agam-registration",
     image: "/images/projects/agam/01-command-center.jpg",
@@ -272,7 +272,7 @@ export const projects: Project[] = [
   {
     title: "Azure Hybrid Cloud Migration",
     description:
-      "Sole architect of a ₱14.95M multi-milestone migration of core operational workloads to Microsoft Azure for a 200K-member utility cooperative. Hybrid topology preserving on-prem HCI for compliance-bound workloads while moving identity, collaboration, and disaster recovery to Azure.",
+      "Sole architect of a ₱14.95M multi-milestone migration of core operational workloads to Microsoft Azure for a 250K-member utility cooperative. Hybrid topology preserving on-prem HCI for compliance-bound workloads while moving identity, collaboration, and disaster recovery to Azure.",
     tech: ["Azure", "Hybrid Cloud", "Identity & DR", "ArcherOS HCI", "Vendor Mgmt"],
     link: "#",
     image: "/images/projects/azure-migration.jpg",
@@ -280,7 +280,7 @@ export const projects: Project[] = [
     private: true,
   },
   {
-    title: "ACIRS — AI Omnichannel CRM",
+    title: "ACIRS: AI Omnichannel CRM",
     description:
       "AI-powered customer interaction and resolution platform integrating phone, social media, Viber, and Telegram. Auto-classifies inbound concerns and routes to the correct department. Drafted full PRD and 36-month service agreement covering performance security, liquidated damages, and milestone payments.",
     tech: ["AI Routing", "CRM", "Multi-channel", "WhatsApp Business", "Service Design"],
@@ -292,7 +292,7 @@ export const projects: Project[] = [
   {
     title: "Internal NDR-Class Network Detection",
     description:
-      "Architected an internal network behavioral monitoring system focused on east-west traffic, lateral movement, and anomaly detection — territory typically owned by Darktrace, Vectra, or ExtraHop at enterprise license costs. Built in-house using open tooling.",
+      "Architected an internal network behavioral monitoring system focused on east-west traffic, lateral movement, and anomaly detection, territory typically owned by Darktrace, Vectra, or ExtraHop at enterprise license costs. Built in-house using open tooling.",
     tech: ["NDR", "Network Security", "Behavioral Detection", "Linux", "East-West Traffic"],
     link: "#",
     image: "/images/projects/ndr.jpg",
@@ -312,7 +312,7 @@ export const projects: Project[] = [
   {
     title: "Tax Compliance PDF Automation",
     description:
-      "Automated regulatory tax compliance reporting for a 200K-consumer utility. Reduced a recurring 4-week manual reporting cycle to a 2-click operation, eliminating ~160 hours of manual work per cycle and removing human error from regulated filings.",
+      "Automated regulatory tax compliance reporting for a 250K-consumer utility. Reduced a recurring 4-week manual reporting cycle to a 2-click operation, eliminating ~160 hours of manual work per cycle and removing human error from regulated filings.",
     tech: ["Process Automation", "PDF Generation", "Compliance", "MS SQL Server"],
     link: "#",
     image: "/images/projects/tax-automation.jpg",
@@ -320,7 +320,7 @@ export const projects: Project[] = [
     private: true,
   },
   {
-    title: "PFAS — Partner File Automation System",
+    title: "PFAS: Partner File Automation System",
     description:
       "Web-based ETL platform automating daily ingestion of partner files (FTP/SFTP and email attachments) into MS SQL Server. Replaces manual download-parse-import workflow with scheduled jobs, dashboard, audit logging, RBAC, and field mapping editor. FastAPI + SQLAlchemy + Docker.",
     tech: ["FastAPI", "ETL", "SQLAlchemy", "Docker", "MS SQL Server"],
@@ -332,7 +332,7 @@ export const projects: Project[] = [
   {
     title: "HCI Server Infrastructure",
     description:
-      "Designed and deployed the hyperconverged infrastructure cluster running production billing, MIMS, and operational VMs for a 200K-member utility. Authored incident response procedures including disk-failure recovery for the production billing + MRMS stack on RF=2 clusters.",
+      "Designed and deployed the hyperconverged infrastructure cluster running production billing, MIMS, and operational VMs for a 250K-member utility. Authored incident response procedures including disk-failure recovery for the production billing + MRMS stack on RF=2 clusters.",
     tech: ["HCI", "ArcherOS", "VM Orchestration", "Linux", "Incident Response"],
     link: "#",
     image: "/images/projects/hci.jpg",
@@ -356,7 +356,7 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    title: "FocusCanvas — Desktop SaaS",
+    title: "FocusCanvas: Desktop SaaS",
     description:
       "Cross-platform desktop productivity tool built with Tauri 2.0 + Rust + React. Auto-changes wallpapers based on scheduled 'Day Types' for focus and context switching. Native performance, no Electron bloat.",
     tech: ["Tauri 2.0", "Rust", "React", "TypeScript", "Desktop SaaS"],
@@ -377,7 +377,7 @@ export const projects: Project[] = [
   {
     title: "IEMOP WESM Invoice Automation",
     description:
-      "Automated PDF invoice generation for the Philippine wholesale electricity spot market. Replaced a manual workflow where a ~50-invoice settlement batch took a full workday: ingests IEMOP CSVs, resolves participant TIN/address from a registry, atomically allocates invoice numbers from a shared live ledger, and renders pixel-accurate PDFs — now under 30 seconds with zero transcription errors, a fail-closed write gate, and 59 passing tests.",
+      "Automated PDF invoice generation for the Philippine wholesale electricity spot market. Replaced a manual workflow where a ~50-invoice settlement batch took a full workday: ingests IEMOP CSVs, resolves participant TIN/address from a registry, atomically allocates invoice numbers from a shared live ledger, and renders pixel-accurate PDFs. Now under 30 seconds with zero transcription errors, a fail-closed write gate, and 59 passing tests.",
     tech: ["React 19", "FastAPI", "MS SQL Server", "TypeScript", "PDF Pipeline"],
     link: "#",
     image: "/images/projects/iemop.jpg",
@@ -385,9 +385,9 @@ export const projects: Project[] = [
     private: true,
   },
   {
-    title: "MRMS — Meter Reading Management",
+    title: "MRMS: Meter Reading Management",
     description:
-      "Full-stack modernization of the cooperative's meter reading operations: rebuilt a production procedural-PHP/jQuery system into a Fastify + React 18 SPA with zero-migration backward compatibility against the live MySQL database — legacy and modern stacks run side by side. 11 route-level pages, 12 report modules, role-based routing, JWT access/refresh auth.",
+      "Full-stack modernization of the cooperative's meter reading operations: rebuilt a production procedural-PHP/jQuery system into a Fastify + React 18 SPA with zero-migration backward compatibility against the live MySQL database. Legacy and modern stacks run side by side. 11 route-level pages, 12 report modules, role-based routing, JWT access/refresh auth.",
     tech: ["React 18", "Fastify", "Prisma", "MySQL", "Legacy Modernization"],
     link: "#",
     image: "/images/projects/mrms.jpg",
@@ -397,7 +397,7 @@ export const projects: Project[] = [
   {
     title: "PEMCC Real-Time Election Platform",
     description:
-      "Digitized the full election lifecycle for the employee cooperative — voter registration, admin-approved QR ballot access from members' own phones, live vote tallies on a presentation dashboard, and exportable reports. Deliberate single-port monolith (Express serves SPA + REST + WebSocket) so election-day LAN deployment is trivial. Hundreds of members voting simultaneously.",
+      "Digitized the full election lifecycle for the employee cooperative: voter registration, admin-approved QR ballot access from members' own phones, live vote tallies on a presentation dashboard, and exportable reports. Deliberate single-port monolith (Express serves SPA + REST + WebSocket) so election-day LAN deployment is trivial. Hundreds of members voting simultaneously.",
     tech: ["React 19", "Express 5", "Socket.IO", "MS SQL Server", "Real-time"],
     link: "#",
     image: "/images/projects/pemcc.jpg",
@@ -407,14 +407,14 @@ export const projects: Project[] = [
   {
     title: "Event Registration & Raffle Platform",
     description:
-      "All-in-one corporate event system: QR self-registration validated against an employee database, unique ticket codes with automated email confirmations and duplicate prevention, real-time check-in, and a multi-mode raffle engine with OBS broadcast overlays for live projection. Fully serverless on Supabase — no backend to operate on event day.",
+      "All-in-one corporate event system: QR self-registration validated against an employee database, unique ticket codes with automated email confirmations and duplicate prevention, real-time check-in, and a multi-mode raffle engine with OBS broadcast overlays for live projection. Fully serverless on Supabase: no backend to operate on event day.",
     tech: ["React 18", "Supabase", "PostgreSQL", "Vercel", "OBS Overlays"],
     link: "https://panelco3-yearend.vercel.app/",
     image: "/images/projects/event-registration.jpg",
     featured: false,
   },
   {
-    title: "NetPulse — Network Monitoring",
+    title: "NetPulse: Network Monitoring",
     description:
       "Real-time IP and node monitoring for servers, routers, and network devices. Hybrid architecture: an on-prem Python agent performs ICMP monitoring with configurable intervals and timeout detection, pushing to a cloud Next.js dashboard with live WebSocket updates, charts, bulk CRUD, and CSV/JSON export. Supabase Auth with row-level security.",
     tech: ["Next.js 15", "Python", "Supabase Realtime", "WebSockets", "RLS"],
@@ -426,7 +426,7 @@ export const projects: Project[] = [
   {
     title: "GM Executive Collections Dashboard",
     description:
-      "Read-only daily collections dashboard for the General Manager — teller performance, monthly targets, and collection figures surfaced live from the production SQL Server. Runs 24/7 as a Windows service on-prem with a least-privilege read-only database login, so an executive reporting tool can never touch the financial system of record.",
+      "Read-only daily collections dashboard for the General Manager: teller performance, monthly targets, and collection figures surfaced live from the production SQL Server. Runs 24/7 as a Windows service on-prem with a least-privilege read-only database login, so an executive reporting tool can never touch the financial system of record.",
     tech: ["Node.js", "MS SQL Server", "Windows Service", "Least-Privilege Design"],
     link: "#",
     image: "/images/projects/gm-dashboard.jpg",
@@ -444,7 +444,7 @@ export const projects: Project[] = [
     private: true,
   },
   {
-    title: "WeCare — Pharmacy Claims Platform",
+    title: "WeCare: Pharmacy Claims Platform",
     description:
       "Healthcare operations prototype for PhilHealth-accredited pharmacies and clinics covering the full dispense-to-reimbursement loop: real-time eligibility checks at the counter, FEFO batch dispensing with BIR receipts, and automatic assembly of clean claims to cut denials and beat the 60-day filing deadline. Ships as a partner briefing deck, owner dashboard, and POS terminal prototype.",
     tech: ["TypeScript", "Supabase", "PLpgSQL", "Healthcare", "Product Design"],
@@ -454,9 +454,9 @@ export const projects: Project[] = [
     private: true,
   },
   {
-    title: "SonicSense — AI Music Metadata Engine",
+    title: "SonicSense: AI Music Metadata Engine",
     description:
-      "Chrome side-panel extension that turns a raw track description into structured release metadata: Anthropic tool-use extracts 13 global fields plus per-section narratives — instruments, vibe tags, and arrangement notes inferred automatically. Built to catalog my own productions and prep metadata for releases and sync-licensing pitches. Where the engineering day job meets the musician side.",
+      "Chrome side-panel extension that turns a raw track description into structured release metadata: Anthropic tool-use extracts 13 global fields plus per-section narratives: instruments, vibe tags, and arrangement notes inferred automatically. Built to catalog my own productions and prep metadata for releases and sync-licensing pitches. Where the engineering day job meets the musician side.",
     tech: ["TypeScript", "Chrome MV3", "Anthropic API", "Tool Use", "Vite"],
     link: "#",
     image: "/images/projects/sonicsense.jpg",
@@ -464,9 +464,9 @@ export const projects: Project[] = [
     private: true,
   },
   {
-    title: "SOURCE — Interactive Book Prototype",
+    title: "SOURCE: Interactive Book Prototype",
     description:
-      "Answer a 24-question guided questionnaire — typed or by voice via the Web Speech API, with autosave/resume — and receive a personalized 4-chapter illustrated storybook with a print-to-PDF reader. Includes a separate dark-mode executive dashboard with KPI cards, funnels, and live reader data. Backend-free V1 with a custom 'Crayon Storybook' design system.",
+      "Answer a 24-question guided questionnaire, typed or by voice via the Web Speech API with autosave/resume, and receive a personalized 4-chapter illustrated storybook with a print-to-PDF reader. Includes a separate dark-mode executive dashboard with KPI cards, funnels, and live reader data. Backend-free V1 with a custom 'Crayon Storybook' design system.",
     tech: ["Next.js 15", "Tailwind v4", "Web Speech API", "shadcn/ui", "Recharts"],
     link: "https://lesjohnpaul.github.io/Interactive_Book_Prototype/",
     image: "/images/projects/interactive-book.jpg",
@@ -474,14 +474,14 @@ export const projects: Project[] = [
   },
 ];
 
-// Photo gallery — only real photos that exist on disk. Add more real shots
+// Photo gallery: only real photos that exist on disk. Add more real shots
 // (speaking, datacenter, band) to /public/images/gallery/ as you collect them.
 export const photoGallery = [
   {
     src: "/images/music/keyboard-performance.jpg",
     alt: "Performing on Nord Stage 4 88 in a chapel setting",
     category: "creative",
-    caption: "Live performance — Nord Stage 4 88",
+    caption: "Live performance, Nord Stage 4 88",
   },
   {
     src: "/images/lesjohnpaul.jpg",
@@ -491,12 +491,12 @@ export const photoGallery = [
   },
 ];
 
-// Testimonials — kept structure, anonymized defaults until you have real ones.
+// Testimonials: kept structure, anonymized defaults until you have real ones.
 // Don't ship invented quotes. Replace these with actual references when ready.
 export const testimonials = [
   {
     quote:
-      "[Pending — replace with a real reference quote before shipping. Don't fabricate.]",
+      "[Pending: replace with a real reference quote before shipping. Don't fabricate.]",
     author: "[Reference Name]",
     role: "[Title, Organization]",
     avatar: "/images/testimonials/person1.jpg",

@@ -18,7 +18,7 @@ const NODE_MAP: (GridNodeDef & { projectTitle: string })[] = [
   {
     id: "core",
     label: "GRID CORE",
-    sub: "HCI · 1.17TB SQL · 200K MEMBERS",
+    sub: "HCI · 1.17TB SQL · 250K MEMBERS",
     position: [0, 0, 0],
     kind: "hub",
     projectTitle: "HCI Server Infrastructure",
@@ -45,7 +45,7 @@ const NODE_MAP: (GridNodeDef & { projectTitle: string })[] = [
     sub: "AI OMNICHANNEL CRM",
     position: [-6.2, 0, 1.8],
     kind: "substation",
-    projectTitle: "ACIRS — AI Omnichannel CRM",
+    projectTitle: "ACIRS: AI Omnichannel CRM",
   },
   {
     id: "ndr",
@@ -61,7 +61,7 @@ const NODE_MAP: (GridNodeDef & { projectTitle: string })[] = [
     sub: "LEGACY → MODERN, LIVE DB",
     position: [2.4, 0, 4.9],
     kind: "substation",
-    projectTitle: "MRMS — Meter Reading Management",
+    projectTitle: "MRMS: Meter Reading Management",
   },
   {
     id: "wesm",
@@ -93,7 +93,7 @@ const NODE_MAP: (GridNodeDef & { projectTitle: string })[] = [
     sub: "TAURI + RUST DESKTOP",
     position: [11.6, 0, 3.2],
     kind: "offgrid",
-    projectTitle: "FocusCanvas — Desktop SaaS",
+    projectTitle: "FocusCanvas: Desktop SaaS",
   },
 ];
 
@@ -165,7 +165,7 @@ export function LivingGridSection() {
         </h2>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-zinc-400 md:text-lg">
           I architect systems for an electric cooperative serving{" "}
-          <span className="text-zinc-200">200,000+ members</span> — so here is my
+          <span className="text-zinc-200">250,000+ members</span>, so here is my
           work, mapped as the grid it powers. Every substation is a real
           production system.{" "}
           <span className="text-[#d4af37]">Click one to inspect it.</span>

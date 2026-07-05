@@ -10,7 +10,7 @@ import {
   Music,
   Palette,
   Rocket,
-  Sparkles,
+  Gem,
   Workflow,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -47,7 +47,7 @@ const exhibitDetails: Record<
   "Music Production": {
     headline: "Working Musician, Arranger & Audio Engineer",
     description:
-      "Active keyboardist on a Nord Stage 4 88 in an indie band — three originals in pre-release with major-label discussions underway. Arranged two locally-released indie albums plus singles for independent artists. Tracking, comping, mixing, and stem export in Logic Pro X — comfortable at the stem level (drums, bass, vocals, synths, FX) and fluent in production techniques like sidechain, automation, and vocal processing.",
+      "Active keyboardist on a Nord Stage 4 88 in an indie band. Three originals are in pre-release with major-label discussions underway. Arranged two locally-released indie albums plus singles for independent artists. Tracking, comping, mixing, and stem export in Logic Pro X: comfortable at the stem level (drums, bass, vocals, synths, FX) and fluent in production techniques like sidechain, automation, and vocal processing.",
     showcase: [
       { value: "3", label: "Originals in pre-release" },
       { value: "2", label: "Albums arranged" },
@@ -56,13 +56,13 @@ const exhibitDetails: Record<
     tools: ["Nord Stage 4 88", "Logic Pro X", "Stem Separation", "Vocal Processing", "Live Performance"],
     image: "/images/music/keyboard-performance.jpg",
     imageAlt: "Performing on Nord Stage 4 88 in a chapel setting",
-    imageCaption: "Nord Stage 4 88 — live keys session",
+    imageCaption: "Nord Stage 4 88, live keys session",
     genres: ["R&B", "Pop", "OPM", "Rock", "Jazz", "Worship / Choral", "Electronic", "Indie", "Folk"],
   },
   "Choir Direction": {
     headline: "Fifteen Years of SATB Ear Training",
     description:
-      "Directed a Catholic liturgical SATB choir for weekly services — arranging and adapting hymns, training voice leading, and developing the multi-part listening that powers every harmonic decision I make. Recently composed an original Communion hymn in 8.8.8.8 Long Meter compatible with traditional tune families.",
+      "Directed a Catholic liturgical SATB choir for weekly services: arranging and adapting hymns, training voice leading, and developing the multi-part listening that powers every harmonic decision I make. Recently composed an original Communion hymn in 8.8.8.8 Long Meter compatible with traditional tune families.",
     showcase: [
       { value: "15+", label: "Years directing" },
       { value: "780+", label: "Weekly services led" },
@@ -74,7 +74,7 @@ const exhibitDetails: Record<
   "Visual Art": {
     headline: "Composition Practice, Off-Screen",
     description:
-      "Abstract painting as a standing hobby practice — color relationships, balance, and negative space worked out on canvas instead of a screen. The same eye that resolves a composition resolves an interface: hierarchy, rhythm, and restraint transfer directly into UI work.",
+      "Abstract painting as a standing hobby practice: color relationships, balance, and negative space worked out on canvas instead of a screen. The same eye that resolves a composition resolves an interface: hierarchy, rhythm, and restraint transfer directly into UI work.",
     showcase: [
       { value: "Acrylic", label: "Primary medium" },
       { value: "Abstract", label: "Working style" },
@@ -86,11 +86,11 @@ const exhibitDetails: Record<
   "Solo Building": {
     headline: "Founder-Grade Ownership, Team of One",
     description:
-      "Shipping personal products without a team — Sneaker Symphony, a live Philippine sneaker marketplace with dual-gateway payments; FocusCanvas, a desktop SaaS; and this portfolio. Strategy, PRD, design, code, deployment, and operations — every layer owned end to end.",
+      "Shipping personal products without a team: Sneaker Symphony, a live Philippine sneaker marketplace with dual-gateway payments; FocusCanvas, a desktop SaaS; and this portfolio. Strategy, PRD, design, code, deployment, and operations. Every layer owned end to end.",
     showcase: [
       { value: "3", label: "Products shipped solo" },
       { value: "2", label: "Payment gateways integrated" },
-      { value: "0", label: "Handoffs — end to end" },
+      { value: "0", label: "Handoffs, end to end" },
     ],
     tools: ["Product Strategy", "PRD Authoring", "Next.js / React", "PayMongo · HitPay", "Deployment & Ops"],
     quote: "When you are the whole team, every decision is yours to defend.",
@@ -98,7 +98,7 @@ const exhibitDetails: Record<
   "Workflow Automation": {
     headline: "Weeks Into Clicks",
     description:
-      "Compressing manual workflows into clicks: a 4-week regulatory tax reporting cycle now runs as a 2-click operation, saving roughly 160 hours per cycle. WESM settlement invoicing — a full workday of ~50 manual invoices — now completes in under 30 seconds with zero transcription errors.",
+      "Compressing manual workflows into clicks: a 4-week regulatory tax reporting cycle now runs as a 2-click operation, saving roughly 160 hours per cycle. WESM settlement invoicing, a full workday of ~50 manual invoices, now completes in under 30 seconds with zero transcription errors.",
     showcase: [
       { value: "2 clicks", label: "Was a 4-week cycle" },
       { value: "<30s", label: "Was a full workday" },
@@ -285,8 +285,7 @@ export default function PandoraPage() {
           {/* Plaque badge */}
           <div data-hero-reveal className="mb-10 flex justify-center">
             <div className="border-gradient flex items-center gap-3 rounded-full bg-card/40 px-6 py-2.5 backdrop-blur-sm">
-              <Sparkles className="h-4 w-4 text-primary" />
-              <TextScramble
+                            <TextScramble
                 trigger="mount"
                 className="font-display text-xs uppercase tracking-[0.35em] text-primary"
               >
@@ -309,7 +308,7 @@ export default function PandoraPage() {
             data-hero-reveal
             className="mx-auto mb-16 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl"
           >
-            Beyond the code, the cloud, and the databases — a curated exhibition of
+            Beyond the code, the cloud, and the databases: a curated exhibition of
             the disciplines that shape how I build.
           </p>
 
@@ -327,7 +326,7 @@ export default function PandoraPage() {
               </span>
             </div>
             {hiddenTalents.map((talent, i) => {
-              const Icon = iconMap[talent.icon as keyof typeof iconMap] || Sparkles;
+              const Icon = iconMap[talent.icon as keyof typeof iconMap] || Gem;
               return (
                 <button
                   key={talent.category}
@@ -363,7 +362,7 @@ export default function PandoraPage() {
                     className="flex items-center gap-6 px-6 font-display text-sm uppercase tracking-[0.3em] text-muted-foreground/70"
                   >
                     {item}
-                    <span className="text-primary">✦</span>
+                    <span className="text-primary">/</span>
                   </span>
                 ))}
               </div>
@@ -375,7 +374,7 @@ export default function PandoraPage() {
       {/* ── Exhibit deck ──────────────────────────────────────── */}
       <div className="relative">
         {hiddenTalents.map((talent, index) => {
-          const Icon = iconMap[talent.icon as keyof typeof iconMap] || Sparkles;
+          const Icon = iconMap[talent.icon as keyof typeof iconMap] || Gem;
           const details = exhibitDetails[talent.category];
           if (!details) return null;
 

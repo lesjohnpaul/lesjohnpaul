@@ -9,7 +9,7 @@ interface TextScrambleProps {
   speed?: number;
 }
 
-const chars = "!<>-_\\/[]{}—=+*^?#________ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const chars = "!<>-_\\/[]{}=+*^?#________ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 export function TextScramble({
   children,

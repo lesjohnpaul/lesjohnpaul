@@ -188,7 +188,7 @@ export function useParallax<T extends HTMLElement>(speed: number = 0.5) {
 // Text scramble effect
 export function useTextScramble() {
   const scramble = useCallback((element: HTMLElement, finalText: string) => {
-    const chars = "!<>-_\\/[]{}—=+*^?#________";
+    const chars = "!<>-_\\/[]{}=+*^?#________";
     let iteration = 0;
     const originalText = finalText;
 

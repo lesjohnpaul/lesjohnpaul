@@ -8,7 +8,6 @@ import {
   MapPin,
   Calendar,
   TrendingUp,
-  Sparkles,
   ChevronRight,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -351,11 +350,6 @@ export function ExperienceSection() {
                           : "none",
                       }}
                     >
-                      <Sparkles
-                        className={`w-2.5 h-2.5 text-primary-foreground transition-all duration-300 ${
-                          isActive ? "opacity-100 scale-100" : "opacity-0 scale-0"
-                        }`}
-                      />
                     </div>
                   </div>
 

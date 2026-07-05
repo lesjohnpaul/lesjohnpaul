@@ -5,13 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowRight,
-  ArrowDown,
   Terminal,
   Cloud,
   Database,
   Brain,
   Code2,
-  Zap,
   Github,
   Linkedin,
   Mail,
@@ -188,7 +186,7 @@ export function HeroSection() {
             {/* Description */}
             <p data-hero-fade className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed">
               I build infrastructure that doesn&apos;t break, databases that don&apos;t slow down,
-              and AI solutions that actually work. <span className="text-foreground font-medium">No fluff. Just results.</span>
+              and AI solutions that actually work.
             </p>
 
             {/* CTA Buttons with Magnetic Effect */}
@@ -302,8 +300,7 @@ export function HeroSection() {
                 data-hero-slide-right
                 className="absolute -top-4 -right-4 md:top-4 md:-right-6 flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-mono text-sm cursor-default shadow-lg z-30"
               >
-                <Zap className="w-4 h-4" />
-                Architect • DBA • Builder
+                Architect / DBA / Builder
               </div>
             </MagneticElement>
 
@@ -317,17 +314,6 @@ export function HeroSection() {
       <div className="absolute bottom-0 left-0 right-0 border-t border-border bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between py-4">
-            {/* Scroll Indicator */}
-            <MagneticElement strength={0.3}>
-              <button
-                onClick={() => document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' })}
-                className="flex items-center gap-3 text-sm text-muted-foreground hover:text-foreground transition-colors group"
-              >
-                <ArrowDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
-                <span>Scroll to explore</span>
-              </button>
-            </MagneticElement>
-
             {/* Quick Links with Icons */}
             <div className="hidden md:flex items-center gap-4">
               {[

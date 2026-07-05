@@ -9,7 +9,7 @@ import {
   Heart,
   Calendar,
   ArrowUpRight,
-  Sparkles,
+  Users,
   Lock,
   Pause,
   Play,
@@ -55,7 +55,7 @@ const features: Feature[] = [
     label: "QC Photo Verification",
     title: "8-angle quality-control gallery before payment release",
     description:
-      "No PH reseller exposes per-pair QC galleries to the buyer. We do — every angle is watermarked, timestamped, and locked behind QC PASSED before the buyer approves.",
+      "No PH reseller exposes per-pair QC galleries to the buyer. We do: every angle is watermarked, timestamped, and locked behind QC PASSED before the buyer approves.",
     image: "/images/projects/sneaker-symphony/07-order-pipeline.jpg",
     bullets: [
       "8 watermarked photos per pair",
@@ -69,14 +69,14 @@ const features: Feature[] = [
     label: "Batch Buying",
     title: "5-pair group buys with public progress",
     description:
-      "Buyers join a batch, see the spots remaining, and share the link to fill faster. The faster the batch fills, the faster everyone ships — a network effect engineered into the funnel.",
+      "Buyers join a batch, see the spots remaining, and share the link to fill faster. The faster the batch fills, the faster everyone ships. A network effect engineered into the funnel.",
     image: "/images/projects/sneaker-symphony/08-batch-progress.png",
     bullets: [
       "1/5 pairs counter with live capacity",
       "Share-to-fill referral link per batch",
       "Downpayment + balance ledger per buyer",
     ],
-    Icon: Sparkles,
+    Icon: Users,
   },
   {
     id: "wishlist",
@@ -97,7 +97,7 @@ const features: Feature[] = [
     label: "Drops Calendar",
     title: "Curated drops, brand-grouped, pre-order ready",
     description:
-      "200+ live SKUs in the Drop Zone — featured carousel, brand carousels, search, and a percentage-off ribbon system. Built to drive return visits.",
+      "200+ live SKUs in the Drop Zone: featured carousel, brand carousels, search, and a percentage-off ribbon system. Built to drive return visits.",
     image: "/images/projects/sneaker-symphony/10-drops.jpg",
     bullets: [
       "200+ active pre-order SKUs",
@@ -227,7 +227,7 @@ export function SneakerPortalShowcase() {
             className="text-base md:text-lg text-muted-foreground leading-relaxed"
           >
             Competitors run on DMs and Messenger screenshots. SneakerSymphony
-            customers get a full self-service portal — built solo, in
+            customers get a full self-service portal, built solo, in
             production, end-to-end. This is the part of the stack hiring
             managers usually only see in funded scale-ups.
           </p>
