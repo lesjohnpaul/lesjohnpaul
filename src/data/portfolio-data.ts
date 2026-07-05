@@ -506,6 +506,7 @@ export const testimonials = [
 
 export const navigationItems = [
   { label: "Home", href: "/" },
+  { label: "The Grid", href: "#grid" },
   { label: "Skills", href: "#skills" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },

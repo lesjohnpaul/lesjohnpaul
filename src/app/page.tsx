@@ -3,6 +3,9 @@ import { Navigation } from "@/components/layout/navigation";
 import { HeroSection } from "@/components/sections/hero-section";
 
 // Below-the-fold sections are code-split so the hero paints and hydrates first.
+const LivingGridSection = dynamic(() =>
+  import("@/components/sections/living-grid-section").then((m) => m.LivingGridSection)
+);
 const SkillsSection = dynamic(() =>
   import("@/components/sections/skills-section").then((m) => m.SkillsSection)
 );
@@ -30,6 +33,7 @@ export default function Home() {
     <main className="relative">
       <Navigation />
       <HeroSection />
+      <LivingGridSection />
       <SkillsSection />
       <ExperienceSection />
       <ProjectsSection />
