@@ -1,25 +1,22 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowLeft,
+  ArrowUpRight,
+  ChevronRight,
   Music,
   Palette,
-  TrendingUp,
   Rocket,
-  Workflow,
   Sparkles,
-  Play,
-  ExternalLink,
-  ChevronRight,
-  X,
+  Workflow,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { hiddenTalents, personalInfo } from "@/data/portfolio-data";
+import { hiddenTalents } from "@/data/portfolio-data";
 import { MagneticElement } from "@/components/ui/magnetic-element";
+import { TextScramble } from "@/components/ui/text-scramble";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -27,485 +24,548 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-const iconMap = {
-  Music,
-  Palette,
-  TrendingUp,
-  Rocket,
-  Workflow,
-};
+const iconMap = { Music, Palette, Rocket, Workflow };
+const ROMAN = ["I", "II", "III", "IV", "V", "VI"];
 
-// Extended data for each talent
-const talentDetails = {
+const slugOf = (category: string) => category.toLowerCase().replace(/\s+/g, "-");
+
+// Curated per-exhibit content. Keys must match hiddenTalents categories exactly.
+const exhibitDetails: Record<
+  string,
+  {
+    headline: string;
+    description: string;
+    showcase: { label: string; value: string }[];
+    tools: string[];
+    quote?: string;
+    image?: string;
+    imageAlt?: string;
+    imageCaption?: string;
+    genres?: string[];
+  }
+> = {
   "Music Production": {
     headline: "Working Musician, Arranger & Audio Engineer",
     description:
-      "Active keyboardist on a Nord Stage 4 88 in an indie band — three originals in pre-release with major-label discussions underway. Arranged two locally-released indie albums plus singles for independent artists. Tracking, comping, mixing, and stem export in Logic Pro X on MacBook Pro. A trained ear across R&B, OPM, pop, jazz, rock, worship/choral, electronic, indie, and folk — comfortable working at the stem level (drums, bass, vocals, synths, FX) and identifying production techniques like reverb, delay, sidechain, automation, and vocal processing.",
+      "Active keyboardist on a Nord Stage 4 88 in an indie band — three originals in pre-release with major-label discussions underway. Arranged two locally-released indie albums plus singles for independent artists. Tracking, comping, mixing, and stem export in Logic Pro X — comfortable at the stem level (drums, bass, vocals, synths, FX) and fluent in production techniques like sidechain, automation, and vocal processing.",
     showcase: [
-      { type: "stat", label: "Producing · Arranging · Performing Live", value: "Active" },
-      { type: "stat", label: "Albums Arranged", value: "2" },
-      { type: "stat", label: "Genres Fluent", value: "9" },
+      { value: "3", label: "Originals in pre-release" },
+      { value: "2", label: "Albums arranged" },
+      { value: "9", label: "Genres fluent" },
     ],
-    tools: ["Nord Stage 4 88", "Logic Pro X", "MacBook Pro", "Stem Separation", "Vocal Processing"],
-    quote: "Great production is architecture you can hear — every stem has a job, and the mix is the system design.",
-    gradient: "from-purple-600 via-pink-600 to-rose-600",
-    bgGradient: "from-purple-950/50 via-background to-background",
+    tools: ["Nord Stage 4 88", "Logic Pro X", "Stem Separation", "Vocal Processing", "Live Performance"],
     image: "/images/music/keyboard-performance.jpg",
     imageAlt: "Performing on Nord Stage 4 88 in a chapel setting",
-    genres: ["R&B", "Pop", "OPM", "Rock", "Jazz", "Worship / Choral", "Electronic", "Indie / Marina Pop", "Folk"],
+    imageCaption: "Nord Stage 4 88 — live keys session",
+    genres: ["R&B", "Pop", "OPM", "Rock", "Jazz", "Worship / Choral", "Electronic", "Indie", "Folk"],
   },
   "Choir Direction": {
     headline: "Fifteen Years of SATB Ear Training",
     description:
-      "Directed a Catholic liturgical SATB choir for weekly services — arranging and adapting hymns, training voice leading, and developing the multi-part listening that powers every harmonic decision I make. Long-form repertoire across sacred, choral, and folk music. Recently composed an original Communion hymn in 8.8.8.8 Long Meter compatible with traditional tune families.",
+      "Directed a Catholic liturgical SATB choir for weekly services — arranging and adapting hymns, training voice leading, and developing the multi-part listening that powers every harmonic decision I make. Recently composed an original Communion hymn in 8.8.8.8 Long Meter compatible with traditional tune families.",
     showcase: [
-      { type: "stat", label: "Years Directing", value: "15+" },
-      { type: "stat", label: "Weekly Services", value: "780+" },
-      { type: "stat", label: "Original Hymns", value: "1" },
+      { value: "15+", label: "Years directing" },
+      { value: "780+", label: "Weekly services led" },
+      { value: "1", label: "Original hymn composed" },
     ],
     tools: ["SATB Direction", "Hymn Arrangement", "Voice Leading", "Harmonic Analysis", "Liturgical Composition"],
     quote: "Choral direction is the practiced ensemble leadership behind every architecture decision.",
-    gradient: "from-blue-600 via-cyan-600 to-teal-600",
-    bgGradient: "from-blue-950/50 via-background to-background",
   },
   "Visual Art": {
-    headline: "Designing What Words Can't Express",
+    headline: "Composition Practice, Off-Screen",
     description:
-      "Visual art sharpened my eye for hierarchy, balance, and user experience. The same principles that make a composition compelling make an interface intuitive.",
+      "Abstract painting as a standing hobby practice — color relationships, balance, and negative space worked out on canvas instead of a screen. The same eye that resolves a composition resolves an interface: hierarchy, rhythm, and restraint transfer directly into UI work.",
     showcase: [
-      { type: "stat", label: "Design Projects", value: "100+" },
-      { type: "stat", label: "Brand Identities", value: "15" },
-      { type: "stat", label: "UI Concepts", value: "50+" },
+      { value: "Acrylic", label: "Primary medium" },
+      { value: "Abstract", label: "Working style" },
+      { value: "Every UI", label: "Where it shows up" },
     ],
-    tools: ["Figma", "Adobe Creative Suite", "Blender", "Procreate", "After Effects"],
-    quote: "Design is not just what it looks like. Design is how it works.",
-    gradient: "from-blue-600 via-cyan-600 to-teal-600",
-    bgGradient: "from-blue-950/50 via-background to-background",
+    tools: ["Abstract Painting", "Color Composition", "Visual Design", "Aesthetic Judgment"],
+    quote: "The same eye that balances a canvas balances an interface.",
   },
-  "Digital Marketing": {
-    headline: "Engineering Growth Through Data",
+  "Solo Building": {
+    headline: "Founder-Grade Ownership, Team of One",
     description:
-      "Digital marketing is software engineering for attention. I apply the same analytical mindset—test, measure, iterate—to drive real business outcomes.",
+      "Shipping personal products without a team — Sneaker Symphony, a live Philippine sneaker marketplace with dual-gateway payments; FocusCanvas, a desktop SaaS; and this portfolio. Strategy, PRD, design, code, deployment, and operations — every layer owned end to end.",
     showcase: [
-      { type: "stat", label: "Campaigns Run", value: "200+" },
-      { type: "stat", label: "Avg ROI Increase", value: "340%" },
-      { type: "stat", label: "Leads Generated", value: "50K+" },
+      { value: "3", label: "Products shipped solo" },
+      { value: "2", label: "Payment gateways integrated" },
+      { value: "0", label: "Handoffs — end to end" },
     ],
-    tools: ["Google Analytics", "Meta Ads", "HubSpot", "Mixpanel", "A/B Testing"],
-    quote: "Growth isn't a department. It's a mindset embedded in every decision.",
-    gradient: "from-green-600 via-emerald-600 to-teal-600",
-    bgGradient: "from-green-950/50 via-background to-background",
-  },
-  "Entrepreneurship": {
-    headline: "Building Ventures From Zero",
-    description:
-      "Entrepreneurship taught me to ship fast, fail faster, and always focus on value. These lessons make me a better engineer—I build with business impact in mind.",
-    showcase: [
-      { type: "stat", label: "Ventures Started", value: "4" },
-      { type: "stat", label: "Products Launched", value: "12" },
-      { type: "stat", label: "Teams Built", value: "6" },
-    ],
-    tools: ["Business Strategy", "Product Development", "Team Leadership", "Fundraising", "Market Analysis"],
-    quote: "Ideas are worth nothing without execution. Execution is worth nothing without the right team.",
-    gradient: "from-orange-600 via-amber-600 to-yellow-600",
-    bgGradient: "from-orange-950/50 via-background to-background",
+    tools: ["Product Strategy", "PRD Authoring", "Next.js / React", "PayMongo · HitPay", "Deployment & Ops"],
+    quote: "When you are the whole team, every decision is yours to defend.",
   },
   "Workflow Automation": {
-    headline: "Making Systems Talk to Each Other",
+    headline: "Weeks Into Clicks",
     description:
-      "I connect the dots between applications, automate repetitive tasks, and build workflows that run themselves. If it can be automated, I've probably automated it.",
+      "Compressing manual workflows into clicks: a 4-week regulatory tax reporting cycle now runs as a 2-click operation, saving roughly 160 hours per cycle. WESM settlement invoicing — a full workday of ~50 manual invoices — now completes in under 30 seconds with zero transcription errors.",
     showcase: [
-      { type: "stat", label: "Automations Built", value: "500+" },
-      { type: "stat", label: "Hours Saved/Month", value: "1000+" },
-      { type: "stat", label: "Integrations", value: "100+" },
+      { value: "2 clicks", label: "Was a 4-week cycle" },
+      { value: "<30s", label: "Was a full workday" },
+      { value: "160 hrs", label: "Saved per cycle" },
     ],
-    tools: ["n8n", "Zapier", "Make.com", "Python Scripts", "Custom APIs"],
+    tools: ["n8n", "Claude Code Pipelines", "ETL Design", "AWS SES", "Custom APIs"],
     quote: "The best code is the code you never have to write because a workflow handles it.",
-    gradient: "from-red-600 via-rose-600 to-pink-600",
-    bgGradient: "from-red-950/50 via-background to-background",
   },
 };
 
 export default function PandoraPage() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [activeTalent, setActiveTalent] = useState<string | null>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const heroRef = useRef<HTMLElement>(null);
+  const [activeExhibit, setActiveExhibit] = useState<string>("");
 
   useEffect(() => {
-    setIsLoaded(true);
-  }, []);
+    const mm = gsap.matchMedia(containerRef);
 
-  useEffect(() => {
-    if (!containerRef.current || !isLoaded) return;
-
-    const ctx = gsap.context(() => {
-      // Initial page animation
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
       gsap.fromTo(
-        "[data-pandora-reveal]",
-        { opacity: 0, y: 60 },
+        "[data-hero-reveal]",
+        { opacity: 0, y: 48 },
+        { opacity: 1, y: 0, duration: 0.9, stagger: 0.12, ease: "power3.out", delay: 0.15 }
+      );
+
+      gsap.fromTo(
+        "[data-hero-bg]",
+        { scale: 1.15 },
         {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "power3.out",
-          delay: 0.2,
+          scale: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
         }
       );
 
-      // Talent cards scroll animation
-      gsap.utils.toArray("[data-talent-section]").forEach((section: any, i) => {
+      gsap.utils.toArray<HTMLElement>("[data-ghost]").forEach((el) => {
         gsap.fromTo(
-          section,
-          { opacity: 0, x: i % 2 === 0 ? -100 : 100 },
+          el,
+          { yPercent: 18 },
           {
-            opacity: 1,
-            x: 0,
-            duration: 1,
-            ease: "power3.out",
+            yPercent: -18,
+            ease: "none",
             scrollTrigger: {
-              trigger: section,
-              start: "top 80%",
-              toggleActions: "play none none none",
+              trigger: el.closest("section"),
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
             },
           }
         );
       });
-    }, containerRef);
+    });
 
-    return () => ctx.revert();
-  }, [isLoaded]);
+    // Desktop deck effect: as the next exhibit slides over, the pinned one recedes.
+    mm.add("(min-width: 1024px) and (prefers-reduced-motion: no-preference)", () => {
+      const cards = gsap.utils.toArray<HTMLElement>("[data-exhibit]");
+      cards.forEach((card, i) => {
+        if (i === cards.length - 1) return;
+        const inner = card.querySelector("[data-exhibit-inner]");
+        if (!inner) return;
+        gsap.to(inner, {
+          scale: 0.93,
+          opacity: 0.35,
+          ease: "none",
+          scrollTrigger: {
+            trigger: cards[i + 1],
+            start: "top bottom",
+            end: "top top",
+            scrub: true,
+          },
+        });
+      });
+    });
 
-  const activeTalentData = activeTalent
-    ? hiddenTalents.find((t) => t.category === activeTalent)
-    : null;
-  const activeDetails = activeTalent
-    ? talentDetails[activeTalent as keyof typeof talentDetails]
-    : null;
+    // Mobile: simple fade-up per exhibit.
+    mm.add("(max-width: 1023px) and (prefers-reduced-motion: no-preference)", () => {
+      gsap.utils.toArray<HTMLElement>("[data-exhibit]").forEach((section) => {
+        gsap.fromTo(
+          section.querySelector("[data-exhibit-inner]"),
+          { opacity: 0, y: 60 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            ease: "power3.out",
+            scrollTrigger: { trigger: section, start: "top 82%" },
+          }
+        );
+      });
+    });
+
+    return () => mm.revert();
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveExhibit(entry.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -45% 0px" }
+    );
+    document.querySelectorAll("[data-exhibit]").forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToExhibit = (category: string) => {
+    document.getElementById(slugOf(category))?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const marqueeItems = hiddenTalents.map((t) => t.category);
 
   return (
     <div ref={containerRef} className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0">
-          <Image
-            src="/images/music/pandora-box.jpg"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-30"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background" />
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-transparent to-transparent" />
-          <div className="absolute inset-0 grid-lines opacity-20" />
+      <style>{`
+        @keyframes pandora-marquee {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+      `}</style>
 
-          {/* Floating Particles */}
-          {isLoaded && (
-            <div className="absolute inset-0 overflow-hidden">
-              {[...Array(20)].map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute w-2 h-2 rounded-full bg-primary/30 animate-pulse"
-                  style={{
-                    left: `${(i * 5) % 100}%`,
-                    top: `${(i * 7) % 100}%`,
-                    animationDelay: `${i * 0.2}s`,
-                    animationDuration: `${3 + (i % 3)}s`,
-                  }}
-                />
-              ))}
-            </div>
-          )}
+      {/* ── Progress rail ─────────────────────────────────────── */}
+      <nav
+        aria-label="Exhibit navigation"
+        className="fixed right-6 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center gap-3 lg:flex"
+      >
+        <span className="mb-1 h-8 w-px bg-gradient-to-b from-transparent to-border" />
+        {hiddenTalents.map((talent, i) => {
+          const isActive = activeExhibit === slugOf(talent.category);
+          return (
+            <button
+              key={talent.category}
+              onClick={() => scrollToExhibit(talent.category)}
+              aria-label={`Go to exhibit: ${talent.category}`}
+              className={`flex h-9 w-9 items-center justify-center rounded-full border font-display text-[11px] transition-all duration-300 ${
+                isActive
+                  ? "scale-110 border-primary bg-primary/10 text-primary glow-gold-subtle"
+                  : "border-border/60 text-muted-foreground hover:border-primary/50 hover:text-foreground"
+              }`}
+            >
+              {ROMAN[i]}
+            </button>
+          );
+        })}
+        <span className="mt-1 h-8 w-px bg-gradient-to-t from-transparent to-border" />
+      </nav>
+
+      {/* ── Hero ──────────────────────────────────────────────── */}
+      <section
+        ref={heroRef}
+        className="noise-overlay relative flex min-h-screen items-center justify-center overflow-hidden"
+      >
+        <div className="absolute inset-0 overflow-hidden">
+          <div data-hero-bg className="absolute inset-0">
+            <Image
+              src="/images/music/pandora-box.jpg"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover opacity-25"
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/70 to-background" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--background)_75%)]" />
+          <div className="grid-lines absolute inset-0 opacity-15" />
         </div>
 
-        {/* Back Button */}
         <Link
           href="/"
-          className="absolute top-8 left-8 z-20 flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group"
+          className="group absolute left-6 top-8 z-20 flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground md:left-10"
         >
-          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+          <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
           <span>Back to Portfolio</span>
         </Link>
 
-        {/* Hero Content */}
-        <div className="container mx-auto px-6 text-center relative z-10">
-          <div data-pandora-reveal>
-            <Badge
-              variant="outline"
-              className="px-6 py-2 rounded-full border-primary/30 bg-primary/5 text-primary mb-8 text-base"
-            >
-              <Sparkles className="w-5 h-5 mr-2" />
-              Pandora&apos;s Box Unlocked
-            </Badge>
+        <div className="container relative z-10 mx-auto px-6 py-28 text-center">
+          {/* Plaque badge */}
+          <div data-hero-reveal className="mb-10 flex justify-center">
+            <div className="border-gradient flex items-center gap-3 rounded-full bg-card/40 px-6 py-2.5 backdrop-blur-sm">
+              <Sparkles className="h-4 w-4 text-primary" />
+              <TextScramble
+                trigger="mount"
+                className="font-display text-xs uppercase tracking-[0.35em] text-primary"
+              >
+                Private Collection
+              </TextScramble>
+              <span className="text-xs text-muted-foreground">· 5 exhibits</span>
+            </div>
           </div>
 
           <h1
-            data-pandora-reveal
-            className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight"
+            data-hero-reveal
+            className="mb-8 font-display text-6xl font-bold leading-[0.95] tracking-tight md:text-8xl lg:text-9xl"
           >
             The Hidden
             <br />
-            <span className="text-gradient-gold">Dimensions</span>
+            <span className="text-gradient-gold text-shadow-glow">Dimensions</span>
           </h1>
 
           <p
-            data-pandora-reveal
-            className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-12"
+            data-hero-reveal
+            className="mx-auto mb-16 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl"
           >
-            Beyond the code, beyond the cloud, beyond the databases—discover the
-            diverse skills that make me a more complete engineer and creative.
+            Beyond the code, the cloud, and the databases — a curated exhibition of
+            the disciplines that shape how I build.
           </p>
 
-          {/* Talent Navigation */}
-          <div data-pandora-reveal className="flex flex-wrap justify-center gap-4">
-            {hiddenTalents.map((talent) => {
+          {/* Floor guide */}
+          <div
+            data-hero-reveal
+            className="mx-auto max-w-2xl border-y border-border/60 text-left"
+          >
+            <div className="flex items-center justify-between px-2 py-3">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                Floor Guide
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                Room
+              </span>
+            </div>
+            {hiddenTalents.map((talent, i) => {
               const Icon = iconMap[talent.icon as keyof typeof iconMap] || Sparkles;
               return (
-                <MagneticElement key={talent.category} strength={0.3}>
-                  <button
-                    onClick={() => {
-                      const element = document.getElementById(
-                        talent.category.toLowerCase().replace(/\s+/g, "-")
-                      );
-                      element?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    className={`flex items-center gap-3 px-6 py-3 rounded-full border transition-all duration-300 ${
-                      activeTalent === talent.category
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "border-border hover:border-primary/50 hover:bg-primary/5"
-                    }`}
-                  >
-                    <Icon className="w-5 h-5" />
-                    <span className="font-medium">{talent.category}</span>
-                  </button>
-                </MagneticElement>
+                <button
+                  key={talent.category}
+                  onClick={() => scrollToExhibit(talent.category)}
+                  className="group flex w-full items-center gap-5 border-t border-border/60 px-2 py-4 transition-colors hover:bg-primary/5"
+                >
+                  <span className="w-8 shrink-0 font-display text-sm text-primary/80">
+                    {ROMAN[i]}
+                  </span>
+                  <Icon className="h-4 w-4 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
+                  <span className="flex-1 font-display text-lg transition-transform duration-300 group-hover:translate-x-2 md:text-xl">
+                    {talent.category}
+                  </span>
+                  <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
+                </button>
               );
             })}
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground">
-          <span className="text-sm">Scroll to explore</span>
-          <div className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex justify-center pt-2">
-            <div className="w-1.5 h-3 bg-primary rounded-full animate-bounce" />
+        {/* Marquee */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 overflow-hidden border-t border-border/40 bg-background/60 py-4 backdrop-blur-sm">
+          <div
+            className="flex w-max gap-0 whitespace-nowrap motion-reduce:[animation:none]"
+            style={{ animation: "pandora-marquee 32s linear infinite" }}
+            aria-hidden="true"
+          >
+            {[0, 1].map((copy) => (
+              <div key={copy} className="flex items-center">
+                {marqueeItems.map((item) => (
+                  <span
+                    key={`${copy}-${item}`}
+                    className="flex items-center gap-6 px-6 font-display text-sm uppercase tracking-[0.3em] text-muted-foreground/70"
+                  >
+                    {item}
+                    <span className="text-primary">✦</span>
+                  </span>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Talent Sections */}
-      {hiddenTalents.map((talent, index) => {
-        const Icon = iconMap[talent.icon as keyof typeof iconMap] || Sparkles;
-        const details = talentDetails[talent.category as keyof typeof talentDetails] as
-          | (typeof talentDetails[keyof typeof talentDetails] & {
-              image?: string;
-              imageAlt?: string;
-              genres?: string[];
-              aiLiteracy?: string[];
-            })
-          | undefined;
+      {/* ── Exhibit deck ──────────────────────────────────────── */}
+      <div className="relative">
+        {hiddenTalents.map((talent, index) => {
+          const Icon = iconMap[talent.icon as keyof typeof iconMap] || Sparkles;
+          const details = exhibitDetails[talent.category];
+          if (!details) return null;
 
-        return (
-          <section
-            key={talent.category}
-            id={talent.category.toLowerCase().replace(/\s+/g, "-")}
-            data-talent-section
-            className={`relative min-h-screen py-32 overflow-hidden`}
-          >
-            {/* Background */}
-            <div
-              className={`absolute inset-0 bg-gradient-to-b ${details?.bgGradient || "from-background to-background"}`}
-            />
+          return (
+            <section
+              key={talent.category}
+              id={slugOf(talent.category)}
+              data-exhibit
+              className="noise-overlay relative flex min-h-screen items-center overflow-hidden bg-background lg:sticky lg:top-0 lg:rounded-t-[2.5rem] lg:border-t lg:border-border/60"
+            >
+              {/* Room lighting */}
+              <div
+                className={`absolute inset-0 bg-gradient-to-br ${talent.color} opacity-[0.06]`}
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/20 to-background/60" />
 
-            <div className="container mx-auto px-6 relative z-10">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                {/* Content Side */}
-                <div className={index % 2 === 0 ? "lg:order-1" : "lg:order-2"}>
-                  {/* Category Badge */}
-                  <div className="flex items-center gap-4 mb-6">
-                    <div
-                      className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${talent.color} p-0.5`}
-                    >
-                      <div className="w-full h-full rounded-2xl bg-background flex items-center justify-center">
-                        <Icon className="w-8 h-8 text-foreground" />
-                      </div>
-                    </div>
-                    <div>
-                      <span className="text-sm text-muted-foreground uppercase tracking-wider">
-                        Hidden Talent #{index + 1}
-                      </span>
-                      <h2 className="font-display text-3xl md:text-4xl font-bold">
-                        {talent.category}
-                      </h2>
+              {/* Ghost numeral */}
+              <div
+                data-ghost
+                className="pointer-events-none absolute -right-6 top-1/2 -translate-y-1/2 select-none font-display text-[16rem] font-bold leading-none text-foreground/[0.03] md:text-[24rem] lg:right-4"
+                aria-hidden="true"
+              >
+                {ROMAN[index]}
+              </div>
+
+              <div data-exhibit-inner className="container relative z-10 mx-auto px-6 py-24 will-change-transform">
+                {/* Plaque header */}
+                <div className="mb-10 flex items-center gap-4">
+                  <div
+                    className={`h-12 w-12 shrink-0 rounded-xl bg-gradient-to-br ${talent.color} p-0.5`}
+                  >
+                    <div className="flex h-full w-full items-center justify-center rounded-[10px] bg-background">
+                      <Icon className="h-5 w-5 text-foreground" />
                     </div>
                   </div>
-
-                  {/* Headline */}
-                  <h3 className="font-display text-2xl md:text-3xl font-semibold mb-6 text-gradient-gold">
-                    {details?.headline}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                    {details?.description}
-                  </p>
-
-                  {/* Skills */}
-                  <div className="flex flex-wrap gap-3 mb-8">
-                    {talent.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="px-4 py-2 rounded-full bg-secondary/50 text-secondary-foreground text-sm border border-border"
-                      >
-                        {skill}
-                      </span>
-                    ))}
+                  <div>
+                    <span className="block text-[10px] uppercase tracking-[0.35em] text-primary">
+                      Exhibit {ROMAN[index]} · Room 0{index + 1}
+                    </span>
+                    <h2 className="font-display text-xl font-semibold md:text-2xl">
+                      {talent.category}
+                    </h2>
                   </div>
+                  <div className="ml-4 hidden h-px flex-1 bg-gradient-to-r from-border to-transparent md:block" />
+                </div>
 
-                  {/* Genres (Music only) */}
-                  {details?.genres && (
+                <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-16">
+                  {/* Editorial column */}
+                  <div className="lg:col-span-7">
+                    <h3 className="text-gradient-gold mb-6 font-display text-3xl font-bold leading-tight md:text-5xl">
+                      {details.headline}
+                    </h3>
+                    <p className="mb-8 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
+                      {details.description}
+                    </p>
+
                     <div className="mb-8">
-                      <h4 className="text-sm text-muted-foreground uppercase tracking-wider mb-3">
-                        Genre Fluency
+                      <h4 className="mb-3 text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                        Materials & Instruments
                       </h4>
                       <div className="flex flex-wrap gap-2">
-                        {details.genres.map((g) => (
+                        {details.tools.map((tool) => (
                           <span
-                            key={g}
-                            className="px-3 py-1 rounded-full bg-purple-500/10 text-purple-200 text-xs font-medium border border-purple-500/30"
+                            key={tool}
+                            className="rounded-full border border-border bg-secondary/40 px-4 py-1.5 text-xs font-medium text-secondary-foreground"
                           >
-                            {g}
+                            {tool}
                           </span>
                         ))}
                       </div>
                     </div>
-                  )}
 
-                  {/* Tools */}
-                  <div className="mb-8">
-                    <h4 className="text-sm text-muted-foreground uppercase tracking-wider mb-3">
-                      Tools & Technologies
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {details?.tools.map((tool) => (
-                        <span
-                          key={tool}
-                          className={`px-3 py-1 rounded-full bg-gradient-to-r ${talent.color} text-white text-xs font-medium`}
-                        >
-                          {tool}
-                        </span>
-                      ))}
-                    </div>
+                    {details.genres && (
+                      <div className="mb-8">
+                        <h4 className="mb-3 text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                          Genre Fluency
+                        </h4>
+                        <div className="flex flex-wrap gap-2">
+                          {details.genres.map((genre) => (
+                            <span
+                              key={genre}
+                              className={`rounded-full bg-gradient-to-r px-3 py-1 text-[11px] font-medium text-white ${talent.color}`}
+                            >
+                              {genre}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {details.quote && (
+                      <blockquote className="border-l-2 border-primary pl-5 text-sm italic leading-relaxed text-muted-foreground md:text-base">
+                        &ldquo;{details.quote}&rdquo;
+                        <cite className="mt-2 block text-[10px] not-italic uppercase tracking-[0.3em] text-primary/70">
+                          Curator&apos;s note
+                        </cite>
+                      </blockquote>
+                    )}
                   </div>
 
-                  {/* Quote */}
-                  <blockquote className="border-l-4 border-primary pl-6 italic text-muted-foreground">
-                    &ldquo;{details?.quote}&rdquo;
-                  </blockquote>
-                </div>
-
-                {/* Stats Side */}
-                <div className={index % 2 === 0 ? "lg:order-2" : "lg:order-1"}>
-                  {/* Performance image (Music only) */}
-                  {details?.image && (
-                    <div className="relative mb-8 overflow-hidden rounded-3xl border border-border bg-card/50">
-                      <Image
-                        src={details.image}
-                        alt={details.imageAlt || talent.category}
-                        width={1200}
-                        height={800}
-                        className="w-full h-auto object-cover"
-                        priority={false}
-                      />
-                      <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                        <p className="text-sm text-white/90">
-                          Nord Stage 4 88 — live keys session
-                        </p>
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="relative p-8 md:p-12 border border-border bg-card/50 backdrop-blur-sm rounded-3xl">
-                    {/* Decorative gradient */}
-                    <div
-                      className={`absolute -inset-px rounded-3xl bg-gradient-to-br ${talent.color} opacity-20`}
-                    />
-
-                    {/* Stats Grid */}
-                    <div className="relative grid grid-cols-1 gap-8">
-                      {details?.showcase.map((item, i) => (
-                        <div
-                          key={item.label}
-                          className="text-center p-6 rounded-2xl bg-background/50 border border-border/50"
-                        >
-                          <div className="font-display text-5xl md:text-6xl font-bold mb-2">
-                            {item.value}
-                          </div>
-                          <div className="text-muted-foreground uppercase tracking-wider text-sm">
-                            {item.label}
+                  {/* Artifact column */}
+                  <div className="lg:col-span-5">
+                    {details.image ? (
+                      <>
+                        <div className="border-gradient group relative mb-6 overflow-hidden rounded-2xl">
+                          <Image
+                            src={details.image}
+                            alt={details.imageAlt || talent.category}
+                            width={1200}
+                            height={800}
+                            className="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                          />
+                          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-4">
+                            <p className="text-xs text-white/90">{details.imageCaption}</p>
                           </div>
                         </div>
-                      ))}
-                    </div>
-
-                    {/* Corner Accents */}
-                    <div
-                      className={`absolute top-0 left-0 w-16 h-16 border-l-4 border-t-4 rounded-tl-3xl bg-gradient-to-br ${talent.color} opacity-50`}
-                      style={{ borderColor: "transparent" }}
-                    />
-                    <div
-                      className={`absolute bottom-0 right-0 w-16 h-16 border-r-4 border-b-4 rounded-br-3xl bg-gradient-to-tl ${talent.color} opacity-50`}
-                      style={{ borderColor: "transparent" }}
-                    />
+                        <div className="grid grid-cols-3 gap-3">
+                          {details.showcase.map((item) => (
+                            <div
+                              key={item.label}
+                              className="rounded-xl border border-border/60 bg-card/40 p-4 text-center backdrop-blur-sm"
+                            >
+                              <div className="font-display text-3xl font-bold md:text-4xl">
+                                {item.value}
+                              </div>
+                              <div className="mt-1 text-[10px] uppercase tracking-wider text-muted-foreground">
+                                {item.label}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="space-y-4">
+                        {details.showcase.map((item) => (
+                          <div
+                            key={item.label}
+                            className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/40 px-7 py-6 backdrop-blur-sm"
+                          >
+                            <div
+                              className={`absolute inset-y-0 left-0 w-1 bg-gradient-to-b ${talent.color}`}
+                            />
+                            <div className="font-display text-4xl font-bold md:text-5xl">
+                              {item.value}
+                            </div>
+                            <div className="mt-1 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                              {item.label}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
-            </div>
+            </section>
+          );
+        })}
+      </div>
 
-            {/* Section Number */}
-            <div className="absolute top-20 right-10 font-display text-[20rem] font-bold text-foreground/[0.02] select-none pointer-events-none leading-none">
-              0{index + 1}
-            </div>
-          </section>
-        );
-      })}
-
-      {/* Call to Action */}
-      <section className="relative py-32 overflow-hidden">
+      {/* ── Finale ────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden py-32">
         <div className="absolute inset-0 bg-gradient-to-t from-primary/10 to-transparent" />
-        <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">
-            Impressed Yet?
+        <div className="container relative z-10 mx-auto px-6 text-center">
+          <span className="mb-6 block text-[10px] uppercase tracking-[0.35em] text-primary">
+            End of Exhibition
+          </span>
+          <h2 className="mb-6 font-display text-4xl font-bold md:text-6xl">
+            The box doesn&apos;t <span className="text-gradient-gold">close</span>.
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-            These diverse skills make me a more complete problem solver. Let&apos;s discuss
-            how I can bring this unique perspective to your project.
+          <p className="mx-auto mb-12 max-w-2xl text-lg text-muted-foreground md:text-xl">
+            These disciplines make me a more complete problem solver. Let&apos;s talk
+            about what this perspective could do for your project.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <MagneticElement strength={0.3}>
               <Button
                 size="lg"
-                className="rounded-full px-8 py-6 bg-primary text-primary-foreground hover:bg-primary/90"
+                className="rounded-full bg-primary px-8 py-6 text-primary-foreground hover:bg-primary/90"
                 asChild
               >
                 <Link href="/#contact">
                   Start a Conversation
-                  <ChevronRight className="w-5 h-5 ml-2" />
+                  <ChevronRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </MagneticElement>
             <MagneticElement strength={0.3}>
-              <Button
-                size="lg"
-                variant="outline"
-                className="rounded-full px-8 py-6"
-                asChild
-              >
-                <Link href="/">
-                  Back to Portfolio
-                </Link>
+              <Button size="lg" variant="outline" className="rounded-full px-8 py-6" asChild>
+                <Link href="/">Back to Portfolio</Link>
               </Button>
             </MagneticElement>
           </div>
