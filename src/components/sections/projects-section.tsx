@@ -97,11 +97,11 @@ export function ProjectsSection() {
               </Badge>
             </div>
             <h2 data-project-header className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-              Projects That <span className="text-gradient-gold">Matter</span>
+              Problems I&apos;ve <span className="text-gradient-gold">Solved</span>
             </h2>
             <p data-project-header className="text-lg text-muted-foreground leading-relaxed">
-              Real solutions to real problems. Each project represents challenges
-              overcome and value delivered.
+              Results, not just a résumé. Each build started with a costly business
+              problem and ended with a measurable outcome.
             </p>
           </div>
           <div data-project-header>
@@ -165,6 +165,11 @@ export function ProjectsSection() {
                   <p className="text-muted-foreground mb-6 leading-relaxed">
                     {project.description}
                   </p>
+                  {project.result && (
+                    <p className="mb-6 border-l-2 border-primary pl-4 font-medium text-foreground">
+                      {project.result}
+                    </p>
+                  )}
                   <div className="flex flex-wrap gap-2 mb-8">
                     {project.tech.map((tech) => (
                       <span
@@ -281,6 +286,11 @@ export function ProjectsSection() {
                   <p className="text-muted-foreground text-sm mb-4 leading-relaxed line-clamp-2">
                     {project.description}
                   </p>
+                  {project.result && (
+                    <p className="mb-4 border-l-2 border-primary pl-3 text-sm font-medium text-foreground">
+                      {project.result}
+                    </p>
+                  )}
                   <div className="flex flex-wrap gap-2">
                     {project.tech.slice(0, 3).map((tech) => (
                       <span

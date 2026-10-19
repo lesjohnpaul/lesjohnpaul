@@ -1,15 +1,17 @@
-// Portfolio Data: Senior IC voice, hybrid attribution
-// Last updated: 2026-04-30
+// Portfolio Data: AI Engineer positioning, hybrid attribution
+// Last updated: 2026-10-19
 // Hero stats are calibrated to actual scope. No inflated numbers.
+// This file is also the knowledge base for the on-site assistant, so keep it true.
 
 export const personalInfo = {
   name: "Les John Paul Oliver",
-  title: "Solutions Architect & Senior Software Engineer",
+  title: "AI Engineer",
+  pitch: "I build AI systems and automations that solve real business problems, and I ship them fast.",
   tagline:
-    "I architect enterprise systems for a 250K-member utility cooperative by day, and ship products solo by night.",
+    "AI engineer who ships fast. Production systems for a 250K-member utility cooperative by day, AI products by night.",
   email: "lesjohnpauloliver@gmail.com",
   location: "Pangasinan, Philippines",
-  availability: "Open to senior remote roles & AU sponsorship",
+  availability: "Open to freelance projects & remote AI engineering roles",
   resumeUrl: "/les-john-paul-oliver-resume.pdf",
   social: {
     github: "https://github.com/lesjohnpaul",
@@ -21,12 +23,94 @@ export const personalInfo = {
 // No inflation, no rounding up, no "100+ optimized systems."
 export const heroStats = [
   { label: "Years in Enterprise IT", value: "10+" },
-  { label: "Systems Architected", value: "16+" },
-  { label: "Production DB Managed", value: "1.17TB" },
+  { label: "Systems Shipped", value: "16+" },
+  { label: "2-Week Task, Now", value: "5 min" },
   { label: "End Users Served", value: "250K+" },
 ];
 
+// Services: what a client can hire me for. Each one points at real proof.
+export const services = [
+  {
+    title: "AI Agents & Chatbots",
+    icon: "Bot",
+    problem: "Customers wait hours for answers, and leads go cold after office hours.",
+    offer:
+      "24/7 assistants grounded in your own knowledge base that answer, qualify, book meetings, and hand off to a human when it matters.",
+    proof: "ACIRS customer-support AI (launching Q1 2027) and the assistant on this site",
+  },
+  {
+    title: "Business Process Automation",
+    icon: "Workflow",
+    problem: "Your team loses days to reports, invoicing, and copy-paste between systems.",
+    offer:
+      "One-click workflows that pull from your databases, generate documents, and send them out, with audit trails and no transcription errors.",
+    proof: "Tax compliance: 2 weeks → under 5 minutes. WESM invoicing: a full workday → under 30 seconds",
+  },
+  {
+    title: "LLM Features in Your Product",
+    icon: "Brain",
+    problem: "You know AI could help your app, but not where it pays off or how to ship it safely.",
+    offer:
+      "Extraction, classification, content generation, and tool-use added to the app you already have, scoped to features users will actually use.",
+    proof: "SonicSense metadata engine and the Sneaker Symphony content pipeline (Claude API)",
+  },
+  {
+    title: "Internal Tools & Dashboards",
+    icon: "Code",
+    problem: "Operations run on spreadsheets, paper forms, and phone calls.",
+    offer:
+      "Full-stack web apps on top of your existing databases: registration, ticketing, monitoring, and live executive dashboards.",
+    proof: "AGAM registration: 13K attendees across 5 live venues",
+  },
+  {
+    title: "AI Motion Graphics",
+    icon: "Clapperboard",
+    problem: "You need product videos and social content, but a studio is slow and expensive.",
+    offer:
+      "AI-assisted motion graphics, explainers, and branded visuals produced quickly for launches and campaigns.",
+    proof: "The animated assistant and motion pieces on this site",
+  },
+];
+
+export const processSteps = [
+  { step: "01", title: "Map the problem", text: "A 30-minute call to find the workflow that costs you the most time or money." },
+  { step: "02", title: "Prototype fast", text: "A working version early, so you see results before committing to the full build." },
+  { step: "03", title: "Ship & hand over", text: "Production deployment, documentation, and support options once it's live." },
+];
+
 export const coreSkills = [
+  {
+    category: "AI & Agentic Systems",
+    icon: "Brain",
+    description:
+      "LLM-powered assistants, tool-calling agents, and AI features in production apps. Built on the Claude API with guardrails, human escalation, and cost controls.",
+    skills: [
+      "Claude API / Tool Use",
+      "AI Agents & Chatbots",
+      "Knowledge-Base Grounding",
+      "Human Escalation Flows",
+      "OpenAI",
+      "Claude Code",
+      "AI Motion Graphics",
+    ],
+    highlight: true,
+  },
+  {
+    category: "Business Automation",
+    icon: "Workflow",
+    description:
+      "Turning multi-day manual workflows into one-click runs: document generation, invoicing, ETL, scraping, and scheduled jobs.",
+    skills: [
+      "Process Automation",
+      "n8n",
+      "Inngest",
+      "PDF Pipelines",
+      "Web Scraping & Import",
+      "ETL Design",
+      "API Integration",
+    ],
+    highlight: true,
+  },
   {
     category: "Cloud Architecture",
     icon: "Cloud",
@@ -94,22 +178,6 @@ export const coreSkills = [
     ],
     highlight: false,
   },
-  {
-    category: "AI & Agentic Systems",
-    icon: "Brain",
-    description:
-      "Designing AI-powered customer interaction platforms and shipping production code with agentic developer tools (Claude Code, Cursor).",
-    skills: [
-      "Claude API",
-      "OpenAI",
-      "AI Routing & Triage",
-      "Agentic Workflows",
-      "Claude Code",
-      "n8n",
-      "Process Automation",
-    ],
-    highlight: true,
-  },
 ];
 
 // Hidden talents: kept honest. These are real practices, not bullet padding.
@@ -176,7 +244,7 @@ export const hiddenTalents = [
     category: "Workflow Automation",
     icon: "Workflow",
     description:
-      "Compressing manual workflows into clicks. The kind of automation that turns 4-week regulatory cycles into 2-click operations.",
+      "Compressing manual workflows into clicks. The kind of automation that turns a 2-week regulatory cycle into a 5-minute run.",
     skills: [
       "Process Automation",
       "n8n",
@@ -200,11 +268,11 @@ export const experience = [
       "Sole-architect role spanning cloud infrastructure, AI systems, network security, distributed apps, and production DBA work for a 250,000+ member utility. Reports through CSD/SAD chain.",
     achievements: [
       "Sole architect of a ₱14.95M Azure hybrid cloud migration covering identity, collaboration, and DR",
-      "Designed an AI-powered omnichannel CRM with auto-escalation across phone, social, Viber, and Telegram",
+      "Building ACIRS, a 24/7 AI customer-support system with knowledge-base answers, auto-escalation, and an automatic Customer-360 CRM (launching Q1 2027)",
       "Built a distributed QR-based registration platform handling 13K attendees across 5 simultaneous venues",
       "Authored an internal NDR-class lateral-movement detection system: east-west monitoring, in-house build",
       "Manage a 1.17TB production MS SQL Server billing instance plus MySQL/MIMS/CAS databases as DBA",
-      "Reduced a 4-week tax compliance reporting cycle to a 2-click operation (~160 hours saved per cycle)",
+      "Cut a 2-week tax compliance reporting process to a two-click run that finishes in under 5 minutes",
       "Architected bulk PDF email invoicing for 183K+ consumers with sectorial filtering and AWS SES",
       "Authored PFAS, a partner file ETL platform replacing manual SFTP/email ingestion workflows",
       "Automated WESM settlement invoicing: a full-workday, ~50-invoice manual batch now runs in under 30 seconds with zero transcription errors",
@@ -251,9 +319,93 @@ export type Project = {
   images?: string[];
   featured: boolean;
   private?: boolean;
+  // One-line business outcome shown on the card. Only defensible numbers.
+  result?: string;
 };
 
+// Order matters: the first featured project is the large hero card.
 export const projects: Project[] = [
+  {
+    title: "Sneaker Symphony: AI-Run Marketplace",
+    description:
+      "Solo-built Philippine sneaker marketplace at sneakersymphony.com, run with very little manual work. A scraping pipeline pulls product listings and imports them into the catalog, and a Claude API content pipeline writes and schedules posts across FB, IG, and TikTok. Mobile-first checkout with GCash/Maya/PayMongo payments and Cloudflare R2 invoice storage.",
+    tech: ["Claude API", "Next.js 15", "Supabase", "Inngest", "PayMongo"],
+    link: "https://sneakersymphony.com",
+    image: "/images/projects/sneaker-symphony/01-hero.jpg",
+    images: [
+      "/images/projects/sneaker-symphony/01-hero.jpg",
+      "/images/projects/sneaker-symphony/02-catalog.jpg",
+      "/images/projects/sneaker-symphony/03-reviews.png",
+      "/images/projects/sneaker-symphony/04-admin-portal.jpg",
+      "/images/projects/sneaker-symphony/05-admin-dashboard.png",
+    ],
+    featured: true,
+    result: "Catalog import and social content run on automation, so one person can operate a full store",
+  },
+  {
+    title: "WeCare: Pharmacy POS & Dispensing Platform",
+    description:
+      "Live operations platform for a multi-branch pharmacy and clinic operator. Point-of-sale dispensing with FEFO batch tracking and BIR receipts, PhilHealth eligibility checks at the counter, automatic claims assembly to beat the 60-day filing deadline, plus inventory, branch transfers, purchase orders, and low-stock alerts. Solved their multi-tenant problem: every tenant and branch is isolated at the database level with row-level security, and the owners get CEO dashboards across all branches.",
+    tech: ["React 19", "Supabase", "Row-Level Security", "Multi-Tenant", "PostgreSQL"],
+    link: "#",
+    image: "/images/projects/wecare.jpg",
+    featured: true,
+    private: true,
+    result: "Multi-branch operator runs every branch from one platform, with data isolated per tenant and a live CEO view",
+  },
+  {
+    title: "AI-Assisted Refund Automation",
+    description:
+      "Automates a daily refund and correction approval workflow that staff did by hand across two billing systems. Per-type handlers run a dry run first, then execute with a reverse script ready. For flagged items, Claude reviews the case read-only and returns a structured note: category, a plain Taglish explanation, a suggested fix, and confidence. Guardrails by design: the AI never writes and never approves; a human confirms every action.",
+    tech: ["Claude (headless)", "Python", "FastAPI", "MS SQL Server", "Human-in-the-Loop"],
+    link: "#",
+    image: "/images/projects/refund-automation.jpg",
+    featured: true,
+    private: true,
+    result: "A manual daily approval queue becomes dry-run, AI-explained, human-confirmed actions",
+  },
+  {
+    title: "ACIRS: 24/7 AI Customer Support",
+    description:
+      "AI customer-support and resolution system for a 250K-member utility. A chatbot answers from the company knowledge base around the clock, auto-escalates to the right department when a human is needed, and builds a Customer-360 record from every interaction, a CRM that fills itself. Channels: web chat, social, Viber, and Telegram. Launching Q1 2027.",
+    tech: ["LLM Agent", "Knowledge Base", "Auto-Escalation", "Customer 360", "Omnichannel"],
+    link: "#",
+    image: "/images/projects/acirs.jpg",
+    featured: true,
+    private: true,
+    result: "Designed so every inquiry gets an answer, even at 3 a.m. (in build, launching Q1 2027)",
+  },
+  {
+    title: "Tax Compliance Automation",
+    description:
+      "Automated regulatory tax compliance reporting for a 250K-consumer utility. A process that took the compliance team two weeks of manual work is now two clicks: data is pulled from MS SQL Server and the regulated PDFs are generated with no manual transcription.",
+    tech: ["Process Automation", "PDF Generation", "Compliance", "MS SQL Server"],
+    link: "#",
+    image: "/images/projects/tax-automation.jpg",
+    featured: true,
+    private: true,
+    result: "2 weeks of manual work → under 5 minutes, two clicks",
+  },
+  {
+    title: "ITASM v2: IT Help Desk & Asset Management",
+    description:
+      "Replaced IT support run on phone calls, walk-ins, paper forms, and spreadsheets for a cooperative of about 300 employees across 12 offices. Help desk with a business-hours SLA engine (warnings, breach, auto-escalation), QR asset custody with signed receipts, a maintenance shop, 12 reports in 4 formats, a mobile PWA, and a live TV wallboard for the IT room.",
+    tech: ["React 19", "Node.js", "MS SQL Server", "Socket.IO", "Playwright"],
+    link: "#",
+    image: "",
+    featured: true,
+    private: true,
+    result: "Load-tested at 300 simultaneous requests; a 15,000-ticket report returns in under 500 ms (p95)",
+  },
+  {
+    title: "P3 Online Billing Portal",
+    description:
+      "Self-service portal for an electric cooperative's consumers: bills, payments, usage history, a bill calculator, outage reports, rates, and news, with staff areas for claims, tickets, and dispatch. An on-prem sync agent mirrors the billing database to the cloud with rate limiting and a circuit breaker, so the portal never puts load on the system of record.",
+    tech: ["Next.js", "Supabase", "Vercel", "Sync Agent", "MS SQL Server"],
+    link: "https://app.panelco3.online",
+    image: "",
+    featured: true,
+  },
   {
     title: "AGAM Distributed Registration",
     description:
@@ -268,6 +420,7 @@ export const projects: Project[] = [
       "/images/projects/agam/04-pre-register.jpg",
     ],
     featured: true,
+    result: "13,000 attendees checked in across 5 simultaneous venues",
   },
   {
     title: "Azure Hybrid Cloud Migration",
@@ -276,16 +429,6 @@ export const projects: Project[] = [
     tech: ["Azure", "Hybrid Cloud", "Identity & DR", "ArcherOS HCI", "Vendor Mgmt"],
     link: "#",
     image: "/images/projects/azure-migration.jpg",
-    featured: true,
-    private: true,
-  },
-  {
-    title: "ACIRS: AI Omnichannel CRM",
-    description:
-      "AI-powered customer interaction and resolution platform integrating phone, social media, Viber, and Telegram. Auto-classifies inbound concerns and routes to the correct department. Drafted full PRD and 36-month service agreement covering performance security, liquidated damages, and milestone payments.",
-    tech: ["AI Routing", "CRM", "Multi-channel", "WhatsApp Business", "Service Design"],
-    link: "#",
-    image: "/images/projects/acirs.jpg",
     featured: true,
     private: true,
   },
@@ -300,23 +443,13 @@ export const projects: Project[] = [
     private: true,
   },
   {
-    title: "Bulk Email Invoicing System",
+    title: "P3 Consumer E-Invoicing",
     description:
-      "End-to-end PRD and architecture for bulk PDF invoice delivery across 183,000+ utility consumers. Sectorial filtering by area office, municipality, and barangay. Password-protected PDFs (last digit of account number + birthday MMDD), account-verified opt-in webpage, and Amazon SES integration for deliverability at scale.",
-    tech: ["AWS SES", "PDF Pipeline", "Account Verification", "Compliance", "Scale"],
+      "Notification service built to deliver statements of account and disconnection notices to the cooperative's opted-in consumers: password-protected PDF invoices by email and SMS with an automatic provider fallback chain. Batch targeting by area office, municipality, and barangay with cost estimates, a contact registry with CSV import, templates, a 360° delivery dashboard, and provider credentials encrypted with AES-256-GCM.",
+    tech: ["Node.js", "Amazon SES", "SMS Fallback Chain", "PDF Pipeline", "MS SQL Server"],
     link: "#",
     image: "/images/projects/bulk-email.jpg",
     featured: true,
-    private: true,
-  },
-  {
-    title: "Tax Compliance PDF Automation",
-    description:
-      "Automated regulatory tax compliance reporting for a 250K-consumer utility. Reduced a recurring 4-week manual reporting cycle to a 2-click operation, eliminating ~160 hours of manual work per cycle and removing human error from regulated filings.",
-    tech: ["Process Automation", "PDF Generation", "Compliance", "MS SQL Server"],
-    link: "#",
-    image: "/images/projects/tax-automation.jpg",
-    featured: false,
     private: true,
   },
   {
@@ -338,22 +471,6 @@ export const projects: Project[] = [
     image: "/images/projects/hci.jpg",
     featured: false,
     private: true,
-  },
-  {
-    title: "Sneaker Symphony Marketplace",
-    description:
-      "Solo full-stack Philippine sneaker marketplace at sneakersymphony.com. Mobile-first checkout, GCash/Maya/PayMongo dual-gateway payments, AI-driven content automation pipeline across FB/IG/TikTok, and Cloudflare R2 invoice storage. Stack: Next.js 15 + Supabase + Vercel + Inngest + Claude API.",
-    tech: ["Next.js 15", "Supabase", "PayMongo", "Cloudflare R2", "Claude API"],
-    link: "https://sneakersymphony.com",
-    image: "/images/projects/sneaker-symphony/01-hero.jpg",
-    images: [
-      "/images/projects/sneaker-symphony/01-hero.jpg",
-      "/images/projects/sneaker-symphony/02-catalog.jpg",
-      "/images/projects/sneaker-symphony/03-reviews.png",
-      "/images/projects/sneaker-symphony/04-admin-portal.jpg",
-      "/images/projects/sneaker-symphony/05-admin-dashboard.png",
-    ],
-    featured: true,
   },
   {
     title: "FocusCanvas: Desktop SaaS",
@@ -383,6 +500,7 @@ export const projects: Project[] = [
     image: "/images/projects/iemop.jpg",
     featured: true,
     private: true,
+    result: "A full workday of manual invoicing → under 30 seconds, zero transcription errors",
   },
   {
     title: "MRMS: Meter Reading Management",
@@ -424,33 +542,13 @@ export const projects: Project[] = [
     private: true,
   },
   {
-    title: "GM Executive Collections Dashboard",
+    title: "GM Live Collections Dashboard",
     description:
-      "Read-only daily collections dashboard for the General Manager: teller performance, monthly targets, and collection figures surfaced live from the production SQL Server. Runs 24/7 as a Windows service on-prem with a least-privilege read-only database login, so an executive reporting tool can never touch the financial system of record.",
-    tech: ["Node.js", "MS SQL Server", "Windows Service", "Least-Privilege Design"],
+      "Real-time collections dashboard for the General Manager: today's totals, a per-office breakdown and map, teller ranking, and revenue lost to voided receipts. Runs as a TV kiosk and a phone app. A least-privilege, read-only database login with poll-and-cache means any number of viewers costs one database reader, so an executive tool can never touch the financial system of record.",
+    tech: ["React", "Node.js", "MS SQL Server", "MapLibre", "PWA"],
     link: "#",
     image: "/images/projects/gm-dashboard.jpg",
-    featured: false,
-    private: true,
-  },
-  {
-    title: "Refund Classification Automation",
-    description:
-      "Python automation for the consumer refund pipeline across two billing systems (EBS + MIMS): fetches and enriches account data, classifies refund natures through a decision engine, executes actions with undo support, sends email notifications, and exports reports behind an internal dashboard. Reversible operations by design, with a pytest suite.",
-    tech: ["Python", "MS SQL Server", "Decision Engine", "pytest"],
-    link: "#",
-    image: "/images/projects/refund-automation.jpg",
-    featured: false,
-    private: true,
-  },
-  {
-    title: "WeCare: Pharmacy Claims Platform",
-    description:
-      "Healthcare operations prototype for PhilHealth-accredited pharmacies and clinics covering the full dispense-to-reimbursement loop: real-time eligibility checks at the counter, FEFO batch dispensing with BIR receipts, and automatic assembly of clean claims to cut denials and beat the 60-day filing deadline. Ships as a partner briefing deck, owner dashboard, and POS terminal prototype.",
-    tech: ["TypeScript", "Supabase", "PLpgSQL", "Healthcare", "Product Design"],
-    link: "#",
-    image: "/images/projects/wecare.jpg",
-    featured: false,
+    featured: true,
     private: true,
   },
   {
@@ -460,8 +558,9 @@ export const projects: Project[] = [
     tech: ["TypeScript", "Chrome MV3", "Anthropic API", "Tool Use", "Vite"],
     link: "#",
     image: "/images/projects/sonicsense.jpg",
-    featured: false,
+    featured: true,
     private: true,
+    result: "A free-text track description becomes 13 structured release fields in one pass",
   },
   {
     title: "SOURCE: Interactive Book Prototype",
@@ -505,6 +604,7 @@ export const testimonials = [
 
 export const navigationItems = [
   { label: "Home", href: "/" },
+  { label: "Services", href: "#services" },
   { label: "The Grid", href: "#grid" },
   { label: "Skills", href: "#skills" },
   { label: "Experience", href: "#experience" },

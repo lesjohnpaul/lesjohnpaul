@@ -3,6 +3,9 @@ import { Navigation } from "@/components/layout/navigation";
 import { HeroSection } from "@/components/sections/hero-section";
 
 // Below-the-fold sections are code-split so the hero paints and hydrates first.
+const ServicesSection = dynamic(() =>
+  import("@/components/sections/services-section").then((m) => m.ServicesSection)
+);
 const LivingGridSection = dynamic(() =>
   import("@/components/sections/living-grid-section").then((m) => m.LivingGridSection)
 );
@@ -18,11 +21,11 @@ const ProjectsSection = dynamic(() =>
 const SneakerPortalShowcase = dynamic(() =>
   import("@/components/sections/sneaker-portal-showcase").then((m) => m.SneakerPortalShowcase)
 );
-const PandoraSection = dynamic(() =>
-  import("@/components/sections/pandora-section").then((m) => m.PandoraSection)
-);
 const ContactSection = dynamic(() =>
   import("@/components/sections/contact-section").then((m) => m.ContactSection)
+);
+const ChatWidget = dynamic(() =>
+  import("@/components/chat/chat-widget").then((m) => m.ChatWidget)
 );
 const Footer = dynamic(() =>
   import("@/components/layout/footer").then((m) => m.Footer)
@@ -33,14 +36,15 @@ export default function Home() {
     <main className="relative">
       <Navigation />
       <HeroSection />
+      <ServicesSection />
+      <ProjectsSection />
+      <SneakerPortalShowcase />
       <LivingGridSection />
       <SkillsSection />
       <ExperienceSection />
-      <ProjectsSection />
-      <SneakerPortalShowcase />
-      <PandoraSection />
       <ContactSection />
       <Footer />
+      <ChatWidget />
     </main>
   );
 }

@@ -88,6 +88,9 @@ export function Footer() {
           <p className="text-sm text-muted-foreground">
             &copy; {currentYear} {personalInfo.name}. All rights reserved.
           </p>
+          <Link href="/pandora" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+            Beyond the code: music &amp; art →
+          </Link>
         </div>
       </div>
     </footer>

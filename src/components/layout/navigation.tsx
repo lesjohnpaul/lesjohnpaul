@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { MagneticElement } from "@/components/ui/magnetic-element";
 import { useTheme } from "./theme-provider";
 import { navigationItems, personalInfo } from "@/data/portfolio-data";
+import { track } from "@vercel/analytics";
 import { cn } from "@/lib/utils";
 
 type IndicatorRect = { left: number; width: number } | null;
@@ -143,7 +144,7 @@ export function Navigation() {
                   <span className="text-primary">.</span>
                 </span>
                 <span className="hidden md:inline text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground/80">
-                  Solutions Architect
+                  AI Engineer
                 </span>
               </span>
             </Link>
@@ -241,7 +242,7 @@ export function Navigation() {
                 asChild
                 className="group relative rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-2 pl-4 pr-3 overflow-hidden"
               >
-                <a href={personalInfo.resumeUrl} download>
+                <a href={personalInfo.resumeUrl} download onClick={() => track("resume_download")}>
                   <Download className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   <span className="font-medium">Resume</span>
                   <span
@@ -492,7 +493,7 @@ function MobileMenu({
               size="lg"
               className="group relative w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90 gap-2 overflow-hidden"
             >
-              <a href={personalInfo.resumeUrl} download onClick={onClose}>
+              <a href={personalInfo.resumeUrl} download onClick={() => { track("resume_download"); onClose(); }}>
                 <Download className="h-4 w-4" />
                 <span className="font-semibold">Download Resume</span>
                 <span

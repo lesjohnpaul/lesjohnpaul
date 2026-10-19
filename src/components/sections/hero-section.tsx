@@ -6,8 +6,8 @@ import Image from "next/image";
 import {
   ArrowRight,
   Terminal,
-  Cloud,
-  Database,
+  Bot,
+  Workflow,
   Brain,
   Code2,
   Github,
@@ -18,20 +18,21 @@ import { Button } from "@/components/ui/button";
 import { MagneticElement } from "@/components/ui/magnetic-element";
 import { personalInfo, heroStats } from "@/data/portfolio-data";
 import gsap from "gsap";
+import { track } from "@vercel/analytics";
 
 const roles = [
-  "Cloud Architect",
-  "Software Engineer",
-  "Database Expert",
-  "AI Developer",
-  "System Designer",
+  "AI Agents & Chatbots",
+  "Business Automation",
+  "LLM Integrations",
+  "Full-Stack Systems",
+  "AI Motion Graphics",
 ];
 
 const techStack = [
-  { icon: Cloud, label: "AWS / GCP / Azure" },
-  { icon: Database, label: "MS SQL / PostgreSQL" },
-  { icon: Code2, label: "TypeScript / Python" },
-  { icon: Brain, label: "AI / ML Solutions" },
+  { icon: Bot, label: "AI Agents / Claude API" },
+  { icon: Workflow, label: "Workflow Automation" },
+  { icon: Code2, label: "Next.js / Python" },
+  { icon: Brain, label: "LLM Product Features" },
 ];
 
 export function HeroSection() {
@@ -170,6 +171,10 @@ export function HeroSection() {
                 <span className="hero-name-char inline-block transition-all duration-300 group-hover/name:[text-shadow:0_0_20px_rgba(212,175,55,0.3),0_0_40px_rgba(212,175,55,0.2)]">{personalInfo.name.split(" ")[2]}</span>
                 <span className="hero-name-char inline-block">&nbsp;</span>
                 <span className="hero-name-char inline-block text-primary transition-all duration-300 group-hover/name:drop-shadow-[0_0_20px_rgba(212,175,55,0.6)]">{personalInfo.name.split(" ")[3]}</span>
+                {/* Rendered on the server so search engines index the title next to the name */}
+                <span data-hero-fade className="block mt-5 font-sans text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-foreground/90">
+                  {personalInfo.title}
+                </span>
               </h1>
             </div>
 
@@ -185,8 +190,8 @@ export function HeroSection() {
 
             {/* Description */}
             <p data-hero-fade className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed">
-              I build infrastructure that doesn&apos;t break, databases that don&apos;t slow down,
-              and AI solutions that actually work.
+              {personalInfo.pitch} A compliance process that took two weeks now runs
+              in under five minutes.
             </p>
 
             {/* CTA Buttons with Magnetic Effect */}
@@ -197,7 +202,7 @@ export function HeroSection() {
                   className="group relative overflow-hidden rounded-none bg-foreground text-background hover:bg-foreground px-8 py-6 text-base font-semibold"
                   asChild
                 >
-                  <Link href="#contact">
+                  <Link href="#contact" onClick={() => track("cta_click", { location: "hero" })}>
                     <span className="relative z-10 flex items-center gap-2">
                       Start a Project
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -260,7 +265,7 @@ export function HeroSection() {
                   <div className="relative w-full h-full">
                     <Image
                       src="/images/lesjohnpaul.jpg"
-                      alt="Les John Paul Oliver - Software Engineer & Cloud Architect"
+                      alt="Les John Paul Oliver, AI Engineer"
                       fill
                       className="object-cover object-center transition-transform duration-700 ease-out group-hover/image:scale-105"
                       priority
@@ -300,7 +305,7 @@ export function HeroSection() {
                 data-hero-slide-right
                 className="absolute -top-4 -right-4 md:top-4 md:-right-6 flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-mono text-sm cursor-default shadow-lg z-30"
               >
-                Architect / DBA / Builder
+                Ships fast / Solves problems
               </div>
             </MagneticElement>
 
