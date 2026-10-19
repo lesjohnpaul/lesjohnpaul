@@ -113,7 +113,7 @@ export function ChatWidget() {
     } catch {
       append("Sorry, I couldn't connect. Please use the contact form below.");
     } finally {
-      setChips(next);
+      setChips(next.filter((c) => c !== message));
       setBusy(false);
     }
   }
