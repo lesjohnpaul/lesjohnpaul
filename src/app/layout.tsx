@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/layout/theme-provider";
+import { services } from "@/data/portfolio-data";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -11,9 +12,9 @@ const jetbrainsMono = JetBrains_Mono({
 
 const siteUrl = "https://lesjohnpauloliver.dev";
 const siteName = "Les John Paul Oliver";
-const siteTitle = "Les John Paul Oliver | Solutions Architect & Senior Software Engineer";
+const siteTitle = "Les John Paul Oliver | AI Engineer: AI Agents, Chatbots & Business Automation";
 const siteDescription =
-  "Solutions Architect and Senior Software Engineer in Pangasinan, Philippines. Sole architect of enterprise systems for a 250K-member utility cooperative: Azure hybrid cloud, production MS SQL DBA, distributed real-time apps, and AI integrations. 10+ years in enterprise IT.";
+  "AI Engineer in the Philippines who builds AI agents, chatbots, and business automation that solve real problems, fast. Cut a 2-week compliance process to under 5 minutes. 10+ years shipping production systems for a 250K-member utility. Available for freelance and remote work.";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -34,26 +35,23 @@ export const metadata: Metadata = {
   description: siteDescription,
   keywords: [
     "Les John Paul Oliver",
-    "Software Engineer",
-    "Cloud Architect",
-    "Solutions Architect",
-    "Azure Hybrid Cloud",
+    "AI Engineer",
+    "AI Engineer Philippines",
+    "Hire AI Engineer",
+    "Freelance AI Engineer",
+    "AI Automation Expert",
+    "Business Process Automation",
+    "AI Chatbot Developer",
+    "AI Agent Developer",
+    "LLM Integration",
+    "Claude API Developer",
+    "AI Consultant for Small Business",
+    "Workflow Automation",
     "Full Stack Developer",
-    "Database Administrator",
-    "MS SQL Server DBA",
-    "AI Solutions Developer",
-    "System Architecture",
-    "Docker",
-    "TypeScript Developer",
-    "React Developer",
     "Next.js Developer",
-    "Node.js Developer",
     "Python Developer",
-    "Philippines Software Engineer",
-    "Remote Software Engineer",
-    "Cloud Migration Specialist",
-    "FastAPI Developer",
-    "Supabase",
+    "Remote AI Engineer",
+    "Solutions Architect",
   ],
   authors: [{ name: siteName, url: siteUrl }],
   creator: siteName,
@@ -73,21 +71,13 @@ export const metadata: Metadata = {
     title: siteTitle,
     description: siteDescription,
     siteName: siteName,
-    images: [
-      {
-        url: `${siteUrl}/og-image.jpg`,
-        width: 1200,
-        height: 630,
-        alt: `${siteName} - Software Engineer & Cloud Architect`,
-      },
-    ],
+    // og:image comes from src/app/opengraph-image.tsx
   },
   twitter: {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
     creator: "@lesjohnpaul",
-    images: [`${siteUrl}/og-image.jpg`],
   },
   robots: {
     index: true,
@@ -111,7 +101,7 @@ const jsonLd = {
   name: "Les John Paul Oliver",
   url: siteUrl,
   image: `${siteUrl}/images/lesjohnpaul.jpg`,
-  jobTitle: "Solutions Architect & Senior Software Engineer",
+  jobTitle: "AI Engineer",
   worksFor: {
     "@type": "Organization",
     name: "PANELCO III (Pangasinan III Electric Cooperative)",
@@ -131,6 +121,12 @@ const jsonLd = {
     "https://www.linkedin.com/in/lesjohnpaul/",
   ],
   knowsAbout: [
+    "Artificial Intelligence",
+    "AI Agents",
+    "Large Language Models",
+    "Chatbots",
+    "Business Process Automation",
+    "Claude API",
     "Software Engineering",
     "Solutions Architecture",
     "Microsoft Azure",
@@ -148,10 +144,28 @@ const jsonLd = {
     "Node.js",
     "Python",
     "FastAPI",
-    "AI Integrations",
     "Network Security",
-    "Process Automation",
   ],
+};
+
+// Lets Google match "hire an AI engineer for X" searches to the services offered.
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: `${siteName}, AI Engineer`,
+  url: siteUrl,
+  description: siteDescription,
+  areaServed: "Worldwide",
+  address: { "@type": "PostalAddress", addressCountry: "PH", addressLocality: "Pangasinan" },
+  founder: { "@type": "Person", name: siteName },
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "AI engineering services",
+    itemListElement: services.map((s) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: s.title, description: s.offer },
+    })),
+  },
 };
 
 const websiteJsonLd = {
@@ -186,6 +200,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
         />
       </head>
       <body className={`${jetbrainsMono.variable} antialiased`}>

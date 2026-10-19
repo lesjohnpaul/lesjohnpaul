@@ -143,7 +143,7 @@ export function Navigation() {
                   <span className="text-primary">.</span>
                 </span>
                 <span className="hidden md:inline text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground/80">
-                  Solutions Architect
+                  AI Engineer
                 </span>
               </span>
             </Link>

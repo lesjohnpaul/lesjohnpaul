@@ -7,6 +7,7 @@ import {
   Code,
   Layers,
   Brain,
+  Workflow,
   ArrowUpRight,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -27,6 +28,7 @@ const iconMap = {
   Code,
   Layers,
   Brain,
+  Workflow,
 };
 
 export function SkillsSection() {
@@ -113,9 +115,9 @@ export function SkillsSection() {
             What I <span className="text-gradient-gold">Bring</span> to the Table
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            Years of hands-on experience across the full technology stack, from
-            cloud infrastructure to AI-powered solutions. I don&apos;t just write code
-            - I architect systems that scale.
+            AI and automation on top of 10+ years of enterprise engineering: cloud,
+            databases, and full-stack systems. That foundation is why the AI I ship
+            holds up in production.
           </p>
         </div>
 
@@ -210,7 +212,7 @@ export function SkillsSection() {
               {[
                 { label: "Cloud Migration Led", value: "₱14.95M" },
                 { label: "Attendees, 5 Live Venues", value: "13K" },
-                { label: "Hours Saved per Tax Cycle", value: "160" },
+                { label: "Tax Process, Was 2 Weeks", value: "5 min" },
                 { label: "Consumers on Bulk Invoicing", value: "183K+" },
               ].map((stat) => (
                 <MagneticElement key={stat.label} strength={0.2}>
