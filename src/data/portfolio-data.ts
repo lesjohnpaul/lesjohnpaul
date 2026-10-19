@@ -343,6 +343,28 @@ export const projects: Project[] = [
     result: "Catalog import and social content run on automation, so one person can operate a full store",
   },
   {
+    title: "WeCare: Pharmacy POS & Dispensing Platform",
+    description:
+      "Live operations platform for a multi-branch pharmacy and clinic operator. Point-of-sale dispensing with FEFO batch tracking and BIR receipts, PhilHealth eligibility checks at the counter, automatic claims assembly to beat the 60-day filing deadline, plus inventory, branch transfers, purchase orders, and low-stock alerts. Solved their multi-tenant problem: every tenant and branch is isolated at the database level with row-level security, and the owners get CEO dashboards across all branches.",
+    tech: ["React 19", "Supabase", "Row-Level Security", "Multi-Tenant", "PostgreSQL"],
+    link: "#",
+    image: "/images/projects/wecare.jpg",
+    featured: true,
+    private: true,
+    result: "Multi-branch operator runs every branch from one platform, with data isolated per tenant and a live CEO view",
+  },
+  {
+    title: "AI-Assisted Refund Automation",
+    description:
+      "Automates a daily refund and correction approval workflow that staff did by hand across two billing systems. Per-type handlers run a dry run first, then execute with a reverse script ready. For flagged items, Claude reviews the case read-only and returns a structured note: category, a plain Taglish explanation, a suggested fix, and confidence. Guardrails by design: the AI never writes and never approves; a human confirms every action.",
+    tech: ["Claude (headless)", "Python", "FastAPI", "MS SQL Server", "Human-in-the-Loop"],
+    link: "#",
+    image: "/images/projects/refund-automation.jpg",
+    featured: true,
+    private: true,
+    result: "A manual daily approval queue becomes dry-run, AI-explained, human-confirmed actions",
+  },
+  {
     title: "ACIRS: 24/7 AI Customer Support",
     description:
       "AI customer-support and resolution system for a 250K-member utility. A chatbot answers from the company knowledge base around the clock, auto-escalates to the right department when a human is needed, and builds a Customer-360 record from every interaction, a CRM that fills itself. Channels: web chat, social, Viber, and Telegram. Launching Q1 2027.",
@@ -363,6 +385,26 @@ export const projects: Project[] = [
     featured: true,
     private: true,
     result: "2 weeks of manual work → under 5 minutes, two clicks",
+  },
+  {
+    title: "ITASM v2: IT Help Desk & Asset Management",
+    description:
+      "Replaced IT support run on phone calls, walk-ins, paper forms, and spreadsheets for a cooperative of about 300 employees across 12 offices. Help desk with a business-hours SLA engine (warnings, breach, auto-escalation), QR asset custody with signed receipts, a maintenance shop, 12 reports in 4 formats, a mobile PWA, and a live TV wallboard for the IT room.",
+    tech: ["React 19", "Node.js", "MS SQL Server", "Socket.IO", "Playwright"],
+    link: "#",
+    image: "",
+    featured: true,
+    private: true,
+    result: "Load-tested at 300 simultaneous requests; a 15,000-ticket report returns in under 500 ms (p95)",
+  },
+  {
+    title: "P3 Online Billing Portal",
+    description:
+      "Self-service portal for an electric cooperative's consumers: bills, payments, usage history, a bill calculator, outage reports, rates, and news, with staff areas for claims, tickets, and dispatch. An on-prem sync agent mirrors the billing database to the cloud with rate limiting and a circuit breaker, so the portal never puts load on the system of record.",
+    tech: ["Next.js", "Supabase", "Vercel", "Sync Agent", "MS SQL Server"],
+    link: "https://app.panelco3.online",
+    image: "",
+    featured: true,
   },
   {
     title: "AGAM Distributed Registration",
@@ -401,10 +443,10 @@ export const projects: Project[] = [
     private: true,
   },
   {
-    title: "Bulk Email Invoicing System",
+    title: "P3 Consumer E-Invoicing",
     description:
-      "End-to-end PRD and architecture for bulk PDF invoice delivery across 183,000+ utility consumers. Sectorial filtering by area office, municipality, and barangay. Password-protected PDFs (last digit of account number + birthday MMDD), account-verified opt-in webpage, and Amazon SES integration for deliverability at scale.",
-    tech: ["AWS SES", "PDF Pipeline", "Account Verification", "Compliance", "Scale"],
+      "Notification service built to deliver statements of account and disconnection notices to the cooperative's opted-in consumers: password-protected PDF invoices by email and SMS with an automatic provider fallback chain. Batch targeting by area office, municipality, and barangay with cost estimates, a contact registry with CSV import, templates, a 360° delivery dashboard, and provider credentials encrypted with AES-256-GCM.",
+    tech: ["Node.js", "Amazon SES", "SMS Fallback Chain", "PDF Pipeline", "MS SQL Server"],
     link: "#",
     image: "/images/projects/bulk-email.jpg",
     featured: true,
@@ -500,33 +542,13 @@ export const projects: Project[] = [
     private: true,
   },
   {
-    title: "GM Executive Collections Dashboard",
+    title: "GM Live Collections Dashboard",
     description:
-      "Read-only daily collections dashboard for the General Manager: teller performance, monthly targets, and collection figures surfaced live from the production SQL Server. Runs 24/7 as a Windows service on-prem with a least-privilege read-only database login, so an executive reporting tool can never touch the financial system of record.",
-    tech: ["Node.js", "MS SQL Server", "Windows Service", "Least-Privilege Design"],
+      "Real-time collections dashboard for the General Manager: today's totals, a per-office breakdown and map, teller ranking, and revenue lost to voided receipts. Runs as a TV kiosk and a phone app. A least-privilege, read-only database login with poll-and-cache means any number of viewers costs one database reader, so an executive tool can never touch the financial system of record.",
+    tech: ["React", "Node.js", "MS SQL Server", "MapLibre", "PWA"],
     link: "#",
     image: "/images/projects/gm-dashboard.jpg",
-    featured: false,
-    private: true,
-  },
-  {
-    title: "Refund Classification Automation",
-    description:
-      "Python automation for the consumer refund pipeline across two billing systems (EBS + MIMS): fetches and enriches account data, classifies refund natures through a decision engine, executes actions with undo support, sends email notifications, and exports reports behind an internal dashboard. Reversible operations by design, with a pytest suite.",
-    tech: ["Python", "MS SQL Server", "Decision Engine", "pytest"],
-    link: "#",
-    image: "/images/projects/refund-automation.jpg",
-    featured: false,
-    private: true,
-  },
-  {
-    title: "WeCare: Pharmacy Claims Platform",
-    description:
-      "Healthcare operations prototype for PhilHealth-accredited pharmacies and clinics covering the full dispense-to-reimbursement loop: real-time eligibility checks at the counter, FEFO batch dispensing with BIR receipts, and automatic assembly of clean claims to cut denials and beat the 60-day filing deadline. Ships as a partner briefing deck, owner dashboard, and POS terminal prototype.",
-    tech: ["TypeScript", "Supabase", "PLpgSQL", "Healthcare", "Product Design"],
-    link: "#",
-    image: "/images/projects/wecare.jpg",
-    featured: false,
+    featured: true,
     private: true,
   },
   {
