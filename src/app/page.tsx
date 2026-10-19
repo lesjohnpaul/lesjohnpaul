@@ -24,6 +24,9 @@ const SneakerPortalShowcase = dynamic(() =>
 const ContactSection = dynamic(() =>
   import("@/components/sections/contact-section").then((m) => m.ContactSection)
 );
+const ChatWidget = dynamic(() =>
+  import("@/components/chat/chat-widget").then((m) => m.ChatWidget)
+);
 const Footer = dynamic(() =>
   import("@/components/layout/footer").then((m) => m.Footer)
 );
@@ -41,6 +44,7 @@ export default function Home() {
       <ExperienceSection />
       <ContactSection />
       <Footer />
+      <ChatWidget />
     </main>
   );
 }
