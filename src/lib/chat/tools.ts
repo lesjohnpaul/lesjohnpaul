@@ -85,7 +85,8 @@ const LeadInput = z.object({
   budget: z.string().trim().max(100).optional(),
 });
 
-export type ToolOutcome = { content: string; isError?: boolean; event?: "booked" | "lead" };
+// chips: tap-to-reply options shown to the visitor, taken from real tool data (never model-invented).
+export type ToolOutcome = { content: string; isError?: boolean; event?: "booked" | "lead"; chips?: string[] };
 
 const label = (iso: string, timeZone: string) =>
   new Intl.DateTimeFormat("en-US", { timeZone, weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short" }).format(new Date(iso));
@@ -109,13 +110,14 @@ async function getSlots(input: z.infer<typeof SlotsInput>): Promise<ToolOutcome>
   if (!res.ok) throw new Error(`cal slots ${res.status}`);
   const body: { data: Record<string, { start: string }[]> } = await res.json();
 
-  // At most 3 per day and 12 total, so the model sees a spread of days, not one crowded morning.
+  // At most 2 per day and 6 total: a spread of days, and few enough that the model offers all of
+  // them, so the tap-to-pick buttons match the times in its reply.
   const slots = Object.values(body.data ?? {})
-    .flatMap((day) => day.slice(0, 3))
-    .slice(0, 12)
+    .flatMap((day) => day.slice(0, 2))
+    .slice(0, 6)
     .map((s) => ({ start: s.start, label: label(s.start, input.time_zone) }));
   if (!slots.length) return { content: "No open times in that range. Suggest a longer range or the contact form." };
-  return { content: JSON.stringify(slots) };
+  return { content: JSON.stringify(slots), chips: slots.map((s) => s.label) };
 }
 
 async function book(input: z.infer<typeof BookInput>, ip: string): Promise<ToolOutcome> {

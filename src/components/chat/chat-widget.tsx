@@ -12,6 +12,9 @@ const GREETING: Msg = {
   text: "Hi! I'm Pao, Les's AI assistant. Ask me what he builds, whether he can help with your business, or I can book you a call with him.",
 };
 const SUGGESTIONS = ["What does Les build?", "Can he automate our reports?", "Book a call with Les"];
+// Shown after every reply so a visitor can always tap instead of type; slot times replace them while booking.
+const NEXT_STEPS = ["Book a call with Les", "What has he built?", "How does a project work?", "Leave my details instead"];
+const AFTER_BOOKING = ["What happens on the call?", "What has he built?"];
 const MAX_CHARS = 500;
 
 // Per-tab conversation id; the server keeps the actual history.
@@ -32,6 +35,7 @@ export function ChatWidget() {
   const [messages, setMessages] = useState<Msg[]>([GREETING]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  const [chips, setChips] = useState<string[]>(SUGGESTIONS);
   const panelRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -69,6 +73,8 @@ export function ChatWidget() {
     idRef.current ??= conversationId();
     setInput("");
     setBusy(true);
+    setChips([]);
+    let next = NEXT_STEPS;
     setMessages((m) => [...m, { role: "user", text: message }, { role: "assistant", text: "" }]);
 
     const append = (delta: string) =>
@@ -94,15 +100,20 @@ export function ChatWidget() {
         buffered = lines.pop() ?? "";
         for (const l of lines) {
           if (!l) continue;
-          const evt = JSON.parse(l) as { t: string; v?: string };
-          if (evt.t === "text" && evt.v) append(evt.v);
-          if (evt.t === "event" && evt.v === "booked") track("booking_made");
+          const evt = JSON.parse(l) as { t: string; v?: string | string[] };
+          if (evt.t === "text" && typeof evt.v === "string") append(evt.v);
+          if (evt.t === "chips" && Array.isArray(evt.v)) next = evt.v;
+          if (evt.t === "event" && evt.v === "booked") {
+            track("booking_made");
+            next = AFTER_BOOKING;
+          }
           if (evt.t === "event" && evt.v === "lead") track("chat_lead");
         }
       }
     } catch {
       append("Sorry, I couldn't connect. Please use the contact form below.");
     } finally {
+      setChips(next);
       setBusy(false);
     }
   }
@@ -152,9 +163,9 @@ export function ChatWidget() {
                 ))}
               </div>
             )}
-            {messages.length === 1 && (
+            {!busy && chips.length > 0 && (
               <div className="flex flex-wrap gap-2 pt-1">
-                {SUGGESTIONS.map((s) => (
+                {chips.map((s) => (
                   <button
                     key={s}
                     onClick={() => send(s)}

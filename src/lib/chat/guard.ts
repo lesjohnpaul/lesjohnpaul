@@ -8,7 +8,7 @@ export const REPLIES = {
   tooLong: `Please keep messages under ${LIMITS.maxChars} characters. What would you like to know about Les's work?`,
   code: "I can't read, write, or debug code here. I only answer questions about Les's services and projects, and I can help you book a call. If you need help with a codebase, that's exactly the kind of work Les takes on. Want me to find a time?",
   turns: "We've covered a lot! The best next step is a quick call with Les, or a message through the contact form below.",
-  rate: "You're sending messages quickly. Please wait a little, or use the contact form below to reach Les directly.",
+  rate: "You've reached the message limit for now. Please try again later, or use the contact form below and Les will reply within 24 hours.",
   budget: "I'm resting for today. Please use the contact form below and Les will reply within 24 hours.",
   unavailable: "I'm not available right now. Please use the contact form below and Les will reply within 24 hours.",
   error: "Sorry, something went wrong on my side. Please try again, or use the contact form below.",

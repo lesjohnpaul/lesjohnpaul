@@ -10,6 +10,7 @@ export const maxDuration = 60;
 const MODEL = "claude-haiku-5-5";
 const MAX_TOOL_ROUNDS = 4;
 const HISTORY_TTL_S = 60 * 60 * 24;
+const MAX_BODY_BYTES = 8_000;
 const DAILY_BUDGET_USD = Number(process.env.CHAT_DAILY_BUDGET_USD ?? "1");
 
 // Claude Haiku 5.5, prompts ≤100K tokens, USD per million tokens.
@@ -18,7 +19,11 @@ const PRICE = { input: 0.1, output: 0.5, cacheWrite: 0.125, cacheRead: 0.01 };
 const Body = z.object({ conversationId: z.uuid(), message: z.string().max(2000) });
 
 // The wire format to the widget: one JSON object per line.
-type Event = { t: "text"; v: string } | { t: "event"; v: "booked" | "lead" } | { t: "done" };
+type Event =
+  | { t: "text"; v: string }
+  | { t: "event"; v: "booked" | "lead" }
+  | { t: "chips"; v: string[] }
+  | { t: "done" };
 const encoder = new TextEncoder();
 const line = (e: Event) => encoder.encode(JSON.stringify(e) + "\n");
 
@@ -39,7 +44,11 @@ const costOf = (u: Anthropic.Usage) =>
 export async function POST(req: Request) {
   if (await isBot()) return cannedReply(REPLIES.refusal, 403);
 
-  const parsed = Body.safeParse(await req.json().catch(() => null));
+  // Reject oversized bodies before reading them; a valid body is well under 3 KB.
+  if (Number(req.headers.get("content-length") ?? 0) > MAX_BODY_BYTES) return cannedReply(REPLIES.tooLong, 413);
+  const raw = await req.text();
+  if (raw.length > MAX_BODY_BYTES) return cannedReply(REPLIES.tooLong, 413);
+  const parsed = Body.safeParse((() => { try { return JSON.parse(raw); } catch { return null; } })());
   if (!parsed.success) return cannedReply(REPLIES.error, 400);
   const { conversationId, message } = parsed.data;
 
@@ -47,10 +56,12 @@ export async function POST(req: Request) {
   if (!redis || !process.env.ANTHROPIC_API_KEY) return cannedReply(REPLIES.unavailable, 503);
   const db = redis;
 
+  // Per-IP limits sit well above one conversation's 20-turn cap, so a visitor mid-booking (or an
+  // office sharing one IP) isn't cut off. Spend is still bounded by DAILY_BUDGET_USD (~$0.0003/msg).
   const ip = clientIp(req);
   const [hourly, daily] = await Promise.all([
-    rateLimit("chat-h", ip, 20, "1 h"),
-    rateLimit("chat-d", ip, 40, "1 d"),
+    rateLimit("chat-h", ip, 40, "1 h"),
+    rateLimit("chat-d", ip, 100, "1 d"),
   ]);
   if (!hourly || !daily) return cannedReply(REPLIES.rate, 429);
 
@@ -101,6 +112,7 @@ export async function POST(req: Request) {
             toolUses.map(async (tu) => {
               const out = await runTool(tu.name, tu.input, ip);
               if (out.event) send({ t: "event", v: out.event });
+              if (out.chips) send({ t: "chips", v: out.chips });
               return { type: "tool_result" as const, tool_use_id: tu.id, content: out.content, is_error: out.isError };
             }),
           );
