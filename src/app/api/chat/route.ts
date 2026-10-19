@@ -11,6 +11,8 @@ const MODEL = "claude-haiku-5-5";
 const MAX_TOOL_ROUNDS = 4;
 const HISTORY_TTL_S = 60 * 60 * 24;
 const MAX_BODY_BYTES = 8_000;
+// Worst case for one request: 4 rounds × (~45K-token history in + 2,000 out) ≈ $0.022.
+const RESERVE_USD = 0.03;
 const DAILY_BUDGET_USD = Number(process.env.CHAT_DAILY_BUDGET_USD ?? "1");
 
 // Claude Haiku 5.5, prompts ≤100K tokens, USD per million tokens.
@@ -65,15 +67,23 @@ export async function POST(req: Request) {
   ]);
   if (!hourly || !daily) return cannedReply(REPLIES.rate, 429);
 
-  const spendKey = `chat:spend:${new Date().toISOString().slice(0, 10)}`;
-  if (Number((await redis.get(spendKey)) ?? 0) >= DAILY_BUDGET_USD) return cannedReply(REPLIES.budget);
-
   // History lives server-side, so a client can't forge earlier assistant turns or reset the turn cap.
   const historyKey = `chat:conv:${conversationId}`;
   const history = (await redis.get<Anthropic.MessageParam[]>(historyKey)) ?? [];
   const turns = history.filter((m) => m.role === "user" && typeof m.content === "string").length;
   const verdict = checkMessage(message, turns);
   if (!verdict.ok) return cannedReply(verdict.reply);
+
+  // Reserve the worst case before calling the model, then settle to the real cost afterwards.
+  // A check-then-record budget lets a burst of parallel requests all pass the check; reserving
+  // atomically keeps the daily cap strict. An over-reservation from a crashed request errs safe.
+  const spendKey = `chat:spend:${new Date().toISOString().slice(0, 10)}`;
+  const reserved = Number(await db.incrbyfloat(spendKey, RESERVE_USD));
+  await db.expire(spendKey, 60 * 60 * 48);
+  if (reserved > DAILY_BUDGET_USD) {
+    await db.incrbyfloat(spendKey, -RESERVE_USD);
+    return cannedReply(REPLIES.budget);
+  }
 
   // Append-only: Haiku 5.5 rejects replayed thinking blocks if earlier turns change.
   const messages: Anthropic.MessageParam[] = [...history, { role: "user", content: verdict.text }];
@@ -83,6 +93,7 @@ export async function POST(req: Request) {
     async start(controller) {
       const send = (e: Event) => controller.enqueue(line(e));
       let spent = 0;
+      const usage = { in: 0, cacheRead: 0, cacheWrite: 0, out: 0, rounds: 0 };
       try {
         for (let round = 0; round < MAX_TOOL_ROUNDS; round++) {
           const stream = client.messages.stream({
@@ -96,6 +107,11 @@ export async function POST(req: Request) {
           stream.on("text", (delta) => send({ t: "text", v: delta }));
           const msg = await stream.finalMessage();
           spent += costOf(msg.usage);
+          usage.rounds++;
+          usage.in += msg.usage.input_tokens;
+          usage.cacheRead += msg.usage.cache_read_input_tokens ?? 0;
+          usage.cacheWrite += msg.usage.cache_creation_input_tokens ?? 0;
+          usage.out += msg.usage.output_tokens;
 
           const toolUses = msg.content.filter((b): b is Anthropic.ToolUseBlock => b.type === "tool_use");
           // A refusal or max_tokens can cut a tool call off mid-input: never run it, and don't
@@ -125,10 +141,9 @@ export async function POST(req: Request) {
         else console.error("[chat] failed:", err);
         send({ t: "text", v: REPLIES.error });
       } finally {
-        if (spent > 0) {
-          await db.incrbyfloat(spendKey, spent);
-          await db.expire(spendKey, 60 * 60 * 48);
-        }
+        await db.incrbyfloat(spendKey, spent - RESERVE_USD);
+        // Token counts only, no message content: lets cost and cache hits be checked in the logs.
+        console.log(`[chat] usage ${JSON.stringify(usage)} cost=$${spent.toFixed(5)}`);
         send({ t: "done" });
         controller.close();
       }
