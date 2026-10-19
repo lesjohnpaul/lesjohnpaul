@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MagneticElement } from "@/components/ui/magnetic-element";
 import { personalInfo } from "@/data/portfolio-data";
+import { track } from "@vercel/analytics";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -31,8 +32,10 @@ export function ContactSection() {
     name: "",
     email: "",
     message: "",
+    website: "", // honeypot
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<{ type: "sent" | "error"; text: string } | null>(null);
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
   useEffect(() => {
@@ -193,11 +196,26 @@ export function ContactSection() {
       ease: "power2.inOut",
     });
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    setFormState({ name: "", email: "", message: "" });
-    setIsSubmitting(false);
-    alert("Message sent! I'll get back to you soon.");
+    setStatus(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(formState),
+      });
+      const data: { ok: boolean; error?: string } = await res.json();
+      if (!data.ok) throw new Error(data.error);
+      track("form_submit");
+      setFormState({ name: "", email: "", message: "", website: "" });
+      setStatus({ type: "sent", text: "Message sent. Check your inbox for a confirmation; I'll reply within 24 hours." });
+    } catch (err) {
+      setStatus({
+        type: "error",
+        text: err instanceof Error && err.message ? err.message : `Something went wrong. Please email ${personalInfo.email}.`,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const socialLinks = [
@@ -418,7 +436,20 @@ export function ContactSection() {
                       required
                       rows={5}
                       className="w-full px-4 py-3.5 rounded-xl bg-background/50 border border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/10 outline-none transition-all duration-300 resize-none"
-                      placeholder="Tell me about your project..."
+                      placeholder="What's slowing your business down?"
+                    />
+                  </div>
+
+                  {/* Honeypot: invisible to people and screen readers, bots fill it */}
+                  <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+                    <label htmlFor="website">Website</label>
+                    <input
+                      type="text"
+                      id="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={formState.website}
+                      onChange={(e) => setFormState({ ...formState, website: e.target.value })}
                     />
                   </div>
 
@@ -444,6 +475,15 @@ export function ContactSection() {
                       </Button>
                     </MagneticElement>
                   </div>
+
+                  {status && (
+                    <p
+                      role={status.type === "error" ? "alert" : "status"}
+                      className={`text-center text-sm ${status.type === "error" ? "text-red-500" : "text-green-500"}`}
+                    >
+                      {status.text}
+                    </p>
+                  )}
 
                   {/* Simple trust indicator */}
                   <p className="text-center text-xs text-muted-foreground flex items-center justify-center gap-1.5">

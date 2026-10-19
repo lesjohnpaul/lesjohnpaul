@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { MagneticElement } from "@/components/ui/magnetic-element";
 import { personalInfo, heroStats } from "@/data/portfolio-data";
 import gsap from "gsap";
+import { track } from "@vercel/analytics";
 
 const roles = [
   "AI Agents & Chatbots",
@@ -201,7 +202,7 @@ export function HeroSection() {
                   className="group relative overflow-hidden rounded-none bg-foreground text-background hover:bg-foreground px-8 py-6 text-base font-semibold"
                   asChild
                 >
-                  <Link href="#contact">
+                  <Link href="#contact" onClick={() => track("cta_click", { location: "hero" })}>
                     <span className="relative z-10 flex items-center gap-2">
                       Start a Project
                       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
