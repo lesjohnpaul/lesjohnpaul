@@ -37,6 +37,28 @@ const list: CaseStudy[] = [
       "Supplier catalogs list hundreds of items with photos and Chinese-yuan prices that have to be cleaned up before they can be sold.",
       "Filipino buyers expect GCash, Maya, and card payments on a phone.",
     ],
+    fixes: [
+      {
+        problem: "A full online store normally needs staff for product entry, pricing, and social posting.",
+        fix: "Scrapers pull supplier catalogs into a review queue, and the admin imports items one by one or in bulk. Nothing reaches the store without an admin check.",
+        shots: [],
+      },
+      {
+        problem: "Supplier catalogs list hundreds of items with photos and Chinese-yuan prices that need cleanup before they can be sold.",
+        fix: "Each supplier source gets its own importer and table, so a new source cannot break a working one. Images are copied to Cloudflare R2, and unpriced items get tiered price suggestions and bulk pricing.",
+        shots: [],
+      },
+      {
+        problem: "Keeping FB, IG, and TikTok active takes someone writing and posting every day.",
+        fix: "A Claude API pipeline drafts the social posts and schedules them for FB, IG, and TikTok, so the owner only reviews and approves.",
+        shots: [],
+      },
+      {
+        problem: "Filipino buyers expect to pay with GCash, Maya, or a card on their phone.",
+        fix: "A mobile-first checkout takes GCash, Maya, and cards through PayMongo and HitPay, with idempotency safeguards so a retried payment never charges twice.",
+        shots: [],
+      },
+    ],
     approach: [
       "Import pipelines scrape supplier catalogs into a review queue, so nothing reaches the store without an admin check.",
       "Each supplier source gets its own importer and table, sharing only the storage and catalog plumbing, so a new source cannot break a working one.",
@@ -115,6 +137,38 @@ const list: CaseStudy[] = [
       "PhilHealth claims that are late or incomplete get denied, and the filing window closes after 60 days.",
       "Receipts had to meet BIR rules for the POS to be accredited.",
       "One platform had to serve many branches, and many pharmacy groups, without anyone seeing another's data.",
+    ],
+    fixes: [
+      {
+        problem: "The owner could not see stock value, near-expiry batches, or items about to run out per branch until it was too late.",
+        fix: "An executive dashboard and Command Center show today's sales, transactions, VAT, low stock, and near-expiry across every branch, with 30-day trends and product mix per branch.",
+        shots: ["/images/projects/wecare/01-executive-dashboard.webp", "/images/projects/wecare/02-command-center.webp", "/images/projects/wecare/03-command-center-sales.webp", "/images/projects/wecare/04-command-center-inventory.webp", "/images/projects/wecare/13-executive-dark.webp"],
+      },
+      {
+        problem: "PhilHealth claims that are late or incomplete get denied, and the filing window closes after 60 days.",
+        fix: "The counter checks the 12-digit PhilHealth ID and the remaining annual benefit, captures signatures, and prints a claim slip per dispense. Claims are assembled from the dispense records against the 60-day deadline.",
+        shots: ["/images/projects/wecare/06-philhealth-dispense.webp", "/images/projects/wecare/07-dispense-records.webp"],
+      },
+      {
+        problem: "Receipts had to meet BIR rules for the POS to be accredited.",
+        fix: "A touch-first POS with FEFO batches and Regular, Senior, and PWD pricing issues receipts, X readings, Z close, SC/PWD discount books, voids, and reprints following BIR RMO 24-2023.",
+        shots: ["/images/projects/wecare/05-pos.webp", "/images/projects/wecare/12-daily-sales.webp"],
+      },
+      {
+        problem: "Items ran out and batches expired at a branch before anyone noticed.",
+        fix: "Inventory tracks stock, batches, and reorder points per branch. An expiry view lists batches within 90 days, soonest first, replenishment builds per-branch picking lists, and low-stock and near-expiry alerts arrive every morning at 8 AM.",
+        shots: ["/images/projects/wecare/08-inventory.webp", "/images/projects/wecare/09-expiry.webp", "/images/projects/wecare/10-replenishment.webp"],
+      },
+      {
+        problem: "The owner could not see what each branch's stock was worth, or why that number changed.",
+        fix: "A Stock Value ledger reconciles opening stock, receipts, sales, dispenses, adjustments, and closing, day by day, and values stock three ways: PhilHealth price, store price, and supplier cost.",
+        shots: ["/images/projects/wecare/11-stock-value.webp"],
+      },
+      {
+        problem: "One platform had to serve many branches, and many pharmacy groups, without anyone seeing another's data.",
+        fix: "Row-level security on every table scopes each user to their tenant and branch, so even a hand-crafted API call sees nothing it should not. A two-tenant test matrix checks that one tenant sees zero rows of another.",
+        shots: [],
+      },
     ],
     approach: [
       "The database is the security boundary: row-level security on every table, with tenant and branch scope taken from the signed-in user, so a hand-crafted API call still sees nothing it should not.",
@@ -223,6 +277,28 @@ const list: CaseStudy[] = [
       "Each manual step was a chance to post money to the wrong account.",
       "Unusual cases sat in the queue with no explanation of what was wrong.",
     ],
+    fixes: [
+      {
+        problem: "Every refund or correction meant reading the request, checking the receipt against the ledger in one system, fixing the ledger by hand, then approving in another.",
+        fix: "A daily analyze run pulls the live queue, matches each request to its ledger rows, and returns approve, skip, or revert with a reason. Approval needs the receipt number, date, and amount to all match.",
+        shots: ["/images/projects/refund-automation-ai/02-overview.webp"],
+      },
+      {
+        problem: "Each manual step was a chance to post money to the wrong account.",
+        fix: "Nothing touches the ledger until a person confirms. Each execute re-checks live state, skips anything stale, writes in one transaction, and saves a reverse script.",
+        shots: ["/images/projects/refund-automation-ai/01-pending-review.webp", "/images/projects/refund-automation-ai/06-mobile-pending.webp", "/images/projects/refund-automation-ai/03-live-activity.webp"],
+      },
+      {
+        problem: "Unusual cases sat in the queue with no explanation of what was wrong.",
+        fix: "Claude reads each flagged case with read-only tools and returns a short Taglish explanation, a suggested field fix, and a confidence. It never writes or approves; the rules re-decide with the fix and a person confirms.",
+        shots: [],
+      },
+      {
+        problem: "A change to someone's money has to be traceable and reversible after the fact.",
+        fix: "Every run is logged with its verdict mix, every executed change has an audit record and a reverse script, and accomplishment reports go out by email as PDF, Word, Excel, or CSV.",
+        shots: ["/images/projects/refund-automation-ai/04-run-history.webp", "/images/projects/refund-automation-ai/05-email-reports.webp"],
+      },
+    ],
     approach: [
       "Staged autonomy: analyze, decide, human confirm, then execute. Nothing touches the ledger without the confirm gate.",
       "Approvals need positive evidence: receipt number, date, and amount must all match the ledger rows.",
@@ -323,6 +399,23 @@ const list: CaseStudy[] = [
       "Inquiries arrive on several channels, and each one starts from zero with no customer history.",
       "Some questions need a person, and they have to reach the right department.",
     ],
+    fixes: [
+      {
+        problem: "Members ask questions at all hours, and after-hours inquiries wait until the next business day.",
+        fix: "An LLM agent is designed to answer around the clock from the cooperative's own knowledge base, not general web knowledge.",
+        shots: [],
+      },
+      {
+        problem: "Inquiries arrive on several channels, and each one starts from zero with no customer history.",
+        fix: "Web chat, social, Viber, and Telegram feed one conversation service, and every interaction is written to a Customer-360 record, so history carries across channels.",
+        shots: [],
+      },
+      {
+        problem: "Some questions need a person, and they have to reach the right department.",
+        fix: "Escalation rules route those conversations to the right department's queue. The rules are explicit and testable, so the agent hands off instead of guessing.",
+        shots: [],
+      },
+    ],
     approach: [
       "Answers are grounded in the company's own knowledge base, not general web knowledge.",
       "Auto-escalation to the right department when a human is needed, instead of the bot guessing.",
@@ -384,6 +477,18 @@ const list: CaseStudy[] = [
       "Building the regulated reports took two weeks of manual work each cycle.",
       "Copying figures by hand into the reports risked transcription errors in filings.",
     ],
+    fixes: [
+      {
+        problem: "Building the regulated reports took two weeks of manual work every cycle.",
+        fix: "A two-click run pulls the figures from MS SQL Server and generates the regulated PDFs in under 5 minutes.",
+        shots: [],
+      },
+      {
+        problem: "Copying figures by hand into the reports risked errors in the filings.",
+        fix: "No one retypes a number. The data pull is read-only, and the same data always produces the same report, so a filing can be regenerated on demand.",
+        shots: [],
+      },
+    ],
     approach: [
       "Pull the figures straight from the billing database so no one retypes a number.",
       "Generate the regulated PDFs directly, so the output is the filing.",
@@ -426,6 +531,33 @@ const list: CaseStudy[] = [
       "IT requests came by phone, walk-in, and paper, and they got lost.",
       "Nobody could say for sure who held which computer.",
       "The paper approval chain (supervisor, department manager, general manager) left no trail.",
+    ],
+    fixes: [
+      {
+        problem: "IT requests came by phone, walk-in, and paper, and they got lost.",
+        fix: "Every request becomes a numbered ticket in one help desk, with a queue, a kanban board, and per-ticket chat. Employees file from their phone with one tap, or by scanning the QR sticker on a broken device.",
+        shots: ["/images/projects/itsm-platform/06-mobile-quick-actions.webp"],
+      },
+      {
+        problem: "Once a ticket was filed, nothing kept time on it.",
+        fix: "A business-hours SLA engine warns at 75%, flags a breach at 100%, and escalates critical and high breaches after 60 business minutes. The IT room TV plots every open ticket on a live 3D SLA radar.",
+        shots: ["/images/projects/itsm-platform/02-command-center.webp", "/images/projects/itsm-platform/03-queue-pulse.webp"],
+      },
+      {
+        problem: "Nobody could say for sure who held which computer.",
+        fix: "A QR asset register records custodian, status, location, and condition, with signed custody receipts that print like the official paper forms. A daily digest flags desk workers missing a computer, monitor, or UPS.",
+        shots: ["/images/projects/itsm-platform/01-hero.webp"],
+      },
+      {
+        problem: "The paper approval chain (supervisor, department manager, general manager) left no trail.",
+        fix: "Approvals run through a 3-level change chain with one-click email endorsement, HMAC-verified digital signatures, and a full audit log.",
+        shots: [],
+      },
+      {
+        problem: "The IT room could not see at a glance which problems were spiking or whether the team was keeping up.",
+        fix: "A 9-page TV wallboard rotates through queue health, today against the 7-day trend, team load, and hot categories, built to be read from 3 to 5 metres.",
+        shots: ["/images/projects/itsm-platform/04-today-vs-trend.webp", "/images/projects/itsm-platform/05-hot-categories.webp"],
+      },
     ],
     approach: [
       "Crash-safe by design: each write is one short SQL transaction, and emails and notifications go into an outbox in the same transaction, so a crash never loses or duplicates one.",
@@ -716,6 +848,28 @@ const list: CaseStudy[] = [
       "Token and meal distribution suffered from chronic abuse.",
       "Organizers had no live view of turnout across venues.",
     ],
+    fixes: [
+      {
+        problem: "The old registration system created long queues and manual errors.",
+        fix: "Staff check people in by scanning a QR or barcode with their phone, and membership is validated live against the system of record. Members can pre-register and bring a downloadable QR card.",
+        shots: [],
+      },
+      {
+        problem: "Token and meal distribution suffered from chronic abuse.",
+        fix: "Separate claim and food stations, each with its own role, verify the account and reject repeat claims. Numbered stubs are tracked, so a stub can only be claimed once.",
+        shots: [],
+      },
+      {
+        problem: "Organizers had no live view of turnout across venues.",
+        fix: "A full-screen LED wall updates the moment someone checks in, with breakdowns by venue, town, and barangay and a progress ring against the turnout target.",
+        shots: [],
+      },
+      {
+        problem: "The attendance record had to stand up as official documentation.",
+        fix: "Every registration, claim, and admin action is written to an audit log, and each attendee gets a certificate that verifies by QR. The audit trail was accepted as an official NEA documentary requirement.",
+        shots: [],
+      },
+    ],
     approach: [
       "Hybrid design: membership is validated read-only against the cooperative's on-prem system of record through a small bridge, while registrations live in the cloud.",
       "Realtime pushes counts to a live dashboard the moment someone checks in.",
@@ -812,6 +966,23 @@ const list: CaseStudy[] = [
       "Identity, collaboration, and disaster recovery needed to move to the cloud.",
       "Some workloads are compliance-bound and have to stay on-prem.",
     ],
+    fixes: [
+      {
+        problem: "Identity, collaboration, and disaster recovery needed to move to the cloud.",
+        fix: "Identity and collaboration move to Microsoft Azure, and disaster recovery runs there too, so a site failure has an off-site recovery target.",
+        shots: [],
+      },
+      {
+        problem: "Some workloads are compliance-bound and have to stay on-prem.",
+        fix: "A hybrid topology keeps those workloads on the on-prem HCI cluster. Workloads are placed by compliance requirement first, so regulated systems never leave the premises.",
+        shots: [],
+      },
+      {
+        problem: "A multi-milestone program can drift from its design along the way.",
+        fix: "Delivered in milestones under one architect, so each phase lands before the next starts and design decisions stay consistent.",
+        shots: [],
+      },
+    ],
     approach: [
       "A hybrid topology: on-prem HCI keeps the compliance-bound workloads, Azure takes identity, collaboration, and DR.",
       "Delivered in milestones, with vendor management under one architect.",
@@ -845,6 +1016,18 @@ const list: CaseStudy[] = [
     challenge: [
       "An attacker inside the network moves sideways between machines, where perimeter tools do not look.",
       "Commercial NDR products from vendors like Darktrace, Vectra, or ExtraHop carry enterprise license costs.",
+    ],
+    fixes: [
+      {
+        problem: "An attacker inside the network moves sideways between machines, where perimeter tools do not look.",
+        fix: "Linux sensors watch east-west traffic between internal machines and surface behavior that looks like lateral movement or other anomalies to the IT team.",
+        shots: [],
+      },
+      {
+        problem: "Commercial NDR products carry enterprise license costs.",
+        fix: "Built in-house on open tooling and the cooperative's own Linux hosts, so there is no license to renew and traffic data stays in-house.",
+        shots: [],
+      },
     ],
     approach: [
       "Build in-house on open tooling instead of buying a license.",
@@ -885,6 +1068,28 @@ const list: CaseStudy[] = [
       "Disputed disconnections came down to \"nobody told me,\" with no proof either way.",
       "One SMS gateway is a single point of failure for notices that must arrive.",
       "A crash halfway through a huge send must never message anyone twice.",
+    ],
+    fixes: [
+      {
+        problem: "Statements of account went out on paper, hand-delivered every month.",
+        fix: "Password-protected PDF bills go out by email, with SMS notices, to contacts kept in a registry with CSV import. Staff target a batch by area office, municipality, barangay, or account list, see a cost estimate, and nothing sends until they start it.",
+        shots: ["/images/projects/e-invoicing/03-batches.webp", "/images/projects/e-invoicing/05-registry.webp"],
+      },
+      {
+        problem: "Disputed disconnections came down to “nobody told me,” with no proof either way.",
+        fix: "Disconnection notices go out in stages: standard, warning, final. Every notice is tracked per consumer by channel, delivery, open, and time, so staff can show which bill went out, how, and whether it was opened.",
+        shots: ["/images/projects/e-invoicing/06-disconnection.webp", "/images/projects/e-invoicing/04-batch-detail.webp"],
+      },
+      {
+        problem: "One SMS gateway is a single point of failure for notices that must arrive.",
+        fix: "SMS runs through a fallback chain across four gateways, with per-provider rate limits, retries, delivery reports, and cost tracking. No SMS goes out between 9 PM and 7 AM.",
+        shots: ["/images/projects/e-invoicing/02-delivery.webp", "/images/projects/e-invoicing/01-executive.webp"],
+      },
+      {
+        problem: "A crash halfway through a huge send must never message anyone twice.",
+        fix: "Job claims are idempotent, and a dedupe ledger is keyed on account, channel, notice type, urgency, and billing month, so a restarted batch picks up where it stopped. Bypassing it takes a superadmin and a written reason.",
+        shots: ["/images/projects/e-invoicing/07-login.webp"],
+      },
     ],
     approach: [
       "A self-contained service with its own database, auth, and queue, and only a read-only bridge to billing that snapshots each bill when a batch is created.",
@@ -988,6 +1193,23 @@ const list: CaseStudy[] = [
       "Staff downloaded, parsed, and imported partner files by hand every day.",
       "Manual imports left no audit trail of what came in and when.",
     ],
+    fixes: [
+      {
+        problem: "Staff downloaded, parsed, and imported partner files by hand every day.",
+        fix: "Scheduled jobs collect files from FTP/SFTP servers and email attachments, parse them, and load them into MS SQL Server, with a dashboard showing each job and its result.",
+        shots: [],
+      },
+      {
+        problem: "Manual imports left no audit trail of what came in and when.",
+        fix: "Every action is audit-logged, and role-based access limits who can change jobs and mappings.",
+        shots: [],
+      },
+      {
+        problem: "A new file layout would otherwise need a code change.",
+        fix: "A field mapping editor lets staff map a new layout through configuration, with no code changes.",
+        shots: [],
+      },
+    ],
     approach: [
       "Scheduled jobs replace the manual download-parse-import loop.",
       "A field mapping editor lets staff handle a new file layout without code changes.",
@@ -1027,6 +1249,18 @@ const list: CaseStudy[] = [
       "Production billing and operations need infrastructure that survives hardware failure.",
       "A disk failure on the billing stack needs a known, tested recovery path.",
     ],
+    fixes: [
+      {
+        problem: "Production billing and operations need infrastructure that survives hardware failure.",
+        fix: "A hyperconverged cluster runs the production billing and operational VMs with RF=2, so data is kept in two copies and a single disk or node failure does not take it offline.",
+        shots: [],
+      },
+      {
+        problem: "A disk failure on the billing stack needs a known recovery path.",
+        fix: "Documented incident response procedures cover disk-failure recovery for the production billing and meter reading stack.",
+        shots: [],
+      },
+    ],
     approach: [
       "Hyperconverged infrastructure with RF=2 clusters for redundancy.",
       "Incident response procedures written before they were needed.",
@@ -1059,6 +1293,18 @@ const list: CaseStudy[] = [
       "Switching between kinds of work is easier with a visual cue, and doing it by hand is friction.",
       "Electron apps are heavy for a tool that should run quietly all day.",
     ],
+    fixes: [
+      {
+        problem: "Switching between kinds of work is easier with a visual cue, and changing it by hand is friction.",
+        fix: "Scheduled “Day Types” change the wallpaper automatically, and the user sets them up in a React and TypeScript interface.",
+        shots: [],
+      },
+      {
+        problem: "Electron apps are heavy for a tool that should run quietly all day.",
+        fix: "A Rust core on Tauri 2.0 runs the scheduler with native performance on Windows, macOS, and Linux, from one codebase.",
+        shots: [],
+      },
+    ],
     approach: [
       "Tauri 2.0 and Rust for native performance on Windows, macOS, and Linux, without Electron.",
       "A PRD and wireframes first, to define the v1 product surface.",
@@ -1090,6 +1336,23 @@ const list: CaseStudy[] = [
     challenge: [
       "Partner data arrives in batch files, so it is never real time.",
       "Two-way integration is not possible with one-way file drops.",
+    ],
+    fixes: [
+      {
+        problem: "Partner data arrives in batch files, so it is never real time.",
+        fix: "The design has partners post directly to a planned FastAPI service, with accepted posts written to MS SQL Server.",
+        shots: [],
+      },
+      {
+        problem: "Two-way integration is not possible with one-way file drops.",
+        fix: "Reconciliation endpoints are planned so both sides can confirm what landed.",
+        shots: [],
+      },
+      {
+        problem: "Direct posting is only safe if strangers, retries, and bursts cannot hurt the database.",
+        fix: "mTLS so only partners with issued certificates connect, idempotency keys so a repeated post is never recorded twice, and rate limiting against bursts.",
+        shots: [],
+      },
     ],
     approach: [
       "mTLS so only known partners can connect.",
@@ -1132,6 +1395,33 @@ const list: CaseStudy[] = [
       "Each batch meant copying data into Word templates, looking up TINs in spreadsheets, and tracking the next invoice number by hand: a full workday.",
       "Invoice numbers come from a ledger shared with a live billing system, so a mistake could collide with a real invoice.",
       "The database schema belongs to a third-party billing system, so migrations were off the table.",
+    ],
+    fixes: [
+      {
+        problem: "Each batch meant copying data into Word templates, looking up TINs in spreadsheets, and tracking the next invoice number by hand: a full workday.",
+        fix: "A four-step wizard takes the settlement CSV from upload to PDFs, and a participant registry fills in name, address, and TIN. A ~50-invoice batch now runs in under 30 seconds.",
+        shots: [],
+      },
+      {
+        problem: "Invoice numbers come from a ledger shared with a live billing system, so a mistake could collide with a real invoice.",
+        fix: "A fail-closed gate writes to the live ledger only when a server setting and a runtime toggle both say production. Anything else goes to a sandbox table, with numbers kept above the live sequence.",
+        shots: [],
+      },
+      {
+        problem: "Staff use the same live ledger all day, so invoicing could not lock them out.",
+        fix: "Numbers are allocated without blocking, with a duplicate-key retry up to 5 times and a bounded lock wait, so a slow third-party app makes this one fail fast and retry.",
+        shots: [],
+      },
+      {
+        problem: "Every invoice had to match the official pre-printed form.",
+        fix: "The PDF layout was reverse-engineered from invoice scans and drawn at exact coordinates, with per-invoice, consolidated, and ZIP downloads.",
+        shots: [],
+      },
+      {
+        problem: "The database schema belongs to a third-party billing system, so migrations were off the table.",
+        fix: "The app works through raw parameterized SQL against the existing schema and leaves it as it is.",
+        shots: [],
+      },
     ],
     approach: [
       "A fail-closed write gate: a per-server setting and a runtime toggle must both say production, or the app writes to a sandbox table. Any missing, unknown, or failing setting resolves to the sandbox.",
@@ -1227,6 +1517,38 @@ const list: CaseStudy[] = [
       "Revenue leaks were invisible: sudden drops in readings, \"disconnected\" meters still turning, and gaps or duplicates in invoice numbers.",
       "Reader performance and the outside contractor's readings were judged on opinion.",
       "There was no audit trail, backups were manual, and certain report queries crashed the production database server.",
+    ],
+    fixes: [
+      {
+        problem: "Knowing the billing cycle's status meant calling around and adding up per-book reports by hand, so lagging towns were found after the deadline.",
+        fix: "A live dashboard refreshes every 30 seconds with KPI cards, per-day progress, and drill-down to four area gauges and 17 town cards, with 12 months of trends behind it.",
+        shots: ["/images/projects/meter-reading/02-dashboard.webp", "/images/projects/meter-reading/03-area-town-progress.webp", "/images/projects/meter-reading/05-trends.webp", "/images/projects/meter-reading/09-dashboard-dark.webp"],
+      },
+      {
+        problem: "Management needed to spot a lagging town while there was still time to act.",
+        fix: "TV mode puts a live coverage map on the operations room wall, flies the camera into each municipality, and ranks every town by completion. It unlocks with a kiosk key, no login.",
+        shots: ["/images/projects/meter-reading/01-tv-coverage-map.webp", "/images/projects/meter-reading/07-tv-drone.webp", "/images/projects/meter-reading/08-tv-towns.webp"],
+      },
+      {
+        problem: "Revenue leaks were invisible: sudden drops in readings, “disconnected” meters still turning, and gaps or duplicates in invoice numbers.",
+        fix: "Each account is checked against its own 3-month average and flagged as a drop, spike, zero, or recurring anomaly with an estimated loss. Disconnected meters still consuming are ranked by kWh, and invoice series are checked for duplicates, gaps, and out-of-order numbers.",
+        shots: ["/images/projects/meter-reading/04-anomaly-detection.webp", "/images/projects/meter-reading/06-invoice-analysis.webp"],
+      },
+      {
+        problem: "Reader performance and the outside contractor's readings were judged on opinion.",
+        fix: "A reader scorecard weighs completion, accuracy, productivity, books, and attendance, with per-day evidence behind every score. Staff re-read meters on site with a field app that logs photos, GPS, and the difference from the contractor's reading.",
+        shots: ["/images/projects/meter-reading/10-field-app.webp"],
+      },
+      {
+        problem: "The old system was billing-critical, so it could not go down for a rewrite.",
+        fix: "The new React and Fastify app reads and writes the existing database exactly as the PHP system does, so modules moved over one at a time while both stacks ran side by side.",
+        shots: [],
+      },
+      {
+        problem: "There was no audit trail, backups were manual, and certain report queries crashed the production database server.",
+        fix: "Every write is logged with a before and after diff. Backups run daily with checksums and verified copies, with an alert if the last good one is over 36 hours old. The crashing query was isolated and restructured.",
+        shots: [],
+      },
     ],
     approach: [
       "Zero-migration compatibility: the new stack reads and writes the existing schema exactly as the PHP system does, so modules moved over one at a time.",
@@ -1344,6 +1666,23 @@ const list: CaseStudy[] = [
       "Hundreds of members need to vote at the same time.",
       "Election day runs on a local network, so setup has to be simple.",
     ],
+    fixes: [
+      {
+        problem: "Paper elections are slow to count and hard to audit.",
+        fix: "Votes tally live on a presentation dashboard, each election moves through draft, open, and close with an audit trail, and results export as PDF, CSV, DOCX, or JSON.",
+        shots: [],
+      },
+      {
+        problem: "Hundreds of members need to vote at the same time.",
+        fix: "Members scan a projected QR code and vote from their own phones once an admin approves them. All selections save in one transaction, and database constraints allow one vote per voter per position.",
+        shots: [],
+      },
+      {
+        problem: "Election day runs on a local network, so setup has to be simple.",
+        fix: "One Express server serves the app, the API, and WebSockets on a single port, and one script installs, builds, sets up the database, and starts it.",
+        shots: [],
+      },
+    ],
     approach: [
       "A single-port monolith: Express serves the app, the API, and WebSockets together, so LAN deployment is trivial.",
       "An admin approves each voter's access before the ballot unlocks.",
@@ -1409,6 +1748,23 @@ const list: CaseStudy[] = [
       "Manual registration and ticketing at the door creates lines and duplicates.",
       "Raffle draws on stage need to look good and be fair.",
       "There is no time to run servers on event day.",
+    ],
+    fixes: [
+      {
+        problem: "Manual registration and ticketing at the door creates lines and duplicates.",
+        fix: "Employees self-register by QR, are checked against the employee database, and get a unique ticket code by email. Check-in takes a camera scan, an image upload, or manual entry.",
+        shots: [],
+      },
+      {
+        problem: "Raffle draws on stage need to look good and be fair.",
+        fix: "Spinning wheel, slot machine, and mass draws run on rule-based eligibility, and every draw is logged. OBS overlays put animated winner announcements on the projector.",
+        shots: [],
+      },
+      {
+        problem: "There is no time to run servers on event day.",
+        fix: "The system is fully serverless on Supabase, and a health check and first-run setup wizard catch a missing database or broken email config before the day.",
+        shots: [],
+      },
     ],
     approach: [
       "Fully serverless on Supabase, so there is no backend to operate on event day.",
@@ -1476,6 +1832,18 @@ const list: CaseStudy[] = [
       "IT learned about a downed device when users called.",
       "The devices are on a private network, but the team wants to see status from anywhere.",
     ],
+    fixes: [
+      {
+        problem: "IT learned about a downed device when users called.",
+        fix: "An on-prem Python agent pings servers, routers, and devices on a set interval with timeout detection, and the dashboard updates live without a page refresh.",
+        shots: [],
+      },
+      {
+        problem: "The devices are on a private network, but the team wants to see status from anywhere.",
+        fix: "The agent pushes results out to Supabase, which streams them to a cloud dashboard behind Supabase Auth and row-level security.",
+        shots: [],
+      },
+    ],
     approach: [
       "Hybrid design: an on-prem Python agent does ICMP checks and pushes results to a cloud dashboard.",
       "Supabase Auth with row-level security protects the data.",
@@ -1518,6 +1886,28 @@ const list: CaseStudy[] = [
       "Revenue lost to voided receipts was not visible.",
       "Comparing a partial morning to a full yesterday made every morning look like a collapse.",
       "An executive tool must not slow down or write to the production billing database.",
+    ],
+    fixes: [
+      {
+        problem: "The General Manager waited for end-of-day reports to know the day's collections.",
+        fix: "Today's total, a per-office leaderboard, a live payment feed, and a province map update every 10 to 15 seconds, on the office TV or an installable phone app.",
+        shots: [],
+      },
+      {
+        problem: "Revenue lost to voided receipts was not visible.",
+        fix: "Teller rankings show wasted pesos and estimated wasted time from voided receipts, labeled as estimates, next to speed, clean rate, and volume tier.",
+        shots: [],
+      },
+      {
+        problem: "Comparing a partial morning to a full yesterday made every morning look like a collapse.",
+        fix: "Today is compared with yesterday and last month at the same time of day.",
+        shots: [],
+      },
+      {
+        problem: "An executive tool must not slow down or write to the production billing database.",
+        fix: "The app uses a SELECT-only login, and the server polls on its own timer and serves cached results, so any number of viewers costs one database reader.",
+        shots: [],
+      },
     ],
     approach: [
       "A least-privilege, read-only database login, so writes are denied at the database itself.",
@@ -1603,6 +1993,18 @@ const list: CaseStudy[] = [
       "Filling music metadata by hand for every track is slow and inconsistent.",
       "Instruments, mood, and arrangement notes live in the producer's head, not in a form.",
     ],
+    fixes: [
+      {
+        problem: "Filling music metadata by hand for every track is slow and inconsistent.",
+        fix: "Claude, through Anthropic tool use, turns a free-text description into 13 structured fields in one pass, and a validator checks the draft against the rubric rules.",
+        shots: [],
+      },
+      {
+        problem: "Instruments, mood, and arrangement notes live in the producer's head, not in a form.",
+        fix: "Per-section narratives fill in instruments and vibe tags automatically, in a Chrome side panel that sits next to the page and opens with a keyboard shortcut.",
+        shots: [],
+      },
+    ],
     approach: [
       "Anthropic tool use returns structured fields, not free text, so output drops straight into a form.",
       "The rubric rules are kept as source-of-truth documents and embedded in the system prompt.",
@@ -1656,6 +2058,18 @@ const list: CaseStudy[] = [
     challenge: [
       "The client needed to test the product idea with real readers before building a backend.",
       "Answering many questions in one sitting is a lot to ask, so progress had to save.",
+    ],
+    fixes: [
+      {
+        problem: "The client needed to test the product idea with real readers before building a backend.",
+        fix: "A backend-free V1 keeps reader data in browser storage, so the questionnaire, the 4-chapter storybook, and the executive dashboard all run at a public URL with zero setup.",
+        shots: [],
+      },
+      {
+        problem: "Answering many questions in one sitting is a lot to ask, so progress had to save.",
+        fix: "24 questions, typed or spoken, fit a session of about 20 minutes. Every keystroke autosaves, and login resumes at the first unanswered question.",
+        shots: [],
+      },
     ],
     approach: [
       "Backend-free V1 using browser storage, so the full experience can be tested with zero setup.",
