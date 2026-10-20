@@ -134,7 +134,11 @@ const jsonLd = {
       homeLocation: { "@type": "Place", name: "Pangasinan, Philippines" },
       address: { "@type": "PostalAddress", addressRegion: "Pangasinan", addressCountry: "PH" },
       knowsLanguage: ["English", "Filipino"],
-      sameAs: ["https://github.com/lesjohnpaul", "https://www.linkedin.com/in/lesjohnpaul/"],
+      sameAs: [
+        "https://github.com/lesjohnpaul",
+        "https://www.linkedin.com/in/lesjohnpaul/",
+        "https://www.upwork.com/freelancers/~018af2dafd9f29410d",
+      ],
       knowsAbout: [
         "Artificial Intelligence",
         "AI Agents",
