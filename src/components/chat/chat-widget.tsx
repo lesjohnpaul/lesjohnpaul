@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { Send, X } from "lucide-react";
 import gsap from "gsap";
 import { track } from "@vercel/analytics";
@@ -17,6 +18,8 @@ const SUGGESTIONS = ["What does Les build?", "Can he automate our reports?", "Bo
 const NEXT_STEPS = ["Book a call with Les", "What has he built?", "How does a project work?", "Leave my details instead"];
 const AFTER_BOOKING = ["What happens on the call?", "What has he built?"];
 const MAX_CHARS = 500;
+// 3D Pao loads only when the chat is opened (three.js stays out of the first page load).
+const PaoStage = dynamic(() => import("@/components/pao/pao-stage").then((m) => m.PaoStage), { ssr: false });
 
 // Pao's face: a Pixar-style chibi of Les (generated from his photo). 14 KB, so it's fine to show eagerly.
 function PaoAvatar({ className }: { className?: string }) {
@@ -156,6 +159,7 @@ export function ChatWidget() {
           </div>
 
           <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4" aria-live="polite">
+            {messages.length === 1 && <PaoStage className="mx-auto -mb-2 h-44 w-40" />}
             {messages.map((m, i) =>
               m.text || m.role === "user" ? (
                 <div

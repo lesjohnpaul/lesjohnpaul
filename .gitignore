@@ -43,3 +43,6 @@ next-env.d.ts
 
 # playwright mcp test artifacts
 /.playwright-mcp/
+pao-3d/
+src/app/lab/
+public/images/pao/pao-reference.png
