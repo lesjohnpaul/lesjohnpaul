@@ -14,9 +14,10 @@ const jetbrainsMono = JetBrains_Mono({
 
 const siteUrl = "https://lesjohnpauloliver.dev";
 const siteName = "Les John Paul Oliver";
-const siteTitle = "Les John Paul Oliver | AI Engineer: AI Agents, Chatbots & Business Automation";
+const siteTitle = "Les John Paul Oliver | AI Engineer in the Philippines: AI Agents & Automation";
+// ponytail: kept under ~160 chars so Google shows it whole instead of cutting it mid-sentence
 const siteDescription =
-  "AI Engineer in the Philippines who builds AI agents, chatbots, and business automation that solve real problems, fast. Cut a 2-week compliance process to under 5 minutes. 10+ years shipping production systems for a 250K-member utility. Available for freelance and remote work.";
+  "Freelance AI engineer in the Philippines. I build AI agents, chatbots, and automations that turn weeks of manual work into minutes. Remote, worldwide.";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -26,6 +27,9 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  viewportFit: "cover",
+  // Android Chrome shrinks the layout for the keyboard, so the chat input stays visible.
+  interactiveWidget: "resizes-content",
 };
 
 export const metadata: Metadata = {
@@ -39,6 +43,12 @@ export const metadata: Metadata = {
     "Les John Paul Oliver",
     "AI Engineer",
     "AI Engineer Philippines",
+    "AI Engineer in the Philippines",
+    "Filipino AI Engineer",
+    "Hire AI Engineer Philippines",
+    "Freelance AI Engineer Philippines",
+    "AI Automation Philippines",
+    "AI Chatbot Developer Philippines",
     "Hire AI Engineer",
     "Freelance AI Engineer",
     "AI Automation Expert",
@@ -68,7 +78,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "en_PH",
     url: siteUrl,
     title: siteTitle,
     description: siteDescription,
@@ -97,89 +107,89 @@ export const metadata: Metadata = {
   category: "technology",
 };
 
+// One connected graph: Google reads Person, WebSite, and service as the same entity via @id.
+const personId = `${siteUrl}/#person`;
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Les John Paul Oliver",
-  url: siteUrl,
-  image: `${siteUrl}/images/lesjohnpaul.jpg`,
-  jobTitle: "AI Engineer",
-  worksFor: {
-    "@type": "Organization",
-    name: "PANELCO III (Pangasinan III Electric Cooperative)",
-  },
-  alumniOf: {
-    "@type": "CollegeOrUniversity",
-    name: "Pangasinan State University",
-  },
-  description: siteDescription,
-  address: {
-    "@type": "PostalAddress",
-    addressCountry: "PH",
-    addressLocality: "Pangasinan",
-  },
-  sameAs: [
-    "https://github.com/lesjohnpaul",
-    "https://www.linkedin.com/in/lesjohnpaul/",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": personId,
+      name: siteName,
+      alternateName: ["Les Oliver", "LJP Oliver", "lesjohnpaul"],
+      url: siteUrl,
+      image: `${siteUrl}/images/lesjohnpaul.jpg`,
+      email: "mailto:lesjohnpauloliver@gmail.com",
+      jobTitle: "AI Engineer",
+      description: siteDescription,
+      hasOccupation: {
+        "@type": "Occupation",
+        name: "AI Engineer",
+        occupationLocation: { "@type": "Country", name: "Philippines" },
+        skills: "AI agents, LLM integration, chatbots, business process automation, full-stack development",
+      },
+      worksFor: { "@type": "Organization", name: "PANELCO III (Pangasinan III Electric Cooperative)" },
+      alumniOf: { "@type": "CollegeOrUniversity", name: "Pangasinan State University" },
+      nationality: { "@type": "Country", name: "Philippines" },
+      homeLocation: { "@type": "Place", name: "Pangasinan, Philippines" },
+      address: { "@type": "PostalAddress", addressRegion: "Pangasinan", addressCountry: "PH" },
+      knowsLanguage: ["English", "Filipino"],
+      sameAs: ["https://github.com/lesjohnpaul", "https://www.linkedin.com/in/lesjohnpaul/"],
+      knowsAbout: [
+        "Artificial Intelligence",
+        "AI Agents",
+        "Large Language Models",
+        "Chatbots",
+        "Business Process Automation",
+        "Claude API",
+        "Prompt Engineering",
+        "Software Engineering",
+        "Solutions Architecture",
+        "Microsoft Azure",
+        "Hybrid Cloud Migration",
+        "Database Administration",
+        "MS SQL Server",
+        "PostgreSQL",
+        "Supabase",
+        "TypeScript",
+        "React",
+        "Next.js",
+        "Node.js",
+        "Python",
+        "FastAPI",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      name: siteName,
+      url: siteUrl,
+      description: siteDescription,
+      inLanguage: "en",
+      publisher: { "@id": personId },
+    },
+    // Lets Google match "hire an AI engineer for X" searches to the services offered.
+    {
+      "@type": "ProfessionalService",
+      "@id": `${siteUrl}/#service`,
+      name: `${siteName}, AI Engineer`,
+      url: siteUrl,
+      image: `${siteUrl}/images/lesjohnpaul.jpg`,
+      description: siteDescription,
+      email: "lesjohnpauloliver@gmail.com",
+      areaServed: [{ "@type": "Country", name: "Philippines" }, "Worldwide"],
+      address: { "@type": "PostalAddress", addressRegion: "Pangasinan", addressCountry: "PH" },
+      founder: { "@id": personId },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "AI engineering services",
+        itemListElement: services.map((s) => ({
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: s.title, description: s.offer, provider: { "@id": personId } },
+        })),
+      },
+    },
   ],
-  knowsAbout: [
-    "Artificial Intelligence",
-    "AI Agents",
-    "Large Language Models",
-    "Chatbots",
-    "Business Process Automation",
-    "Claude API",
-    "Software Engineering",
-    "Solutions Architecture",
-    "Microsoft Azure",
-    "AWS",
-    "Hybrid Cloud Migration",
-    "Database Administration",
-    "MS SQL Server",
-    "MySQL",
-    "PostgreSQL",
-    "Supabase",
-    "Docker",
-    "TypeScript",
-    "React",
-    "Next.js",
-    "Node.js",
-    "Python",
-    "FastAPI",
-    "Network Security",
-  ],
-};
-
-// Lets Google match "hire an AI engineer for X" searches to the services offered.
-const serviceJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: `${siteName}, AI Engineer`,
-  url: siteUrl,
-  description: siteDescription,
-  areaServed: "Worldwide",
-  address: { "@type": "PostalAddress", addressCountry: "PH", addressLocality: "Pangasinan" },
-  founder: { "@type": "Person", name: siteName },
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "AI engineering services",
-    itemListElement: services.map((s) => ({
-      "@type": "Offer",
-      itemOffered: { "@type": "Service", name: s.title, description: s.offer },
-    })),
-  },
-};
-
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: siteName,
-  url: siteUrl,
-  description: siteDescription,
-  author: {
-    "@type": "Person",
-    name: siteName,
-  },
 };
 
 export default function RootLayout({
@@ -203,18 +213,7 @@ export default function RootLayout({
         <link rel="preload" href="/fonts/satoshi-400.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/satoshi-500.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         {/* JSON-LD Structured Data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className={`${jetbrainsMono.variable} antialiased`}>
         <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">

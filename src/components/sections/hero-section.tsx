@@ -226,7 +226,7 @@ export function HeroSection() {
                 <span className="hero-name-char inline-block text-primary transition-all duration-300 group-hover/name:drop-shadow-[0_0_20px_rgba(212,175,55,0.6)]">{personalInfo.name.split(" ")[3]}</span>
                 {/* Rendered on the server so search engines index the title next to the name */}
                 <span data-hero-fade className="block mt-5 font-sans text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-foreground/90">
-                  {personalInfo.title}
+                  {personalInfo.title} <span className="text-muted-foreground">in the Philippines</span>
                 </span>
               </h1>
             </div>

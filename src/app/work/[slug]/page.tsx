@@ -21,7 +21,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const work = getWork((await params).slug);
   if (!work) return {};
-  const title = `${work.project.title}: Case Study`;
+  const title = `${work.project.title}: AI Engineer Case Study`;
   return {
     title,
     description: work.study.summary,
@@ -34,14 +34,28 @@ export default async function WorkPage({ params }: Props) {
   const work = getWork((await params).slug);
   if (!work) notFound();
 
+  const url = `https://lesjohnpauloliver.dev/work/${work.slug}`;
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    name: work.project.title,
-    description: work.study.summary,
-    url: `https://lesjohnpauloliver.dev/work/${work.slug}`,
-    keywords: work.project.tech.join(", "),
-    creator: { "@type": "Person", name: personalInfo.name, jobTitle: personalInfo.title },
+    "@graph": [
+      {
+        "@type": "CreativeWork",
+        name: work.project.title,
+        description: work.study.summary,
+        url,
+        keywords: work.project.tech.join(", "),
+        // Ties every case study to the same Person entity declared in the root layout.
+        creator: { "@id": "https://lesjohnpauloliver.dev/#person" },
+        author: { "@id": "https://lesjohnpauloliver.dev/#person" },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Les John Paul Oliver, AI Engineer", item: "https://lesjohnpauloliver.dev" },
+          { "@type": "ListItem", position: 2, name: work.project.title, item: url },
+        ],
+      },
+    ],
   };
 
   return (

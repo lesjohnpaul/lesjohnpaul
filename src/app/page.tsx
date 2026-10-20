@@ -1,6 +1,21 @@
 import dynamic from "next/dynamic";
 import { Navigation } from "@/components/layout/navigation";
 import { HeroSection } from "@/components/sections/hero-section";
+import { FaqSection } from "@/components/sections/faq-section";
+import { faqs } from "@/data/portfolio-data";
+
+const siteUrl = "https://lesjohnpauloliver.dev";
+// Home is the profile page; FAQPage mirrors the visible FAQ section word for word.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "ProfilePage", "@id": `${siteUrl}/#profile`, url: siteUrl, mainEntity: { "@id": `${siteUrl}/#person` }, isPartOf: { "@id": `${siteUrl}/#website` } },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ],
+};
 
 // Below-the-fold sections are code-split so the hero paints and hydrates first.
 const ServicesSection = dynamic(() =>
@@ -34,6 +49,7 @@ const Footer = dynamic(() =>
 export default function Home() {
   return (
     <main className="relative">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navigation />
       <HeroSection />
       <LivingGridSection />
@@ -42,6 +58,7 @@ export default function Home() {
       <SneakerPortalShowcase />
       <SkillsSection />
       <ExperienceSection />
+      <FaqSection />
       <ContactSection />
       <Footer />
       <ChatWidget />
