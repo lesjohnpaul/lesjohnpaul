@@ -6,10 +6,6 @@ import Image from "next/image";
 import {
   ArrowRight,
   Terminal,
-  Bot,
-  Workflow,
-  Brain,
-  Code2,
   Github,
   Linkedin,
   Mail,
@@ -17,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { MagneticElement } from "@/components/ui/magnetic-element";
 import { personalInfo, heroStats } from "@/data/portfolio-data";
+import { HeroOutcomes } from "./hero-outcomes";
 import gsap from "gsap";
 import { track } from "@vercel/analytics";
 
@@ -26,13 +23,6 @@ const roles = [
   "LLM Integrations",
   "Full-Stack Systems",
   "AI Motion Graphics",
-];
-
-const techStack = [
-  { icon: Bot, label: "AI Agents / Claude API" },
-  { icon: Workflow, label: "Workflow Automation" },
-  { icon: Code2, label: "Next.js / Python" },
-  { icon: Brain, label: "LLM Product Features" },
 ];
 
 export function HeroSection() {
@@ -88,7 +78,6 @@ export function HeroSection() {
       gsap.set("[data-hero-slide-right]", { opacity: 0, x: 60 });
       gsap.set("[data-hero-scale]", { opacity: 0, scale: 0.8 });
       gsap.set("[data-hero-stat]", { opacity: 0, y: 40 });
-      gsap.set("[data-tech-item]", { opacity: 0, x: -30 });
       gsap.set(".hero-name-char", { opacity: 0, y: 100, rotateX: -90 });
       gsap.set("[data-hero-image]", { opacity: 0, scale: 0.9, y: 40 });
       gsap.set("[data-hero-image-frame]", { opacity: 0 });
@@ -107,7 +96,6 @@ export function HeroSection() {
         .to("[data-hero-image]", { opacity: 1, scale: 1, y: 0, duration: 1, ease: "power3.out" }, 0.6)
         .to("[data-hero-image-frame]", { opacity: 1, duration: 0.8 }, 0.8)
         .to("[data-hero-scale]", { opacity: 1, scale: 1, duration: 0.6 }, 1)
-        .to("[data-tech-item]", { opacity: 1, x: 0, duration: 0.4, stagger: 0.1 }, 1.2)
         .to("[data-hero-stat]", { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 }, 1.4);
     }, containerRef);
 
@@ -188,11 +176,9 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* Description */}
-            <p data-hero-fade className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed">
-              {personalInfo.pitch} A compliance process that took two weeks now runs
-              in under five minutes.
-            </p>
+            {/* Business outcomes: what a buyer gets, in their numbers, within the first seconds.
+                CSS-animated on its own (not GSAP), so it plays even before hydration. */}
+            <HeroOutcomes />
 
             {/* CTA Buttons with Magnetic Effect */}
             <div data-hero-fade className="flex flex-wrap items-center gap-4 pt-4">
@@ -227,21 +213,6 @@ export function HeroSection() {
                   </Link>
                 </Button>
               </MagneticElement>
-            </div>
-
-            {/* Tech Stack Pills with Hover Effects */}
-            <div data-hero-fade className="flex flex-wrap items-center gap-3 pt-6">
-              {techStack.map((tech, i) => (
-                <MagneticElement key={tech.label} strength={0.3}>
-                  <div
-                    data-tech-item
-                    className="flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-card/50 text-sm hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 cursor-default"
-                  >
-                    <tech.icon className="w-4 h-4 text-primary" />
-                    <span className="text-muted-foreground">{tech.label}</span>
-                  </div>
-                </MagneticElement>
-              ))}
             </div>
           </div>
 
@@ -283,7 +254,7 @@ export function HeroSection() {
 
                 {/* Stats Bar Below Image */}
                 <div className="mt-6 p-6 border border-border bg-card/80 backdrop-blur-sm">
-                  <div className="grid grid-cols-4 gap-4">
+                  <div className="grid grid-cols-3 gap-4">
                     {heroStats.map((stat, index) => (
                       <div key={stat.label} data-hero-stat className="text-center group cursor-default">
                         <div className="font-display text-2xl md:text-3xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">

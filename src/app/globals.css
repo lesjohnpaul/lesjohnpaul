@@ -464,3 +464,24 @@
 @media (prefers-reduced-motion: reduce) {
   .pd-root, .pd-root[data-leaving], .pd-content, .pd-exhibit { animation: none; }
 }
+
+/* Hero intro: GSAP animates these in. Hide them from the first paint (only when JS runs, via the
+   .js class set in <head>) so they never flash visible-then-hidden. The delayed animation is a
+   failsafe: if scripts fail, the hero still appears after 3s. Without JS, nothing is hidden. */
+.js [data-hero-fade],
+.js [data-hero-slide-left],
+.js [data-hero-slide-right],
+.js [data-hero-scale],
+.js [data-hero-stat],
+.js .hero-name-char,
+.js [data-hero-image],
+.js [data-hero-image-frame] {
+  opacity: 0;
+  animation: hero-failsafe 0s linear 3s forwards;
+}
+.js [data-hero-line] {
+  transform: scaleX(0);
+  animation: hero-failsafe-line 0s linear 3s forwards;
+}
+@keyframes hero-failsafe { to { opacity: 1; } }
+@keyframes hero-failsafe-line { to { transform: scaleX(1); } }

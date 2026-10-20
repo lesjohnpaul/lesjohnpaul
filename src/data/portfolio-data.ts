@@ -21,10 +21,20 @@ export const personalInfo = {
 
 // Hero stats: only numbers I can defend in an interview.
 // No inflation, no rounding up, no "100+ optimized systems."
+// First-10-seconds framing for business owners: the numbers Les moves. Every "after" value is a
+// shipped result already stated in `projects`; "before" values are the client's own baseline.
+export const heroOutcome =
+  "I help business owners grow revenue, cut costs, and win back hours with AI that does the busywork.";
+
+export const heroOutcomes = [
+  { lever: "More revenue", icon: "TrendingUp", what: "Leads answered", before: "Office hours", after: "24/7", proof: "AI assistant, live on this page" },
+  { lever: "Lower costs", icon: "TrendingDown", what: "Compliance reporting", before: "2 weeks", after: "< 5 min", proof: "Tax compliance automation" },
+  { lever: "Hours back", icon: "Clock", what: "Invoice batch", before: "1 workday", after: "< 30 sec", proof: "Wholesale power invoicing" },
+];
+
 export const heroStats = [
   { label: "Years in Enterprise IT", value: "10+" },
   { label: "Systems Shipped", value: "16+" },
-  { label: "2-Week Task, Now", value: "5 min" },
   { label: "End Users Served", value: "250K+" },
 ];
 

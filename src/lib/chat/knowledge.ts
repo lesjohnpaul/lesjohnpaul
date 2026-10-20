@@ -1,5 +1,7 @@
 import {
   personalInfo,
+  heroOutcome,
+  heroOutcomes,
   services,
   processSteps,
   projects,
@@ -12,6 +14,7 @@ import {
 const facts = [
   `Name: ${personalInfo.name}. Title: ${personalInfo.title}. Based in ${personalInfo.location} (time zone Asia/Manila), works remotely worldwide.`,
   `Pitch: ${personalInfo.pitch}`,
+  `Value to a business owner: ${heroOutcome} Proof: ${heroOutcomes.map((o) => `${o.lever.toLowerCase()}: ${o.what.toLowerCase()} went from ${o.before} to ${o.after} (${o.proof})`).join('; ')}.`,
   `Availability: ${personalInfo.availability}.`,
   `Contact: the contact form on this page, or email ${personalInfo.email}. LinkedIn: ${personalInfo.social.linkedin}. GitHub: ${personalInfo.social.github}.`,
   "",

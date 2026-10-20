@@ -196,7 +196,7 @@ export default function RootLayout({
             theme flash. Dark is already the server default above. Keep in sync with ThemeProvider. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem("portfolio-theme");if(t==="system")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";if(t==="light"){var r=document.documentElement;r.classList.remove("dark");r.classList.add("light");r.style.colorScheme="light"}}catch(e){}`,
+            __html: `document.documentElement.classList.add("js");try{var t=localStorage.getItem("portfolio-theme");if(t==="system")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";if(t==="light"){var r=document.documentElement;r.classList.remove("dark");r.classList.add("light");r.style.colorScheme="light"}}catch(e){}`,
           }}
         />
         <meta name="color-scheme" content="dark light" />
