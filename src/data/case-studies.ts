@@ -11,6 +11,9 @@ export type CaseStudy = {
   headline?: string; // one punchy line for hiring managers and buyers
   scale?: string[]; // sourced scale and complexity facts
   challenge: string[]; // the business problem in the client's terms
+  // Problem → fix chapters, each with the screenshots (project.gallery src) that show the fix.
+  // When present, the page tells the story through these instead of one long gallery.
+  fixes?: { problem: string; fix: string; shots: string[] }[];
   approach: string[]; // key decisions and why
   built: string[]; // 3–6 bullet summary of what was delivered
   capabilities?: { group: string; items: string[] }[]; // full feature inventory, grouped
@@ -573,6 +576,48 @@ const list: CaseStudy[] = [
       "The billing database is live, shared with tellers, and must never be exposed to the internet.",
       "Outage complaints came by phone and walk-in, with no way for the member or management to follow them.",
     ],
+    fixes: [
+      {
+        problem: "Members had to wait for the paper bill, or line up at an office, just to learn what they owed.",
+        fix: "Balance, due date, and an unpaid-month warning on one screen, for every account the member owns, on any phone.",
+        shots: ["/images/projects/billing-portal/desktop-home.webp", "/images/projects/billing-portal/desktop-bills.webp", "/images/projects/billing-portal/mobile-home.webp", "/images/projects/billing-portal/mobile-bills.webp"],
+      },
+      {
+        problem: "A higher bill was one number nobody could explain, so members called or walked in to ask why.",
+        fix: "Every bill reads line by line (generation, transmission, distribution, taxes) with a plain-language reason it changed, next to the published rate schedule.",
+        shots: ["/images/projects/billing-portal/desktop-bill-detail.webp", "/images/projects/billing-portal/desktop-rates.webp"],
+      },
+      {
+        problem: "Members only found out their bill would jump after it arrived.",
+        fix: "13 months of usage, comparisons to last month and last year, a next-bill estimate, and an appliance calculator at the member's own rate.",
+        shots: ["/images/projects/billing-portal/desktop-usage.webp", "/images/projects/billing-portal/desktop-calculator.webp", "/images/projects/billing-portal/mobile-usage.webp"],
+      },
+      {
+        problem: "A payment made through GCash, Bayad Center, or another office could not be confirmed without a call.",
+        fix: "Payment history across every channel, plus a where-to-pay map with the account number ready to copy.",
+        shots: ["/images/projects/billing-portal/desktop-payments.webp", "/images/projects/billing-portal/desktop-pay.webp"],
+      },
+      {
+        problem: "Outage complaints came by phone and walk-in, with no record anyone could follow.",
+        fix: "Members pin the spot on a map. Each report becomes a numbered job order, routed to the office that serves that town, and the member sees its live status.",
+        shots: ["/images/projects/billing-portal/desktop-outage.webp", "/images/projects/billing-portal/desktop-admin-outage-map.webp"],
+      },
+      {
+        problem: "Nobody could answer “where is the lineman on this one?”, and some tickets sat unnoticed.",
+        fix: "A dispatch timeline stamps every step with who and when. Unacknowledged tickets escalate to the supervisor, then the manager, and staff get push alerts. Linemen read the same job order on their phones.",
+        shots: ["/images/projects/billing-portal/desktop-staff-queue.webp", "/images/projects/billing-portal/desktop-staff-job-order.webp", "/images/projects/billing-portal/mobile-staff-job-order.webp"],
+      },
+      {
+        problem: "Management had no view across area offices.",
+        fix: "One board shows open tickets per office, the oldest unacknowledged one, escalations, and each lineman's workload.",
+        shots: ["/images/projects/billing-portal/desktop-admin-ticket-board.webp"],
+      },
+      {
+        problem: "Most members are on phones over slow mobile data.",
+        fix: "The phone layout is designed on its own, not shrunk from desktop, and a device cache paints the last known data before the network answers.",
+        shots: ["/images/projects/billing-portal/desktop-welcome.webp", "/images/projects/billing-portal/mobile-welcome.webp"],
+      },
+    ],
     approach: [
       "An on-prem sync agent is the only part that reads the billing database. It mirrors only what the portal needs, pushes outbound, and opens no inbound ports.",
       "Read-through, not a bulk copy: a member's data is mirrored only after they claim the account, and refreshed on demand.",
@@ -645,6 +690,8 @@ const list: CaseStudy[] = [
     ],
     outcome: [
       "Live in production for members across 17 towns and cities.",
+      "Bill, payment, and usage questions that used to need a call or an office visit are answered in the app.",
+      "Every outage report is a numbered job order with a timeline, so members, dispatchers, and management follow the same record.",
       "The portal reads from a mirror, so member traffic never reaches the billing database.",
     ],
     aiAngle:
