@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { ArrowRight, ArrowUpRight, Lock, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowUpRight, CircleAlert, CircleCheck, Lock, Sparkles } from "lucide-react";
 import type { Project } from "@/data/portfolio-data";
 import type { CaseStudy } from "@/data/case-studies";
 import { ProjectThumb } from "./project-thumb";
@@ -28,11 +28,11 @@ function Block({ label, items }: { label: string; items: string[] }) {
 }
 
 /** Captioned screenshots: desktop shots full width, phone shots side by side in a phone-width frame. */
-function Gallery({ project }: { project: Project }) {
-  const shots = project.gallery ?? [];
-  const desktop = shots.filter((s) => !s.mobile);
-  const mobile = shots.filter((s) => s.mobile);
-  const Shot = ({ s, i, phone }: { s: (typeof shots)[number]; i: number; phone?: boolean }) => (
+type GalleryShot = NonNullable<Project["gallery"]>[number];
+
+// Width reserved from w/h before the image loads, so nothing jumps (CLS).
+function Shot({ s, priority, phone, half }: { s: GalleryShot; priority?: boolean; phone?: boolean; half?: boolean }) {
+  return (
     <figure className="space-y-2.5">
       <a
         href={s.src}
@@ -46,14 +46,75 @@ function Gallery({ project }: { project: Project }) {
           src={s.src}
           alt={s.caption}
           fill
-          sizes={phone ? "(max-width: 640px) 45vw, 240px" : "(max-width: 768px) 100vw, 720px"}
-          priority={i === 0 && !phone}
+          sizes={phone ? "(max-width: 640px) 33vw, 200px" : half ? "(max-width: 640px) 100vw, 360px" : "(max-width: 768px) 100vw, 720px"}
+          priority={priority}
           className="object-contain transition-transform duration-500 group-hover:scale-[1.02]"
         />
       </a>
       <figcaption className="text-sm leading-relaxed text-muted-foreground">{s.caption}</figcaption>
     </figure>
   );
+}
+
+/** Problem → fix chapters, each followed by the screens that show the fix. */
+function FixStory({ fixes, project }: { fixes: NonNullable<CaseStudy["fixes"]>; project: Project }) {
+  const bySrc = new Map((project.gallery ?? []).map((g) => [g.src, g]));
+  return (
+    <section aria-labelledby="fixes-heading" className="space-y-10 border-t border-border pt-8">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h2 id="fixes-heading" className="font-display text-2xl font-bold tracking-tight md:text-3xl">
+          What was broken, and what fixed it
+        </h2>
+        {project.galleryNote && <p className="text-xs text-muted-foreground">{project.galleryNote}</p>}
+      </div>
+      <ol className="space-y-14">
+        {fixes.map((f, i) => {
+          const shots = f.shots.map((src) => bySrc.get(src)).filter((g): g is GalleryShot => Boolean(g));
+          const desktop = shots.filter((g) => !g.mobile);
+          const phones = shots.filter((g) => g.mobile);
+          // A wide first screen leads full width; tall ones pair up so the page doesn't scroll forever.
+          const lead = desktop[0] && desktop[0].w > desktop[0].h ? desktop[0] : undefined;
+          const pairs = lead ? desktop.slice(1) : desktop;
+          return (
+            <li key={f.problem} className="space-y-5">
+              <div className="grid gap-4 md:grid-cols-[3.5rem_1fr]">
+                <span aria-hidden className="font-display text-3xl font-bold leading-none text-primary/70 md:text-4xl">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div className="space-y-3">
+                  <p className="flex gap-2.5 leading-relaxed text-muted-foreground">
+                    <CircleAlert className="mt-1 h-4 w-4 shrink-0 text-[oklch(0.7_0.17_35)]" aria-hidden />
+                    <span><span className="font-semibold text-foreground/80">Problem: </span>{f.problem}</span>
+                  </p>
+                  <p className="flex gap-2.5 text-lg font-medium leading-relaxed">
+                    <CircleCheck className="mt-1.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
+                    <span><span className="font-semibold text-primary">Fix: </span>{f.fix}</span>
+                  </p>
+                </div>
+              </div>
+              {lead && <Shot s={lead} />}
+              {pairs.length > 0 && (
+                <div className="grid gap-5 sm:grid-cols-2">
+                  {pairs.map((g) => <Shot key={g.src} s={g} half />)}
+                </div>
+              )}
+              {phones.length > 0 && (
+                <div className={cn("grid gap-4", phones.length === 1 ? "max-w-[11rem]" : "grid-cols-2 sm:max-w-md sm:grid-cols-3")}>
+                  {phones.map((g) => <Shot key={g.src} s={g} phone />)}
+                </div>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+  );
+}
+
+function Gallery({ project }: { project: Project }) {
+  const shots = project.gallery ?? [];
+  const desktop = shots.filter((s) => !s.mobile);
+  const mobile = shots.filter((s) => s.mobile);
   return (
     <section aria-label="Screenshots" className="space-y-6">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -61,11 +122,11 @@ function Gallery({ project }: { project: Project }) {
         {project.galleryNote && <p className="text-xs text-muted-foreground">{project.galleryNote}</p>}
       </div>
       <div className="space-y-8">
-        {desktop.map((s, i) => <Shot key={s.src} s={s} i={i} />)}
+        {desktop.map((s, i) => <Shot key={s.src} s={s} priority={i === 0} />)}
       </div>
       {mobile.length > 0 && (
         <div className="grid grid-cols-2 gap-5 sm:max-w-lg">
-          {mobile.map((s, i) => <Shot key={s.src} s={s} i={i} phone />)}
+          {mobile.map((s) => <Shot key={s.src} s={s} phone />)}
         </div>
       )}
     </section>
@@ -120,12 +181,12 @@ export function CaseStudyView({
         ) : null}
       </header>
 
-      {!project.gallery?.length && (
+      {(!project.gallery?.length || study.fixes) && (
         <div className="relative aspect-video overflow-hidden border border-border bg-card">
           <ProjectThumb src={project.image} title={project.title} sizes="(max-width: 768px) 100vw, 720px" priority />
         </div>
       )}
-      {project.gallery?.length ? <Gallery project={project} /> : null}
+      {project.gallery?.length && !study.fixes ? <Gallery project={project} /> : null}
 
       {project.result && (
         <p className="border-l-2 border-primary pl-4 font-display text-xl font-semibold leading-snug md:text-2xl">
@@ -152,7 +213,7 @@ export function CaseStudyView({
       )}
 
       <div className="space-y-8">
-        <Block label="The challenge" items={study.challenge} />
+        {study.fixes ? <FixStory fixes={study.fixes} project={project} /> : <Block label="The challenge" items={study.challenge} />}
         <Block label="Approach" items={study.approach} />
         {!deep.capabilities?.length && <Block label="What I built" items={study.built} />}
       </div>

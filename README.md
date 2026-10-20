@@ -95,7 +95,7 @@ I'm an **AI engineer and freelancer** in the Philippines with 10 years of shippi
 </tr>
 <tr>
 <td width="50%" valign="top">
-<a href="https://lesjohnpauloliver.dev/work/consumer-billing-self-service-portal"><img src="public/images/projects/billing-portal/02-overview.webp" alt="Consumer billing portal"/></a>
+<a href="https://lesjohnpauloliver.dev/work/consumer-billing-self-service-portal"><img src="public/images/projects/billing-portal/desktop-home.webp" alt="Consumer billing portal"/></a>
 <b>Consumer Billing & Self-Service Portal</b><br/>
 <sub>Bills, usage, outages, and where to pay, for 250,000+ consumers. An on-prem sync agent feeds the cloud portal.</sub><br/>
 <sub><code>Next.js</code> <code>Supabase</code> <code>Cloudflare Tunnel</code></sub>
