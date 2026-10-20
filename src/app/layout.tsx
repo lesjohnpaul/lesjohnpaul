@@ -184,12 +184,22 @@ const websiteJsonLd = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" style={{ colorScheme: "dark" }} suppressHydrationWarning>
       <head>
+        {/* Runs before first paint: applies a saved light/system preference so there is never a
+            theme flash. Dark is already the server default above. Keep in sync with ThemeProvider. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem("portfolio-theme");if(t==="system")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";if(t==="light"){var r=document.documentElement;r.classList.remove("dark");r.classList.add("light");r.style.colorScheme="light"}}catch(e){}`,
+          }}
+        />
+        <meta name="color-scheme" content="dark light" />
         {/* Preload critical self-hosted fonts */}
         <link rel="preload" href="/fonts/clash-display-700.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/satoshi-400.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
@@ -211,6 +221,7 @@ export default function RootLayout({
       <body className={`${jetbrainsMono.variable} antialiased`}>
         <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">
           {children}
+          {modal}
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />

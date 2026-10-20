@@ -60,6 +60,7 @@ export function ThemeProvider({
     }
 
     root.classList.add(effectiveTheme);
+    root.style.colorScheme = effectiveTheme;
     setResolvedTheme(effectiveTheme);
   }, [theme, mounted]);
 
@@ -89,15 +90,8 @@ export function ThemeProvider({
     resolvedTheme,
   };
 
-  // Prevent flash of wrong theme
-  if (!mounted) {
-    return (
-      <div style={{ visibility: "hidden" }}>
-        {children}
-      </div>
-    );
-  }
-
+  // No hide-until-mounted gate: the inline script in layout.tsx sets the theme class before first
+  // paint, so content can render immediately (better LCP) without a light-theme flash.
   return (
     <ThemeProviderContext.Provider {...props} value={value}>
       {children}

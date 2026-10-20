@@ -502,7 +502,7 @@ export const projects: Project[] = [
     title: "P3 Online Billing Portal",
     description:
       "Self-service portal for an electric cooperative's consumers: bills, payments, usage history, a bill calculator, outage reports, rates, and news, with staff areas for claims, tickets, and dispatch. An on-prem sync agent mirrors the billing database to the cloud with rate limiting and a circuit breaker, so the portal never puts load on the system of record.",
-    tech: ["Next.js", "Supabase", "Vercel", "Sync Agent", "MS SQL Server"],
+    tech: ["Next.js", "Supabase", "Cloudflare Tunnel", "Sync Agent", "MS SQL Server"],
     link: "https://app.panelco3.online",
     image: "",
     featured: true,

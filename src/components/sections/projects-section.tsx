@@ -1,315 +1,167 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { Folder, ExternalLink, Github, ArrowRight, Lock } from "lucide-react";
+import { ArrowRight, ArrowUpRight, ChevronDown, Folder, Lock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MagneticElement } from "@/components/ui/magnetic-element";
 import { ProjectImageCarousel } from "@/components/ui/project-image-carousel";
-import { projects } from "@/data/portfolio-data";
+import { ProjectThumb } from "@/components/work/project-thumb";
+import { projects, type Project } from "@/data/portfolio-data";
+import { useScrollReveal } from "@/hooks/useGSAP";
+import { slugify } from "@/lib/slug";
+import { cn } from "@/lib/utils";
 
-const isExternal = (href: string) => /^https?:\/\//i.test(href);
-const hasLink = (p: { link: string; private?: boolean }) =>
-  !p.private && p.link !== "#";
-const cardImages = (p: { image: string; images?: string[] }) =>
-  p.images && p.images.length > 0 ? p.images : p.image ? [p.image] : [];
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+const FEATURED_COUNT = 6;
+const featured = projects.filter((p) => p.featured).slice(0, FEATURED_COUNT);
+const rest = projects.filter((p) => !featured.includes(p));
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
+const href = (p: Project) => `/work/${slugify(p.title)}`;
+const tagline = (p: Project) => p.result ?? p.description.split(/(?<=\.)\s/)[0];
+const isLive = (p: Project) => !p.private && /^https?:\/\//.test(p.link);
+
+function Meta({ project }: { project: Project }) {
+  return isLive(project) ? (
+    <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
+      <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Live
+    </span>
+  ) : project.private ? (
+    <span className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+      <Lock className="h-3 w-3" /> Confidential
+    </span>
+  ) : null;
+}
+
+function FeaturedCard({ project, hero }: { project: Project; hero: boolean }) {
+  const images = project.images?.length ? project.images : [];
+  return (
+    <Link
+      href={href(project)}
+      scroll={false}
+      data-reveal
+      className={cn(
+        "group relative flex min-h-[18rem] flex-col justify-end overflow-hidden border border-border bg-card outline-none",
+        "transition-colors duration-300 hover:border-primary/50 focus-visible:ring-2 focus-visible:ring-primary",
+        hero && "md:col-span-2 lg:row-span-2 min-h-[24rem]",
+      )}
+    >
+      <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.04]">
+        {hero && images.length > 1 ? (
+          <ProjectImageCarousel images={images} alt={project.title} showIndicators={false} />
+        ) : (
+          <ProjectThumb
+            src={project.image}
+            title={project.title}
+            sizes={hero ? "(max-width: 1024px) 100vw, 66vw" : "(max-width: 768px) 100vw, 33vw"}
+          />
+        )}
+      </div>
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/5" />
+      <div className="relative space-y-2 p-5 md:p-6">
+        <Meta project={project} />
+        <h3 className={cn("font-display font-semibold leading-tight", hero ? "text-2xl md:text-4xl" : "text-lg md:text-xl")}>
+          {project.title}
+        </h3>
+        <p className={cn("text-sm leading-relaxed text-foreground/80", hero ? "max-w-xl md:text-base" : "line-clamp-2")}>
+          {tagline(project)}
+        </p>
+        <span className="inline-flex items-center gap-1.5 pt-1 text-sm font-semibold text-primary transition-transform duration-300 group-hover:translate-x-1">
+          Read the case study <ArrowRight className="h-4 w-4" />
+        </span>
+      </div>
+    </Link>
+  );
 }
 
 export function ProjectsSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!sectionRef.current || !cardsRef.current) return;
-
-    const ctx = gsap.context(() => {
-      // Header animation
-      gsap.fromTo(
-        "[data-project-header]",
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-
-      // Cards animation
-      const cards = cardsRef.current?.querySelectorAll("[data-project-card]");
-      cards?.forEach((card, index) => {
-        gsap.fromTo(
-          card,
-          { opacity: 0, y: 80, rotateY: -5 },
-          {
-            opacity: 1,
-            y: 0,
-            rotateY: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-            delay: index * 0.15,
-          }
-        );
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  const sectionRef = useScrollReveal<HTMLElement>({ stagger: 0.08 });
+  const [open, setOpen] = useState(false);
 
   return (
-    <section ref={sectionRef} id="projects" className="relative py-32 overflow-hidden">
-      {/* Background */}
+    <section ref={sectionRef} id="projects" className="relative overflow-hidden py-28 md:py-32">
       <div className="absolute inset-0 bg-gradient-to-b from-card/30 via-background to-background" />
-      <div className="absolute inset-0 grid-lines opacity-20" />
 
-      {/* Decorative Elements */}
-      <div className="absolute top-40 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 left-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
-
-      <div className="container mx-auto px-6 relative z-10">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+      <div className="container relative z-10 mx-auto px-6">
+        <div data-reveal className="mb-12 flex flex-col gap-6 md:mb-14 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <div data-project-header>
-              <Badge
-                variant="outline"
-                className="px-4 py-2 rounded-full border-primary/30 bg-primary/5 text-primary mb-6"
-              >
-                <Folder className="w-4 h-4 mr-2" />
-                Featured Work
-              </Badge>
-            </div>
-            <h2 data-project-header className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-              Problems I&apos;ve <span className="text-gradient-gold">Solved</span>
+            <Badge variant="outline" className="mb-6 rounded-full border-primary/30 bg-primary/5 px-4 py-2 text-primary">
+              <Folder className="mr-2 h-4 w-4" />
+              Featured Work
+            </Badge>
+            <h2 className="mb-4 font-display text-4xl font-bold md:text-5xl lg:text-6xl">
+              Problems I&apos;ve <span className="text-primary">Solved</span>
             </h2>
-            <p data-project-header className="text-lg text-muted-foreground leading-relaxed">
-              Results, not just a résumé. Each build started with a costly business
-              problem and ended with a measurable outcome.
+            <p className="text-lg leading-relaxed text-muted-foreground">
+              Results, not just a résumé. Open any project for the full case study: the problem,
+              the approach, and what it changed.
             </p>
           </div>
-          <div data-project-header>
-            <MagneticElement strength={0.3}>
-              <Button
-                variant="outline"
-                className="rounded-full gap-2 hover:border-primary/50 hover:bg-primary/5"
-                asChild
-              >
-                <Link
-                  href="https://github.com/lesjohnpaul"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  More on GitHub
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </Button>
-            </MagneticElement>
-          </div>
+          <Button variant="outline" className="gap-2 rounded-full hover:border-primary/50 hover:bg-primary/5" asChild>
+            <Link href="https://github.com/lesjohnpaul" target="_blank" rel="noopener noreferrer">
+              More on GitHub <ArrowUpRight className="h-4 w-4" />
+            </Link>
+          </Button>
         </div>
 
-        {/* Projects Grid */}
-        <div ref={cardsRef} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Featured Project (Large Card) */}
-          {projects.filter((p) => p.featured).slice(0, 1).map((project) => (
-            <MagneticElement key={project.title} strength={0.1} className="lg:col-span-2">
-              <div
-                data-project-card
-                className="group relative overflow-hidden rounded-3xl border border-border bg-card/50 backdrop-blur-sm hover:border-primary/30 transition-all duration-500"
-              >
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-                {/* Image Side */}
-                <div className="relative h-64 lg:h-auto min-h-[20rem] overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
-                  {cardImages(project).length > 0 ? (
-                    <ProjectImageCarousel
-                      images={cardImages(project)}
-                      alt={project.title}
-                      intervalMs={3500}
-                      priority
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-32 h-32 rounded-2xl bg-primary/20 flex items-center justify-center">
-                        <Folder className="w-16 h-16 text-primary" />
-                      </div>
-                    </div>
-                  )}
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
-                </div>
-
-                {/* Content Side */}
-                <div className="p-8 lg:p-12 flex flex-col justify-center">
-                  <Badge className="w-fit mb-4 bg-primary/10 text-primary border-0">
-                    Featured Project
-                  </Badge>
-                  <h3 className="font-display text-2xl lg:text-3xl font-bold mb-4 group-hover:text-primary transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
-                    {project.description}
-                  </p>
-                  {project.result && (
-                    <p className="mb-6 border-l-2 border-primary pl-4 font-medium text-foreground">
-                      {project.result}
-                    </p>
-                  )}
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {project.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-3 py-1 rounded-full text-xs bg-secondary text-secondary-foreground"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex items-center gap-4">
-                    {hasLink(project) ? (
-                      <MagneticElement strength={0.3}>
-                        <Button
-                          className="rounded-full gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
-                          asChild
-                        >
-                          <Link
-                            href={project.link}
-                            target={isExternal(project.link) ? "_blank" : undefined}
-                            rel={isExternal(project.link) ? "noopener noreferrer" : undefined}
-                          >
-                            View Project
-                            <ExternalLink className="w-4 h-4" />
-                          </Link>
-                        </Button>
-                      </MagneticElement>
-                    ) : (
-                      <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
-                        <Lock className="w-4 h-4" />
-                        Private build, demo available on request
-                      </span>
-                    )}
-                    <MagneticElement strength={0.4}>
-                      <Button variant="outline" size="icon" className="rounded-full" asChild>
-                        <Link
-                          href="https://github.com/lesjohnpaul"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label="GitHub profile"
-                        >
-                          <Github className="w-5 h-5" />
-                        </Link>
-                      </Button>
-                    </MagneticElement>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </MagneticElement>
+        {/* Bento: the strongest work, compact, every tile opens its case study */}
+        <div className="grid gap-4 md:grid-cols-2 lg:auto-rows-[minmax(16rem,auto)] lg:grid-cols-3">
+          {featured.map((p, i) => (
+            <FeaturedCard key={p.title} project={p} hero={i === 0} />
           ))}
+        </div>
 
-          {/* Remaining projects: featured first, then the rest */}
-          {[
-            ...projects.filter((p) => p.featured).slice(1),
-            ...projects.filter((p) => !p.featured),
-          ].map((project) => (
-            <MagneticElement key={project.title} strength={0.15}>
-              <div
-                data-project-card
-                className="group relative overflow-hidden rounded-2xl border border-border bg-card/50 backdrop-blur-sm hover:border-primary/30 transition-all duration-500 h-full"
-              >
-              {/* Image */}
-              <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/10 to-secondary/10">
-                {cardImages(project).length > 0 ? (
-                  <ProjectImageCarousel
-                    images={cardImages(project)}
-                    alt={project.title}
-                    intervalMs={4000}
-                    showIndicators={false}
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-20 h-20 rounded-xl bg-primary/20 flex items-center justify-center">
-                      <Folder className="w-10 h-10 text-primary" />
-                    </div>
-                  </div>
-                )}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-card/70 via-transparent to-transparent" />
+        {/* Everything else, collapsed into an index */}
+        <div data-reveal className="mt-6 border border-border">
+          <button
+            type="button"
+            onClick={() => setOpen((o) => !o)}
+            aria-expanded={open}
+            aria-controls="project-index"
+            className="flex w-full cursor-pointer items-center justify-between gap-4 px-5 py-5 text-left transition-colors hover:bg-card/60 md:px-6"
+          >
+            <span>
+              <span className="font-display text-lg font-semibold">All projects</span>
+              <span className="ml-3 text-sm text-muted-foreground">
+                {rest.length} more case studies: automation, infrastructure, security, and products
+              </span>
+            </span>
+            <ChevronDown
+              className={cn("h-5 w-5 shrink-0 text-primary transition-transform duration-300", open && "rotate-180")}
+            />
+          </button>
 
-                {/* Hover Overlay */}
-                {hasLink(project) && (
-                  <div className="absolute inset-0 bg-primary/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Button
-                      variant="secondary"
-                      className="rounded-full gap-2"
-                      asChild
-                    >
-                      <Link
-                        href={project.link}
-                        target={isExternal(project.link) ? "_blank" : undefined}
-                        rel={isExternal(project.link) ? "noopener noreferrer" : undefined}
-                      >
-                        View Details
-                        <ArrowRight className="w-4 h-4" />
-                      </Link>
-                    </Button>
-                  </div>
-                )}
-                {project.private && (
-                  <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-background/70 backdrop-blur-sm border border-border px-2.5 py-1 text-xs text-muted-foreground">
-                    <Lock className="w-3 h-3" />
-                    Private
-                  </span>
-                )}
-              </div>
-
-              {/* Content */}
-                <div className="p-6">
-                  <h3 className="font-display text-xl font-bold mb-2 group-hover:text-primary transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm mb-4 leading-relaxed line-clamp-2">
-                    {project.description}
-                  </p>
-                  {project.result && (
-                    <p className="mb-4 border-l-2 border-primary pl-3 text-sm font-medium text-foreground">
-                      {project.result}
-                    </p>
-                  )}
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.slice(0, 3).map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2 py-0.5 rounded-full text-xs bg-secondary text-secondary-foreground"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {project.tech.length > 3 && (
-                      <span className="px-2 py-0.5 rounded-full text-xs bg-muted text-muted-foreground">
-                        +{project.tech.length - 3}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </MagneticElement>
-          ))}
+          {/* grid-template-rows 0fr→1fr animates height without measuring it */}
+          <div
+            id="project-index"
+            inert={!open}
+            className={cn(
+              "grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+              open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+            )}
+          >
+            <ul className="overflow-hidden">
+              {rest.map((p) => (
+                <li key={p.title} className="border-t border-border">
+                  <Link
+                    href={href(p)}
+                    scroll={false}
+                    className="group grid grid-cols-[4.5rem_1fr_auto] items-center gap-4 px-5 py-3.5 transition-colors hover:bg-card/60 md:grid-cols-[5.5rem_minmax(0,1.1fr)_minmax(0,1fr)_auto] md:px-6"
+                  >
+                    <span className="relative aspect-[3/2] overflow-hidden border border-border bg-card">
+                      <ProjectThumb src={p.image} title={p.title} sizes="88px" className="transition-transform duration-500 group-hover:scale-110" />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block truncate font-semibold group-hover:text-primary">{p.title}</span>
+                      <span className="block truncate text-sm text-muted-foreground md:hidden">{tagline(p)}</span>
+                      <span className="mt-0.5 hidden md:block"><Meta project={p} /></span>
+                    </span>
+                    <span className="hidden truncate text-sm text-muted-foreground md:block">{tagline(p)}</span>
+                    <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
