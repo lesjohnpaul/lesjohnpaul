@@ -2,18 +2,26 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
-import { Send, X } from "lucide-react";
+import { ArrowUpRight, Send, X } from "lucide-react";
 import gsap from "gsap";
 import { track } from "@vercel/analytics";
 
-type Msg = { role: "user" | "assistant"; text: string };
+type Msg = { role: "user" | "assistant"; text: string; links?: { label: string; href: string }[] };
 
 const GREETING: Msg = {
   role: "assistant",
   text: "Hi! I'm Pao, Les's AI assistant. Ask me what he builds, whether he can help with your business, or I can book you a call with him.",
 };
 const SUGGESTIONS = ["What does Les build?", "Can he automate our reports?", "Book a call with Les"];
+// On a case study page the server hands Pao that study, so the opener is about the project.
+const STUDY_GREETING: Msg = {
+  role: "assistant",
+  text: "Hi! I'm Pao, Les's AI assistant. Want to know how this project was built, or whether Les can build something like it for you? Ask away.",
+};
+const STUDY_SUGGESTIONS = ["How did he build this?", "Can he build this for my business?", "Book a call with Les"];
 // Shown after every reply so a visitor can always tap instead of type; slot times replace them while booking.
 const NEXT_STEPS = ["Book a call with Les", "What has he built?", "How does a project work?", "Leave my details instead"];
 const AFTER_BOOKING = ["What happens on the call?", "What has he built?"];
@@ -49,10 +57,12 @@ function conversationId(): string {
 
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Msg[]>([GREETING]);
+  const pathname = usePathname();
+  const onStudy = pathname.startsWith("/work/");
+  const [messages, setMessages] = useState<Msg[]>([onStudy ? STUDY_GREETING : GREETING]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
-  const [chips, setChips] = useState<string[]>(SUGGESTIONS);
+  const [chips, setChips] = useState<string[]>(onStudy ? STUDY_SUGGESTIONS : SUGGESTIONS);
   const panelRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -104,7 +114,7 @@ export function ChatWidget() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ conversationId: idRef.current, message }),
+        body: JSON.stringify({ conversationId: idRef.current, message, page: pathname }),
       });
       if (!res.body) throw new Error("no body");
       const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
@@ -117,9 +127,13 @@ export function ChatWidget() {
         buffered = lines.pop() ?? "";
         for (const l of lines) {
           if (!l) continue;
-          const evt = JSON.parse(l) as { t: string; v?: string | string[] };
+          const evt = JSON.parse(l) as { t: string; v?: unknown };
           if (evt.t === "text" && typeof evt.v === "string") append(evt.v);
-          if (evt.t === "chips" && Array.isArray(evt.v)) next = evt.v;
+          if (evt.t === "chips" && Array.isArray(evt.v)) next = evt.v as string[];
+          if (evt.t === "links" && Array.isArray(evt.v)) {
+            const links = evt.v as Msg["links"];
+            setMessages((m) => [...m.slice(0, -1), { ...m[m.length - 1], links }]);
+          }
           if (evt.t === "event" && evt.v === "booked") {
             track("booking_made");
             next = AFTER_BOOKING;
@@ -169,6 +183,16 @@ export function ChatWidget() {
                   }`}
                 >
                   {m.text}
+                  {m.links?.map((l) => (
+                    <Link
+                      key={l.href}
+                      href={l.href}
+                      className="mt-2 flex items-center justify-between gap-2 rounded-xl border border-primary/30 px-3 py-2 text-xs font-medium text-primary hover:bg-primary/10"
+                    >
+                      Open the {l.label}
+                      <ArrowUpRight className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                    </Link>
+                  ))}
                 </div>
               ) : null,
             )}

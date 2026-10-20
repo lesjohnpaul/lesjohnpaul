@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
@@ -7,6 +8,9 @@ import { getWork, workItems } from "@/lib/work";
 import { CaseStudyView } from "@/components/work/case-study-view";
 
 type Props = { params: Promise<{ slug: string }> };
+
+// Pao rides along on case studies too; the server gives it this page's study as context.
+const ChatWidget = dynamic(() => import("@/components/chat/chat-widget").then((m) => m.ChatWidget));
 
 export const dynamicParams = false;
 
@@ -57,6 +61,7 @@ export default async function WorkPage({ params }: Props) {
       <div className="mx-auto max-w-3xl px-6 py-12 md:py-16">
         <CaseStudyView project={work.project} study={work.study} next={work.next} />
       </div>
+      <ChatWidget />
     </main>
   );
 }

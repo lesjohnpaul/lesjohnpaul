@@ -46,3 +46,4 @@ next-env.d.ts
 pao-3d/
 src/app/lab/
 public/images/pao/pao-reference.png
+.env*.local
