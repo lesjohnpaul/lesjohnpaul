@@ -14,7 +14,7 @@ import {
   Workflow,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { hiddenTalents } from "@/data/portfolio-data";
+import { exhibitDetails, hiddenTalents } from "@/data/portfolio-data";
 import { MagneticElement } from "@/components/ui/magnetic-element";
 import { TextScramble } from "@/components/ui/text-scramble";
 import gsap from "gsap";
@@ -29,85 +29,6 @@ const ROMAN = ["I", "II", "III", "IV", "V", "VI"];
 
 const slugOf = (category: string) => category.toLowerCase().replace(/\s+/g, "-");
 
-// Curated per-exhibit content. Keys must match hiddenTalents categories exactly.
-const exhibitDetails: Record<
-  string,
-  {
-    headline: string;
-    description: string;
-    showcase: { label: string; value: string }[];
-    tools: string[];
-    quote?: string;
-    image?: string;
-    imageAlt?: string;
-    imageCaption?: string;
-    genres?: string[];
-  }
-> = {
-  "Music Production": {
-    headline: "Working Musician, Arranger & Audio Engineer",
-    description:
-      "Active keyboardist on a Nord Stage 4 88 in an indie band. Three originals are in pre-release with major-label discussions underway. Arranged two locally-released indie albums plus singles for independent artists. Tracking, comping, mixing, and stem export in Logic Pro X: comfortable at the stem level (drums, bass, vocals, synths, FX) and fluent in production techniques like sidechain, automation, and vocal processing.",
-    showcase: [
-      { value: "3", label: "Originals in pre-release" },
-      { value: "2", label: "Albums arranged" },
-      { value: "9", label: "Genres fluent" },
-    ],
-    tools: ["Nord Stage 4 88", "Logic Pro X", "Stem Separation", "Vocal Processing", "Live Performance"],
-    image: "/images/music/keyboard-performance.jpg",
-    imageAlt: "Performing on Nord Stage 4 88 in a chapel setting",
-    imageCaption: "Nord Stage 4 88, live keys session",
-    genres: ["R&B", "Pop", "OPM", "Rock", "Jazz", "Worship / Choral", "Electronic", "Indie", "Folk"],
-  },
-  "Choir Direction": {
-    headline: "Fifteen Years of SATB Ear Training",
-    description:
-      "Directed a Catholic liturgical SATB choir for weekly services: arranging and adapting hymns, training voice leading, and developing the multi-part listening that powers every harmonic decision I make. Recently composed an original Communion hymn in 8.8.8.8 Long Meter compatible with traditional tune families.",
-    showcase: [
-      { value: "15+", label: "Years directing" },
-      { value: "780+", label: "Weekly services led" },
-      { value: "1", label: "Original hymn composed" },
-    ],
-    tools: ["SATB Direction", "Hymn Arrangement", "Voice Leading", "Harmonic Analysis", "Liturgical Composition"],
-    quote: "Choral direction is the practiced ensemble leadership behind every architecture decision.",
-  },
-  "Visual Art": {
-    headline: "Composition Practice, Off-Screen",
-    description:
-      "Abstract painting as a standing hobby practice: color relationships, balance, and negative space worked out on canvas instead of a screen. The same eye that resolves a composition resolves an interface: hierarchy, rhythm, and restraint transfer directly into UI work.",
-    showcase: [
-      { value: "Acrylic", label: "Primary medium" },
-      { value: "Abstract", label: "Working style" },
-      { value: "Every UI", label: "Where it shows up" },
-    ],
-    tools: ["Abstract Painting", "Color Composition", "Visual Design", "Aesthetic Judgment"],
-    quote: "The same eye that balances a canvas balances an interface.",
-  },
-  "Solo Building": {
-    headline: "Founder-Grade Ownership, Team of One",
-    description:
-      "Shipping personal products without a team: Sneaker Symphony, a live Philippine sneaker marketplace with dual-gateway payments; FocusCanvas, a desktop SaaS; and this portfolio. Strategy, PRD, design, code, deployment, and operations. Every layer owned end to end.",
-    showcase: [
-      { value: "3", label: "Products shipped solo" },
-      { value: "2", label: "Payment gateways integrated" },
-      { value: "0", label: "Handoffs, end to end" },
-    ],
-    tools: ["Product Strategy", "PRD Authoring", "Next.js / React", "PayMongo · HitPay", "Deployment & Ops"],
-    quote: "When you are the whole team, every decision is yours to defend.",
-  },
-  "Workflow Automation": {
-    headline: "Weeks Into Clicks",
-    description:
-      "Compressing manual workflows into clicks: a 4-week regulatory tax reporting cycle now runs as a 2-click operation, saving roughly 160 hours per cycle. WESM settlement invoicing, a full workday of ~50 manual invoices, now completes in under 30 seconds with zero transcription errors.",
-    showcase: [
-      { value: "2 clicks", label: "Was a 4-week cycle" },
-      { value: "<30s", label: "Was a full workday" },
-      { value: "160 hrs", label: "Saved per cycle" },
-    ],
-    tools: ["n8n", "Claude Code Pipelines", "ETL Design", "AWS SES", "Custom APIs"],
-    quote: "The best code is the code you never have to write because a workflow handles it.",
-  },
-};
 
 export default function PandoraPage() {
   const containerRef = useRef<HTMLDivElement>(null);

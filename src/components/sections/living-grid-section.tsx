@@ -3,10 +3,18 @@
 import { useEffect, useRef, useState } from "react";
 import nextDynamic from "next/dynamic";
 import Link from "next/link";
-import { X, ExternalLink, Lock, Zap } from "lucide-react";
+import { X, ExternalLink, Lock, Zap, Box } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { projects } from "@/data/portfolio-data";
 import type { GridNodeDef } from "@/components/three/grid-canvas";
+
+const PandoraDimension = nextDynamic(
+  () => import("@/components/sections/pandora-dimension").then((m) => m.PandoraDimension),
+  { ssr: false, loading: () => <div className="fixed inset-0 z-[100] bg-[#08060f]" /> }
+);
+
+// How long the camera dives into the box before the other dimension takes over.
+const DIVE_MS = 1150;
 
 const GridCanvas = nextDynamic(() => import("@/components/three/grid-canvas"), {
   ssr: false,
@@ -116,6 +124,7 @@ export function LivingGridSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [box, setBox] = useState<"sealed" | "diving" | "inside">("sealed");
   const [reducedMotion] = useState(
     () =>
       typeof window !== "undefined" &&
@@ -137,6 +146,19 @@ export function LivingGridSection() {
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (box !== "diving") return;
+    const id = setTimeout(() => setBox("inside"), DIVE_MS);
+    return () => clearTimeout(id);
+  }, [box]);
+
+  const openBox = () => {
+    if (box !== "sealed") return;
+    void import("@/components/sections/pandora-dimension");
+    setSelectedId(null);
+    setBox(reducedMotion ? "inside" : "diving");
+  };
 
   const selectedNode = NODE_MAP.find((n) => n.id === selectedId) ?? null;
   const selectedProject = selectedNode
@@ -168,7 +190,8 @@ export function LivingGridSection() {
           <span className="text-zinc-200">250,000+ members</span>, so here is my
           work, mapped as the grid it powers. Every substation is a real
           production system.{" "}
-          <span className="text-[#d4af37]">Click one to inspect it.</span>
+          <span className="text-[#d4af37]">Click one to inspect it.</span> One
+          thing here is not on any map.
         </p>
       </div>
 
@@ -181,15 +204,29 @@ export function LivingGridSection() {
             selectedId={selectedId}
             onSelect={setSelectedId}
             animated={!reducedMotion}
+            boxOpen={box !== "sealed"}
+            paused={box === "inside"}
+            onOpenBox={openBox}
           />
         ) : (
           <GridLoading />
         )}
 
         {/* Interaction hint */}
-        <div className="pointer-events-none absolute bottom-4 left-6 font-mono text-[11px] tracking-widest text-zinc-500">
+        <div className="pointer-events-none absolute bottom-4 left-6 hidden font-mono text-[11px] tracking-widest text-zinc-500 sm:block">
           DRAG TO ORBIT · CLICK A SUBSTATION
         </div>
+
+        {/* Keyboard and touch path into the box (the canvas itself is not focusable) */}
+        {box === "sealed" && !selectedNode && (
+          <button
+            onClick={openBox}
+            className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-full border border-[#a78bfa]/40 bg-[#120e1f]/80 px-4 py-2 text-sm text-[#ddd2ff] backdrop-blur transition-colors hover:border-[#c4b5fd] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c4b5fd] sm:right-6"
+          >
+            <Box className="h-4 w-4" aria-hidden />
+            Open Pandora&apos;s box
+          </button>
+        )}
 
         {/* Case study panel */}
         {selectedNode && selectedProject && (
@@ -248,6 +285,10 @@ export function LivingGridSection() {
           </div>
         )}
       </div>
+
+      {box === "inside" && (
+        <PandoraDimension reducedMotion={reducedMotion} onClose={() => setBox("sealed")} />
+      )}
 
       {/* Ease back out into the themed page background */}
       <div className="h-24 w-full bg-gradient-to-b from-transparent to-background" />
