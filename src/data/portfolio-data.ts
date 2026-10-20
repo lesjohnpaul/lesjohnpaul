@@ -469,7 +469,7 @@ export const projects: Project[] = [
     result: "Multi-branch operator runs every branch from one platform, with data isolated per tenant and a live CEO view",
     images: ["/images/projects/wecare/01-executive-dashboard.webp", "/images/projects/wecare/02-command-center.webp", "/images/projects/wecare/03-command-center-sales.webp", "/images/projects/wecare/04-command-center-inventory.webp", "/images/projects/wecare/05-pos.webp"],
     gallery: [
-      { src: "/images/projects/wecare/01-executive-dashboard.webp", w: 1600, h: 1222, caption: "Executive dashboard: medicine inventory and dispensed value across every branch, priced at PhilHealth and in-house rates, with a per-branch breakdown." },
+      { src: "/images/projects/wecare/01-executive-dashboard.webp", w: 1600, h: 1222, caption: "Executive dashboard: medicine inventory and dispensed value across every branch at list and store prices, with a per-branch breakdown." },
       { src: "/images/projects/wecare/02-command-center.webp", w: 1600, h: 1222, caption: "Command center: today's sales, transactions, VAT, active branches, and low-stock and near-expiry alerts, with live activity across the network." },
       { src: "/images/projects/wecare/03-command-center-sales.webp", w: 1600, h: 1222, caption: "Sales view: 30-day trend, product mix, and daily sales per branch." },
       { src: "/images/projects/wecare/04-command-center-inventory.webp", w: 1600, h: 1222, caption: "Inventory view: stock value and inventory health for each branch." },

@@ -1,18 +1,30 @@
 /* Step-kind signal colors for the simulated run. Each kind keeps one hue across node, connector,
    label, and log line, so viewers can follow the pipeline by color. Darker in light mode for contrast. */
 .palette {
-  --k-trigger: oklch(0.55 0.15 245);
-  --k-automate: oklch(0.55 0.11 180);
-  --k-ai: oklch(0.55 0.2 300);
-  --k-decide: oklch(0.6 0.17 40);
-  --k-done: oklch(0.55 0.15 150);
+  /* Step kinds (nodes, connectors, log): warm, on-brand gold family */
+  --k-trigger: oklch(0.58 0.09 85);
+  --k-automate: oklch(0.6 0.15 80);
+  --k-ai: oklch(0.6 0.16 60);
+  --k-decide: oklch(0.55 0.14 42);
+  --k-done: oklch(0.58 0.13 118);
+  /* Scenes (the motion pieces): full multi-color palette */
+  --s-trigger: oklch(0.55 0.15 245);
+  --s-automate: oklch(0.55 0.11 180);
+  --s-ai: oklch(0.55 0.2 300);
+  --s-decide: oklch(0.6 0.17 40);
+  --s-done: oklch(0.55 0.15 150);
 }
 :global(.dark) .palette {
-  --k-trigger: oklch(0.74 0.14 240);
-  --k-automate: oklch(0.78 0.12 180);
-  --k-ai: oklch(0.72 0.19 300);
-  --k-decide: oklch(0.76 0.15 45);
-  --k-done: oklch(0.78 0.16 150);
+  --k-trigger: oklch(0.88 0.08 88);
+  --k-automate: oklch(0.82 0.16 82);
+  --k-ai: oklch(0.78 0.16 62);
+  --k-decide: oklch(0.72 0.14 45);
+  --k-done: oklch(0.8 0.13 115);
+  --s-trigger: oklch(0.74 0.14 240);
+  --s-automate: oklch(0.78 0.12 180);
+  --s-ai: oklch(0.72 0.19 300);
+  --s-decide: oklch(0.76 0.15 45);
+  --s-done: oklch(0.78 0.16 150);
 }
 .kTrigger  { --k: var(--k-trigger); }
 .kAutomate { --k: var(--k-automate); }
@@ -36,7 +48,7 @@
   --loop: 8.6s; /* one workflow run: 4 steps x 1.3s + 3.4s hold */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   position: relative;
-  height: 13.5rem;
+  height: 21rem;
   overflow: hidden;
   border-bottom: 1px solid var(--border);
   background:
@@ -44,7 +56,7 @@
     color-mix(in oklch, var(--background) 75%, transparent);
 }
 @media (min-width: 768px) {
-  .scene { height: 15rem; }
+  .scene { height: 25rem; }
 }
 /* Subtle engineering grid behind every scene */
 .scene::before {
@@ -151,3 +163,86 @@
 
 .flow { animation: flow 1.4s linear infinite; }
 @keyframes flow { 0% { transform: translateX(-100%); } 100% { transform: translateX(260%); } }
+
+/* ---- Motion design layer ---- */
+
+/* Slow camera push-in across the loop */
+.stage { position: absolute; inset: 0; animation: drift var(--loop) ease-in-out infinite both; }
+@keyframes drift { 0% { transform: scale(1); } 50% { transform: scale(1.035); } 100% { transform: scale(1); } }
+
+/* Data comets: a short bright dash running along each SVG path (non-scaling stroke keeps it crisp) */
+.track { fill: none; stroke-width: 1.5; stroke-dasharray: 3 6; opacity: 0.28; }
+.comet {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 18 900;
+  animation: comet 2.1s cubic-bezier(0.55, 0, 0.45, 1) infinite;
+  filter: drop-shadow(0 0 6px currentColor);
+}
+@keyframes comet { from { stroke-dashoffset: 918; } to { stroke-dashoffset: 0; } }
+
+/* AI core: rotating conic ring + breathing glow */
+.core { position: relative; border-radius: 9999px; display: grid; place-items: center; }
+.core::before {
+  content: ""; position: absolute; inset: -3px; border-radius: inherit;
+  background: conic-gradient(from 0deg, transparent, var(--c), transparent 40%, var(--c), transparent 80%);
+  animation: spin 2.4s linear infinite;
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), black calc(100% - 2px));
+}
+.core::after {
+  content: ""; position: absolute; inset: 14%; border-radius: inherit;
+  background: radial-gradient(circle, color-mix(in oklch, var(--c) 60%, transparent), transparent 70%);
+  animation: breathe 1.8s ease-in-out infinite;
+}
+@keyframes breathe { 0%, 100% { opacity: 0.45; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.08); } }
+
+/* Integer counters animated by CSS alone (registered custom property) */
+@property --n { syntax: "<integer>"; initial-value: 0; inherits: false; }
+.count { --n: var(--to); counter-reset: n var(--n); animation: count var(--loop) cubic-bezier(0.22, 1, 0.36, 1) infinite both; }
+.count::after { content: counter(n); }
+@keyframes count { 0%, 12% { --n: 0; } 70%, 92% { --n: var(--to); } 100% { --n: 0; } }
+
+/* Success burst: 8 sparks radiating from a chip */
+.burst { position: absolute; inset: 50% auto auto 50%; width: 0; height: 0; pointer-events: none; }
+.burst i {
+  position: absolute; width: 5px; height: 5px; border-radius: 9999px; background: var(--c);
+  animation: spark var(--loop) ease-out infinite both; animation-delay: var(--at);
+}
+@keyframes spark {
+  0%, 1% { transform: rotate(var(--a)) translateX(0); opacity: 0; }
+  2% { opacity: 1; }
+  9% { transform: rotate(var(--a)) translateX(46px); opacity: 0; }
+  100% { transform: rotate(var(--a)) translateX(46px); opacity: 0; }
+}
+
+/* Rubber-stamp slam */
+.stamp { animation: stamp var(--loop) cubic-bezier(0.2, 1.4, 0.4, 1) infinite both; }
+@keyframes stamp {
+  0%, 54% { opacity: 0; transform: scale(2.2) rotate(-14deg); }
+  58%, 90% { opacity: 1; transform: scale(1) rotate(-8deg); }
+  95%, 100% { opacity: 0; transform: scale(1) rotate(-8deg); }
+}
+
+/* Paper plane: invoices fly out */
+.plane { animation: plane var(--loop) cubic-bezier(0.45, 0, 0.2, 1) infinite both; }
+@keyframes plane {
+  0%, 66% { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.7); }
+  70% { opacity: 1; transform: translate(0, 0) rotate(-10deg) scale(1); }
+  86% { opacity: 1; transform: translate(150px, -90px) rotate(-24deg) scale(0.8); }
+  90%, 100% { opacity: 0; transform: translate(190px, -120px) rotate(-30deg) scale(0.6); }
+}
+
+/* Shimmer sweep across bars */
+.shimmer { position: relative; overflow: hidden; }
+.shimmer::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(100deg, transparent 30%, rgb(255 255 255 / 0.35) 50%, transparent 70%);
+  transform: translateX(-120%);
+  animation: shimmer 2.6s ease-in-out infinite;
+}
+@keyframes shimmer { 60%, 100% { transform: translateX(120%); } }
+
+/* Alert ripple */
+.ripple { position: absolute; inset: 0; border-radius: 9999px; border: 2px solid var(--c); animation: ripple 1.5s ease-out infinite; }
+@keyframes ripple { from { transform: scale(0.6); opacity: 1; } to { transform: scale(2.6); opacity: 0; } }
