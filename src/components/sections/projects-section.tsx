@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, ChevronDown, Folder, Lock } from "lucide-react";
+import { ArrowRight, ArrowUpRight, ChevronDown, Folder, Lock, UserRound } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ProjectImageCarousel } from "@/components/ui/project-image-carousel";
@@ -68,7 +68,12 @@ function FeaturedCard({ project, hero }: { project: Project; hero: boolean }) {
       </div>
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/5" />
       <div className="relative space-y-2 p-5 md:p-6">
-        <Meta project={project} />
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+          <Meta project={project} />
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/70">
+            <UserRound className="h-3 w-3" /> Solo build
+          </span>
+        </div>
         <h3 className={cn("font-display font-semibold leading-tight", hero ? "text-2xl md:text-4xl" : "text-lg md:text-xl")}>
           {project.title}
         </h3>
@@ -102,8 +107,8 @@ export function ProjectsSection() {
               Problems I&apos;ve <span className="text-primary">Solved</span>
             </h2>
             <p className="text-lg leading-relaxed text-muted-foreground">
-              Results, not just a résumé. Open any project for the full case study: the problem,
-              the approach, and what it changed.
+              Results, not just a résumé. Every project here is a solo build: I scoped, designed,
+              built, and shipped each one myself. Open any project for the full case study.
             </p>
           </div>
           <Button variant="outline" className="gap-2 rounded-full hover:border-primary/50 hover:bg-primary/5" asChild>

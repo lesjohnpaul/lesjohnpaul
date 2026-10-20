@@ -59,6 +59,9 @@ I'm an **AI engineer and freelancer** in the Philippines with 10 years of shippi
 
 ## 🧩 Featured work
 
+> **Team of one.** Every project below was scoped, designed, built, and shipped by me alone.
+
+
 <sub>Every card opens a full case study: the problem, the architecture, and what changed. Screens use demo data, and sensitive details are blurred.</sub>
 
 <table>

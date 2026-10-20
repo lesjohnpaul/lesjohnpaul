@@ -26,6 +26,8 @@ Les John Paul Oliver is an AI-first software engineer and solutions architect wh
 **Short version:**
 Les John Paul Oliver is an AI-first software engineer and solutions architect from the Philippines who builds production systems fast. He has shipped more than 10 enterprise systems as a solo architect, runs his own e-commerce venture, and brings 15 years of music direction, production, and audio engineering to creative projects.
 
+* **Role on every project:** Les is the only builder on every project in this portfolio. Each one is a team of one: he gathers requirements, designs the architecture, builds the UI, backend, database, and AI parts, deploys it, and supports it. No team, agency, or subcontracted developers.
+
 **Longer version:**
 Les John Paul combines hands-on enterprise IT operations with a modern, AI-assisted way of building. At an electric cooperative serving more than 250,000 member consumers, he architected and shipped systems end to end, replacing outside vendor solutions and saving an estimated PHP 8M+ over three years. He covers the full lifecycle: architecture, software, databases, automation, cloud and infrastructure, and security-aware operations. He uses Claude Code, Cursor, and GitHub Copilot daily, which lets him compress typical project timelines significantly without cutting corners on structure or documentation. Outside of tech, he is a working musician, arranger, choir director, recording engineer, and the founder of Sneaker Symphony, so clients get someone who understands business operations, creative work, and the systems behind both.
 
