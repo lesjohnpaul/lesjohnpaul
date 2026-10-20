@@ -18,7 +18,15 @@ import {
   RefreshCw,
   TriangleAlert,
   MonitorSmartphone,
+  Target,
+  Globe,
+  UserPlus,
+  Activity,
+  Lightbulb,
+  ShieldCheck,
 } from "lucide-react";
+import { OpsScene } from "./ops-scenes";
+import sceneStyles from "./ops-scenes.module.css";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { aiOperations, services, processSteps } from "@/data/portfolio-data";
@@ -28,6 +36,21 @@ import { cn } from "@/lib/utils";
 const icons = {
   MessageSquare, Bot, GitBranch, BellRing, Database, ScanSearch,
   Sparkles, FileCheck2, Store, RefreshCw, TriangleAlert, MonitorSmartphone,
+  Target, Globe, UserPlus, Activity, Lightbulb, ShieldCheck,
+};
+
+// Step kinds share five signal colors (defined per theme in ops-scenes.module.css).
+type KindKey = "kTrigger" | "kAutomate" | "kAI" | "kDecide" | "kDone";
+const KIND_OF: Record<string, KindKey> = {
+  Trigger: "kTrigger", Automate: "kAutomate", Sync: "kAutomate",
+  AI: "kAI", Decide: "kDecide", Analyze: "kDecide", Done: "kDone",
+};
+const kindKey = (kind: string): KindKey => KIND_OF[kind] ?? "kTrigger";
+const kindClass = (kind: string) => sceneStyles[kindKey(kind)];
+// The panel's .palette publishes every kind color, so a connector can blend into the next step's.
+const KIND_VAR: Record<KindKey, string> = {
+  kTrigger: "var(--k-trigger)", kAutomate: "var(--k-automate)", kAI: "var(--k-ai)",
+  kDecide: "var(--k-decide)", kDone: "var(--k-done)",
 };
 
 const STEP_MS = 1300; // one workflow step lighting up
@@ -102,8 +125,8 @@ export function ServicesSection() {
             AI That Makes Your <span className="text-primary">Business Run</span>
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
-            The three operations businesses ask AI to take over first. Pick one and watch the
-            workflow run: the same pattern I ship, wired into your systems in weeks.
+            Five operations businesses are handing to AI right now. Pick one and watch the
+            workflow run: the same patterns I ship, wired into your systems in weeks.
           </p>
         </div>
 
@@ -145,14 +168,8 @@ export function ServicesSection() {
                     </span>
                     <div>
                       <h3 className="font-display text-lg md:text-xl font-semibold leading-snug">{o.title}</h3>
-                      <p
-                        className={cn(
-                          "mt-1.5 text-sm leading-relaxed transition-colors duration-300",
-                          selected ? "text-foreground/80" : "text-muted-foreground",
-                        )}
-                      >
-                        {o.pain}
-                      </p>
+                      {/* Only the selected operation shows its pain point, keeping five tabs compact */}
+                      {selected && <p className="mt-1.5 text-sm leading-relaxed text-foreground/80">{o.pain}</p>}
                     </div>
                   </div>
                   {/* Run progress for the selected operation */}
@@ -174,7 +191,7 @@ export function ServicesSection() {
             id="op-panel"
             role="tabpanel"
             aria-labelledby={`op-tab-${op.id}`}
-            className="border border-border bg-card/40"
+            className={cn("border border-border bg-card/40", sceneStyles.palette)}
           >
             <div className="flex items-center justify-between gap-4 border-b border-border px-5 py-3 md:px-7">
               <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
@@ -198,6 +215,9 @@ export function ServicesSection() {
               </span>
             </div>
 
+            {/* CSS-only motion scene; key restarts its animations on each operation */}
+            <OpsScene key={`scene-${op.id}`} id={op.id} playing={inView} />
+
             {/* key resets connector transitions when switching operations */}
             <div key={op.id} className="grid gap-8 px-5 py-7 md:px-7 md:py-8 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
               <ol className="relative">
@@ -205,31 +225,40 @@ export function ServicesSection() {
                   const Icon = icons[s.icon as keyof typeof icons] ?? Bot;
                   const done = step > i;
                   const current = step === i;
+                  const next = op.steps[i + 1];
                   return (
-                    <li key={s.title} className="relative grid grid-cols-[2.75rem_1fr] gap-4 pb-7 last:pb-0">
-                      {i < total - 1 && (
-                        <span aria-hidden className="absolute left-[1.375rem] top-11 bottom-0 w-px -translate-x-1/2 bg-border">
+                    <li key={s.title} className={cn("relative grid grid-cols-[2.75rem_1fr] gap-4 pb-7 last:pb-0", kindClass(s.kind))}>
+                      {next && (
+                        <span aria-hidden className="absolute left-[1.375rem] top-11 bottom-0 w-0.5 -translate-x-1/2 bg-border">
+                          {/* The connector blends this step's color into the next one's */}
                           <span
-                            className="block h-full w-full origin-top bg-primary transition-transform ease-out"
-                            style={{ transform: `scaleY(${done ? 1 : 0})`, transitionDuration: `${STEP_MS * 0.6}ms` }}
+                            className="block h-full w-full origin-top transition-transform ease-out"
+                            style={{
+                              transform: `scaleY(${done ? 1 : 0})`,
+                              transitionDuration: `${STEP_MS * 0.6}ms`,
+                              backgroundImage: `linear-gradient(var(--k), ${KIND_VAR[kindKey(next.kind)]})`,
+                            }}
                           />
                         </span>
                       )}
                       <span
                         className={cn(
                           "relative z-10 flex h-11 w-11 items-center justify-center rounded-full border transition-colors duration-300",
-                          done && "border-primary bg-primary text-primary-foreground",
-                          current && "border-primary bg-background text-primary",
+                          current && sceneStyles.live,
                           !done && !current && "border-border bg-background text-muted-foreground",
                         )}
+                        style={
+                          done
+                            ? { background: "var(--k)", borderColor: "var(--k)", color: "var(--background)" }
+                            : current
+                              ? { borderColor: "var(--k)", color: "var(--k)", background: "var(--background)" }
+                              : undefined
+                        }
                       >
-                        {current && (
-                          <span aria-hidden className="absolute inset-0 rounded-full border border-primary opacity-60 motion-safe:animate-ping" />
-                        )}
                         <Icon className="h-5 w-5" />
                       </span>
                       <div className={cn("pt-0.5 transition-opacity duration-500", step >= i ? "opacity-100" : "opacity-40")}>
-                        <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-primary">{s.kind}</p>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: "var(--k)" }}>{s.kind}</p>
                         <p className="font-display text-base md:text-lg font-semibold leading-snug">{s.title}</p>
                         <p className="mt-0.5 text-sm text-muted-foreground leading-relaxed">{s.detail}</p>
                       </div>
@@ -246,18 +275,20 @@ export function ServicesSection() {
                 <div aria-hidden className="flex-1 space-y-2 px-4 py-4 font-mono text-[11px] leading-relaxed md:text-xs">
                   {op.log.map((l, i) => {
                     const [time, event, ...detail] = l.split(/\s{2,}/);
-                    const live = i === step && running;
+                    // Log line i belongs to step i; the extra final line is the run's outcome.
+                    const kind = op.steps[Math.min(i, total - 1)].kind;
                     return (
                       <p
                         key={l}
                         className={cn(
                           "flex flex-wrap gap-x-3 transition-[opacity,transform] duration-500 ease-out",
+                          kindClass(kind),
                           i <= step ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0",
                         )}
                       >
                         <span className="text-muted-foreground/70 tabular-nums">{time}</span>
-                        <span className={live ? "text-primary" : "text-foreground/85"}>{event}</span>
-                        <span className={live ? "text-primary/80" : "text-muted-foreground"}>{detail.join(" ")}</span>
+                        <span className="font-semibold" style={{ color: "var(--k)" }}>{event}</span>
+                        <span className={i === step && running ? "text-foreground" : "text-muted-foreground"}>{detail.join(" ")}</span>
                       </p>
                     );
                   })}

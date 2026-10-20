@@ -1,0 +1,153 @@
+/* Step-kind signal colors for the simulated run. Each kind keeps one hue across node, connector,
+   label, and log line, so viewers can follow the pipeline by color. Darker in light mode for contrast. */
+.palette {
+  --k-trigger: oklch(0.55 0.15 245);
+  --k-automate: oklch(0.55 0.11 180);
+  --k-ai: oklch(0.55 0.2 300);
+  --k-decide: oklch(0.6 0.17 40);
+  --k-done: oklch(0.55 0.15 150);
+}
+:global(.dark) .palette {
+  --k-trigger: oklch(0.74 0.14 240);
+  --k-automate: oklch(0.78 0.12 180);
+  --k-ai: oklch(0.72 0.19 300);
+  --k-decide: oklch(0.76 0.15 45);
+  --k-done: oklch(0.78 0.16 150);
+}
+.kTrigger  { --k: var(--k-trigger); }
+.kAutomate { --k: var(--k-automate); }
+.kAI       { --k: var(--k-ai); }
+.kDecide   { --k: var(--k-decide); }
+.kDone     { --k: var(--k-done); }
+
+/* Node glow while a step is running */
+.live { animation: live 1.3s ease-in-out infinite; }
+@keyframes live {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklch, var(--k) 55%, transparent); }
+  50% { box-shadow: 0 0 0 7px color-mix(in oklch, var(--k) 0%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) { .live { animation: none; } }
+
+/* CSS-only motion scenes for the AI operations console.
+   Every animated property is transform, opacity, or stroke-dashoffset (compositor-friendly).
+   Resting styles are the finished frame, so reduced motion simply shows the end state. */
+
+.scene {
+  --loop: 8.6s; /* one workflow run: 4 steps x 1.3s + 3.4s hold */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  height: 13.5rem;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  background:
+    radial-gradient(ellipse 60% 80% at 75% 0%, color-mix(in oklch, var(--primary) 9%, transparent), transparent 70%),
+    color-mix(in oklch, var(--background) 75%, transparent);
+}
+@media (min-width: 768px) {
+  .scene { height: 15rem; }
+}
+/* Subtle engineering grid behind every scene */
+.scene::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, color-mix(in oklch, var(--border) 45%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklch, var(--border) 45%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  pointer-events: none;
+}
+
+.scene:not([data-playing="true"]) *,
+.scene:not([data-playing="true"]) *::before,
+.scene:not([data-playing="true"]) *::after {
+  animation-play-state: paused !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene *, .scene *::before, .scene *::after { animation: none !important; }
+}
+
+/* ---- Cues: hidden, enter at N% of the loop, hold, exit together at 92% ---- */
+.cue {
+  --from: translateY(8px);
+  animation-duration: var(--loop);
+  animation-iteration-count: infinite;
+  animation-timing-function: var(--ease);
+  animation-fill-mode: both;
+}
+.pop { --from: scale(0.85); }
+.fromLeft { --from: translateX(-14px); }
+.fromRight { --from: translateX(14px); }
+
+.c05 { animation-name: c05; }
+.c15 { animation-name: c15; }
+.c25 { animation-name: c25; }
+.c35 { animation-name: c35; }
+.c45 { animation-name: c45; }
+.c55 { animation-name: c55; }
+.c65 { animation-name: c65; }
+.c75 { animation-name: c75; }
+
+@keyframes c05 { 0%, 5% { opacity: 0; transform: var(--from); } 10%, 90% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+@keyframes c15 { 0%, 15% { opacity: 0; transform: var(--from); } 20%, 90% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+@keyframes c25 { 0%, 25% { opacity: 0; transform: var(--from); } 30%, 90% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+@keyframes c35 { 0%, 35% { opacity: 0; transform: var(--from); } 40%, 90% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+@keyframes c45 { 0%, 45% { opacity: 0; transform: var(--from); } 50%, 90% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+@keyframes c55 { 0%, 55% { opacity: 0; transform: var(--from); } 60%, 90% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+@keyframes c65 { 0%, 65% { opacity: 0; transform: var(--from); } 70%, 90% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+@keyframes c75 { 0%, 75% { opacity: 0; transform: var(--from); } 80%, 90% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+
+/* Visible only between two cues (typing indicator). Rests hidden. */
+.blip {
+  opacity: 0;
+  animation: blip var(--loop) var(--ease) infinite both;
+}
+@keyframes blip { 0%, 14% { opacity: 0; } 17%, 23% { opacity: 1; } 26%, 100% { opacity: 0; } }
+
+/* Shown until a later cue replaces it (e.g. the risky forecast). Rests hidden. */
+.until70 {
+  opacity: 0;
+  animation: until70 var(--loop) var(--ease) infinite both;
+}
+@keyframes until70 { 0%, 35% { opacity: 0; } 40%, 68% { opacity: 1; } 74%, 100% { opacity: 0; } }
+
+/* ---- Continuous motion ---- */
+.dot { animation: dot 1s ease-in-out infinite; }
+.dot:nth-child(2) { animation-delay: 0.15s; }
+.dot:nth-child(3) { animation-delay: 0.3s; }
+@keyframes dot { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-3px); opacity: 1; } }
+
+/* A full-height sweeper whose top edge carries the scan line */
+.scan { animation: scan 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+@keyframes scan { 0% { transform: translateY(-4%); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(100%); opacity: 0; } }
+
+.grow {
+  transform-origin: bottom;
+  animation: grow var(--loop) var(--ease) infinite both;
+}
+@keyframes grow { 0%, 6% { transform: scaleY(0.04); } 24%, 90% { transform: scaleY(1); } 96%, 100% { transform: scaleY(0.04); } }
+
+/* SVG paths use pathLength="1" so the dash math is unit-free */
+.draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: draw var(--loop) var(--ease) infinite both;
+}
+@keyframes draw { 0%, 4% { stroke-dashoffset: 1; opacity: 1; } 34%, 92% { stroke-dashoffset: 0; opacity: 1; } 97%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+
+.drawLate {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: drawLate var(--loop) var(--ease) infinite both;
+}
+@keyframes drawLate { 0%, 72% { stroke-dashoffset: 1; opacity: 1; } 84%, 92% { stroke-dashoffset: 0; opacity: 1; } 97%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+
+.ring { animation: ring 1.6s ease-out infinite; }
+@keyframes ring { 0% { transform: scale(0.6); opacity: 0.9; } 100% { transform: scale(2); opacity: 0; } }
+
+.spin { animation: spin 2.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.flow { animation: flow 1.4s linear infinite; }
+@keyframes flow { 0% { transform: translateX(-100%); } 100% { transform: translateX(260%); } }

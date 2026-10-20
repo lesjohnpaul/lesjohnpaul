@@ -72,7 +72,7 @@ export const services = [
   },
 ];
 
-// The three AI operations buyers most often need (2026 SMB surveys: customer service,
+// AI operations buyers most often need (2026 SMB surveys: customer service, marketing/lead gen,
 // bookkeeping/back office, data analysis), each tied to work Les has shipped.
 // `log` lines are an illustrative simulated run, labeled as such in the UI.
 export const aiOperations = [
@@ -94,6 +94,25 @@ export const aiOperations = [
       "02:48:03  owner.notified       telegram ✓  email ✓",
     ],
     proof: "Running on this page right now: Pao answers, books calls, and pings Les. ACIRS brings it to a 250K-member utility in Q1 2027.",
+  },
+  {
+    id: "leadgen",
+    title: "Lead Generation & Web Scraping",
+    pain: "Your sales team spends hours hunting prospects and copying contact details into spreadsheets.",
+    steps: [
+      { kind: "Trigger", icon: "Target", title: "Define your ideal customer", detail: "Industry, location, size, buying signals" },
+      { kind: "Automate", icon: "Globe", title: "Scrape public sources on a schedule", detail: "Directories, maps, and marketplaces, within each site's terms" },
+      { kind: "AI", icon: "Sparkles", title: "Enrich, score, and personalize", detail: "AI ranks fit and drafts a first message for each lead" },
+      { kind: "Done", icon: "UserPlus", title: "Qualified leads land in your CRM", detail: "Deduplicated, with source links, ready to contact" },
+    ],
+    log: [
+      "06:00:00  crawl.started        sources=3",
+      "06:04:12  records.extracted    public listings",
+      "06:04:15  dedupe.completed     duplicates removed",
+      "06:05:02  ai.scored            hot · warm · skip",
+      "06:05:03  crm.synced           drafts ready for review",
+    ],
+    proof: "Sneaker Symphony runs a scrape-to-catalog pipeline that imports product listings automatically, and Pao captures and qualifies leads on this page.",
   },
   {
     id: "backoffice",
@@ -132,6 +151,25 @@ export const aiOperations = [
       "09:15:30  sync.completed       branches=5 · read-only",
     ],
     proof: "Shipped as the GM Live Collections Dashboard and WeCare's multi-branch CEO view, both built read-only by design.",
+  },
+  {
+    id: "analytics",
+    title: "AI Analytics That Prescribes",
+    pain: "Charts show what already went wrong. Nobody tells you what to do before it happens.",
+    steps: [
+      { kind: "Trigger", icon: "Database", title: "Your data streams in", detail: "Sales, stock, collections, support tickets" },
+      { kind: "Analyze", icon: "Activity", title: "Spots anomalies and trends", detail: "Compared against your normal pattern, per branch and per day" },
+      { kind: "AI", icon: "Lightbulb", title: "Recommends the next move", detail: "A plain-language suggestion with the reason behind it" },
+      { kind: "Done", icon: "ShieldCheck", title: "You act before it costs you", detail: "Approve the suggestion; the system tracks the outcome" },
+    ],
+    log: [
+      "07:30:00  baseline.refreshed   last 30 days",
+      "07:30:02  anomaly.detected     item A selling fast · branch 2",
+      "07:30:03  forecast.stockout    thursday",
+      "07:30:04  ai.recommended       transfer stock from branch 4",
+      "07:31:10  owner.approved       transfer created",
+    ],
+    proof: "Built on patterns already shipped: the GM dashboard surfaces revenue lost to voided receipts, and the refund automation's AI explains every anomaly in plain language.",
   },
 ];
 
