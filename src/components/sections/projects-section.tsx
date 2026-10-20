@@ -12,8 +12,18 @@ import { useScrollReveal } from "@/hooks/useGSAP";
 import { slugify } from "@/lib/slug";
 import { cn } from "@/lib/utils";
 
-const FEATURED_COUNT = 6;
-const featured = projects.filter((p) => p.featured).slice(0, FEATURED_COUNT);
+// The bento showcases live business systems first; the first title is the large hero tile.
+const FEATURED_TITLES = [
+  "P3 Online Billing Portal",
+  "AI-Assisted Refund Automation",
+  "ITASM v2: IT Help Desk & Asset Management",
+  "P3 Consumer E-Invoicing",
+  "WeCare: Pharmacy POS & Dispensing Platform",
+  "Sneaker Symphony: AI-Run Marketplace",
+];
+const featured = FEATURED_TITLES.map((t) => projects.find((p) => p.title === t)).filter(
+  (p): p is Project => Boolean(p),
+);
 const rest = projects.filter((p) => !featured.includes(p));
 
 const href = (p: Project) => `/work/${slugify(p.title)}`;

@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { ArrowRight, ArrowUpRight, Lock, Sparkles } from "lucide-react";
 import type { Project } from "@/data/portfolio-data";
 import type { CaseStudy } from "@/data/case-studies";
@@ -19,6 +21,53 @@ function Block({ label, items }: { label: string; items: string[] }) {
           </li>
         ))}
       </ul>
+    </section>
+  );
+}
+
+/** Captioned screenshots: desktop shots full width, phone shots side by side in a phone-width frame. */
+function Gallery({ project }: { project: Project }) {
+  const shots = project.gallery ?? [];
+  const desktop = shots.filter((s) => !s.mobile);
+  const mobile = shots.filter((s) => s.mobile);
+  const Shot = ({ s, i, phone }: { s: (typeof shots)[number]; i: number; phone?: boolean }) => (
+    <figure className="space-y-2.5">
+      <a
+        href={s.src}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Open full-size screenshot: ${s.caption}`}
+        className={cn(
+          "group relative block overflow-hidden border border-border bg-black/40 transition-colors hover:border-primary/50",
+          phone ? "aspect-[780/1688]" : "aspect-[16/10]",
+        )}
+      >
+        <Image
+          src={s.src}
+          alt={s.caption}
+          fill
+          sizes={phone ? "(max-width: 640px) 45vw, 240px" : "(max-width: 768px) 100vw, 720px"}
+          priority={i === 0 && !phone}
+          className="object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+        />
+      </a>
+      <figcaption className="text-sm leading-relaxed text-muted-foreground">{s.caption}</figcaption>
+    </figure>
+  );
+  return (
+    <section aria-label="Screenshots" className="space-y-6">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Inside the system</h2>
+        {project.galleryNote && <p className="text-xs text-muted-foreground">{project.galleryNote}</p>}
+      </div>
+      <div className="space-y-8">
+        {desktop.map((s, i) => <Shot key={s.src} s={s} i={i} />)}
+      </div>
+      {mobile.length > 0 && (
+        <div className="grid grid-cols-2 gap-5 sm:max-w-lg">
+          {mobile.map((s, i) => <Shot key={s.src} s={s} i={i} phone />)}
+        </div>
+      )}
     </section>
   );
 }
@@ -53,9 +102,12 @@ export function CaseStudyView({
         <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">{study.summary}</p>
       </header>
 
-      <div className="relative aspect-video overflow-hidden border border-border bg-card">
-        <ProjectThumb src={project.image} title={project.title} sizes="(max-width: 768px) 100vw, 720px" priority />
-      </div>
+      {!project.gallery?.length && (
+        <div className="relative aspect-video overflow-hidden border border-border bg-card">
+          <ProjectThumb src={project.image} title={project.title} sizes="(max-width: 768px) 100vw, 720px" priority />
+        </div>
+      )}
+      {project.gallery?.length ? <Gallery project={project} /> : null}
 
       {project.result && (
         <p className="border-l-2 border-primary pl-4 font-display text-xl font-semibold leading-snug md:text-2xl">

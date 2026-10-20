@@ -422,6 +422,10 @@ export type Project = {
   private?: boolean;
   // One-line business outcome shown on the card. Only defensible numbers.
   result?: string;
+  // Case-study screenshots with what each screen does. Reviewed before publishing: no real
+  // names, internal emails, or infrastructure identifiers. Mobile shots render in a narrow frame.
+  gallery?: { src: string; caption: string; mobile?: boolean }[];
+  galleryNote?: string;
 };
 
 // Order matters: the first featured project is the large hero card.
@@ -460,10 +464,20 @@ export const projects: Project[] = [
       "Automates a daily refund and correction approval workflow that staff did by hand across two billing systems. Per-type handlers run a dry run first, then execute with a reverse script ready. For flagged items, Claude reviews the case read-only and returns a structured note: category, a plain Taglish explanation, a suggested fix, and confidence. Guardrails by design: the AI never writes and never approves; a human confirms every action.",
     tech: ["Claude (headless)", "Python", "FastAPI", "MS SQL Server", "Human-in-the-Loop"],
     link: "#",
-    image: "/images/projects/refund-automation.jpg",
+    image: "/images/projects/ai-assisted-refund-automation/01-pending-review.webp",
     featured: true,
     private: true,
     result: "A manual daily approval queue becomes dry-run, AI-explained, human-confirmed actions",
+    images: ["/images/projects/ai-assisted-refund-automation/01-pending-review.webp", "/images/projects/ai-assisted-refund-automation/02-overview.webp", "/images/projects/ai-assisted-refund-automation/03-live-activity.webp", "/images/projects/ai-assisted-refund-automation/04-run-history.webp", "/images/projects/ai-assisted-refund-automation/05-email-reports.webp"],
+    gallery: [
+      { src: "/images/projects/ai-assisted-refund-automation/01-pending-review.webp", caption: "Pending review: every refund request with its verdict and planned handling, confirmed by a person before anything runs." },
+      { src: "/images/projects/ai-assisted-refund-automation/02-overview.webp", caption: "Overview: what is awaiting action, the live queue, and the latest analyze/execute run." },
+      { src: "/images/projects/ai-assisted-refund-automation/03-live-activity.webp", caption: "Live activity console: each executed item re-checked, committed with an audit log, and a reverse script saved." },
+      { src: "/images/projects/ai-assisted-refund-automation/04-run-history.webp", caption: "Run history: every analyze and execute run with its verdict mix, for a complete audit trail." },
+      { src: "/images/projects/ai-assisted-refund-automation/05-email-reports.webp", caption: "Email reports: accomplishment reports sent to saved recipients in PDF, Word, Excel, or CSV." },
+      { src: "/images/projects/ai-assisted-refund-automation/06-mobile-pending.webp", caption: "The review queue on a phone, with confirm and execute actions.", mobile: true },
+    ],
+    galleryNote: "Screens show demo data; client data stays private.",
   },
   {
     title: "ACIRS: 24/7 AI Customer Support",
@@ -493,10 +507,20 @@ export const projects: Project[] = [
       "Replaced IT support run on phone calls, walk-ins, paper forms, and spreadsheets for a cooperative of about 300 employees across 12 offices. Help desk with a business-hours SLA engine (warnings, breach, auto-escalation), QR asset custody with signed receipts, a maintenance shop, 12 reports in 4 formats, a mobile PWA, and a live TV wallboard for the IT room.",
     tech: ["React 19", "Node.js", "MS SQL Server", "Socket.IO", "Playwright"],
     link: "#",
-    image: "",
+    image: "/images/projects/itasm-v2/01-hero.webp",
     featured: true,
     private: true,
     result: "Load-tested at 300 simultaneous requests; a 15,000-ticket report returns in under 500 ms (p95)",
+    images: ["/images/projects/itasm-v2/01-hero.webp", "/images/projects/itasm-v2/02-command-center.webp", "/images/projects/itasm-v2/03-queue-pulse.webp", "/images/projects/itasm-v2/04-today-vs-trend.webp", "/images/projects/itasm-v2/05-hot-categories.webp"],
+    gallery: [
+      { src: "/images/projects/itasm-v2/01-hero.webp", caption: "ITASM: the IT help desk, asset register, and TV command center for the IT room." },
+      { src: "/images/projects/itasm-v2/02-command-center.webp", caption: "Command center: a live 3D SLA radar plotting every open ticket by time left, with breach and risk counts." },
+      { src: "/images/projects/itasm-v2/03-queue-pulse.webp", caption: "Queue pulse: queue health score, open tickets by priority, and status mix." },
+      { src: "/images/projects/itasm-v2/04-today-vs-trend.webp", caption: "Today vs trend: tickets filed and resolved over 7 days, SLA met, and response and resolution times." },
+      { src: "/images/projects/itasm-v2/05-hot-categories.webp", caption: "Hot categories: which problem types are spiking this week, flagged before they become an outage." },
+      { src: "/images/projects/itasm-v2/06-mobile-quick-actions.webp", caption: "Employee mobile app: one-tap tickets for the most common problems, plus asset tag scanning.", mobile: true },
+    ],
+    galleryNote: "Screens show demo data; client data stays private.",
   },
   {
     title: "P3 Online Billing Portal",
@@ -504,8 +528,20 @@ export const projects: Project[] = [
       "Self-service portal for an electric cooperative's consumers: bills, payments, usage history, a bill calculator, outage reports, rates, and news, with staff areas for claims, tickets, and dispatch. An on-prem sync agent mirrors the billing database to the cloud with rate limiting and a circuit breaker, so the portal never puts load on the system of record.",
     tech: ["Next.js", "Supabase", "Cloudflare Tunnel", "Sync Agent", "MS SQL Server"],
     link: "https://app.panelco3.online",
-    image: "",
+    image: "/images/projects/p3-online-billing-portal/01-welcome.webp",
     featured: true,
+    images: ["/images/projects/p3-online-billing-portal/01-welcome.webp", "/images/projects/p3-online-billing-portal/02-overview.webp", "/images/projects/p3-online-billing-portal/03-bills.webp", "/images/projects/p3-online-billing-portal/04-usage.webp", "/images/projects/p3-online-billing-portal/05-outage.webp"],
+    gallery: [
+      { src: "/images/projects/p3-online-billing-portal/01-welcome.webp", caption: "Public landing page: consumers register and sign in to check their bill without waiting for the paper copy." },
+      { src: "/images/projects/p3-online-billing-portal/02-overview.webp", caption: "Account overview: current balance and due date, outage advisories, latest usage, and quick links to pay or report." },
+      { src: "/images/projects/p3-online-billing-portal/03-bills.webp", caption: "Full billing history with paid and unpaid status for every bill." },
+      { src: "/images/projects/p3-online-billing-portal/04-usage.webp", caption: "Usage analytics: 13-month kWh trend, month-over-month comparison, and a next-bill estimate." },
+      { src: "/images/projects/p3-online-billing-portal/05-outage.webp", caption: "Outage reporting with a map pin, plus a live view of reports around the area and crew status." },
+      { src: "/images/projects/p3-online-billing-portal/06-where-to-pay.webp", caption: "Where to pay: the account number to copy, payment channels, and a map of coop offices and mall counters." },
+      { src: "/images/projects/p3-online-billing-portal/07-mobile-home.webp", caption: "The same portal on a phone: balance, advisories, and one-tap actions.", mobile: true },
+      { src: "/images/projects/p3-online-billing-portal/08-mobile-usage.webp", caption: "Mobile usage view with the 13-month chart and plain-language insight.", mobile: true },
+    ],
+    galleryNote: "Screens show demo data; client data stays private.",
   },
   {
     title: "AGAM Distributed Registration",
@@ -549,9 +585,20 @@ export const projects: Project[] = [
       "Live notification service that delivers statements of account and disconnection notices to the cooperative's opted-in consumers: password-protected PDF invoices by email and SMS with an automatic provider fallback chain. Batch targeting by area office, municipality, and barangay with cost estimates, a contact registry with CSV import, templates, a 360° delivery dashboard, and provider credentials encrypted with AES-256-GCM.",
     tech: ["Node.js", "Amazon SES", "SMS Fallback Chain", "PDF Pipeline", "MS SQL Server"],
     link: "#",
-    image: "/images/projects/bulk-email.jpg",
+    image: "/images/projects/p3-consumer-e-invoicing/01-executive.webp",
     featured: true,
     private: true,
+    images: ["/images/projects/p3-consumer-e-invoicing/01-executive.webp", "/images/projects/p3-consumer-e-invoicing/02-delivery.webp", "/images/projects/p3-consumer-e-invoicing/03-batches.webp", "/images/projects/p3-consumer-e-invoicing/04-batch-detail.webp", "/images/projects/p3-consumer-e-invoicing/05-registry.webp"],
+    gallery: [
+      { src: "/images/projects/p3-consumer-e-invoicing/01-executive.webp", caption: "Executive view: bills delivered digitally, delivery and open rates, and SMS spend at a glance." },
+      { src: "/images/projects/p3-consumer-e-invoicing/02-delivery.webp", caption: "Delivery dashboard: email and SMS funnels from queued to delivered and opened, with six-period trends." },
+      { src: "/images/projects/p3-consumer-e-invoicing/03-batches.webp", caption: "Invoice batches: draft first, nothing sends until started, with live progress and failures per batch." },
+      { src: "/images/projects/p3-consumer-e-invoicing/04-batch-detail.webp", caption: "Batch detail: per-recipient email and SMS status, cost, and errors." },
+      { src: "/images/projects/p3-consumer-e-invoicing/05-registry.webp", caption: "Contact registry: verified emails and mobiles per consumer account, with CSV import and sync." },
+      { src: "/images/projects/p3-consumer-e-invoicing/06-disconnection.webp", caption: "Disconnection notices: overdue candidates and staged reminders, with a cost preview before sending." },
+      { src: "/images/projects/p3-consumer-e-invoicing/07-login.webp", caption: "Sign-in with leveled access: supervisor, admin, and superadmin." },
+    ],
+    galleryNote: "Screens show demo data; client data stays private.",
   },
   {
     title: "PFAS: Partner File Automation System",
