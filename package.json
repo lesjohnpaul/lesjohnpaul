@@ -31,6 +31,7 @@
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "resend": "^6.34.1",
+    "simple-icons": "^16.35.0",
     "tailwind-merge": "^3.4.0",
     "three": "^0.185.1",
     "zod": "^4.6.7"

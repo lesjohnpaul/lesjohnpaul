@@ -5,6 +5,8 @@ import { ArrowRight, ArrowUpRight, Lock, Sparkles } from "lucide-react";
 import type { Project } from "@/data/portfolio-data";
 import type { CaseStudy } from "@/data/case-studies";
 import { ProjectThumb } from "./project-thumb";
+import { ArchitectureMap, StackChips } from "./architecture-map";
+import { EngineeringReel } from "./engineering-reel";
 
 const isLive = (p: Project) => !p.private && /^https?:\/\//.test(p.link);
 
@@ -139,9 +141,7 @@ export function CaseStudyView({
         <div className="sm:col-span-2">
           <dt className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Stack</dt>
           <dd className="mt-1.5 flex flex-wrap gap-1.5">
-            {project.tech.map((t) => (
-              <span key={t} className="border border-border px-2 py-0.5 text-xs text-foreground/80">{t}</span>
-            ))}
+            <StackChips tech={project.tech} />
           </dd>
         </div>
       </dl>
@@ -182,11 +182,9 @@ export function CaseStudyView({
         </section>
       ) : null}
 
-      <div className="space-y-8">
-        <Block label="Architecture" items={deep.architecture ?? []} />
-        <Block label="Engineering" items={deep.engineering ?? []} />
-        <Block label="Outcome" items={study.outcome} />
-      </div>
+      <ArchitectureMap tech={project.tech} steps={deep.architecture ?? []} />
+      <EngineeringReel items={deep.engineering ?? []} />
+      <Block label="Outcome" items={study.outcome} />
 
       <footer className="flex flex-col gap-4 border-t border-border pt-8 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap gap-3">

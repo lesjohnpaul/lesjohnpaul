@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, type RefObject } from "react";
 import { Canvas, useFrame, type ThreeEvent } from "@react-three/fiber";
 import * as THREE from "three";
 import { createPaoModel, disposePaoModel } from "./createPaoModel";
@@ -9,11 +9,19 @@ const BODY_Y = 0.165; // resting torso height from the generated sculpt
 const CLICK_SLOP = 0.03; // world units of movement before a press counts as a drag
 const BOUNDS = { x: 0.62, yMax: 0.55 };
 
-type Phase = "pop" | "idle" | "excited" | "drag" | "drop";
+type Phase = "pop" | "idle" | "home" | "drag" | "drop";
 
 const easeOutBack = (k: number) => 1 + 2.4 * Math.pow(k - 1, 3) + 1.4 * Math.pow(k - 1, 2);
 
-function PaoActor({ reduced, onPopped, onFirstTouch }: { reduced: boolean; onPopped: () => void; onFirstTouch: () => void }) {
+type ActorProps = {
+  reduced: boolean;
+  onPopped: () => void;
+  onFirstTouch: () => void;
+  onHome: () => void;
+  sendHome: RefObject<(() => void) | null>;
+};
+
+function PaoActor({ reduced, onPopped, onFirstTouch, onHome, sendHome }: ActorProps) {
   const { group, parts } = useMemo(() => createPaoModel(), []);
   const holder = useRef<THREE.Group>(null);
   const phase = useRef<Phase>(reduced ? "idle" : "pop");
@@ -37,6 +45,21 @@ function PaoActor({ reduced, onPopped, onFirstTouch }: { reduced: boolean; onPop
     phase.current = p;
     since.current = now;
   };
+
+  // Back into the photo: only from idle, so a drag release or the pop-out never triggers it.
+  const homeSent = useRef(false);
+  useEffect(() => {
+    sendHome.current = () => {
+      if (phase.current !== "idle") return;
+      if (reduced) {
+        homeSent.current = true;
+        onHome();
+        return;
+      }
+      phase.current = "home";
+      since.current = null;
+    };
+  }, [reduced, onHome, sendHome]);
 
   useFrame(({ clock, pointer }) => {
     const h = holder.current;
@@ -71,19 +94,21 @@ function PaoActor({ reduced, onPopped, onFirstTouch }: { reduced: boolean; onPop
         if (t > 2.6) go("idle", now);
         break;
       }
-      case "excited": {
-        // Two happy hops with a full spin and both arms up.
-        const k = Math.min(1, t / 1.1);
-        h.position.y = Math.abs(Math.sin(k * Math.PI * 2)) * 0.16;
-        h.rotation.y = k * Math.PI * 2;
-        const squash = 1 + Math.sin(k * Math.PI * 4) * 0.05;
-        h.scale.set(1 / squash, squash, 1 / squash);
+      case "home": {
+        // Happy hop with both arms up, then spin and shrink back down into the photo.
         armL = 2.0 + Math.sin(t * 14) * 0.25;
         armR = -2.0 - Math.sin(t * 14) * 0.25;
-        if (k >= 1) {
-          h.rotation.y = 0;
-          h.scale.setScalar(1);
-          go("idle", now);
+        if (t < 0.45) {
+          h.position.y = Math.sin((t / 0.45) * Math.PI) * 0.16;
+        } else {
+          const k = Math.min(1, (t - 0.45) / 0.55);
+          h.rotation.y = k * k * Math.PI * 2.5;
+          h.position.y = -k * 0.25;
+          h.scale.setScalar(Math.max(0.001, 1 - k * k));
+          if (k >= 1 && !homeSent.current) {
+            homeSent.current = true;
+            onHome();
+          }
         }
         break;
       }
@@ -151,10 +176,10 @@ function PaoActor({ reduced, onPopped, onFirstTouch }: { reduced: boolean; onPop
     if (phase.current === "drag") {
       d.dropFrom = holder.current.position.y;
       phase.current = "drop";
-    } else if (!reduced) {
-      phase.current = "excited";
+      since.current = null;
+    } else {
+      sendHome.current?.();
     }
-    since.current = null;
   };
 
   return (
@@ -171,8 +196,19 @@ function PaoActor({ reduced, onPopped, onFirstTouch }: { reduced: boolean; onPop
   );
 }
 
-/** Hero Pao: pops out of the photo, reveals the name, then can be clicked (excited) or dragged and dropped. */
-export function PaoHero({ onPopped, onFirstTouch, className }: { onPopped: () => void; onFirstTouch: () => void; className?: string }) {
+/** Hero Pao: pops out of the photo and reveals the name. Drag him around; click him (or the photo) to send him home. */
+export function PaoHero({
+  onPopped,
+  onFirstTouch,
+  onHome,
+  className,
+}: {
+  onPopped: () => void;
+  onFirstTouch: () => void;
+  onHome: () => void;
+  className?: string;
+}) {
+  const sendHome = useRef<(() => void) | null>(null);
   const reduced = useMemo(
     () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches,
     [],
@@ -185,11 +221,12 @@ export function PaoHero({ onPopped, onFirstTouch, className }: { onPopped: () =>
         gl={{ alpha: true, antialias: true, powerPreference: "low-power" }}
         camera={{ fov: 30, near: 0.05, far: 20, position: [0, 0.6, 2.9] }}
         onCreated={({ camera }) => camera.lookAt(0, 0.45, 0)}
+        onPointerMissed={() => sendHome.current?.()} // clicking the photo behind him sends him home too
       >
         <hemisphereLight args={["#ffffff", "#b8b8c0", 1.25]} />
         <directionalLight position={[-0.8, 1.6, 2]} intensity={2.2} color="#fff6ec" />
         <directionalLight position={[-1.2, 1.2, -1.6]} intensity={0.8} />
-        <PaoActor reduced={reduced} onPopped={onPopped} onFirstTouch={onFirstTouch} />
+        <PaoActor reduced={reduced} onPopped={onPopped} onFirstTouch={onFirstTouch} onHome={onHome} sendHome={sendHome} />
       </Canvas>
     </div>
   );

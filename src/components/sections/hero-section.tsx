@@ -76,6 +76,8 @@ export function HeroSection() {
 
   // "closed": photo first, name held back. "meeting": Pao is popping out. "open": name revealed.
   const [gate, setGate] = useState<"closed" | "meeting" | "open">("closed");
+  // Pao goes back and forth: out of the photo, back in, out again. The name stays revealed.
+  const [paoOut, setPaoOut] = useState(false);
   const photoRef = useRef<HTMLButtonElement>(null);
   const revealed = useRef(false);
 
@@ -104,7 +106,9 @@ export function HeroSection() {
 
   const meetPao = useCallback(() => {
     setGate((g) => (g === "closed" ? "meeting" : g));
+    setPaoOut(true);
   }, []);
+  const sendPaoHome = useCallback(() => setPaoOut(false), []);
 
   useEffect(() => {
     let met = false;
@@ -296,11 +300,19 @@ export function HeroSection() {
                   </>
                 )}
 
-                {/* 3D Pao pops out of the photo; drag him around or click him */}
-                {gate !== "closed" && (
+                {/* After the first meeting: a quieter hint that it works both ways */}
+                {gate === "open" && (
+                  <span className="pointer-events-none absolute -bottom-9 left-1/2 z-30 -translate-x-1/2 whitespace-nowrap rounded-full border border-primary/40 bg-background/80 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
+                    {paoOut ? "Drag Pao around · click him to send him home" : "Click my photo to call Pao out"}
+                  </span>
+                )}
+
+                {/* 3D Pao pops out of the photo; drag him around or click him (or the photo) to send him home */}
+                {paoOut && (
                   <PaoHero
                     onPopped={revealName}
                     onFirstTouch={revealName}
+                    onHome={sendPaoHome}
                     className="absolute -inset-x-16 -top-36 z-40 aspect-[4/5] sm:-inset-x-24"
                   />
                 )}
@@ -309,12 +321,12 @@ export function HeroSection() {
                 <button
                   ref={photoRef}
                   type="button"
-                  onClick={meetPao}
-                  disabled={gate !== "closed"}
-                  aria-label="Meet Pao, my AI assistant"
+                  onClick={paoOut ? sendPaoHome : meetPao}
+                  aria-label={paoOut ? "Send Pao back into the photo" : "Meet Pao, my AI assistant"}
+                  aria-pressed={paoOut}
                   className="relative block aspect-square w-full cursor-pointer overflow-hidden transition-[transform,opacity,filter] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-default group-hover/image:[transform:perspective(900px)_rotateY(-7deg)_rotateX(3deg)]"
                   style={
-                    gate === "closed"
+                    !paoOut
                       ? undefined
                       : { transform: "perspective(900px) rotateY(-26deg) translateX(18%) scale(0.84)", opacity: 0.5, filter: "saturate(0.6)" }
                   }
