@@ -20,7 +20,7 @@
   ul { margin: 2px 0 3px; padding-left: 15px; }
   li { margin: 0 0 2px; }
   .skills p { margin: 0 0 2px; }
-  a { color: #111; text-decoration: none; }
+  a { color: #111; text-decoration: underline; }
   .note { font-style: italic; }
 </style>
 </head>
@@ -50,7 +50,7 @@
 
 <p class="meta"><span class="role">System Administration Officer / Solutions Architect</span> | Sep 2022 &ndash; Present</p>
 <ul>
-  <li>Shipped an AI-assisted refund automation (Python, FastAPI, SQL Server, Claude) for a daily approval queue across two billing systems: AI reviews each flagged case read-only and explains the fix, while deterministic rules and a human approve every action; dry runs, single-transaction execution, and reverse scripts make every change reversible.</li>
+  <li>Automated the daily refund and payment-correction approval queue across two legacy billing systems with an AI-assisted, human-in-the-loop pipeline (see Featured Projects).</li>
   <li>Leading ACIRS, a 24/7 AI customer-support system that answers from the company knowledge base, auto-escalates to the right department, and builds a Customer-360 record from every interaction (launching Q1 2027).</li>
   <li>Cut a 2-week tax compliance reporting process to a 2-click Python automation that finishes in under 5 minutes, generating the regulated PDFs straight from SQL Server with no manual transcription.</li>
   <li>Automated wholesale electricity spot-market invoicing: a full-workday, ~50-invoice manual batch now runs in under 30 seconds with zero transcription errors (React, FastAPI, SQL Server; 59 automated tests).</li>
@@ -77,16 +77,32 @@
 <h3>Freelance AI Engineer and Full-Stack Developer</h3>
 <p class="meta">2024 &ndash; Present | Remote</p>
 <ul>
-  <li>Delivered WeCare, a live multi-tenant pharmacy POS and dispensing platform for a multi-branch pharmacy and clinic operator: PhilHealth eligibility and claims, FEFO inventory, replenishment, and CEO dashboards across branches, with tenant isolation enforced in PostgreSQL row-level security (React 19, Supabase; 85 migrations, 66 SQL functions).</li>
-  <li>Built Pao, the AI assistant on lesjohnpauloliver.dev (Claude, tool use): answers only from verified portfolio data, checks live calendar availability and books meetings, and captures leads; hardened with prompt-injection defenses, server-side conversation history, rate limits, and an atomic daily spend cap (~$0.0002 per message with prompt caching).</li>
+  <li>Delivered WeCare, a live multi-tenant pharmacy POS and dispensing platform for a multi-branch pharmacy and clinic operator (see Featured Projects), and Pao, a live AI agent that books client meetings.</li>
   <li>Founded and run Sneaker Symphony (sneakersymphony.com) solo: a scrape-to-catalog import pipeline and a Claude API content pipeline that writes and schedules posts for Facebook, Instagram, and TikTok (Next.js, Supabase, Inngest, Cloudflare R2, PayMongo with idempotent GCash, Maya, and card payments).</li>
 </ul>
 
-<h2>Selected Projects</h2>
+<h2>Featured Projects</h2>
+
+<h3>AI-Assisted Refund Automation | Python, FastAPI, SQL Server, Claude</h3>
+<p class="meta">Case study: <a href="https://lesjohnpauloliver.dev/work/ai-assisted-refund-automation">lesjohnpauloliver.dev/work/ai-assisted-refund-automation</a></p>
 <ul>
-  <li><b>SonicSense</b> (TypeScript, Chrome extension, Anthropic tool use): turns a free-text track description into 13 structured release-metadata fields in one pass.</li>
-  <li><b>Partner File Automation Platform</b> (FastAPI, SQLAlchemy, Docker, SQL Server): scheduled ETL replacing manual SFTP and email file ingestion, with audit logging and role-based access.</li>
-  <li><b>FocusCanvas</b> (Tauri 2, Rust, React): cross-platform desktop productivity app with native performance.</li>
+  <li>LLM in a money workflow, built to be safe: Claude reviews each flagged refund with read-only tools and answers in a fixed JSON schema, while deterministic rules and a human confirm every ledger change.</li>
+  <li>Spans two legacy systems with no API; 7 request types, each its own recipe module that executes in one transaction with a saved reverse script, so every change can be undone.</li>
+  <li>AI notes are cached per case and capped per run, and an AI failure never fails the batch; 538 automated tests cover the pipeline, recipes, API, auth, and reports.</li>
+</ul>
+
+<h3>Pao: Live AI Agent with Tool Use | Next.js, Claude API, Redis, Cal.com</h3>
+<p class="meta">Try it: <a href="https://lesjohnpauloliver.dev">lesjohnpauloliver.dev</a></p>
+<ul>
+  <li>Production AI agent that answers only from verified portfolio data, checks live calendar availability, books meetings, and captures leads with email and Telegram alerts.</li>
+  <li>Hardened for the open internet: prompt-injection defenses, bot protection, per-IP rate limits, server-side history, and an atomic daily spend cap; prompt caching keeps cost near $0.0002 per message.</li>
+</ul>
+
+<h3>WeCare: Multi-Tenant Pharmacy SaaS | React 19, Supabase, PostgreSQL</h3>
+<p class="meta">Case study: <a href="https://lesjohnpauloliver.dev/work/wecare-pharmacy-pos-dispensing-platform">lesjohnpauloliver.dev/work/wecare-pharmacy-pos-dispensing-platform</a></p>
+<ul>
+  <li>Live since August 2026 across a multi-branch pharmacy and clinic operator: POS dispensing, PhilHealth claims, FEFO inventory, replenishment, and live CEO dashboards.</li>
+  <li>Tenant isolation enforced in PostgreSQL row-level security and proven by a two-tenant test matrix; stock-value ledger load-tested at 10&times; production volume with a 143 ms worst case (85 migrations, 66 SQL functions).</li>
 </ul>
 
 <h2>Education</h2>
