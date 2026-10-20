@@ -67,17 +67,50 @@ export function ChatWidget() {
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const idRef = useRef<string | null>(null);
+  // Phones get a full-screen sheet without the 3D stage (keeps three.js off mobile data).
+  const [mobile, setMobile] = useState(false);
+  // three.js parses for ~0.5s on desktop; mount the 3D stage after the panel has painted.
+  const [stage, setStage] = useState(false);
 
   useEffect(() => {
-    if (!open || !panelRef.current) return;
-    inputRef.current?.focus();
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    gsap.fromTo(
-      panelRef.current,
-      { opacity: 0, scale: 0.6, y: 40, transformOrigin: "bottom right" },
-      { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" },
-    );
-  }, [open]);
+    if (!open || mobile) return;
+    const t = setTimeout(() => setStage(true), 260);
+    return () => clearTimeout(t);
+  }, [open, mobile]);
+
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (!open || !panel) return;
+    // Focusing on a phone pops the keyboard over the greeting, so only autofocus with a mouse.
+    if (!mobile) inputRef.current?.focus();
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.fromTo(
+        panel,
+        mobile ? { opacity: 0, y: 24 } : { opacity: 0, scale: 0.92, y: 12, transformOrigin: "bottom right" },
+        { opacity: 1, scale: 1, y: 0, duration: 0.22, ease: "power3.out", clearProps: "transform" },
+      );
+    }
+    if (!mobile) return;
+    // The sheet tracks the visible viewport, so the on-screen keyboard never covers the input
+    // (iOS Safari doesn't shrink dvh for the keyboard). The page behind it stops scrolling.
+    const vv = window.visualViewport;
+    const fit = () => {
+      if (!vv) return;
+      panel.style.setProperty("--vvh", `${vv.height}px`);
+      panel.style.setProperty("--vvt", `${vv.offsetTop}px`);
+    };
+    fit();
+    vv?.addEventListener("resize", fit);
+    vv?.addEventListener("scroll", fit);
+    const root = document.documentElement;
+    const prev = root.style.overflow;
+    root.style.overflow = "hidden";
+    return () => {
+      vv?.removeEventListener("resize", fit);
+      vv?.removeEventListener("scroll", fit);
+      root.style.overflow = prev;
+    };
+  }, [open, mobile]);
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight });
@@ -90,7 +123,10 @@ export function ChatWidget() {
   }, []);
 
   const toggle = () => {
-    if (!open) track("chat_open");
+    if (!open) {
+      track("chat_open");
+      setMobile(window.matchMedia("(max-width: 639px)").matches);
+    }
     setOpen((o) => !o);
   };
 
@@ -152,33 +188,38 @@ export function ChatWidget() {
   const waiting = busy && messages[messages.length - 1]?.text === "";
 
   return (
-    <div className="fixed bottom-5 right-5 z-[60] flex flex-col items-end gap-3">
+    <div className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-4 z-[60] flex flex-col items-end gap-3 sm:right-5">
       {open && (
         <div
           ref={panelRef}
           role="dialog"
           aria-label="Chat with Pao, Les's AI assistant"
-          className="flex h-[min(560px,calc(100dvh-7rem))] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-border bg-background/95 shadow-2xl shadow-primary/10 backdrop-blur-xl"
+          className="fixed inset-x-0 top-[var(--vvt,0px)] flex h-[var(--vvh,100dvh)] w-full flex-col overflow-hidden border-border bg-background shadow-2xl shadow-primary/10 sm:static sm:h-[min(600px,calc(100dvh-7rem))] sm:w-[min(400px,calc(100vw-2.5rem))] sm:rounded-2xl sm:border sm:bg-background/95 sm:backdrop-blur-xl"
         >
-          <div className="flex items-center gap-3 border-b border-border px-4 py-3">
+          <div className="flex items-center gap-3 border-b border-border px-4 pb-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:pt-3">
             <PaoAvatar className="h-10 w-10" />
-            <div className="flex-1 leading-tight">
+            <div className="min-w-0 flex-1 leading-tight">
               <p className="font-semibold">Pao</p>
-              <p className="text-xs text-muted-foreground">Les&apos;s AI assistant · usually instant</p>
+              <p className="truncate text-xs text-muted-foreground">Les&apos;s AI assistant · usually instant</p>
             </div>
             <span className="rounded-full border border-primary/30 px-2 py-0.5 text-[10px] font-mono uppercase text-primary">AI</span>
-            <button onClick={() => setOpen(false)} aria-label="Close chat" className="rounded-md p-1 text-muted-foreground hover:text-foreground">
+            <button onClick={() => setOpen(false)} aria-label="Close chat" className="-mr-2 rounded-md p-2.5 text-muted-foreground hover:text-foreground">
               <X className="h-5 w-5" />
             </button>
           </div>
 
-          <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4" aria-live="polite">
-            {messages.length === 1 && <PaoStage className="mx-auto -mb-2 h-44 w-40" />}
+          <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto overscroll-contain px-4 py-4" aria-live="polite">
+            {messages.length === 1 &&
+              (mobile || !stage ? (
+                <PaoAvatar className="mx-auto h-20 w-20" />
+              ) : (
+                <PaoStage className="mx-auto -mb-2 h-44 w-40" />
+              ))}
             {messages.map((m, i) =>
               m.text || m.role === "user" ? (
                 <div
                   key={i}
-                  className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
+                  className={`max-w-[85%] whitespace-pre-wrap break-words rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
                     m.role === "user" ? "ml-auto bg-primary text-primary-foreground" : "bg-card border border-border"
                   }`}
                 >
@@ -212,7 +253,7 @@ export function ChatWidget() {
                   <button
                     key={s}
                     onClick={() => send(s)}
-                    className="rounded-full border border-primary/30 px-3 py-1.5 text-xs text-primary hover:bg-primary/10"
+                    className="min-h-10 rounded-full border border-primary/30 px-3.5 py-2 text-sm text-primary transition-colors hover:bg-primary/10 active:scale-95 sm:min-h-0 sm:py-1.5 sm:text-xs"
                   >
                     {s}
                   </button>
@@ -226,7 +267,7 @@ export function ChatWidget() {
               e.preventDefault();
               send(input);
             }}
-            className="border-t border-border p-3"
+            className="border-t border-border p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]"
           >
             <div className="flex items-center gap-2">
               <input
@@ -236,13 +277,15 @@ export function ChatWidget() {
                 maxLength={MAX_CHARS}
                 placeholder="Ask about Les's work…"
                 aria-label="Message"
-                className="flex-1 rounded-xl border border-border bg-card px-3 py-2.5 text-sm outline-none focus:border-primary/50"
+                enterKeyHint="send"
+                autoComplete="off"
+                className="min-w-0 flex-1 rounded-xl border border-border bg-card px-3 py-2.5 text-base outline-none focus:border-primary/50 sm:text-sm"
               />
               <button
                 type="submit"
                 disabled={busy || !input.trim()}
                 aria-label="Send"
-                className="rounded-xl bg-primary p-2.5 text-primary-foreground disabled:opacity-40"
+                className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground transition-transform active:scale-90 disabled:opacity-40 sm:h-10 sm:w-10"
               >
                 <Send className="h-4 w-4" />
               </button>
@@ -259,7 +302,7 @@ export function ChatWidget() {
         aria-expanded={open}
         aria-label={open ? "Close chat" : "Chat with Pao, Les's AI assistant"}
         data-chat-launcher
-        className="group relative flex items-center gap-2 rounded-full bg-primary py-1.5 pl-1.5 pr-4 text-primary-foreground shadow-lg shadow-primary/30 transition-transform hover:scale-105"
+        className={`group relative items-center gap-2 rounded-full ${open ? "hidden sm:flex" : "flex"} bg-primary py-1.5 pl-1.5 pr-4 text-primary-foreground shadow-lg shadow-primary/30 transition-transform hover:scale-105 active:scale-95`}
       >
         {!open && <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-primary/40 [animation-duration:2.5s]" />}
         {open ? <X className="h-6 w-6" /> : <PaoAvatar className="h-9 w-9 ring-2 ring-primary-foreground/30" />}

@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: siteUrl, lastModified, changeFrequency: "monthly", priority: 1 },
     { url: `${siteUrl}/gallery`, lastModified, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${siteUrl}/les-john-paul-oliver-resume.pdf`, lastModified, changeFrequency: "monthly", priority: 0.5 },
     { url: `${siteUrl}/pandora`, lastModified, changeFrequency: "yearly", priority: 0.3 },
     ...workItems.map((w) => ({
       url: `${siteUrl}/work/${w.slug}`,

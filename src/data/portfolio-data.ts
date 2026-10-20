@@ -881,3 +881,32 @@ export const exhibitDetails: Record<
     quote: "The best code is the code you never have to write because a workflow handles it.",
   },
 };
+
+// Visible FAQ on the home page, also emitted as FAQPage JSON-LD. Answer the questions buyers
+// actually search ("hire an AI engineer in the Philippines"). Keep every answer true.
+export const faqs = [
+  {
+    q: "Who is Les John Paul Oliver?",
+    a: "An AI engineer based in Pangasinan, Philippines. I build AI agents, chatbots, and business automation, with 10+ years shipping production systems for a utility that serves 250,000+ consumers.",
+  },
+  {
+    q: "Can I hire you as a freelance AI engineer from outside the Philippines?",
+    a: "Yes. I work remotely with clients worldwide, in English or Filipino. I'm on Philippine time (GMT+8) and arrange overlap hours with your time zone.",
+  },
+  {
+    q: "What can an AI engineer do for my business?",
+    a: "Take busywork off your team. Examples I've shipped: an assistant that answers leads 24/7, tax compliance reporting cut from 2 weeks to under 5 minutes, and an invoice batch cut from a workday to under 30 seconds. AI steps keep a human review where money or records change.",
+  },
+  {
+    q: "Do you build your own AI models?",
+    a: "No. I don't train LLMs. I build on proven models like Claude and wire them into your workflows, data, and tools, so you get working results fast without research costs.",
+  },
+  {
+    q: "Do you work alone or with a team?",
+    a: "Alone. Every project in this portfolio is a team of one: I handle requirements, architecture, UI, backend, database, AI, deployment, and support myself.",
+  },
+  {
+    q: "How much does it cost, and how long does it take?",
+    a: "Every project is quoted after a free 30-minute discovery call, because price and timeline depend on scope. My AI-assisted workflow usually delivers in a fraction of the typical timeline.",
+  },
+];
