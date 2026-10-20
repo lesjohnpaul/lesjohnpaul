@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -14,6 +15,12 @@ import { Button } from "@/components/ui/button";
 import { MagneticElement } from "@/components/ui/magnetic-element";
 import { personalInfo, heroStats } from "@/data/portfolio-data";
 import { HeroOutcomes } from "./hero-outcomes";
+
+// 3D Pao is code-split: prefetched when the browser is idle, mounted only when the visitor meets him.
+const loadPaoHero = () => import("@/components/pao/pao-hero").then((m) => m.PaoHero);
+const PaoHero = dynamic(loadPaoHero, { ssr: false });
+const AUTO_MEET_MS = 9000; // if nobody clicks, Pao introduces Les anyway
+const MET_KEY = "pao-met";
 import gsap from "gsap";
 import { track } from "@vercel/analytics";
 
@@ -67,6 +74,54 @@ export function HeroSection() {
     return () => clearTimeout(timeout);
   }, [currentRole]);
 
+  // "closed": photo first, name held back. "meeting": Pao is popping out. "open": name revealed.
+  const [gate, setGate] = useState<"closed" | "meeting" | "open">("closed");
+  const photoRef = useRef<HTMLButtonElement>(null);
+  const revealed = useRef(false);
+
+  // Dock-style "maximize": the name sweeps out of the photo/Pao position and grows into place.
+  const revealName = useCallback(() => {
+    if (revealed.current) return;
+    revealed.current = true;
+    setGate("open");
+    try { sessionStorage.setItem(MET_KEY, "1"); } catch {}
+    const h1 = nameRef.current;
+    const photo = photoRef.current;
+    if (!h1 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const chars = h1.querySelectorAll<HTMLElement>(".hero-name-char");
+    const from = photo?.getBoundingClientRect();
+    chars.forEach((el, i) => {
+      const r = el.getBoundingClientRect();
+      const dx = from ? from.left + from.width / 2 - (r.left + r.width / 2) : 300;
+      const dy = from ? from.top + from.height * 0.35 - (r.top + r.height / 2) : 0;
+      gsap.fromTo(
+        el,
+        { x: dx, y: dy, scaleX: 0.06, scaleY: 0.35, skewX: -28, opacity: 0, filter: "blur(10px)", transformOrigin: "100% 50%" },
+        { x: 0, y: 0, scaleX: 1, scaleY: 1, skewX: 0, opacity: 1, filter: "blur(0px)", duration: 1.05, delay: i * 0.07, ease: "expo.out", clearProps: "filter" },
+      );
+    });
+  }, []);
+
+  const meetPao = useCallback(() => {
+    setGate((g) => (g === "closed" ? "meeting" : g));
+  }, []);
+
+  useEffect(() => {
+    let met = false;
+    try { met = sessionStorage.getItem(MET_KEY) === "1"; } catch {}
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Returning in the same session, or reduced motion: show the name straight away.
+    if (met || reduced) {
+      revealed.current = true;
+      const id = window.setTimeout(() => setGate("open"), 0);
+      return () => window.clearTimeout(id);
+    }
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 1500));
+    idle(() => void loadPaoHero());
+    const auto = window.setTimeout(meetPao, AUTO_MEET_MS);
+    return () => window.clearTimeout(auto);
+  }, [meetPao]);
+
   // GSAP animations
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -78,18 +133,10 @@ export function HeroSection() {
       gsap.set("[data-hero-slide-right]", { opacity: 0, x: 60 });
       gsap.set("[data-hero-scale]", { opacity: 0, scale: 0.8 });
       gsap.set("[data-hero-stat]", { opacity: 0, y: 40 });
-      gsap.set(".hero-name-char", { opacity: 0, y: 100, rotateX: -90 });
       gsap.set("[data-hero-image]", { opacity: 0, scale: 0.9, y: 40 });
       gsap.set("[data-hero-image-frame]", { opacity: 0 });
 
       tl.to("[data-hero-line]", { scaleX: 1, duration: 1.2 }, 0)
-        .to(".hero-name-char", {
-          opacity: 1,
-          y: 0,
-          rotateX: 0,
-          duration: 0.8,
-          stagger: 0.05,
-        }, 0.3)
         .to("[data-hero-slide-left]", { opacity: 1, x: 0, duration: 0.8 }, 0.6)
         .to("[data-hero-slide-right]", { opacity: 1, x: 0, duration: 0.8 }, 0.6)
         .to("[data-hero-fade]", { opacity: 1, y: 0, duration: 0.6, stagger: 0.1 }, 0.8)
@@ -146,8 +193,22 @@ export function HeroSection() {
               <div data-hero-line className="h-px flex-1 bg-gradient-to-r from-border to-transparent origin-left" />
             </div>
 
-            {/* Name - Clean Professional Typography */}
-            <div className="space-y-2">
+            {/* Name: held back until Pao reveals it. Space is reserved, so the reveal never shifts layout. */}
+            <div className="relative space-y-2" data-name-gate={gate === "open" ? "open" : "closed"}>
+              {gate !== "open" && (
+                <button
+                  type="button"
+                  onClick={meetPao}
+                  className="absolute inset-x-0 top-0 z-10 flex h-[2em] cursor-pointer items-center gap-3 text-left font-display text-2xl font-semibold text-foreground/90 md:text-3xl lg:text-4xl"
+                >
+                  <span aria-hidden className="text-primary">👋</span>
+                  <span>
+                    Who builds these results?{" "}
+                    <span className="text-primary underline decoration-primary/40 underline-offset-8">Click my photo</span>
+                    <span className="hidden lg:inline"> to meet Pao</span>.
+                  </span>
+                </button>
+              )}
               <h1
                 ref={nameRef}
                 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tighter leading-[0.85] cursor-default select-none group/name transition-all duration-500 hover:drop-shadow-[0_0_25px_rgba(212,175,55,0.4)]"
@@ -224,8 +285,40 @@ export function HeroSection() {
                 data-hero-image
                 className="relative group/image max-w-sm w-full"
               >
-                {/* Main Image Container */}
-                <div className="relative aspect-square overflow-hidden">
+                {/* Clickable cue while Pao is waiting to be met */}
+                {gate === "closed" && (
+                  <>
+                    <span aria-hidden className="pointer-events-none absolute -inset-2 z-30 border-2 border-primary/70 motion-safe:animate-[pao-pulse_2.4s_ease-out_infinite]" />
+                    <span className="pointer-events-none absolute bottom-3 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-primary py-1 pl-1 pr-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/30 motion-safe:animate-bounce [animation-duration:2s]">
+                      <Image src="/images/pao/pao-avatar.webp" alt="" width={56} height={56} className="h-7 w-7 rounded-full bg-[#dcdcdc]" />
+                      Click to meet Pao
+                    </span>
+                  </>
+                )}
+
+                {/* 3D Pao pops out of the photo; drag him around or click him */}
+                {gate !== "closed" && (
+                  <PaoHero
+                    onPopped={revealName}
+                    onFirstTouch={revealName}
+                    className="absolute -inset-x-16 -top-36 z-40 aspect-[4/5] sm:-inset-x-24"
+                  />
+                )}
+
+                {/* Main Image Container: the photo is the button that summons Pao */}
+                <button
+                  ref={photoRef}
+                  type="button"
+                  onClick={meetPao}
+                  disabled={gate !== "closed"}
+                  aria-label="Meet Pao, my AI assistant"
+                  className="relative block aspect-square w-full cursor-pointer overflow-hidden transition-[transform,opacity,filter] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-default group-hover/image:[transform:perspective(900px)_rotateY(-7deg)_rotateX(3deg)]"
+                  style={
+                    gate === "closed"
+                      ? undefined
+                      : { transform: "perspective(900px) rotateY(-26deg) translateX(18%) scale(0.84)", opacity: 0.5, filter: "saturate(0.6)" }
+                  }
+                >
                   {/* Gold Corner Frames */}
                   <div data-hero-image-frame className="absolute top-0 left-0 w-16 h-16 border-l-2 border-t-2 border-primary z-20 transition-[width,height] duration-500 ease-out group-hover/image:w-20 group-hover/image:h-20" />
                   <div data-hero-image-frame className="absolute top-0 right-0 w-16 h-16 border-r-2 border-t-2 border-primary z-20 transition-[width,height] duration-500 ease-out group-hover/image:w-20 group-hover/image:h-20" />
@@ -250,7 +343,7 @@ export function HeroSection() {
 
                   {/* Decorative Background Frame */}
                   <div className="absolute -z-10 top-4 left-4 right-4 bottom-4 border border-primary/30 transition-[top,left,right,bottom] duration-500 ease-out group-hover/image:top-6 group-hover/image:left-6 group-hover/image:right-6 group-hover/image:bottom-6" />
-                </div>
+                </button>
 
                 {/* Stats Bar Below Image */}
                 <div className="mt-6 p-6 border border-border bg-card/80 backdrop-blur-sm">
