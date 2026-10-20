@@ -184,10 +184,8 @@ const websiteJsonLd = {
 
 export default function RootLayout({
   children,
-  modal,
 }: Readonly<{
   children: React.ReactNode;
-  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en" className="dark" style={{ colorScheme: "dark" }} suppressHydrationWarning>
@@ -221,7 +219,6 @@ export default function RootLayout({
       <body className={`${jetbrainsMono.variable} antialiased`}>
         <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">
           {children}
-          {modal}
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />

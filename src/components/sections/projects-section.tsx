@@ -14,12 +14,12 @@ import { cn } from "@/lib/utils";
 
 // The bento showcases live business systems first; the first title is the large hero tile.
 const FEATURED_TITLES = [
-  "P3 Online Billing Portal",
-  "AI-Assisted Refund Automation",
-  "ITASM v2: IT Help Desk & Asset Management",
-  "P3 Consumer E-Invoicing",
   "WeCare: Pharmacy POS & Dispensing Platform",
-  "Sneaker Symphony: AI-Run Marketplace",
+  "Enterprise IT Service Management Platform",
+  "AI-Assisted Refund Automation",
+  "Consumer Billing & Self-Service Portal",
+  "Consumer E-Invoicing & Notification Platform",
+  "Meter Reading Platform: Legacy Modernization",
 ];
 const featured = FEATURED_TITLES.map((t) => projects.find((p) => p.title === t)).filter(
   (p): p is Project => Boolean(p),
@@ -47,7 +47,7 @@ function FeaturedCard({ project, hero }: { project: Project; hero: boolean }) {
   return (
     <Link
       href={href(project)}
-      scroll={false}
+     
       data-reveal
       className={cn(
         "group relative flex min-h-[18rem] flex-col justify-end overflow-hidden border border-border bg-card outline-none",
@@ -154,7 +154,7 @@ export function ProjectsSection() {
                 <li key={p.title} className="border-t border-border">
                   <Link
                     href={href(p)}
-                    scroll={false}
+                   
                     className="group grid grid-cols-[4.5rem_1fr_auto] items-center gap-4 px-5 py-3.5 transition-colors hover:bg-card/60 md:grid-cols-[5.5rem_minmax(0,1.1fr)_minmax(0,1fr)_auto] md:px-6"
                   >
                     <span className="relative aspect-[3/2] overflow-hidden border border-border bg-card">

@@ -37,10 +37,8 @@ function Gallery({ project }: { project: Project }) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`Open full-size screenshot: ${s.caption}`}
-        className={cn(
-          "group relative block overflow-hidden border border-border bg-black/40 transition-colors hover:border-primary/50",
-          phone ? "aspect-[780/1688]" : "aspect-[16/10]",
-        )}
+        className="group relative block overflow-hidden border border-border bg-black/40 transition-colors hover:border-primary/50"
+        style={{ aspectRatio: `${s.w} / ${s.h}` }}
       >
         <Image
           src={s.src}
@@ -72,7 +70,7 @@ function Gallery({ project }: { project: Project }) {
   );
 }
 
-/** Shared by the /work/[slug] page and the homepage side panel, so both always say the same thing. */
+/** The full case study, rendered on its own /work/[slug] page. */
 export function CaseStudyView({
   project,
   study,
@@ -84,6 +82,14 @@ export function CaseStudyView({
   next?: { title: string; slug: string };
   headingId?: string;
 }) {
+  // The deeper fields are optional per project (big systems have them, small ones don't).
+  const deep = study as CaseStudy & Partial<{
+    headline: string;
+    scale: string[];
+    capabilities: { group: string; items: string[] }[];
+    architecture: string[];
+    engineering: string[];
+  }>;
   return (
     <article className="space-y-10">
       <header className="space-y-5">
@@ -99,7 +105,17 @@ export function CaseStudyView({
         <h1 id={headingId} className="font-display text-3xl font-bold leading-[1.05] tracking-tight md:text-5xl">
           {project.title}
         </h1>
+        {deep.headline && (
+          <p className="max-w-2xl font-display text-xl font-semibold leading-snug text-foreground md:text-2xl">{deep.headline}</p>
+        )}
         <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">{study.summary}</p>
+        {deep.scale?.length ? (
+          <ul aria-label="Scale" className="flex flex-wrap gap-2 pt-1">
+            {deep.scale.map((s) => (
+              <li key={s} className="border border-border bg-card/60 px-3 py-1.5 text-xs text-foreground/85">{s}</li>
+            ))}
+          </ul>
+        ) : null}
       </header>
 
       {!project.gallery?.length && (
@@ -140,7 +156,35 @@ export function CaseStudyView({
       <div className="space-y-8">
         <Block label="The challenge" items={study.challenge} />
         <Block label="Approach" items={study.approach} />
-        <Block label="What I built" items={study.built} />
+        {!deep.capabilities?.length && <Block label="What I built" items={study.built} />}
+      </div>
+
+      {deep.capabilities?.length ? (
+        <section aria-labelledby="capabilities-heading" className="space-y-5 border-t border-border pt-8">
+          <h2 id="capabilities-heading" className="font-display text-2xl font-bold tracking-tight md:text-3xl">
+            What it does
+          </h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            {deep.capabilities.map((c) => (
+              <div key={c.group} className="border border-border bg-card/40 p-5">
+                <h3 className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary">{c.group}</h3>
+                <ul className="space-y-2">
+                  {c.items.map((item) => (
+                    <li key={item} className="flex gap-2.5 text-sm leading-relaxed text-foreground/90">
+                      <span aria-hidden className="mt-2 h-1 w-1 shrink-0 rounded-full bg-primary" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      <div className="space-y-8">
+        <Block label="Architecture" items={deep.architecture ?? []} />
+        <Block label="Engineering" items={deep.engineering ?? []} />
         <Block label="Outcome" items={study.outcome} />
       </div>
 
@@ -164,7 +208,7 @@ export function CaseStudyView({
           )}
         </div>
         {next && (
-          <Link href={`/work/${next.slug}`} scroll={false} className="group text-sm text-muted-foreground hover:text-foreground">
+          <Link href={`/work/${next.slug}`} className="group text-sm text-muted-foreground hover:text-foreground">
             Next: <span className="font-semibold text-foreground group-hover:text-primary">{next.title}</span> →
           </Link>
         )}
