@@ -36,10 +36,10 @@ export default function Home() {
     <main className="relative">
       <Navigation />
       <HeroSection />
+      <LivingGridSection />
       <ServicesSection />
       <ProjectsSection />
       <SneakerPortalShowcase />
-      <LivingGridSection />
       <SkillsSection />
       <ExperienceSection />
       <ContactSection />

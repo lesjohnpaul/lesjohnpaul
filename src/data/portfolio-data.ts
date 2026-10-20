@@ -72,6 +72,69 @@ export const services = [
   },
 ];
 
+// The three AI operations buyers most often need (2026 SMB surveys: customer service,
+// bookkeeping/back office, data analysis), each tied to work Les has shipped.
+// `log` lines are an illustrative simulated run, labeled as such in the UI.
+export const aiOperations = [
+  {
+    id: "support",
+    title: "24/7 Support & Lead Capture",
+    pain: "Customers message at 3 a.m. Nobody answers, and the lead goes to a competitor.",
+    steps: [
+      { kind: "Trigger", icon: "MessageSquare", title: "A customer messages", detail: "Web chat, Messenger, or Viber, any hour" },
+      { kind: "AI", icon: "Bot", title: "Agent answers from your knowledge base", detail: "Scoped to your business; refuses off-topic and abuse" },
+      { kind: "Decide", icon: "GitBranch", title: "Books a call or escalates", detail: "Checks your calendar, or hands off to the right person" },
+      { kind: "Done", icon: "BellRing", title: "Lead logged, owner notified", detail: "CRM record plus an instant email and Telegram ping" },
+    ],
+    log: [
+      "02:47:03  chat.received        channel=messenger",
+      "02:47:05  agent.answered       topic=pricing-inquiry",
+      "02:47:41  intent.detected      wants=discovery-call",
+      "02:48:02  calendar.booked      Tue 10:00 · invite sent",
+      "02:48:03  owner.notified       telegram ✓  email ✓",
+    ],
+    proof: "Running on this page right now: Pao answers, books calls, and pings Les. ACIRS brings it to a 250K-member utility in Q1 2027.",
+  },
+  {
+    id: "backoffice",
+    title: "Invoicing, Refunds & Compliance",
+    pain: "Staff spend days copying data between systems and building documents by hand.",
+    steps: [
+      { kind: "Trigger", icon: "Database", title: "Data lands in your system", detail: "Billing database, CSV export, or email attachment" },
+      { kind: "Automate", icon: "ScanSearch", title: "Validate, match, and classify", detail: "Every record checked against your rules and registries" },
+      { kind: "AI", icon: "Sparkles", title: "AI explains the exceptions", detail: "Flags odd items with a plain-language note; never approves on its own" },
+      { kind: "Done", icon: "FileCheck2", title: "Documents generated and filed", detail: "PDFs, emails, and an audit trail after one human sign-off" },
+    ],
+    log: [
+      "08:00:00  batch.started        records=50",
+      "08:00:04  registry.matched     tin+address 50/50",
+      "08:00:06  ai.flagged           2 items · note: possible duplicate",
+      "08:00:41  human.approved       48 · held 2",
+      "08:00:44  documents.sent       pdf ✓  email ✓  audit ✓",
+    ],
+    proof: "Tax compliance went from 2 weeks of manual work to under 5 minutes. WESM invoicing went from a full workday to under 30 seconds.",
+  },
+  {
+    id: "dashboards",
+    title: "Live Owner & Executive Dashboards",
+    pain: "Owners wait for end-of-day reports and find problems after the money is gone.",
+    steps: [
+      { kind: "Trigger", icon: "Store", title: "Transactions happen across branches", detail: "Sales, collections, stock movements" },
+      { kind: "Sync", icon: "RefreshCw", title: "Mirrored read-only, every few seconds", detail: "Reporting never touches your system of record" },
+      { kind: "Analyze", icon: "TriangleAlert", title: "Flags what needs attention", detail: "Voided receipts, low stock, a branch falling behind" },
+      { kind: "Done", icon: "MonitorSmartphone", title: "The owner sees it live", detail: "On the office TV and on their phone" },
+    ],
+    log: [
+      "09:15:00  sync.completed       branches=5 · read-only",
+      "09:15:01  ranking.updated      tellers by speed + accuracy",
+      "09:15:02  alert.raised         voided receipts above normal · branch 2",
+      "09:15:02  view.refreshed       tv ✓  phone ✓",
+      "09:15:30  sync.completed       branches=5 · read-only",
+    ],
+    proof: "Shipped as the GM Live Collections Dashboard and WeCare's multi-branch CEO view, both built read-only by design.",
+  },
+];
+
 export const processSteps = [
   { step: "01", title: "Map the problem", text: "A 30-minute call to find the workflow that costs you the most time or money." },
   { step: "02", title: "Prototype fast", text: "A working version early, so you see results before committing to the full build." },
@@ -604,8 +667,8 @@ export const testimonials = [
 
 export const navigationItems = [
   { label: "Home", href: "/" },
-  { label: "Services", href: "#services" },
   { label: "The Grid", href: "#grid" },
+  { label: "Services", href: "#services" },
   { label: "Skills", href: "#skills" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
