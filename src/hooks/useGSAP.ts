@@ -21,19 +21,21 @@ export function useScrollReveal<T extends HTMLElement>(
   } = {}
 ) {
   const ref = useRef<T>(null);
+  // Depend on the option values, not the object: callers pass a fresh `{}` each render, and a
+  // re-run re-hides every [data-reveal] child and replays the reveal (visible flicker on sections
+  // that re-render on a timer, like the services console).
+  const {
+    threshold = 0.2,
+    duration = 0.8,
+    y = 60,
+    stagger = 0.1,
+    delay = 0,
+    ease = "power3.out",
+  } = options;
 
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
-
-    const {
-      threshold = 0.2,
-      duration = 0.8,
-      y = 60,
-      stagger = 0.1,
-      delay = 0,
-      ease = "power3.out",
-    } = options;
 
     // Check if element has children to animate
     const children = element.querySelectorAll("[data-reveal]");
@@ -63,7 +65,7 @@ export function useScrollReveal<T extends HTMLElement>(
         }
       });
     };
-  }, [options]);
+  }, [threshold, duration, y, stagger, delay, ease]);
 
   return ref;
 }

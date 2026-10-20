@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Bot, Send, X } from "lucide-react";
+import Image from "next/image";
+import dynamic from "next/dynamic";
+import { Send, X } from "lucide-react";
 import gsap from "gsap";
 import { track } from "@vercel/analytics";
 
@@ -16,6 +18,21 @@ const SUGGESTIONS = ["What does Les build?", "Can he automate our reports?", "Bo
 const NEXT_STEPS = ["Book a call with Les", "What has he built?", "How does a project work?", "Leave my details instead"];
 const AFTER_BOOKING = ["What happens on the call?", "What has he built?"];
 const MAX_CHARS = 500;
+// 3D Pao loads only when the chat is opened (three.js stays out of the first page load).
+const PaoStage = dynamic(() => import("@/components/pao/pao-stage").then((m) => m.PaoStage), { ssr: false });
+
+// Pao's face: a Pixar-style chibi of Les (generated from his photo). 14 KB, so it's fine to show eagerly.
+function PaoAvatar({ className }: { className?: string }) {
+  return (
+    <Image
+      src="/images/pao/pao-avatar.webp"
+      alt=""
+      width={80}
+      height={80}
+      className={`shrink-0 rounded-full bg-[#dcdcdc] object-cover ${className ?? ""}`}
+    />
+  );
+}
 
 // Per-tab conversation id; the server keeps the actual history.
 function conversationId(): string {
@@ -130,9 +147,7 @@ export function ChatWidget() {
           className="flex h-[min(560px,calc(100dvh-7rem))] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-border bg-background/95 shadow-2xl shadow-primary/10 backdrop-blur-xl"
         >
           <div className="flex items-center gap-3 border-b border-border px-4 py-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/15 text-primary">
-              <Bot className="h-5 w-5" />
-            </div>
+            <PaoAvatar className="h-10 w-10" />
             <div className="flex-1 leading-tight">
               <p className="font-semibold">Pao</p>
               <p className="text-xs text-muted-foreground">Les&apos;s AI assistant · usually instant</p>
@@ -144,6 +159,7 @@ export function ChatWidget() {
           </div>
 
           <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4" aria-live="polite">
+            {messages.length === 1 && <PaoStage className="mx-auto -mb-2 h-44 w-40" />}
             {messages.map((m, i) =>
               m.text || m.role === "user" ? (
                 <div
@@ -157,10 +173,13 @@ export function ChatWidget() {
               ) : null,
             )}
             {waiting && (
-              <div className="flex w-14 gap-1 rounded-2xl border border-border bg-card px-3.5 py-3" aria-label="Pao is typing">
-                {[0, 1, 2].map((d) => (
-                  <span key={d} className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground" style={{ animationDelay: `${d * 120}ms` }} />
-                ))}
+              <div className="flex items-center gap-2" aria-label="Pao is typing">
+                <PaoAvatar className="h-7 w-7" />
+                <div className="flex w-14 gap-1 rounded-2xl border border-border bg-card px-3.5 py-3">
+                  {[0, 1, 2].map((d) => (
+                    <span key={d} className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground" style={{ animationDelay: `${d * 120}ms` }} />
+                  ))}
+                </div>
               </div>
             )}
             {!busy && chips.length > 0 && (
@@ -216,10 +235,10 @@ export function ChatWidget() {
         aria-expanded={open}
         aria-label={open ? "Close chat" : "Chat with Pao, Les's AI assistant"}
         data-chat-launcher
-        className="group relative flex items-center gap-2 rounded-full bg-primary py-3 pl-3 pr-4 text-primary-foreground shadow-lg shadow-primary/30 transition-transform hover:scale-105"
+        className="group relative flex items-center gap-2 rounded-full bg-primary py-1.5 pl-1.5 pr-4 text-primary-foreground shadow-lg shadow-primary/30 transition-transform hover:scale-105"
       >
         {!open && <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-primary/40 [animation-duration:2.5s]" />}
-        {open ? <X className="h-6 w-6" /> : <Bot className="h-6 w-6" />}
+        {open ? <X className="h-6 w-6" /> : <PaoAvatar className="h-9 w-9 ring-2 ring-primary-foreground/30" />}
         <span className="text-sm font-semibold">{open ? "Close" : "Ask Pao"}</span>
       </button>
     </div>

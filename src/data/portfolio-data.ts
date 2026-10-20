@@ -21,10 +21,20 @@ export const personalInfo = {
 
 // Hero stats: only numbers I can defend in an interview.
 // No inflation, no rounding up, no "100+ optimized systems."
+// First-10-seconds framing for business owners: the numbers Les moves. Every "after" value is a
+// shipped result already stated in `projects`; "before" values are the client's own baseline.
+export const heroOutcome =
+  "I help business owners grow revenue, cut costs, and win back hours with AI that does the busywork.";
+
+export const heroOutcomes = [
+  { lever: "More revenue", icon: "TrendingUp", what: "Leads answered", before: "Office hours", after: "24/7", proof: "AI assistant, live on this page" },
+  { lever: "Lower costs", icon: "TrendingDown", what: "Compliance reporting", before: "2 weeks", after: "< 5 min", proof: "Tax compliance automation" },
+  { lever: "Hours back", icon: "Clock", what: "Invoice batch", before: "1 workday", after: "< 30 sec", proof: "Wholesale power invoicing" },
+];
+
 export const heroStats = [
   { label: "Years in Enterprise IT", value: "10+" },
   { label: "Systems Shipped", value: "16+" },
-  { label: "2-Week Task, Now", value: "5 min" },
   { label: "End Users Served", value: "250K+" },
 ];
 
@@ -69,6 +79,107 @@ export const services = [
     offer:
       "AI-assisted motion graphics, explainers, and branded visuals produced quickly for launches and campaigns.",
     proof: "The animated assistant and motion pieces on this site",
+  },
+];
+
+// AI operations buyers most often need (2026 SMB surveys: customer service, marketing/lead gen,
+// bookkeeping/back office, data analysis), each tied to work Les has shipped.
+// `log` lines are an illustrative simulated run, labeled as such in the UI.
+export const aiOperations = [
+  {
+    id: "support",
+    title: "24/7 Support & Lead Capture",
+    pain: "Customers message at 3 a.m. Nobody answers, and the lead goes to a competitor.",
+    steps: [
+      { kind: "Trigger", icon: "MessageSquare", title: "A customer messages", detail: "Web chat, Messenger, or Viber, any hour" },
+      { kind: "AI", icon: "Bot", title: "Agent answers from your knowledge base", detail: "Scoped to your business; refuses off-topic and abuse" },
+      { kind: "Decide", icon: "GitBranch", title: "Books a call or escalates", detail: "Checks your calendar, or hands off to the right person" },
+      { kind: "Done", icon: "BellRing", title: "Lead logged, owner notified", detail: "CRM record plus an instant email and Telegram ping" },
+    ],
+    log: [
+      "02:47:03  chat.received        channel=messenger",
+      "02:47:05  agent.answered       topic=pricing-inquiry",
+      "02:47:41  intent.detected      wants=discovery-call",
+      "02:48:02  calendar.booked      Tue 10:00 · invite sent",
+      "02:48:03  owner.notified       telegram ✓  email ✓",
+    ],
+    proof: "Running on this page right now: Pao answers, books calls, and pings Les. ACIRS brings it to a 250K-member utility in Q1 2027.",
+  },
+  {
+    id: "leadgen",
+    title: "Lead Generation & Web Scraping",
+    pain: "Your sales team spends hours hunting prospects and copying contact details into spreadsheets.",
+    steps: [
+      { kind: "Trigger", icon: "Target", title: "Define your ideal customer", detail: "Industry, location, size, buying signals" },
+      { kind: "Automate", icon: "Globe", title: "Scrape public sources on a schedule", detail: "Directories, maps, and marketplaces, within each site's terms" },
+      { kind: "AI", icon: "Sparkles", title: "Enrich, score, and personalize", detail: "AI ranks fit and drafts a first message for each lead" },
+      { kind: "Done", icon: "UserPlus", title: "Qualified leads land in your CRM", detail: "Deduplicated, with source links, ready to contact" },
+    ],
+    log: [
+      "06:00:00  crawl.started        sources=3",
+      "06:04:12  records.extracted    public listings",
+      "06:04:15  dedupe.completed     duplicates removed",
+      "06:05:02  ai.scored            hot · warm · skip",
+      "06:05:03  crm.synced           drafts ready for review",
+    ],
+    proof: "Sneaker Symphony runs a scrape-to-catalog pipeline that imports product listings automatically, and Pao captures and qualifies leads on this page.",
+  },
+  {
+    id: "backoffice",
+    title: "Invoicing, Refunds & Compliance",
+    pain: "Staff spend days copying data between systems and building documents by hand.",
+    steps: [
+      { kind: "Trigger", icon: "Database", title: "Data lands in your system", detail: "Billing database, CSV export, or email attachment" },
+      { kind: "Automate", icon: "ScanSearch", title: "Validate, match, and classify", detail: "Every record checked against your rules and registries" },
+      { kind: "AI", icon: "Sparkles", title: "AI explains the exceptions", detail: "Flags odd items with a plain-language note; never approves on its own" },
+      { kind: "Done", icon: "FileCheck2", title: "Documents generated and filed", detail: "PDFs, emails, and an audit trail after one human sign-off" },
+    ],
+    log: [
+      "08:00:00  batch.started        records=50",
+      "08:00:04  registry.matched     tin+address 50/50",
+      "08:00:06  ai.flagged           2 items · note: possible duplicate",
+      "08:00:41  human.approved       48 · held 2",
+      "08:00:44  documents.sent       pdf ✓  email ✓  audit ✓",
+    ],
+    proof: "Tax compliance went from 2 weeks of manual work to under 5 minutes. WESM invoicing went from a full workday to under 30 seconds.",
+  },
+  {
+    id: "dashboards",
+    title: "Live Owner & Executive Dashboards",
+    pain: "Owners wait for end-of-day reports and find problems after the money is gone.",
+    steps: [
+      { kind: "Trigger", icon: "Store", title: "Transactions happen across branches", detail: "Sales, collections, stock movements" },
+      { kind: "Sync", icon: "RefreshCw", title: "Mirrored read-only, every few seconds", detail: "Reporting never touches your system of record" },
+      { kind: "Analyze", icon: "TriangleAlert", title: "Flags what needs attention", detail: "Voided receipts, low stock, a branch falling behind" },
+      { kind: "Done", icon: "MonitorSmartphone", title: "The owner sees it live", detail: "On the office TV and on their phone" },
+    ],
+    log: [
+      "09:15:00  sync.completed       branches=5 · read-only",
+      "09:15:01  ranking.updated      tellers by speed + accuracy",
+      "09:15:02  alert.raised         voided receipts above normal · branch 2",
+      "09:15:02  view.refreshed       tv ✓  phone ✓",
+      "09:15:30  sync.completed       branches=5 · read-only",
+    ],
+    proof: "Shipped as the GM Live Collections Dashboard and WeCare's multi-branch CEO view, both built read-only by design.",
+  },
+  {
+    id: "analytics",
+    title: "AI Analytics That Prescribes",
+    pain: "Charts show what already went wrong. Nobody tells you what to do before it happens.",
+    steps: [
+      { kind: "Trigger", icon: "Database", title: "Your data streams in", detail: "Sales, stock, collections, support tickets" },
+      { kind: "Analyze", icon: "Activity", title: "Spots anomalies and trends", detail: "Compared against your normal pattern, per branch and per day" },
+      { kind: "AI", icon: "Lightbulb", title: "Recommends the next move", detail: "A plain-language suggestion with the reason behind it" },
+      { kind: "Done", icon: "ShieldCheck", title: "You act before it costs you", detail: "Approve the suggestion; the system tracks the outcome" },
+    ],
+    log: [
+      "07:30:00  baseline.refreshed   last 30 days",
+      "07:30:02  anomaly.detected     item A selling fast · branch 2",
+      "07:30:03  forecast.stockout    thursday",
+      "07:30:04  ai.recommended       transfer stock from branch 4",
+      "07:31:10  owner.approved       transfer created",
+    ],
+    proof: "Built on patterns already shipped: the GM dashboard surfaces revenue lost to voided receipts, and the refund automation's AI explains every anomaly in plain language.",
   },
 ];
 
@@ -321,6 +432,10 @@ export type Project = {
   private?: boolean;
   // One-line business outcome shown on the card. Only defensible numbers.
   result?: string;
+  // Case-study screenshots with what each screen does. Reviewed before publishing: no real
+  // names, internal emails, or infrastructure identifiers. Mobile shots render in a narrow frame.
+  gallery?: { src: string; w: number; h: number; caption: string; mobile?: boolean }[];
+  galleryNote?: string;
 };
 
 // Order matters: the first featured project is the large hero card.
@@ -348,10 +463,27 @@ export const projects: Project[] = [
       "Live operations platform for a multi-branch pharmacy and clinic operator. Point-of-sale dispensing with FEFO batch tracking and BIR receipts, PhilHealth eligibility checks at the counter, automatic claims assembly to beat the 60-day filing deadline, plus inventory, branch transfers, purchase orders, and low-stock alerts. Solved their multi-tenant problem: every tenant and branch is isolated at the database level with row-level security, and the owners get CEO dashboards across all branches.",
     tech: ["React 19", "Supabase", "Row-Level Security", "Multi-Tenant", "PostgreSQL"],
     link: "#",
-    image: "/images/projects/wecare.jpg",
+    image: "/images/projects/wecare/01-executive-dashboard.webp",
     featured: true,
     private: true,
     result: "Multi-branch operator runs every branch from one platform, with data isolated per tenant and a live CEO view",
+    images: ["/images/projects/wecare/01-executive-dashboard.webp", "/images/projects/wecare/02-command-center.webp", "/images/projects/wecare/03-command-center-sales.webp", "/images/projects/wecare/04-command-center-inventory.webp", "/images/projects/wecare/05-pos.webp"],
+    gallery: [
+      { src: "/images/projects/wecare/01-executive-dashboard.webp", w: 1600, h: 1222, caption: "Executive dashboard: medicine inventory and dispensed value across every branch at list and store prices, with a per-branch breakdown." },
+      { src: "/images/projects/wecare/02-command-center.webp", w: 1600, h: 1222, caption: "Command center: today's sales, transactions, VAT, active branches, and low-stock and near-expiry alerts, with live activity across the network." },
+      { src: "/images/projects/wecare/03-command-center-sales.webp", w: 1600, h: 1222, caption: "Sales view: 30-day trend, product mix, and daily sales per branch." },
+      { src: "/images/projects/wecare/04-command-center-inventory.webp", w: 1600, h: 1222, caption: "Inventory view: stock value and inventory health for each branch." },
+      { src: "/images/projects/wecare/05-pos.webp", w: 1600, h: 1000, caption: "Point of sale: a barcode-ready medicine catalog with regular, senior, and PWD pricing; prescription items require a prescriber." },
+      { src: "/images/projects/wecare/06-philhealth-dispense.webp", w: 1600, h: 1000, caption: "PhilHealth outpatient dispensing: checks the member's remaining annual benefit and charges eligible medicines to PhilHealth. Patient details blurred." },
+      { src: "/images/projects/wecare/07-dispense-records.webp", w: 1600, h: 1222, caption: "Dispense records: every PhilHealth dispense with its claim status, ready to export. Member details blurred." },
+      { src: "/images/projects/wecare/08-inventory.webp", w: 1600, h: 1222, caption: "Inventory: stock, batches, and reorder points per branch, with movements, transfers, purchasing, and suppliers." },
+      { src: "/images/projects/wecare/09-expiry.webp", w: 1600, h: 1222, caption: "Expiry center: a FEFO watchlist of batches expiring within 30, 60, and 90 days." },
+      { src: "/images/projects/wecare/10-replenishment.webp", w: 1600, h: 1222, caption: "Replenishment: branches at or below their reorder point, with suggested quantities and printable picking lists." },
+      { src: "/images/projects/wecare/11-stock-value.webp", w: 1600, h: 1222, caption: "Stock value: why a branch's retail stock value moved, day by day, reconciled against a ledger that matches live stock." },
+      { src: "/images/projects/wecare/12-daily-sales.webp", w: 1600, h: 1222, caption: "Daily sales: X and Z readings, voids, returns and reprints, the SC/PWD discount book, and VAT collected." },
+      { src: "/images/projects/wecare/13-executive-dark.webp", w: 1600, h: 1222, caption: "The executive dashboard in dark mode." },
+    ],
+    galleryNote: "Screens show the app's built-in demo data: fictional branches, patients, and amounts.",
   },
   {
     title: "AI-Assisted Refund Automation",
@@ -359,10 +491,20 @@ export const projects: Project[] = [
       "Automates a daily refund and correction approval workflow that staff did by hand across two billing systems. Per-type handlers run a dry run first, then execute with a reverse script ready. For flagged items, Claude reviews the case read-only and returns a structured note: category, a plain Taglish explanation, a suggested fix, and confidence. Guardrails by design: the AI never writes and never approves; a human confirms every action.",
     tech: ["Claude (headless)", "Python", "FastAPI", "MS SQL Server", "Human-in-the-Loop"],
     link: "#",
-    image: "/images/projects/refund-automation.jpg",
+    image: "/images/projects/refund-automation-ai/01-pending-review.webp",
     featured: true,
     private: true,
     result: "A manual daily approval queue becomes dry-run, AI-explained, human-confirmed actions",
+    images: ["/images/projects/refund-automation-ai/01-pending-review.webp", "/images/projects/refund-automation-ai/02-overview.webp", "/images/projects/refund-automation-ai/03-live-activity.webp", "/images/projects/refund-automation-ai/04-run-history.webp", "/images/projects/refund-automation-ai/05-email-reports.webp"],
+    gallery: [
+      { src: "/images/projects/refund-automation-ai/01-pending-review.webp", w: 1600, h: 1000, caption: "Pending review: every refund request with its verdict and planned handling, confirmed by a person before anything runs." },
+      { src: "/images/projects/refund-automation-ai/02-overview.webp", w: 1600, h: 1000, caption: "Overview: what is awaiting action, the live queue, and the latest analyze/execute run." },
+      { src: "/images/projects/refund-automation-ai/03-live-activity.webp", w: 1600, h: 1000, caption: "Live activity console: each executed item re-checked, committed with an audit log, and a reverse script saved." },
+      { src: "/images/projects/refund-automation-ai/04-run-history.webp", w: 1600, h: 1000, caption: "Run history: every analyze and execute run with its verdict mix, for a complete audit trail." },
+      { src: "/images/projects/refund-automation-ai/05-email-reports.webp", w: 1600, h: 1000, caption: "Email reports: accomplishment reports sent to saved recipients in PDF, Word, Excel, or CSV." },
+      { src: "/images/projects/refund-automation-ai/06-mobile-pending.webp", w: 780, h: 1688, caption: "The review queue on a phone, with confirm and execute actions.", mobile: true },
+    ],
+    galleryNote: "Screens show demo data; client data stays private.",
   },
   {
     title: "ACIRS: 24/7 AI Customer Support",
@@ -387,27 +529,49 @@ export const projects: Project[] = [
     result: "2 weeks of manual work → under 5 minutes, two clicks",
   },
   {
-    title: "ITASM v2: IT Help Desk & Asset Management",
+    title: "Enterprise IT Service Management Platform",
     description:
       "Replaced IT support run on phone calls, walk-ins, paper forms, and spreadsheets for a cooperative of about 300 employees across 12 offices. Help desk with a business-hours SLA engine (warnings, breach, auto-escalation), QR asset custody with signed receipts, a maintenance shop, 12 reports in 4 formats, a mobile PWA, and a live TV wallboard for the IT room.",
     tech: ["React 19", "Node.js", "MS SQL Server", "Socket.IO", "Playwright"],
     link: "#",
-    image: "",
+    image: "/images/projects/itsm-platform/01-hero.webp",
     featured: true,
     private: true,
     result: "Load-tested at 300 simultaneous requests; a 15,000-ticket report returns in under 500 ms (p95)",
+    images: ["/images/projects/itsm-platform/01-hero.webp", "/images/projects/itsm-platform/02-command-center.webp", "/images/projects/itsm-platform/03-queue-pulse.webp", "/images/projects/itsm-platform/04-today-vs-trend.webp", "/images/projects/itsm-platform/05-hot-categories.webp"],
+    gallery: [
+      { src: "/images/projects/itsm-platform/01-hero.webp", w: 1600, h: 747, caption: "The IT help desk, asset register, and TV command center for the IT room." },
+      { src: "/images/projects/itsm-platform/02-command-center.webp", w: 1600, h: 779, caption: "Command center: a live 3D SLA radar plotting every open ticket by time left, with breach and risk counts." },
+      { src: "/images/projects/itsm-platform/03-queue-pulse.webp", w: 1600, h: 779, caption: "Queue pulse: queue health score, open tickets by priority, and status mix." },
+      { src: "/images/projects/itsm-platform/04-today-vs-trend.webp", w: 1600, h: 779, caption: "Today vs trend: tickets filed and resolved over 7 days, SLA met, and response and resolution times." },
+      { src: "/images/projects/itsm-platform/05-hot-categories.webp", w: 1600, h: 779, caption: "Hot categories: which problem types are spiking this week, flagged before they become an outage." },
+      { src: "/images/projects/itsm-platform/06-mobile-quick-actions.webp", w: 780, h: 1688, caption: "Employee mobile app: one-tap tickets for the most common problems, plus asset tag scanning.", mobile: true },
+    ],
+    galleryNote: "Screens show demo data; client data stays private.",
   },
   {
-    title: "P3 Online Billing Portal",
+    title: "Consumer Billing & Self-Service Portal",
     description:
       "Self-service portal for an electric cooperative's consumers: bills, payments, usage history, a bill calculator, outage reports, rates, and news, with staff areas for claims, tickets, and dispatch. An on-prem sync agent mirrors the billing database to the cloud with rate limiting and a circuit breaker, so the portal never puts load on the system of record.",
-    tech: ["Next.js", "Supabase", "Vercel", "Sync Agent", "MS SQL Server"],
+    tech: ["Next.js", "Supabase", "Cloudflare Tunnel", "Sync Agent", "MS SQL Server"],
     link: "https://app.panelco3.online",
-    image: "",
+    image: "/images/projects/billing-portal/01-welcome.webp",
     featured: true,
+    images: ["/images/projects/billing-portal/01-welcome.webp", "/images/projects/billing-portal/02-overview.webp", "/images/projects/billing-portal/03-bills.webp", "/images/projects/billing-portal/04-usage.webp", "/images/projects/billing-portal/05-outage.webp"],
+    gallery: [
+      { src: "/images/projects/billing-portal/01-welcome.webp", w: 1600, h: 1000, caption: "Public landing page: consumers register and sign in to check their bill without waiting for the paper copy." },
+      { src: "/images/projects/billing-portal/02-overview.webp", w: 1600, h: 1000, caption: "Account overview: current balance and due date, outage advisories, latest usage, and quick links to pay or report." },
+      { src: "/images/projects/billing-portal/03-bills.webp", w: 1600, h: 1000, caption: "Full billing history with paid and unpaid status for every bill." },
+      { src: "/images/projects/billing-portal/04-usage.webp", w: 1600, h: 1000, caption: "Usage analytics: 13-month kWh trend, month-over-month comparison, and a next-bill estimate." },
+      { src: "/images/projects/billing-portal/05-outage.webp", w: 1600, h: 1000, caption: "Outage reporting with a map pin, plus a live view of reports around the area and crew status." },
+      { src: "/images/projects/billing-portal/06-where-to-pay.webp", w: 1600, h: 1000, caption: "Where to pay: the account number to copy, payment channels, and a map of coop offices and mall counters." },
+      { src: "/images/projects/billing-portal/07-mobile-home.webp", w: 780, h: 1688, caption: "The same portal on a phone: balance, advisories, and one-tap actions.", mobile: true },
+      { src: "/images/projects/billing-portal/08-mobile-usage.webp", w: 780, h: 1688, caption: "Mobile usage view with the 13-month chart and plain-language insight.", mobile: true },
+    ],
+    galleryNote: "Screens show demo data; client data stays private.",
   },
   {
-    title: "AGAM Distributed Registration",
+    title: "Distributed Event Registration Platform",
     description:
       "Distributed QR-based digital registration platform for an Annual General Assembly Meeting handling 13,000 attendees across 5 simultaneous venues. Hybrid architecture pairing Supabase Realtime with the cooperative's MS SQL system of record: 115+ source files, 25+ API endpoints. Solved chronic abuse in token and meal distribution with cryptographically verifiable check-ins, real-time membership validation, and an audit trail accepted as official NEA documentary requirement.",
     tech: ["Next.js 16", "React 19", "Supabase Realtime", "MS SQL Server", "Distributed Systems"],
@@ -443,17 +607,28 @@ export const projects: Project[] = [
     private: true,
   },
   {
-    title: "P3 Consumer E-Invoicing",
+    title: "Consumer E-Invoicing & Notification Platform",
     description:
-      "Notification service built to deliver statements of account and disconnection notices to the cooperative's opted-in consumers: password-protected PDF invoices by email and SMS with an automatic provider fallback chain. Batch targeting by area office, municipality, and barangay with cost estimates, a contact registry with CSV import, templates, a 360° delivery dashboard, and provider credentials encrypted with AES-256-GCM.",
+      "Live notification service that delivers statements of account and disconnection notices to the cooperative's opted-in consumers: password-protected PDF invoices by email and SMS with an automatic provider fallback chain. Batch targeting by area office, municipality, and barangay with cost estimates, a contact registry with CSV import, templates, a 360° delivery dashboard, and provider credentials encrypted with AES-256-GCM.",
     tech: ["Node.js", "Amazon SES", "SMS Fallback Chain", "PDF Pipeline", "MS SQL Server"],
     link: "#",
-    image: "/images/projects/bulk-email.jpg",
+    image: "/images/projects/e-invoicing/01-executive.webp",
     featured: true,
     private: true,
+    images: ["/images/projects/e-invoicing/01-executive.webp", "/images/projects/e-invoicing/02-delivery.webp", "/images/projects/e-invoicing/03-batches.webp", "/images/projects/e-invoicing/04-batch-detail.webp", "/images/projects/e-invoicing/05-registry.webp"],
+    gallery: [
+      { src: "/images/projects/e-invoicing/01-executive.webp", w: 1600, h: 1000, caption: "Executive view: bills delivered digitally, delivery and open rates, and SMS spend at a glance." },
+      { src: "/images/projects/e-invoicing/02-delivery.webp", w: 1600, h: 1000, caption: "Delivery dashboard: email and SMS funnels from queued to delivered and opened, with six-period trends." },
+      { src: "/images/projects/e-invoicing/03-batches.webp", w: 1600, h: 1000, caption: "Invoice batches: draft first, nothing sends until started, with live progress and failures per batch." },
+      { src: "/images/projects/e-invoicing/04-batch-detail.webp", w: 1600, h: 1000, caption: "Batch detail: per-recipient email and SMS status, cost, and errors." },
+      { src: "/images/projects/e-invoicing/05-registry.webp", w: 1600, h: 1000, caption: "Contact registry: verified emails and mobiles per consumer account, with CSV import and sync." },
+      { src: "/images/projects/e-invoicing/06-disconnection.webp", w: 1600, h: 1000, caption: "Disconnection notices: overdue candidates and staged reminders, with a cost preview before sending." },
+      { src: "/images/projects/e-invoicing/07-login.webp", w: 1600, h: 1000, caption: "Sign-in with leveled access: supervisor, admin, and superadmin." },
+    ],
+    galleryNote: "Screens show demo data; client data stays private.",
   },
   {
-    title: "PFAS: Partner File Automation System",
+    title: "Partner File Automation Platform",
     description:
       "Web-based ETL platform automating daily ingestion of partner files (FTP/SFTP and email attachments) into MS SQL Server. Replaces manual download-parse-import workflow with scheduled jobs, dashboard, audit logging, RBAC, and field mapping editor. FastAPI + SQLAlchemy + Docker.",
     tech: ["FastAPI", "ETL", "SQLAlchemy", "Docker", "MS SQL Server"],
@@ -492,9 +667,9 @@ export const projects: Project[] = [
     private: true,
   },
   {
-    title: "IEMOP WESM Invoice Automation",
+    title: "Wholesale Power Invoice Automation",
     description:
-      "Automated PDF invoice generation for the Philippine wholesale electricity spot market. Replaced a manual workflow where a ~50-invoice settlement batch took a full workday: ingests IEMOP CSVs, resolves participant TIN/address from a registry, atomically allocates invoice numbers from a shared live ledger, and renders pixel-accurate PDFs. Now under 30 seconds with zero transcription errors, a fail-closed write gate, and 59 passing tests.",
+      "Automated PDF invoice generation for the Philippine wholesale electricity spot market. Replaced a manual workflow where a ~50-invoice settlement batch took a full workday: ingests the market operator's settlement CSVs, resolves participant TIN/address from a registry, atomically allocates invoice numbers from a shared live ledger, and renders pixel-accurate PDFs. Now under 30 seconds with zero transcription errors, a fail-closed write gate, and 59 passing tests.",
     tech: ["React 19", "FastAPI", "MS SQL Server", "TypeScript", "PDF Pipeline"],
     link: "#",
     image: "/images/projects/iemop.jpg",
@@ -503,17 +678,31 @@ export const projects: Project[] = [
     result: "A full workday of manual invoicing → under 30 seconds, zero transcription errors",
   },
   {
-    title: "MRMS: Meter Reading Management",
+    title: "Meter Reading Platform: Legacy Modernization",
     description:
       "Full-stack modernization of the cooperative's meter reading operations: rebuilt a production procedural-PHP/jQuery system into a Fastify + React 18 SPA with zero-migration backward compatibility against the live MySQL database. Legacy and modern stacks run side by side. 11 route-level pages, 12 report modules, role-based routing, JWT access/refresh auth.",
     tech: ["React 18", "Fastify", "Prisma", "MySQL", "Legacy Modernization"],
     link: "#",
-    image: "/images/projects/mrms.jpg",
+    image: "/images/projects/meter-reading/01-tv-coverage-map.webp",
     featured: true,
     private: true,
+    images: ["/images/projects/meter-reading/01-tv-coverage-map.webp", "/images/projects/meter-reading/02-dashboard.webp", "/images/projects/meter-reading/03-area-town-progress.webp", "/images/projects/meter-reading/04-anomaly-detection.webp", "/images/projects/meter-reading/05-trends.webp"],
+    gallery: [
+      { src: "/images/projects/meter-reading/01-tv-coverage-map.webp", w: 1600, h: 858, caption: "TV mode: a live coverage map of every municipality in the franchise area, with read rates per town, built for the operations room wall." },
+      { src: "/images/projects/meter-reading/02-dashboard.webp", w: 1600, h: 1000, caption: "Operations dashboard: total accounts, read rate, pending and problem reads, and energy billed, with daily reading progress and completion." },
+      { src: "/images/projects/meter-reading/03-area-town-progress.webp", w: 1600, h: 1000, caption: "Area and town progress: read, unread, and disconnected accounts for every area and municipality." },
+      { src: "/images/projects/meter-reading/04-anomaly-detection.webp", w: 1600, h: 460, caption: "Anomaly detection: sudden drops, spikes, zero readings, and recurring anomalies flagged against each account's 3-month average." },
+      { src: "/images/projects/meter-reading/05-trends.webp", w: 1600, h: 1380, caption: "Month-over-month trends: completion rate, kWh billed, field issues, and average consumption across 12 billing periods." },
+      { src: "/images/projects/meter-reading/06-invoice-analysis.webp", w: 1600, h: 620, caption: "Invoice analysis: duplicate, missing, and out-of-order invoice numbers caught per area before bills go out." },
+      { src: "/images/projects/meter-reading/07-tv-drone.webp", w: 1600, h: 858, caption: "TV mode drone camera: an animated fly-over that cycles through the towns." },
+      { src: "/images/projects/meter-reading/08-tv-towns.webp", w: 1600, h: 858, caption: "TV mode town grid: reading completion for every municipality at a glance." },
+      { src: "/images/projects/meter-reading/09-dashboard-dark.webp", w: 1600, h: 1000, caption: "The operations dashboard in dark mode." },
+      { src: "/images/projects/meter-reading/10-field-app.webp", w: 780, h: 1733, caption: "Field app for meter readers: today's reads, weekly totals, and anomalies flagged at capture time.", mobile: true },
+    ],
+    galleryNote: "Selected screens; personal and internal details are cropped or withheld.",
   },
   {
-    title: "PEMCC Real-Time Election Platform",
+    title: "Real-Time Cooperative Election Platform",
     description:
       "Digitized the full election lifecycle for the employee cooperative: voter registration, admin-approved QR ballot access from members' own phones, live vote tallies on a presentation dashboard, and exportable reports. Deliberate single-port monolith (Express serves SPA + REST + WebSocket) so election-day LAN deployment is trivial. Hundreds of members voting simultaneously.",
     tech: ["React 19", "Express 5", "Socket.IO", "MS SQL Server", "Real-time"],
@@ -542,7 +731,7 @@ export const projects: Project[] = [
     private: true,
   },
   {
-    title: "GM Live Collections Dashboard",
+    title: "Executive Live Collections Dashboard",
     description:
       "Real-time collections dashboard for the General Manager: today's totals, a per-office breakdown and map, teller ranking, and revenue lost to voided receipts. Runs as a TV kiosk and a phone app. A least-privilege, read-only database login with poll-and-cache means any number of viewers costs one database reader, so an executive tool can never touch the financial system of record.",
     tech: ["React", "Node.js", "MS SQL Server", "MapLibre", "PWA"],
@@ -604,8 +793,8 @@ export const testimonials = [
 
 export const navigationItems = [
   { label: "Home", href: "/" },
-  { label: "Services", href: "#services" },
   { label: "The Grid", href: "#grid" },
+  { label: "Services", href: "#services" },
   { label: "Skills", href: "#skills" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
@@ -682,11 +871,11 @@ export const exhibitDetails: Record<
   "Workflow Automation": {
     headline: "Weeks Into Clicks",
     description:
-      "Compressing manual workflows into clicks: a 4-week regulatory tax reporting cycle now runs as a 2-click operation, saving roughly 160 hours per cycle. WESM settlement invoicing, a full workday of ~50 manual invoices, now completes in under 30 seconds with zero transcription errors.",
+      "Compressing manual workflows into clicks: a regulatory tax reporting process that took two weeks of manual work now runs in under five minutes, in two clicks. WESM settlement invoicing, a full workday of ~50 manual invoices, now completes in under 30 seconds with zero transcription errors.",
     showcase: [
-      { value: "2 clicks", label: "Was a 4-week cycle" },
+      { value: "2 clicks", label: "Was 2 weeks of work" },
       { value: "<30s", label: "Was a full workday" },
-      { value: "160 hrs", label: "Saved per cycle" },
+      { value: "< 5 min", label: "Now, per cycle" },
     ],
     tools: ["n8n", "Claude Code Pipelines", "ETL Design", "AWS SES", "Custom APIs"],
     quote: "The best code is the code you never have to write because a workflow handles it.",
