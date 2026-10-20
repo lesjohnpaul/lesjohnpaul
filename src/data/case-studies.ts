@@ -757,7 +757,7 @@ const list: CaseStudy[] = [
   {
     slug: "azure-hybrid-cloud-migration",
     client: "250K-member electric cooperative",
-    role: "Sole architect",
+    role: "Solo architect",
     summary:
       "A ₱14.95M multi-milestone migration of core operational workloads to Microsoft Azure, keeping compliance-bound systems on-prem.",
     headline: "A ₱14.95M hybrid cloud program designed and led by a single architect.",
@@ -791,7 +791,7 @@ const list: CaseStudy[] = [
   {
     slug: "internal-ndr-class-network-detection",
     client: "250K-member electric cooperative",
-    role: "Architect & engineer",
+    role: "Solo architect & engineer",
     summary:
       "An in-house network behavioral monitoring system for east-west traffic and lateral movement, a class of tool usually bought from enterprise vendors.",
     headline: "Lateral-movement detection built in-house, without an enterprise NDR license.",
@@ -933,7 +933,7 @@ const list: CaseStudy[] = [
   {
     slug: "partner-file-automation-platform",
     client: "250K-member electric cooperative",
-    role: "Author & engineer",
+    role: "Solo architect & engineer",
     summary:
       "A web-based ETL platform that ingests partner files from FTP/SFTP and email attachments into MS SQL Server on a schedule.",
     headline: "A daily download-parse-import chore became scheduled jobs with an audit trail.",
@@ -972,7 +972,7 @@ const list: CaseStudy[] = [
   {
     slug: "hci-server-infrastructure",
     client: "250K-member electric cooperative",
-    role: "Infrastructure architect",
+    role: "Solo infrastructure architect",
     summary:
       "The hyperconverged cluster that runs production billing and operational VMs, with written recovery procedures.",
     headline: "The cluster under the cooperative's production billing, with a recovery plan written before it was needed.",
@@ -1005,7 +1005,7 @@ const list: CaseStudy[] = [
   {
     slug: "focuscanvas-desktop-saas",
     client: "Own product",
-    role: "Builder",
+    role: "Solo designer & engineer",
     summary:
       "A cross-platform desktop tool that changes your wallpaper on a schedule of \"Day Types\" to support focus and context switching.",
     challenge: [
@@ -1037,7 +1037,7 @@ const list: CaseStudy[] = [
   {
     slug: "api-middleware-in-design",
     client: "250K-member electric cooperative",
-    role: "Architect",
+    role: "Solo architect",
     summary:
       "A real-time integration layer that will let partners post directly to the database over a secure API, replacing batch file transfers.",
     challenge: [

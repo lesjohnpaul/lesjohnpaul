@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { Check, UserRound } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { techFor, techsIn, TechIcon, type Layer, type Tech } from "@/lib/tech-icons";
 import s from "./case-study.module.css";
@@ -107,5 +108,42 @@ export function StackChips({ tech }: { tech: string[] }) {
         </span>
       ))}
     </>
+  );
+}
+
+const OWNED: Record<Layer, string> = {
+  interface: "UI & UX",
+  ai: "AI & prompts",
+  logic: "Backend & APIs",
+  data: "Database",
+  infra: "Infra & deployment",
+};
+
+/** "Team of one" panel: every layer this project's stack touches, owned by one person. */
+export function Ownership({ role, tech }: { role: string; tech: string[] }) {
+  const layers = new Set(tech.map((t) => techFor(t).layer));
+  const owned = LAYERS.filter((l) => layers.has(l.id));
+  return (
+    <section aria-label="Who built this" className={cn("border border-primary/40 bg-primary/5 p-4 sm:p-5", s.tones)}>
+      <p className="flex items-center gap-2 font-display text-lg font-semibold">
+        <UserRound className="h-5 w-5 text-primary" /> Team of one
+        <span className="text-sm font-normal text-muted-foreground">· {role}</span>
+      </p>
+      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+        No team, no agency, no hand-offs. I owned this project end to end:
+      </p>
+      <ul className="mt-3 flex flex-wrap gap-2">
+        {[{ id: "scope", label: "Requirements", tone: "var(--t-gold)" }, { id: "arch", label: "Architecture", tone: "var(--t-gold)" }, ...owned.map((l) => ({ ...l, label: OWNED[l.id] }))].map((o) => (
+          <li
+            key={o.id}
+            className="inline-flex items-center gap-1.5 border px-2.5 py-1 text-xs font-medium text-foreground/90"
+            style={style({ borderColor: `color-mix(in oklch, ${o.tone} 45%, transparent)` })}
+          >
+            <Check className="h-3.5 w-3.5" style={{ color: o.tone }} />
+            {o.label}
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }

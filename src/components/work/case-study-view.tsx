@@ -5,7 +5,7 @@ import { ArrowRight, ArrowUpRight, Lock, Sparkles } from "lucide-react";
 import type { Project } from "@/data/portfolio-data";
 import type { CaseStudy } from "@/data/case-studies";
 import { ProjectThumb } from "./project-thumb";
-import { ArchitectureMap, StackChips } from "./architecture-map";
+import { ArchitectureMap, Ownership, StackChips } from "./architecture-map";
 import { EngineeringReel } from "./engineering-reel";
 
 const isLive = (p: Project) => !p.private && /^https?:\/\//.test(p.link);
@@ -133,12 +133,10 @@ export function CaseStudyView({
         </p>
       )}
 
-      <dl className="grid gap-6 sm:grid-cols-3">
+      <Ownership role={study.role} tech={project.tech} />
+
+      <dl>
         <div>
-          <dt className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Role</dt>
-          <dd className="mt-1.5 text-sm">{study.role}</dd>
-        </div>
-        <div className="sm:col-span-2">
           <dt className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Stack</dt>
           <dd className="mt-1.5 flex flex-wrap gap-1.5">
             <StackChips tech={project.tech} />
