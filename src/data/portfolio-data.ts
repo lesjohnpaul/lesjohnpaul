@@ -546,7 +546,7 @@ export const projects: Project[] = [
   {
     title: "P3 Consumer E-Invoicing",
     description:
-      "Notification service built to deliver statements of account and disconnection notices to the cooperative's opted-in consumers: password-protected PDF invoices by email and SMS with an automatic provider fallback chain. Batch targeting by area office, municipality, and barangay with cost estimates, a contact registry with CSV import, templates, a 360° delivery dashboard, and provider credentials encrypted with AES-256-GCM.",
+      "Live notification service that delivers statements of account and disconnection notices to the cooperative's opted-in consumers: password-protected PDF invoices by email and SMS with an automatic provider fallback chain. Batch targeting by area office, municipality, and barangay with cost estimates, a contact registry with CSV import, templates, a 360° delivery dashboard, and provider credentials encrypted with AES-256-GCM.",
     tech: ["Node.js", "Amazon SES", "SMS Fallback Chain", "PDF Pipeline", "MS SQL Server"],
     link: "#",
     image: "/images/projects/bulk-email.jpg",

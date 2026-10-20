@@ -300,7 +300,7 @@ const list: CaseStudy[] = [
     client: "250K-member electric cooperative",
     role: "Solo architect & engineer",
     summary:
-      "A notification service built to deliver statements of account and disconnection notices to opted-in consumers by email and SMS, with automatic provider fallback.",
+      "A live notification service that delivers statements of account and disconnection notices to opted-in consumers by email and SMS, with automatic provider fallback.",
     challenge: [
       "Statements and disconnection notices went out on paper and by hand.",
       "One SMS provider is a single point of failure for notices that must arrive.",
@@ -309,7 +309,7 @@ const list: CaseStudy[] = [
     approach: [
       "A self-contained service with its own database, auth, and queue, so it does not depend on other systems.",
       "An SMS fallback chain across providers, so one provider's outage does not stop delivery.",
-      "Every provider runs in mock mode until real credentials are saved, so demos exercise the same code paths as live sends.",
+      "Every provider has a mock mode on the same code paths, so changes are tested end to end before they reach consumers.",
       "Provider credentials are encrypted at rest with AES-256-GCM.",
     ],
     built: [
@@ -322,11 +322,11 @@ const list: CaseStudy[] = [
     ],
     outcome: [
       "Architected for bulk invoicing to the cooperative's 183K+ consumers.",
-      "Batch, queue, fallback, and delivery tracking are built and run end to end in mock mode.",
+      "Live: batches, provider fallback, and delivery tracking run in production.",
     ],
     aiAngle:
       "Automation handles targeting, sending, fallback, and delivery tracking, so staff start a batch instead of mailing notices.",
-    status: "In build",
+    status: "Live",
   },
   {
     slug: "pfas-partner-file-automation-system",
