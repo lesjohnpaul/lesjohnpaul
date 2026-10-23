@@ -29,7 +29,7 @@ Les John Paul Oliver is an AI-first software engineer and solutions architect fr
 * **Role on every project:** Les is the only builder on every project in this portfolio. Each one is a team of one: he gathers requirements, designs the architecture, builds the UI, backend, database, and AI parts, deploys it, and supports it. No team, agency, or subcontracted developers.
 
 **Longer version:**
-Les John Paul combines hands-on enterprise IT operations with a modern, AI-assisted way of building. At an electric cooperative serving more than 250,000 member consumers, he architected and shipped systems end to end, replacing outside vendor solutions and saving an estimated PHP 8M+ over three years. He covers the full lifecycle: architecture, software, databases, automation, cloud and infrastructure, and security-aware operations. He uses Claude Code, Cursor, and GitHub Copilot daily, which lets him compress typical project timelines significantly without cutting corners on structure or documentation. Outside of tech, he is a working musician, arranger, choir director, recording engineer, and the founder of Sneaker Symphony, so clients get someone who understands business operations, creative work, and the systems behind both.
+Les John Paul combines hands-on enterprise IT operations with a modern, AI-assisted way of building. At an electric cooperative serving more than 250,000 member consumers, he architected and shipped systems end to end, replacing outside vendor solutions. He covers the full lifecycle: architecture, software, databases, automation, cloud and infrastructure, and security-aware operations. He uses Claude Code, Cursor, and GitHub Copilot daily, which lets him compress typical project timelines significantly without cutting corners on structure or documentation. Outside of tech, he is a working musician, arranger, choir director, recording engineer, and the founder of Sneaker Symphony, so clients get someone who understands business operations, creative work, and the systems behind both.
 
 
 ## 3. Services Overview
@@ -139,8 +139,8 @@ Les John Paul offers services in four groups. Technology is his primary focus.
 
 ### 4.12 Websites, E-commerce Systems, and SEO
 * **What it is:** Fast, modern websites and online stores that are built to be found and easy to run
-* **What's included:** Business websites and landing pages, online catalogs and storefronts, checkout and payment gateway integration, order and fulfillment workflows, order tracking, inventory tracking, customer notifications, product quality control workflows, CMS setup, technical SEO, structured data (JSON-LD), and Google Search Console setup
-* **Stack:** Next.js, Supabase, PayMongo, Cloudflare R2, Vercel
+* **What's included:** Business websites and landing pages, online catalogs and storefronts, checkout and payment workflows, order and fulfillment workflows, order tracking, inventory tracking, customer notifications, product quality control workflows, CMS setup, technical SEO, structured data (JSON-LD), and Google Search Console setup
+* **Stack:** Next.js, Supabase, Cloudflare R2, Vercel
 * **Proof:** Built and runs Sneaker Symphony, so he knows e-commerce as both the owner and the builder
 
 ### 4.13 UI/UX Design to Code and Creative Web Experiences
@@ -161,7 +161,7 @@ Les John Paul offers services in four groups. Technology is his primary focus.
 * **What it is:** Content systems that produce, schedule, and publish social media posts with minimal manual work
 * **What's included:** AI image and video generation, animated post rendering, content calendars, caption writing (English, Filipino, and Taglish), approval workflows, and automatic scheduling
 * **Tools:** Higgsfield (AI image and video), Remotion (programmatic video), n8n, Notion, Metricool, GitHub Actions, Supabase Storage
-* **Proof:** Runs a weekly automated content pipeline for Sneaker Symphony's Facebook page. Produced AI generated public information videos and a Facebook content strategy for a cooperative with roughly 250,000 member consumers.
+* **Proof:** Produced AI generated public information videos and a Facebook content strategy for a cooperative with roughly 250,000 member consumers. Sneaker Symphony roadmap includes automated social posting.
 
 ### 5.2 Digital Content, Branding, and Creative Direction
 * **What it is:** Practical creative support for brands and digital projects
@@ -214,8 +214,10 @@ Les John Paul offers services in four groups. Technology is his primary focus.
 ## 7. Sneaker Symphony
 
 * **What it is:** A Philippine online sneaker marketplace founded and run by Les John Paul
-* **Built with:** Next.js, Supabase, and PayMongo
-* **What he handles:** Product sourcing and pre-order operations, catalog and product presentation, Facebook page content and promotional campaigns, product arrival announcements, customer inquiries, deposit and payment coordination, courier and fulfillment coordination, brand identity, marketplace and order tracking planning, and an automated weekly content pipeline
+* **Built with:** Next.js 15, Supabase, Claude Haiku, Cloudflare R2, Resend, Inngest, Vercel Cron
+* **What he handles:** Product sourcing and pre-order operations, catalog and product presentation, Facebook page content and promotional campaigns, product arrival announcements, customer inquiries, payment coordination (GCash, bank transfer, COD with proof-of-payment upload), per-pair QC approval, courier and fulfillment coordination, brand identity, and marketplace planning
+* **Features:** Yupoo and WGStores supplier scrapers, Claude Haiku product-title parser, per-pair QC workflow, proof-of-payment verification
+* **Roadmap:** PayMongo integration and automated social posting pipeline
 * **Brand colors:** Gold, navy blue, black, and white
 * **Official channels:** sneakersymphony.com and facebook.com/SneakerSymphony
 * **Why it matters to clients:** It gives him firsthand experience running an online business as both the owner and the system builder
@@ -235,11 +237,15 @@ Les John Paul offers services in four groups. Technology is his primary focus.
 * **IT Inventory, Warehouse Tracking, and Ticketing Workflows:** Internal systems for tracking assets, stock movement, and support requests
 * **Document Automation:** Python based PDF generation, bulk document processing, and email based delivery
 * **SafeShrink:** SQL Server transaction log recovery tool
-* **Sneaker Symphony:** Philippine sneaker marketplace built with Next.js, Supabase, and PayMongo, with an automated weekly content pipeline
+* **Sneaker Symphony:** Philippine sneaker marketplace built with Next.js, Supabase, Claude Haiku, Cloudflare R2, with Yupoo and WGStores supplier scrapers, product-title parser, and per-pair QC workflow. Roadmap includes PayMongo integration and automated social posting.
 * **FocusCanvas:** Cross-platform desktop productivity app built with Tauri 2.0, Rust, and React; full ownership from UX to packaging and distribution
 * **VoltDraft:** AI proposal generator for Australian electrical contractors, built with a PRD, landing page, admin UI, and handover documentation
-* **Earlier production systems (2020 to 2023):** Share capital certificate issuance, real time event attendance, membership management with camera and signature capture, and a corporate website
+* * **Earlier production systems (2020 to 2023):** Share capital certificate issuance, real time event attendance, membership management with camera and signature capture, and a corporate website
+* **SonicSense:** Personal AI music annotation assistant built by Les to speed up his own music annotation work
+* **FocusCanvas:** Desktop productivity app in build with Tauri 2.0, Rust, and React
 * **Big Band Arrangements:** Cha-cha, swing, funk, and samba scores engraved in LilyPond
+* **SonicSense:** Personal AI music annotation assistant built by Les to speed up his own music annotation work, applying his music knowledge as a working keyboardist and producer
+* **FocusCanvas:** Desktop productivity app (in build) with Tauri 2.0 + Rust + React
 
 
 ## 9. Skills and Tools Index
@@ -249,7 +255,7 @@ Depth varies by tool. This list helps match a visitor's request to his experienc
 * **Web and software:** HTML, CSS, JavaScript, TypeScript, React, Next.js, Node.js, Express, Fastify, PHP, Python, FastAPI, .NET, C#, Java, Rust (with Tauri), Bash, Tailwind CSS, REST APIs
 * **Data and databases:** MS SQL Server (administration, performance tuning, backup and recovery), MySQL, MariaDB, PostgreSQL, Supabase, MongoDB, SQL and T-SQL, schema design, data migration, ETL, reporting, Power BI support
 * **Systems and cloud:** Microsoft Azure, AWS, Google Cloud Platform, Linux (Ubuntu), Windows Server, virtualization (Linux KVM, HCI), high availability, monitoring, disaster recovery, Docker, CI/CD, GitHub Actions, Git, Vercel
-* **Automation and AI:** Python automation, PDF and document generation, scheduled workflows, email automation, n8n, Claude Code, Cursor, GitHub Copilot, Anthropic API, OpenAI API, Model Context Protocol (MCP), chatbots and inquiry classification
+* **Automation and AI:** Python automation, PDF and document generation, scheduled workflows, email automation, n8n, Claude Code, Cursor, GitHub Copilot, Claude Haiku, Anthropic API, OpenAI API, Model Context Protocol (MCP), chatbots and inquiry classification
 * **Security and reliability:** Role-based access, least privilege, audit logging, server and network monitoring, vulnerability assessment, incident response documentation, backup and recovery, business continuity planning, data privacy compliance
 * **Design and creative:** Figma (with MCP), React Three Fiber, GSAP, Framer Motion, Higgsfield, Remotion, visual composition, abstract painting
 * **Business:** E-commerce operations, product and workflow planning, social media content and marketing, PayMongo, Metricool, Notion
@@ -265,7 +271,7 @@ Depth varies by tool. This list helps match a visitor's request to his experienc
 * **AWS Innovate: Modern Applications:** Amazon Web Services, 2022
 * **Data Privacy, Vulnerability Assessment and Ethical Hacking:** Mapua University, 2021
 * **TESDA Computer Hardware Servicing NC II**
-* **Australian Computer Society (ACS) Skills Assessment:** Software Engineer, Developer Programmer, and Systems Administrator, valid until March 2027
+* **TESDA Computer Hardware Servicing NC II**
 
 
 ## 11. Career Timeline

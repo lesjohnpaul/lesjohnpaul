@@ -34,7 +34,7 @@ export const heroOutcomes = [
 
 export const heroStats = [
   { label: "Years in Enterprise IT", value: "10+" },
-  { label: "Systems Shipped", value: "16+" },
+  { label: "Systems Shipped", value: "16" },
   { label: "End Users Served", value: "250K+" },
 ];
 
@@ -62,7 +62,7 @@ export const services = [
     problem: "You know AI could help your app, but not where it pays off or how to ship it safely.",
     offer:
       "Extraction, classification, content generation, and tool-use added to the app you already have, scoped to features users will actually use.",
-    proof: "SonicSense metadata engine and the Sneaker Symphony content pipeline (Claude API)",
+    proof: "SonicSense metadata engine and the Sneaker Symphony product-title parser (Claude Haiku)",
   },
   {
     title: "Internal Tools & Dashboards",
@@ -122,7 +122,7 @@ export const aiOperations = [
       "06:05:02  ai.scored            hot · warm · skip",
       "06:05:03  crm.synced           drafts ready for review",
     ],
-    proof: "Sneaker Symphony runs a scrape-to-catalog pipeline that imports product listings automatically, and Pao captures and qualifies leads on this page.",
+    proof: "Sneaker Symphony runs Yupoo and WGStores scrapers that import product listings into an admin review queue, and Pao captures and qualifies leads on this page.",
   },
   {
     id: "backoffice",
@@ -341,7 +341,7 @@ export const hiddenTalents = [
     category: "Solo Building",
     icon: "Rocket",
     description:
-      "Shipping personal products without a team: Sneaker Symphony marketplace, FocusCanvas desktop SaaS, and this portfolio. Full ownership end-to-end.",
+      "Shipping personal products without a team: Sneaker Symphony marketplace, this portfolio, and FocusCanvas desktop SaaS (in build). Full ownership end-to-end.",
     skills: [
       "Solo Full-Stack",
       "Product Strategy",
@@ -378,7 +378,7 @@ export const experience = [
     description:
       "Sole-architect role spanning cloud infrastructure, AI systems, network security, distributed apps, and production DBA work for a 250,000+ member utility. Reports through CSD/SAD chain.",
     achievements: [
-      "Sole architect of a ₱14.95M Azure hybrid cloud migration covering identity, collaboration, and DR",
+      "Sole architect of a ₱14.95M Azure hybrid cloud migration (in progress) covering identity, collaboration, and DR",
       "Building ACIRS, a 24/7 AI customer-support system with knowledge-base answers, auto-escalation, and an automatic Customer-360 CRM (launching Q1 2027)",
       "Built a distributed QR-based registration platform handling 13K attendees across 5 simultaneous venues",
       "Authored an internal NDR-class lateral-movement detection system: east-west monitoring, in-house build",
@@ -396,24 +396,24 @@ export const experience = [
     company: "Sneaker Symphony · sneakersymphony.com",
     period: "2024 - Present",
     description:
-      "Building a Philippine sneaker marketplace as a solo technical founder. Mobile-first checkout, dual-gateway payments (PayMongo + HitPay), and an AI-driven content automation pipeline across FB, IG, and TikTok.",
+      "Building a Philippine sneaker marketplace as a solo technical founder. GCash, bank transfer, and COD payments with proof-of-payment upload. Claude Haiku product-title parser, Yupoo and WGStores supplier scrapers, per-pair QC approval workflow.",
     achievements: [
       "Authored full PRD (Sneaker Symphony Growth Engine) with 14-section architecture",
-      "Stack: Next.js 15, Supabase, Vercel, Inngest, Claude API, Cloudflare R2, PayMongo",
-      "Designed dual payment-gateway strategy (GCash, Maya, card) with idempotency safeguards",
-      "Architected Cloudflare R2 storage for invoices and Amazon SES delivery for buyer comms",
+      "Stack: Next.js 15, Supabase, Vercel, Inngest, Claude Haiku, Cloudflare R2, Resend",
+      "Built supplier scraping, product parsing, QC workflow, and payment proof verification",
+      "Roadmap: PayMongo integration and automated social posting to scale operations",
     ],
   },
   {
-    role: "Builder · FocusCanvas Desktop SaaS",
+    role: "Builder · FocusCanvas Desktop SaaS (In build)",
     company: "Personal Venture",
     period: "2025 - Present",
     description:
-      "Cross-platform desktop productivity tool that auto-changes wallpapers based on scheduled 'Day Types'. Built with Tauri 2.0 + Rust + React for native performance.",
+      "Cross-platform desktop productivity tool that auto-changes wallpapers based on scheduled 'Day Types'. Built with Tauri 2.0 + Rust + React for native performance. In build.",
     achievements: [
       "Authored PRD and shipped wireframes for the v1 product surface",
       "Stack: Tauri 2.0, Rust, React, TypeScript",
-      "Native cross-platform delivery (Windows, macOS, Linux) without Electron bloat",
+      "Native cross-platform delivery planned (Windows, macOS, Linux) without Electron bloat",
     ],
   },
 ];
@@ -443,8 +443,8 @@ export const projects: Project[] = [
   {
     title: "Sneaker Symphony: AI-Run Marketplace",
     description:
-      "Solo-built Philippine sneaker marketplace at sneakersymphony.com, run with very little manual work. A scraping pipeline pulls product listings and imports them into the catalog, and a Claude API content pipeline writes and schedules posts across FB, IG, and TikTok. Mobile-first checkout with GCash/Maya/PayMongo payments and Cloudflare R2 invoice storage.",
-    tech: ["Claude API", "Next.js 15", "Supabase", "Inngest", "PayMongo"],
+      "Solo-built Philippine sneaker marketplace at sneakersymphony.com. Yupoo and WGStores supplier scrapers pull product listings into an admin review queue. Claude Haiku parses product titles. GCash, bank transfer, or COD checkout with proof-of-payment upload and per-pair QC approval. Cloudflare R2 storage, Resend email, Messenger integration, and Vercel Cron jobs.",
+    tech: ["Claude Haiku", "Next.js 15", "Supabase", "Inngest", "Cloudflare R2"],
     link: "https://sneakersymphony.com",
     image: "/images/projects/sneaker-symphony/01-hero.jpg",
     images: [
@@ -455,7 +455,7 @@ export const projects: Project[] = [
       "/images/projects/sneaker-symphony/05-admin-dashboard.png",
     ],
     featured: true,
-    result: "Catalog import and social content run on automation, so one person can operate a full store",
+    result: "Supplier import and product parsing automated, with per-pair QC and payment workflows",
   },
   {
     title: "WeCare: Pharmacy POS & Dispensing Platform",
@@ -598,9 +598,9 @@ export const projects: Project[] = [
     result: "13,000 attendees checked in across 5 simultaneous venues",
   },
   {
-    title: "Azure Hybrid Cloud Migration",
+    title: "Azure Hybrid Cloud Migration (In progress)",
     description:
-      "Sole architect of a ₱14.95M multi-milestone migration of core operational workloads to Microsoft Azure for a 250K-member utility cooperative. Hybrid topology preserving on-prem HCI for compliance-bound workloads while moving identity, collaboration, and disaster recovery to Azure.",
+      "Sole architect of a ₱14.95M multi-milestone migration (in progress) of core operational workloads to Microsoft Azure for a 250K-member utility cooperative. Hybrid topology preserving on-prem HCI for compliance-bound workloads while moving identity, collaboration, and disaster recovery to Azure.",
     tech: ["Azure", "Hybrid Cloud", "Identity & DR", "ArcherOS HCI", "Vendor Mgmt"],
     link: "#",
     image: "/images/projects/azure-migration.jpg",
@@ -659,9 +659,9 @@ export const projects: Project[] = [
     private: true,
   },
   {
-    title: "FocusCanvas: Desktop SaaS",
+    title: "FocusCanvas: Desktop SaaS (In build)",
     description:
-      "Cross-platform desktop productivity tool built with Tauri 2.0 + Rust + React. Auto-changes wallpapers based on scheduled 'Day Types' for focus and context switching. Native performance, no Electron bloat.",
+      "Cross-platform desktop productivity tool in build with Tauri 2.0 + Rust + React. Auto-changes wallpapers based on scheduled 'Day Types' for focus and context switching. Native performance, no Electron bloat.",
     tech: ["Tauri 2.0", "Rust", "React", "TypeScript", "Desktop SaaS"],
     link: "#",
     image: "/images/projects/focuscanvas.jpg",
@@ -770,15 +770,15 @@ export const projects: Project[] = [
     galleryNote: "Screens run the real app in demo mode on generated data; no real consumer or employee data.",
   },
   {
-    title: "SonicSense: AI Music Metadata Engine",
+    title: "SonicSense: AI Music Annotation Assistant",
     description:
-      "Chrome side-panel extension that turns a raw track description into structured release metadata: Anthropic tool-use extracts 13 global fields plus per-section narratives: instruments, vibe tags, and arrangement notes inferred automatically. Built to catalog my own productions and prep metadata for releases and sync-licensing pitches. Where the engineering day job meets the musician side.",
-    tech: ["TypeScript", "Chrome MV3", "Anthropic API", "Tool Use", "Vite"],
+      "Personal workflow automation for music annotation built by Les, a working keyboardist and producer. Chrome side-panel extension that turns a raw track description into structured metadata using Claude tool-use: 13 global fields plus per-section narratives with instruments, vibe tags, and arrangement notes inferred automatically. Applies his own music knowledge to speed up annotation work.",
+    tech: ["TypeScript", "Chrome MV3", "Claude API", "Tool Use", "Vite"],
     link: "#",
     image: "/images/projects/sonicsense.jpg",
     featured: true,
     private: true,
-    result: "A free-text track description becomes 13 structured release fields in one pass",
+    result: "A free-text track description becomes 13 structured fields in one pass",
   },
   {
     title: "SOURCE: Interactive Book Prototype",
@@ -808,17 +808,7 @@ export const photoGallery = [
   },
 ];
 
-// Testimonials: kept structure, anonymized defaults until you have real ones.
-// Don't ship invented quotes. Replace these with actual references when ready.
-export const testimonials = [
-  {
-    quote:
-      "[Pending: replace with a real reference quote before shipping. Don't fabricate.]",
-    author: "[Reference Name]",
-    role: "[Title, Organization]",
-    avatar: "/images/testimonials/person1.jpg",
-  },
-];
+// Testimonials: removed unused placeholder export. Add real testimonials when available.
 
 export const navigationItems = [
   { label: "Home", href: "/" },
@@ -888,13 +878,13 @@ export const exhibitDetails: Record<
   "Solo Building": {
     headline: "Founder-Grade Ownership, Team of One",
     description:
-      "Shipping personal products without a team: Sneaker Symphony, a live Philippine sneaker marketplace with dual-gateway payments; FocusCanvas, a desktop SaaS; and this portfolio. Strategy, PRD, design, code, deployment, and operations. Every layer owned end to end.",
+      "Shipping personal products without a team: Sneaker Symphony, a live Philippine sneaker marketplace; this portfolio; and FocusCanvas, a desktop SaaS in build. Strategy, PRD, design, code, deployment, and operations. Every layer owned end to end.",
     showcase: [
-      { value: "3", label: "Products shipped solo" },
-      { value: "2", label: "Payment gateways integrated" },
+      { value: "2", label: "Products shipped solo" },
+      { value: "1", label: "In build" },
       { value: "0", label: "Handoffs, end to end" },
     ],
-    tools: ["Product Strategy", "PRD Authoring", "Next.js / React", "PayMongo · HitPay", "Deployment & Ops"],
+    tools: ["Product Strategy", "PRD Authoring", "Next.js / React", "Sneaker Symphony Payments", "Deployment & Ops"],
     quote: "When you are the whole team, every decision is yours to defend.",
   },
   "Workflow Automation": {

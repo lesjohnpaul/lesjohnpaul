@@ -53,14 +53,14 @@ const features: Feature[] = [
   {
     id: "qc",
     label: "QC Photo Verification",
-    title: "8-angle quality-control gallery before payment release",
+    title: "Per-pair quality-control approval before payment release",
     description:
-      "No PH reseller exposes per-pair QC galleries to the buyer. We do: every angle is watermarked, timestamped, and locked behind QC PASSED before the buyer approves.",
+      "Every pair goes through QC approval by the owner before the buyer's payment is released. Photos uploaded for verification, with QC status tracked per order.",
     image: "/images/projects/sneaker-symphony/07-order-pipeline.jpg",
     bullets: [
-      "8 watermarked photos per pair",
-      "Tap-to-zoom inspection viewer",
-      "QC PASSED audit signature with timestamp",
+      "Per-pair QC approval workflow",
+      "Owner verifies quality before payment release",
+      "QC status tracked with timestamps",
     ],
     Icon: ShieldCheck,
   },
@@ -110,7 +110,7 @@ const features: Feature[] = [
 
 const stats = [
   { value: "6", label: "Pipeline stages" },
-  { value: "8", label: "QC photos per pair" },
+  { value: "Owner", label: "QC approval" },
   { value: "200+", label: "Live drops" },
   { value: "100%", label: "Self-service" },
 ];
