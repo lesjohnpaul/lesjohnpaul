@@ -30,91 +30,90 @@ const list: CaseStudy[] = [
     client: "Own product",
     role: "Founder & solo full-stack engineer",
     summary:
-      "A Philippine sneaker marketplace at sneakersymphony.com, built and run by one person. Catalog import and social content run on automation, so the store does not need a team.",
-    headline: "A full online store that one person runs, because scrapers fill the catalog and Claude writes the posts.",
+      "A Philippine sneaker marketplace at sneakersymphony.com, built and run by one person. Yupoo and WGStores supplier scrapers, Claude Haiku product-title parser, GCash, bank transfer, and COD payments with proof-of-payment upload and per-pair QC approval.",
+    headline: "A full online store that one person runs, with supplier scrapers, AI product parsing, and per-pair QC workflows.",
     challenge: [
-      "A full online store normally needs staff for product entry, pricing, and social posting.",
+      "A full online store normally needs staff for product entry, pricing, and payment verification.",
       "Supplier catalogs list hundreds of items with photos and Chinese-yuan prices that have to be cleaned up before they can be sold.",
-      "Filipino buyers expect GCash, Maya, and card payments on a phone.",
+      "Filipino buyers expect GCash, bank transfer, or COD payments with proof of payment.",
     ],
     fixes: [
       {
-        problem: "A full online store normally needs staff for product entry, pricing, and social posting.",
-        fix: "Scrapers pull supplier catalogs into a review queue, and the admin imports items one by one or in bulk. Nothing reaches the store without an admin check.",
+        problem: "A full online store normally needs staff for product entry, pricing, and payment verification.",
+        fix: "Yupoo and WGStores scrapers pull supplier catalogs into a review queue, and the admin imports items one by one or in bulk. Nothing reaches the store without an admin check. Claude Haiku parses product titles.",
         shots: [],
       },
       {
         problem: "Supplier catalogs list hundreds of items with photos and Chinese-yuan prices that need cleanup before they can be sold.",
-        fix: "Each supplier source gets its own importer and table, so a new source cannot break a working one. Images are copied to Cloudflare R2, and unpriced items get tiered price suggestions and bulk pricing.",
+        fix: "Each supplier source gets its own importer and table, so a new source cannot break a working one. Images are copied to Cloudflare R2, and unpriced items get tiered price suggestions.",
         shots: [],
       },
       {
-        problem: "Keeping FB, IG, and TikTok active takes someone writing and posting every day.",
-        fix: "A Claude API pipeline drafts the social posts and schedules them for FB, IG, and TikTok, so the owner only reviews and approves.",
-        shots: [],
-      },
-      {
-        problem: "Filipino buyers expect to pay with GCash, Maya, or a card on their phone.",
-        fix: "A mobile-first checkout takes GCash, Maya, and cards through PayMongo and HitPay, with idempotency safeguards so a retried payment never charges twice.",
+        problem: "Filipino buyers expect GCash, bank transfer, or COD payments with proof of payment.",
+        fix: "Checkout supports GCash, bank transfer, and COD with proof-of-payment upload verified by the owner. Per-pair QC approval workflow with 8-angle photos before payment release.",
         shots: [],
       },
     ],
     approach: [
-      "Import pipelines scrape supplier catalogs into a review queue, so nothing reaches the store without an admin check.",
+      "Yupoo and WGStores scrapers pull supplier catalogs into a review queue, so nothing reaches the store without an admin check.",
       "Each supplier source gets its own importer and table, sharing only the storage and catalog plumbing, so a new source cannot break a working one.",
-      "Dual payment gateways (PayMongo and HitPay) with idempotency safeguards, so a retried payment never charges twice.",
+      "Claude Haiku parses product titles automatically, saving manual data entry.",
+      "Per-pair QC approval with proof-of-payment verification by the owner.",
     ],
     built: [
-      "Scrape-to-catalog import from supplier stores, with images copied to Cloudflare R2",
+      "Yupoo and WGStores supplier scrapers with images copied to Cloudflare R2",
+      "Claude Haiku product-title parser",
       "Review queue with one-by-one and bulk import into the catalog",
-      "Claude API content pipeline that writes and schedules posts for FB, IG, and TikTok",
-      "Mobile-first checkout with GCash, Maya, and card payments",
-      "Invoice storage on Cloudflare R2 and buyer emails through Amazon SES",
+      "GCash, bank transfer, and COD checkout with proof-of-payment upload",
+      "Per-pair QC approval workflow with owner verification",
+      "Resend email integration and Messenger integration",
+      "Vercel Cron for scheduled jobs",
     ],
     capabilities: [
       {
         group: "Catalog automation",
         items: [
-          "Supplier catalog scrapers with a per-source importer",
+          "Yupoo and WGStores supplier scrapers with per-source importer",
+          "Claude Haiku product-title parser",
           "Admin review queue with single and bulk import",
-          "Tiered price suggestions and bulk pricing for unpriced items",
-        ],
-      },
-      {
-        group: "Content and growth",
-        items: [
-          "Claude API pipeline that drafts social posts",
-          "Scheduled posting to FB, IG, and TikTok",
-          "Growth engine PRD with a 14-section architecture",
+          "Tiered price suggestions for unpriced items",
         ],
       },
       {
         group: "Commerce",
         items: [
-          "Mobile-first checkout with GCash, Maya, and cards",
-          "PayMongo and HitPay with idempotency safeguards",
-          "Invoices on Cloudflare R2, buyer email through Amazon SES",
+          "GCash, bank transfer, and COD checkout",
+          "Proof-of-payment upload verified by owner",
+          "Per-pair QC approval with 8-angle photos",
+          "Invoices on Cloudflare R2, buyer email through Resend",
+        ],
+      },
+      {
+        group: "Roadmap",
+        items: [
+          "PayMongo integration for automated card and e-wallet payments",
+          "Automated social posting pipeline to FB, IG, and TikTok",
         ],
       },
     ],
     architecture: [
-      "Next.js 16 on Vercel, with Supabase for data and auth.",
-      "Inngest for background jobs.",
-      "Cloudflare R2 holds product images and invoices; Amazon SES sends buyer email.",
+      "Next.js 15 on Vercel, with Supabase for data and auth.",
+      "Inngest for background jobs, Vercel Cron for scheduled tasks.",
+      "Cloudflare R2 holds product images and invoices; Resend sends buyer email.",
+      "Messenger integration for customer inquiries.",
     ],
     engineering: [
-      "Schema changes ship as versioned SQL migrations through Drizzle ORM, so every database change is reviewable and repeatable.",
+      "Schema changes ship as versioned SQL migrations, so every database change is reviewable and repeatable.",
       "Checkout and admin forms are validated with Zod schemas before anything is written.",
-      "PayMongo and HitPay payments carry idempotency safeguards, so a retried payment never charges twice.",
       "Each supplier importer is isolated in its own table, and scraped items wait in an admin review queue before they reach the store.",
       "Vercel Analytics and Speed Insights track real-user traffic and page performance in production.",
     ],
     outcome: [
-      "Catalog import and social content run on automation, so one person can operate a full store.",
+      "Supplier import and product parsing automated, with per-pair QC and payment workflows.",
       "Live at sneakersymphony.com.",
     ],
     aiAngle:
-      "Claude writes and schedules the social posts, and scrapers fill the catalog, leaving the owner to review and approve.",
+      "Claude Haiku parses product titles, and scrapers fill the catalog, leaving the owner to review and approve.",
     status: "Live",
   },
   {
@@ -960,8 +959,8 @@ const list: CaseStudy[] = [
     client: "250K-member electric cooperative",
     role: "Solo architect",
     summary:
-      "A ₱14.95M multi-milestone migration of core operational workloads to Microsoft Azure, keeping compliance-bound systems on-prem.",
-    headline: "A ₱14.95M hybrid cloud program designed and led by a single architect.",
+      "A ₱14.95M multi-milestone migration (in progress) of core operational workloads to Microsoft Azure, keeping compliance-bound systems on-prem.",
+    headline: "A ₱14.95M hybrid cloud program (in progress) designed and led by a single architect.",
     challenge: [
       "Identity, collaboration, and disaster recovery needed to move to the cloud.",
       "Some workloads are compliance-bound and have to stay on-prem.",
@@ -969,7 +968,7 @@ const list: CaseStudy[] = [
     fixes: [
       {
         problem: "Identity, collaboration, and disaster recovery needed to move to the cloud.",
-        fix: "Identity and collaboration move to Microsoft Azure, and disaster recovery runs there too, so a site failure has an off-site recovery target.",
+        fix: "Identity and collaboration move to Microsoft Azure, and disaster recovery runs there too, so a site failure has an off-site recovery target. In progress.",
         shots: [],
       },
       {
@@ -985,7 +984,7 @@ const list: CaseStudy[] = [
     ],
     approach: [
       "A hybrid topology: on-prem HCI keeps the compliance-bound workloads, Azure takes identity, collaboration, and DR.",
-      "Delivered in milestones, with vendor management under one architect.",
+      "Delivered in milestones, with vendor management under one architect. In progress.",
     ],
     built: [
       "Hybrid cloud topology linking on-prem HCI with Azure",
@@ -2004,12 +2003,12 @@ const list: CaseStudy[] = [
     status: "In production",
   },
   {
-    slug: "sonicsense-ai-music-metadata-engine",
+    slug: "sonicsense-ai-music-annotation-assistant",
     client: "Own product",
     role: "Solo engineer",
     summary:
-      "A Chrome side-panel extension that turns a free-text track description into structured music metadata in one pass, using Anthropic tool use.",
-    headline: "A free-text track description becomes 13 structured fields in one pass.",
+      "Personal workflow automation for music annotation built by Les, a working keyboardist and producer. A Chrome side-panel extension that turns a free-text track description into structured music metadata in one pass, applying his own music knowledge to speed up annotation work.",
+    headline: "A personal AI music annotation assistant that applies a working musician's knowledge to speed up metadata work.",
     challenge: [
       "Filling music metadata by hand for every track is slow and inconsistent.",
       "Instruments, mood, and arrangement notes live in the producer's head, not in a form.",
@@ -2017,7 +2016,7 @@ const list: CaseStudy[] = [
     fixes: [
       {
         problem: "Filling music metadata by hand for every track is slow and inconsistent.",
-        fix: "Claude, through Anthropic tool use, turns a free-text description into 13 structured fields in one pass, and a validator checks the draft against the rubric rules.",
+        fix: "Claude tool use turns a free-text description into 13 structured fields in one pass, applying Les's music knowledge to infer the right metadata.",
         shots: [],
       },
       {
@@ -2027,8 +2026,8 @@ const list: CaseStudy[] = [
       },
     ],
     approach: [
-      "Anthropic tool use returns structured fields, not free text, so output drops straight into a form.",
-      "The rubric rules are kept as source-of-truth documents and embedded in the system prompt.",
+      "Claude tool use returns structured fields, not free text, so output drops straight into a form.",
+      "The annotation approach is encoded in the system prompt based on Les's own music production knowledge.",
       "A side panel keeps the tool next to the page being filled in.",
     ],
     built: [
@@ -2055,19 +2054,17 @@ const list: CaseStudy[] = [
     ],
     architecture: [
       "A Chrome MV3 extension with a React side panel, a service worker for the hotkey, and a content script for the page.",
-      "The Anthropic API is called with tool use, so Claude returns structured fields instead of free text.",
-      "A model router sends nuanced fields to Claude Sonnet and formulaic fields to Claude Haiku.",
+      "The Claude API is called with tool use, so output is structured fields instead of free text.",
       "Per-track drafts are saved in chrome.storage, so work survives closing the panel.",
     ],
     engineering: [
-      "Prompt caching keeps the long rubric system prompt cheap to resend.",
+      "Prompt caching keeps the system prompt cheap to resend.",
       "Each call records its model, latency, and cost, so spend is visible per field.",
-      "A client-side QA validator checks drafts against the rubric rules before they are used.",
       "The build type-checks with TypeScript before Vite bundles the extension.",
     ],
-    outcome: ["A free-text track description becomes 13 structured fields in one pass."],
+    outcome: ["A free-text track description becomes 13 structured fields in one pass, applying a working musician's knowledge."],
     aiAngle:
-      "Claude, through Anthropic tool use, reads the description and fills the structured metadata fields.",
+      "Claude tool use reads the description and fills the structured metadata fields, applying music production knowledge encoded in the prompt.",
     status: "Prototype",
   },
   {
