@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0b0b0f,55:3a2a06,100:F5B700&height=260&section=header&text=Les%20John%20Paul%20Oliver&fontSize=52&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=AI%20Engineer%20%E2%80%A2%20I%20build%20AI%20that%20makes%20businesses%20run&descAlignY=60&descSize=19" alt="Les John Paul Oliver, AI Engineer"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0b0b0f,55:3a2a06,100:F5B700&height=260&section=header&text=Les%20John%20Paul%20Oliver&fontSize=52&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=AI%20Solutions%20Architect%20%26%20Automation%20Engineer%20%E2%80%A2%20Urdaneta%2C%20Pangasinan%2C%20Philippines&descAlignY=60&descSize=19" alt="Les John Paul Oliver, AI Solutions Architect & Automation Engineer"/>
 
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3200&pause=900&color=F5B700&center=true&vCenter=true&width=820&height=60&lines=AI+agents+that+answer+leads+24%2F7;2-week+compliance+work+%E2%86%92+under+5+minutes;A+full+workday+of+invoicing+%E2%86%92+under+30+seconds;I+don't+train+LLMs.+I+ship+them+into+real+businesses.)](https://lesjohnpauloliver.dev)
 
@@ -24,7 +24,7 @@
 
 ## ⚡ What I do
 
-I'm an **AI engineer and freelancer** in the Philippines with 10 years of shipping production systems for an electric utility that serves **250,000+ member-consumers**. I don't build LLMs. I take Claude and other models and **wire them into the work a business already does**: answering customers, chasing leads, closing the books, and writing the reports nobody wants to write.
+I'm an **AI Solutions Architect & Automation Engineer** based in **Urdaneta City, Pangasinan, Philippines**, with 10 years of shipping production systems as a **Software Engineer** for an electric utility that serves **250,000+ member-consumers**. I don't build LLMs. I take Claude and other models and **wire them into the work a business already does**: answering customers, chasing leads, closing the books, and writing the reports nobody wants to write.
 
 <table>
 <tr>
