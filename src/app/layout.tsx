@@ -14,10 +14,10 @@ const jetbrainsMono = JetBrains_Mono({
 
 const siteUrl = "https://lesjohnpauloliver.dev";
 const siteName = "Les John Paul Oliver";
-const siteTitle = "Les John Paul Oliver | AI Engineer in the Philippines: AI Agents & Automation";
+const siteTitle = "Les John Paul Oliver | AI Solutions Architect & Automation Engineer, Pangasinan Philippines";
 // ponytail: kept under ~160 chars so Google shows it whole instead of cutting it mid-sentence
 const siteDescription =
-  "Freelance AI engineer in the Philippines. I build AI agents, chatbots, and automations that turn weeks of manual work into minutes. Remote, worldwide.";
+  "AI Solutions Architect & Automation Engineer in Urdaneta, Pangasinan, Philippines. I ship AI agents, chatbots, and automations that turn weeks into minutes. Remote, worldwide.";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -41,8 +41,16 @@ export const metadata: Metadata = {
   description: siteDescription,
   keywords: [
     "Les John Paul Oliver",
+    "AI Solutions Architect",
+    "Automation Engineer",
     "AI Engineer",
+    "AI Solutions Architect Philippines",
+    "AI Solutions Architect Pangasinan",
     "AI Engineer Philippines",
+    "AI Engineer Pangasinan",
+    "AI Engineer Urdaneta",
+    "AI Developer Pangasinan",
+    "Automation Engineer Philippines",
     "AI Engineer in the Philippines",
     "Filipino AI Engineer",
     "Hire AI Engineer Philippines",
@@ -59,6 +67,7 @@ export const metadata: Metadata = {
     "Claude API Developer",
     "AI Consultant for Small Business",
     "Workflow Automation",
+    "Software Engineer",
     "Full Stack Developer",
     "Next.js Developer",
     "Python Developer",
@@ -120,19 +129,39 @@ const jsonLd = {
       url: siteUrl,
       image: `${siteUrl}/images/lesjohnpaul.jpg`,
       email: "mailto:lesjohnpauloliver@gmail.com",
-      jobTitle: "AI Engineer",
+      jobTitle: "AI Solutions Architect & Automation Engineer",
       description: siteDescription,
-      hasOccupation: {
-        "@type": "Occupation",
-        name: "AI Engineer",
-        occupationLocation: { "@type": "Country", name: "Philippines" },
-        skills: "AI agents, LLM integration, chatbots, business process automation, full-stack development",
-      },
+      hasOccupation: [
+        {
+          "@type": "Occupation",
+          name: "AI Solutions Architect",
+          occupationLocation: { "@type": "City", name: "Urdaneta City", addressRegion: "Pangasinan", addressCountry: "Philippines" },
+          skills: "AI agents, LLM integration, AI architecture, solutions design, business process automation",
+        },
+        {
+          "@type": "Occupation",
+          name: "Automation Engineer",
+          occupationLocation: { "@type": "City", name: "Urdaneta City", addressRegion: "Pangasinan", addressCountry: "Philippines" },
+          skills: "Business process automation, workflow automation, integration engineering, ETL design",
+        },
+        {
+          "@type": "Occupation",
+          name: "Software Engineer",
+          occupationLocation: { "@type": "City", name: "Urdaneta City", addressRegion: "Pangasinan", addressCountry: "Philippines" },
+          skills: "Full-stack development, database administration, cloud architecture, system design",
+        },
+      ],
       worksFor: { "@type": "Organization", name: "PANELCO III (Pangasinan III Electric Cooperative)" },
       alumniOf: { "@type": "CollegeOrUniversity", name: "Pangasinan State University" },
       nationality: { "@type": "Country", name: "Philippines" },
-      homeLocation: { "@type": "Place", name: "Pangasinan, Philippines" },
-      address: { "@type": "PostalAddress", addressRegion: "Pangasinan", addressCountry: "PH" },
+      homeLocation: { "@type": "Place", name: "Urdaneta City, Pangasinan, Philippines", addressLocality: "Urdaneta City", addressRegion: "Pangasinan" },
+      address: { "@type": "PostalAddress", addressLocality: "Urdaneta City", addressRegion: "Pangasinan", addressCountry: "PH" },
+      areaServed: [
+        { "@type": "City", name: "Urdaneta City", addressRegion: "Pangasinan", addressCountry: "PH" },
+        { "@type": "State", name: "Pangasinan", addressCountry: "PH" },
+        { "@type": "Country", name: "Philippines" },
+        "Worldwide"
+      ],
       knowsLanguage: ["English", "Filipino"],
       sameAs: [
         "https://github.com/lesjohnpaul",
@@ -141,14 +170,18 @@ const jsonLd = {
       ],
       knowsAbout: [
         "Artificial Intelligence",
+        "AI Solutions Architecture",
+        "Automation Engineering",
         "AI Agents",
         "Large Language Models",
         "Chatbots",
         "Business Process Automation",
+        "Workflow Automation",
         "Claude API",
         "Prompt Engineering",
         "Software Engineering",
         "Solutions Architecture",
+        "System Integration",
         "Microsoft Azure",
         "Hybrid Cloud Migration",
         "Database Administration",
@@ -176,13 +209,13 @@ const jsonLd = {
     {
       "@type": "ProfessionalService",
       "@id": `${siteUrl}/#service`,
-      name: `${siteName}, AI Engineer`,
+      name: `${siteName}, AI Solutions Architect & Automation Engineer`,
       url: siteUrl,
       image: `${siteUrl}/images/lesjohnpaul.jpg`,
       description: siteDescription,
       email: "lesjohnpauloliver@gmail.com",
       areaServed: [{ "@type": "Country", name: "Philippines" }, "Worldwide"],
-      address: { "@type": "PostalAddress", addressRegion: "Pangasinan", addressCountry: "PH" },
+      address: { "@type": "PostalAddress", addressLocality: "Urdaneta City", addressRegion: "Pangasinan", addressCountry: "PH" },
       founder: { "@id": personId },
       hasOfferCatalog: {
         "@type": "OfferCatalog",

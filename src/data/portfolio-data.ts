@@ -5,12 +5,12 @@
 
 export const personalInfo = {
   name: "Les John Paul Oliver",
-  title: "AI Engineer",
+  title: "AI Solutions Architect & Automation Engineer",
   pitch: "I build AI systems and automations that solve real business problems, and I ship them fast.",
   tagline:
-    "AI engineer who ships fast. Production systems for a 250K-member utility cooperative by day, AI products by night.",
+    "AI Solutions Architect & Automation Engineer who ships fast. Production systems for a 250K-member utility cooperative by day, AI products by night.",
   email: "lesjohnpauloliver@gmail.com",
-  location: "Pangasinan, Philippines",
+  location: "Urdaneta City, Pangasinan, Philippines",
   availability: "Open to freelance projects & remote AI engineering roles",
   resumeUrl: "/les-john-paul-oliver-resume.pdf",
   social: {
@@ -906,14 +906,14 @@ export const exhibitDetails: Record<
 export const faqs = [
   {
     q: "Who is Les John Paul Oliver?",
-    a: "An AI engineer based in Pangasinan, Philippines. I build AI agents, chatbots, and business automation, with 10+ years shipping production systems for a utility that serves 250,000+ consumers.",
+    a: "AI Solutions Architect & Automation Engineer based in Urdaneta City, Pangasinan, Philippines. I build AI agents, chatbots, and business automation, with 10+ years shipping production systems for a utility that serves 250,000+ consumers.",
   },
   {
     q: "Can I hire you as a freelance AI engineer from outside the Philippines?",
     a: "Yes. I work remotely with clients worldwide, in English or Filipino. I'm on Philippine time (GMT+8) and arrange overlap hours with your time zone.",
   },
   {
-    q: "What can an AI engineer do for my business?",
+    q: "What can an AI Solutions Architect do for my business?",
     a: "Take busywork off your team. Examples I've shipped: an assistant that answers leads 24/7, tax compliance reporting cut from 2 weeks to under 5 minutes, and an invoice batch cut from a workday to under 30 seconds. AI steps keep a human review where money or records change.",
   },
   {
