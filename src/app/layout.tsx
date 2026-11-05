@@ -156,6 +156,12 @@ const jsonLd = {
       nationality: { "@type": "Country", name: "Philippines" },
       homeLocation: { "@type": "Place", name: "Urdaneta City, Pangasinan, Philippines", addressLocality: "Urdaneta City", addressRegion: "Pangasinan" },
       address: { "@type": "PostalAddress", addressLocality: "Urdaneta City", addressRegion: "Pangasinan", addressCountry: "PH" },
+      areaServed: [
+        { "@type": "City", name: "Urdaneta City", addressRegion: "Pangasinan", addressCountry: "PH" },
+        { "@type": "State", name: "Pangasinan", addressCountry: "PH" },
+        { "@type": "Country", name: "Philippines" },
+        "Worldwide"
+      ],
       knowsLanguage: ["English", "Filipino"],
       sameAs: [
         "https://github.com/lesjohnpaul",

@@ -8,9 +8,20 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
         disallow: "/api/",
       },
-      // Explicitly allow AI crawlers for better discoverability
+      // Explicitly allow AI/search crawlers for better discoverability
+      // Sources: OpenAI, Anthropic, Perplexity bot documentation
       {
-        userAgent: ["GPTBot", "ChatGPT-User", "ClaudeBot", "Google-Extended", "anthropic-ai", "cohere-ai"],
+        userAgent: [
+          "OAI-SearchBot",     // OpenAI SearchGPT
+          "GPTBot",            // OpenAI ChatGPT
+          "ChatGPT-User",      // OpenAI ChatGPT user requests
+          "Claude-SearchBot",  // Anthropic Claude search
+          "ClaudeBot",         // Anthropic Claude
+          "PerplexityBot",     // Perplexity AI
+          "Google-Extended",   // Google Gemini & Bard
+          "anthropic-ai",      // Anthropic crawlers
+          "cohere-ai",         // Cohere AI
+        ],
         allow: "/",
         disallow: "/api/",
       },
