@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MagneticElement } from "@/components/ui/magnetic-element";
+import { LogoMark } from "@/components/brand/logo-mark";
 import { useTheme } from "./theme-provider";
 import { navigationItems, personalInfo } from "@/data/portfolio-data";
 import { track } from "@vercel/analytics";
@@ -131,13 +132,11 @@ export function Navigation() {
               className="group flex items-center gap-3 font-display text-xl font-bold tracking-tight"
               aria-label="Home"
             >
-              <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 border border-primary/25 flex items-center justify-center overflow-hidden group-hover:border-primary/50 transition-colors">
-                <span className="text-gradient-gold font-bold text-lg">L</span>
-                <span
-                  aria-hidden
-                  className="absolute inset-0 bg-gradient-to-br from-primary/30 via-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                />
-              </div>
+              <LogoMark
+                size={40}
+                id="nav-logo"
+                className="shrink-0 transition-[filter] duration-500 group-hover:drop-shadow-[0_0_12px_rgba(224,185,74,0.45)]"
+              />
               <span className="hidden sm:flex flex-col leading-tight">
                 <span className="text-foreground text-[15px]">
                   {personalInfo.name.split(" ")[0]}

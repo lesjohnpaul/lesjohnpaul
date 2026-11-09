@@ -955,7 +955,7 @@ const list: CaseStudy[] = [
     status: "Live",
   },
   {
-    slug: "azure-hybrid-cloud-migration",
+    slug: "azure-hybrid-cloud-migration-in-progress",
     client: "250K-member electric cooperative",
     role: "Solo architect",
     summary:

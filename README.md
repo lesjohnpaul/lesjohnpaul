@@ -24,7 +24,7 @@
 
 ## ⚡ What I do
 
-I'm an **AI Solutions Architect & Automation Engineer** based in **Urdaneta City, Pangasinan, Philippines**, with 10 years of shipping production systems as a **Software Engineer** for an electric utility that serves **250,000+ member-consumers**. I don't build LLMs. I take Claude and other models and **wire them into the work a business already does**: answering customers, chasing leads, closing the books, and writing the reports nobody wants to write.
+I'm **Les John Paul Oliver**, an **AI Solutions Architect & Automation Engineer** based in **Urdaneta City, Pangasinan, Philippines**, with 10 years of shipping production systems as a **Software Engineer** for an electric utility that serves **250,000+ member-consumers**. I don't build LLMs. I take Claude and other models and **wire them into the work a business already does**: answering customers, chasing leads, closing the books, and writing the reports nobody wants to write.
 
 <table>
 <tr>
