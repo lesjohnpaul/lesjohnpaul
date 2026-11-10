@@ -228,7 +228,7 @@ export function HeroSection() {
                 <span data-hero-fade className="block mt-5 font-sans text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-foreground/90">
                   {personalInfo.title}
                 </span>
-                <span data-hero-fade className="block mt-3 font-sans text-lg md:text-xl text-muted-foreground">
+                <span data-hero-fade className="block mt-3 font-sans text-lg md:text-xl tracking-normal text-muted-foreground">
                   Based in <span className="text-foreground font-medium">Pangasinan, Philippines</span> · Software Engineer · Remote worldwide
                 </span>
               </h1>

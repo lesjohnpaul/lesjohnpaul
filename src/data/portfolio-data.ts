@@ -430,6 +430,8 @@ export type Project = {
   images?: string[];
   featured: boolean;
   private?: boolean;
+  // Unpublished: kept in the data but filtered out of every page, the sitemap, and llms.txt.
+  hidden?: boolean;
   // One-line business outcome shown on the card. Only defensible numbers.
   result?: string;
   // Case-study screenshots with what each screen does. Reviewed before publishing: no real
@@ -439,7 +441,7 @@ export type Project = {
 };
 
 // Order matters: the first featured project is the large hero card.
-export const projects: Project[] = [
+const allProjects: Project[] = [
   {
     title: "Sneaker Symphony: AI-Run Marketplace",
     description:
@@ -626,6 +628,7 @@ export const projects: Project[] = [
     image: "/images/projects/e-invoicing/01-executive.webp",
     featured: true,
     private: true,
+    hidden: true, // ponytail: unpublished on request; delete this line to bring it back
     images: ["/images/projects/e-invoicing/01-executive.webp", "/images/projects/e-invoicing/02-delivery.webp", "/images/projects/e-invoicing/03-batches.webp", "/images/projects/e-invoicing/04-batch-detail.webp", "/images/projects/e-invoicing/05-registry.webp"],
     gallery: [
       { src: "/images/projects/e-invoicing/01-executive.webp", w: 1600, h: 1000, caption: "Executive view: bills delivered digitally, delivery and open rates, and SMS spend at a glance." },
@@ -790,6 +793,8 @@ export const projects: Project[] = [
     featured: false,
   },
 ];
+
+export const projects = allProjects.filter((p) => !p.hidden);
 
 // Photo gallery: only real photos that exist on disk. Add more real shots
 // (speaking, datacenter, band) to /public/images/gallery/ as you collect them.

@@ -18,7 +18,7 @@ const FEATURED_TITLES = [
   "Enterprise IT Service Management Platform",
   "AI-Assisted Refund Automation",
   "Consumer Billing & Self-Service Portal",
-  "Consumer E-Invoicing & Notification Platform",
+  "Azure Hybrid Cloud Migration (In progress)",
   "Meter Reading Platform: Legacy Modernization",
 ];
 const featured = FEATURED_TITLES.map((t) => projects.find((p) => p.title === t)).filter(
