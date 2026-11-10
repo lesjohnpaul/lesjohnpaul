@@ -5,5 +5,9 @@ initBotId({
   protect: [
     { path: "/api/contact", method: "POST" },
     { path: "/api/chat", method: "POST" },
+    { path: "/api/studio/build", method: "POST" },
+    { path: "/api/studio/email", method: "POST" },
+    { path: "/api/studio/book", method: "POST" },
+    { path: "/api/studio/slots", method: "GET" },
   ],
 });

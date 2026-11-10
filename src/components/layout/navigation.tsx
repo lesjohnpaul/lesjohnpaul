@@ -21,6 +21,15 @@ import { navigationItems, personalInfo } from "@/data/portfolio-data";
 import { track } from "@vercel/analytics";
 import { cn } from "@/lib/utils";
 
+// Studio sits just before Contact (kept here so the shared data file is untouched)
+const navItems = (() => {
+  const studio = { label: "Studio", href: "/studio" };
+  const i = navigationItems.findIndex((it) => it.href === "#contact");
+  return i === -1
+    ? [...navigationItems, studio]
+    : [...navigationItems.slice(0, i), studio, ...navigationItems.slice(i)];
+})();
+
 type IndicatorRect = { left: number; width: number } | null;
 
 export function Navigation() {
@@ -87,7 +96,7 @@ export function Navigation() {
   // Recompute the active indicator when the route changes or on resize
   useEffect(() => {
     const compute = () => {
-      const idx = navigationItems.findIndex((it) => it.href === pathname);
+      const idx = navItems.findIndex((it) => it.href === pathname);
       if (idx === -1) {
         setActiveIndicator(null);
         return;
@@ -180,7 +189,7 @@ export function Navigation() {
               }}
             />
 
-            {navigationItems.map((item, i) => {
+            {navItems.map((item, i) => {
               const isActive = pathname === item.href;
               return (
                 <Link
@@ -193,7 +202,7 @@ export function Navigation() {
                     setHoverIndicator(measureItem(e.currentTarget))
                   }
                   className={cn(
-                    "relative z-10 px-4 py-1.5 text-sm font-medium rounded-full transition-colors duration-200",
+                    "relative z-10 whitespace-nowrap px-3 xl:px-4 py-1.5 text-sm font-medium rounded-full transition-colors duration-200",
                     isActive
                       ? "text-primary"
                       : "text-muted-foreground hover:text-foreground"
@@ -412,7 +421,7 @@ function MobileMenu({
           {/* Items */}
           <nav className="flex-1 overflow-y-auto px-2 py-4">
             <ul className="flex flex-col">
-              {navigationItems.map((item, i) => {
+              {navItems.map((item, i) => {
                 const isActive = pathname === item.href;
                 return (
                   <li
@@ -433,7 +442,7 @@ function MobileMenu({
                       href={item.href}
                       onClick={onClose}
                       className={cn(
-                        "group relative flex items-center gap-4 rounded-2xl px-4 py-4 transition-all duration-300",
+                        "group relative flex items-center gap-4 rounded-2xl px-4 py-2.5 transition-all duration-300",
                         "hover:bg-muted/50 active:scale-[0.99]",
                         isActive && "bg-primary/8"
                       )}
@@ -483,7 +492,7 @@ function MobileMenu({
             )}
             style={{
               transitionDelay: open
-                ? `${120 + navigationItems.length * 60}ms`
+                ? `${120 + navItems.length * 60}ms`
                 : "0ms",
             }}
           >

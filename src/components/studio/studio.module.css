@@ -1,0 +1,447 @@
+/* Studio prototype surface. Always dark obsidian glass, whatever the site theme,
+   because the prototype is meant to look like a real app on a real screen. */
+
+.root {
+  --ink: oklch(0.96 0.005 260);
+  --muted: oklch(0.74 0.015 260);
+  --faint: oklch(0.62 0.015 260); /* 0.58 sat at ~4.4:1 on the glass; 0.62 clears AA for 12px text */
+  --gold: var(--primary, oklch(0.78 0.16 85));
+  --gold-ink: oklch(0.16 0.015 260);
+  --line: rgb(255 255 255 / 0.1);
+  --tile: rgb(255 255 255 / 0.04);
+  --tile-hover: rgb(255 255 255 / 0.07);
+  --ok: oklch(0.8 0.13 150);
+  --warn: oklch(0.8 0.14 62);
+  /* Motion: strong ease-out for anything entering or responding to a press; ease-in-out for on-screen movement. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  /* Elevation, lit from above: a 1px top highlight, a tight contact shadow and a soft ambient one. Page cards sit
+     highest, inner tiles lower, raised controls lower still; pressed controls sink below the surface. */
+  --elev-card:
+    inset 0 1px 0 rgb(255 255 255 / 0.12),
+    0 1px 1px rgb(0 0 0 / 0.4),
+    0 2px 6px -2px rgb(0 0 0 / 0.35),
+    0 28px 56px -24px rgb(0 0 0 / 0.75);
+  --elev-card-hover:
+    inset 0 1px 0 rgb(255 255 255 / 0.14),
+    0 1px 1px rgb(0 0 0 / 0.4),
+    0 4px 10px -3px rgb(0 0 0 / 0.4),
+    0 36px 64px -24px rgb(0 0 0 / 0.8);
+  --elev-tile:
+    inset 0 1px 0 rgb(255 255 255 / 0.08),
+    0 1px 0 rgb(0 0 0 / 0.45),
+    0 8px 18px -10px rgb(0 0 0 / 0.7);
+  --elev-raised:
+    inset 0 1px 0 rgb(255 255 255 / 0.1),
+    0 1px 2px rgb(0 0 0 / 0.5),
+    0 3px 8px -4px rgb(0 0 0 / 0.45);
+  --elev-pressed: inset 0 1px 3px rgb(0 0 0 / 0.45);
+  position: relative;
+  min-width: 0;
+  isolation: isolate;
+  color: var(--ink);
+  font-family: var(--font-body);
+  color-scheme: dark;
+}
+
+/* Soft gold light behind the glass so the blur has something to catch (one warm source, no second colour blob). */
+.root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 1rem;
+  pointer-events: none;
+  background: radial-gradient(40% 50% at 15% 0%, color-mix(in oklch, var(--gold) 12%, transparent), transparent 70%);
+}
+
+/* In a layer so Tailwind's `absolute`/`fixed` (utilities layer) still win; the ring below needs a positioned box. */
+@layer components {
+  .glass { position: relative; }
+}
+
+.glass {
+  /* Dark tint under the frost keeps small text readable over the scene's bright light sprites. */
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgb(255 255 255 / 0.05), transparent 60%),
+    linear-gradient(rgb(255 255 255 / 0.06), rgb(255 255 255 / 0.03)),
+    rgb(10 12 19 / 0.62);
+  border: 1px solid rgb(255 255 255 / 0.07);
+  backdrop-filter: blur(18px) saturate(150%); /* no -webkit- twin: Lightning CSS merges the pair and drops the standard one */
+  box-shadow: var(--elev-card);
+}
+/* Gradient hairline just inside the border: bright where the light hits the top edge, quieter down the sides.
+   inset: 0 = the padding box, so `overflow: hidden` hosts (prototype frame, proof cards) can't clip it away. */
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.3),
+    rgb(255 255 255 / 0.12) 25%,
+    rgb(255 255 255 / 0.07) 70%,
+    rgb(255 255 255 / 0.12)
+  );
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+
+/* Inner surfaces: lighter than .glass so nested panels don't stack into fog, and one step lower in elevation. */
+.tile {
+  background: linear-gradient(rgb(255 255 255 / 0.055), rgb(255 255 255 / 0.02));
+  border: 1px solid var(--line);
+  box-shadow: var(--elev-tile);
+}
+
+.root :focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* In-screen labels: sentence case, so each section keeps at most one ALL-CAPS eyebrow. */
+.label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.muted { color: var(--muted); }
+.faint { color: var(--faint); }
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 999px;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  white-space: nowrap;
+  border: 1px solid var(--line);
+  background: rgb(255 255 255 / 0.05);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
+  color: var(--muted);
+}
+.pillGold {
+  border-color: color-mix(in oklch, var(--gold) 45%, transparent);
+  background: color-mix(in oklch, var(--gold) 14%, transparent);
+  color: var(--gold);
+}
+.dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+/* Buttons: every pressable scales a touch on press. Colour changes use plain ease; the press uses the strong ease-out. */
+.press {
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms var(--ease-out);
+}
+.press:active:not(:disabled, [aria-disabled="true"]) { transform: scale(0.97); }
+
+.primary {
+  background-color: var(--gold);
+  /* Top sheen + a darker bottom lip: reads as a lit, raised key rather than a flat swatch. */
+  background-image: linear-gradient(180deg, rgb(255 255 255 / 0.2), rgb(255 255 255 / 0) 55%);
+  color: var(--gold-ink);
+  font-weight: 600;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.35),
+    inset 0 -1px 0 rgb(0 0 0 / 0.18),
+    0 1px 2px rgb(0 0 0 / 0.45),
+    0 8px 24px -12px color-mix(in oklch, var(--gold) 70%, transparent);
+}
+.primary:active:not(:disabled) {
+  box-shadow:
+    inset 0 1px 3px rgb(0 0 0 / 0.25),
+    0 1px 1px rgb(0 0 0 / 0.4);
+}
+
+.interactive {
+  background: var(--tile);
+  border: 1px solid var(--line);
+  box-shadow: var(--elev-raised);
+}
+.interactive:active:not(:disabled, [aria-disabled="true"]) { box-shadow: var(--elev-pressed); }
+
+.selected {
+  background: color-mix(in oklch, var(--gold) 12%, transparent);
+  border-color: color-mix(in oklch, var(--gold) 55%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in oklch, var(--gold) 22%, transparent), 0 1px 2px rgb(0 0 0 / 0.45);
+}
+
+/* Hover only where a real pointer can hover: on touch, a tap would leave the hover look stuck. */
+@media (hover: hover) and (pointer: fine) {
+  .primary:hover:not(:disabled) { background-color: color-mix(in oklch, var(--gold) 88%, white); }
+  .interactive:hover {
+    background: var(--tile-hover);
+    border-color: rgb(255 255 255 / 0.18);
+  }
+  .selected:hover {
+    background: color-mix(in oklch, var(--gold) 16%, transparent);
+    border-color: color-mix(in oklch, var(--gold) 65%, transparent);
+  }
+  .tab:not(:disabled):hover { color: var(--ink); }
+  .field:hover { border-color: rgb(255 255 255 / 0.2); }
+  .pin:hover .pinHead { transform: translateY(-2px); }
+  .card:hover { transform: translateY(-2px); box-shadow: var(--elev-card-hover); }
+}
+
+/* Proof cards: a 200 ms lift on hover; the press itself runs at the shared 160 ms (the :active rule's transition). */
+.card {
+  transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+}
+.card:active {
+  transform: scale(0.97);
+  transition: transform 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+}
+
+/* Tabs */
+.tab {
+  position: relative;
+  color: var(--muted);
+}
+.tab[aria-selected="true"] { color: var(--ink); background: rgb(255 255 255 / 0.07); }
+.tab[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gold);
+  box-shadow: 0 0 10px color-mix(in oklch, var(--gold) 55%, transparent);
+}
+.tab:disabled { color: var(--faint); cursor: progress; }
+
+.shimmer {
+  background: linear-gradient(90deg, rgb(255 255 255 / 0.04), rgb(255 255 255 / 0.1), rgb(255 255 255 / 0.04));
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+/* Form controls */
+.field {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 0.625rem;
+  padding: 0 0.875rem;
+  background: rgb(0 0 0 / 0.25);
+  border: 1px solid var(--line);
+  /* Inset: fields sit into the surface, buttons sit on top of it. */
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35), 0 1px 0 rgb(255 255 255 / 0.04);
+  color: var(--ink);
+  font-size: 1rem; /* 16px: iOS Safari zooms into anything smaller on focus */
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+.field::placeholder { color: var(--faint); }
+.field:focus { border-color: color-mix(in oklch, var(--gold) 70%, transparent); outline: none; }
+.field:focus-visible { outline: 2px solid color-mix(in oklch, var(--gold) 40%, transparent); outline-offset: 1px; }
+select.field { appearance: none; padding-right: 2.25rem; }
+select.field option { background: oklch(0.18 0.015 260); color: var(--ink); }
+
+/* Toast + entrance */
+.toast { animation: rise 220ms var(--ease-out); }
+.enter { animation: rise 260ms var(--ease-out); }
+/* Transform-only: the server-rendered h1 (the LCP element) must be visible on first paint. */
+.enterIn { animation: riseIn 260ms var(--ease-out); }
+@keyframes riseIn { from { transform: translateY(6px); } to { transform: none; } }
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes fade { from { opacity: 0; } }
+
+/* State swaps (skeleton -> content, form -> sent): a 2px blur bridges the two states so they never read as two
+   objects overlapping. No forward fill: a lingering filter would make this a backdrop root and kill the glass blur. */
+.swap { animation: swap 220ms var(--ease-out); }
+@keyframes swap { from { opacity: 0; filter: blur(2px); } to { opacity: 1; filter: none; } }
+
+/* A card that just moved: a gold ring that fades out (opacity on a pseudo-element, not an animated box-shadow). */
+.flash { position: relative; }
+.flash::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: 0 0 0 2px color-mix(in oklch, var(--gold) 70%, transparent);
+  opacity: 0;
+  animation: flash 300ms var(--ease-out);
+}
+@keyframes flash { from { opacity: 1; } to { opacity: 0; } }
+
+/* Stagger: children rise in 50 ms apart, only while their container is entering: a screen the first time it's shown,
+   the trace panel as it opens, the proof grid as it scrolls into view. Decorative only: nothing waits on it. */
+:is([data-enter], .traceOpen) .stagger > *,
+.stagger[data-reveal="in"] > * {
+  animation: rise 260ms var(--ease-out) backwards; /* backwards: hidden during the delay, nothing left behind after */
+}
+:is([data-enter], .traceOpen) .stagger > :nth-child(2), .stagger[data-reveal="in"] > :nth-child(2) { animation-delay: 50ms; }
+:is([data-enter], .traceOpen) .stagger > :nth-child(3), .stagger[data-reveal="in"] > :nth-child(3) { animation-delay: 100ms; }
+:is([data-enter], .traceOpen) .stagger > :nth-child(4), .stagger[data-reveal="in"] > :nth-child(4) { animation-delay: 150ms; }
+:is([data-enter], .traceOpen) .stagger > :nth-child(5), .stagger[data-reveal="in"] > :nth-child(5) { animation-delay: 200ms; }
+:is([data-enter], .traceOpen) .stagger > :nth-child(n + 6), .stagger[data-reveal="in"] > :nth-child(n + 6) { animation-delay: 250ms; }
+/* Before the proof grid is in view (JS only; without JS it simply shows). */
+.stagger[data-reveal="wait"] > * { opacity: 0; }
+
+/* Map */
+.mapCanvas {
+  background:
+    radial-gradient(60% 70% at 30% 30%, oklch(0.24 0.03 230 / 0.9), transparent 70%),
+    oklch(0.15 0.015 255);
+}
+.pinHead {
+  transition: transform 160ms var(--ease-out), background-color 160ms ease;
+}
+.pin:active .pinHead { transform: scale(0.97); }
+.pulse { animation: pulse 2s ease-out infinite; }
+@keyframes pulse {
+  from { transform: scale(0.6); opacity: 0.7; }
+  to { transform: scale(2.2); opacity: 0; }
+}
+
+/* Static-tier backdrop: no canvas, just the gold glow on obsidian, darkening toward the edges. */
+.poster {
+  background:
+    radial-gradient(55% 45% at 50% 30%, color-mix(in oklch, var(--gold) 18%, transparent), transparent 70%),
+    radial-gradient(120% 90% at 50% 40%, transparent 55%, rgb(0 0 0 / 0.5)),
+    #0a0c13;
+}
+
+/* Chart */
+.chartLine { transition: opacity 200ms ease; }
+
+.warn { color: var(--warn); }
+
+/* "How it's built": an inline collapsible card under the result below 80rem, a fixed side panel from 80rem (below that a
+   22rem panel can't sit beside the 48rem column without covering it). Hidden states are also inert. */
+.trace {
+  display: grid;
+  grid-template-rows: 0fr;
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+  visibility: hidden;
+  /* Closing (180 ms) is quicker than opening (240 ms, on .traceOpen): the system responding, not the user deciding. */
+  transition:
+    grid-template-rows 180ms var(--ease-out),
+    visibility 0s 180ms;
+}
+.trace > * { min-height: 0; overflow: hidden; }
+/* The fade lives on the glass panel itself, not the wrapper: opacity on an ancestor would make it a backdrop root and
+   the blur would pop in at the end instead of fading with the panel. */
+.trace .glass {
+  opacity: 0;
+  transition: opacity 180ms var(--ease-out);
+}
+.traceOpen {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition:
+    grid-template-rows 240ms var(--ease-out),
+    visibility 0s;
+}
+.traceOpen .glass {
+  opacity: 1;
+  transition: opacity 240ms var(--ease-out);
+}
+/* Closed with Escape: a keyboard action, so no animation at all. */
+.trace[data-instant],
+.trace[data-instant] .glass { transition: none; }
+@media (min-width: 40rem) { .trace { padding: 0 1.5rem; } }
+@media (min-width: 80rem) {
+  .trace {
+    position: fixed;
+    top: 5rem;
+    right: 1rem;
+    z-index: 20;
+    width: 22rem;
+    margin: 0;
+    padding: 0;
+    grid-template-rows: 1fr;
+    transform: translateX(16px);
+    transition:
+      transform 180ms var(--ease-out),
+      visibility 0s 180ms;
+  }
+  .trace > * { max-height: calc(100dvh - 6rem); overflow-y: auto; border-radius: 1rem; }
+  .traceOpen {
+    transform: none;
+    transition:
+      transform 240ms var(--ease-out),
+      visibility 0s;
+  }
+  .trace[data-instant] { transition: none; }
+  /* Slide the page left just enough to clear the panel (0 from 96rem up). Transform only: no reflow, no CLS.
+     On-screen movement, so ease-in-out. */
+  .shift { transition: transform 240ms var(--ease-in-out); }
+}
+/* Only where the shift is non-zero: a no-op transform would still create a containing block and stacking context. */
+@media (min-width: 80rem) and (max-width: 95.99rem) {
+  .shifted { transform: translateX(calc(50vw - 48rem)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root *,
+  .root *::before,
+  .root *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  /* Entrances and swaps keep a short fade (comprehension), with no movement and no stagger delays. */
+  .root .enter,
+  .root .toast,
+  .root .swap,
+  .root :is([data-enter], .traceOpen) .stagger > *,
+  .root .stagger[data-reveal="in"] > * {
+    animation: fade 200ms ease !important;
+  }
+  .root .press:active,
+  .root .card:active,
+  .root .card:hover,
+  .root .pin:hover .pinHead,
+  .root .pin:active .pinHead { transform: none; }
+}
+
+/* Reduced motion: the trace panel still fades, but never moves or unfolds. */
+@media (prefers-reduced-motion: reduce) {
+  .root .trace {
+    transform: none !important;
+    transition: visibility 0s 240ms !important;
+  }
+  .root .trace.traceOpen { transition: none !important; }
+  .root .trace .glass { transition: opacity 240ms ease !important; }
+  .root .trace[data-instant],
+  .root .trace[data-instant] .glass { transition: none !important; }
+}
+
+/* Proof carousel: swipe only, no native scrollbar band. */
+.track { scrollbar-width: none; }
+.track::-webkit-scrollbar { display: none; }

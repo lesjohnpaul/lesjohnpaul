@@ -281,6 +281,22 @@ export function HeroSection() {
                   </Link>
                 </Button>
               </MagneticElement>
+
+              <MagneticElement strength={0.4}>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="rounded-none border border-primary bg-transparent px-8 py-[23px] text-base font-semibold text-primary transition-[box-shadow,background-color,scale] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-primary/10 hover:text-primary hover:shadow-[0_0_24px_-4px_var(--primary)] active:scale-[0.97] motion-reduce:active:scale-100"
+                  asChild
+                >
+                  <Link href="/studio" onClick={() => track("cta_click", { location: "hero-studio" })}>
+                    <span className="flex items-center gap-2">
+                      Try it: build your system
+                      <ArrowRight className="w-5 h-5" aria-hidden />
+                    </span>
+                  </Link>
+                </Button>
+              </MagneticElement>
             </div>
           </div>
 

@@ -42,8 +42,8 @@ Anti-goals (a failure even if it technically works)
 - Slow or janky on phones.
 - Jargon a business owner can't follow.
 - Live AI generation that can be abused or blows the budget.
-- **Any mention of Fiesta Gas or any detail from that engagement** (name, brand, places, screens, numbers, timeline).
-  There is no NDA. Only the generic practice may appear. This applies to copy, examples, sample data, demo
+- **Any mention of any past private client** (its name, brand, places, people, screens, numbers or timeline).
+  Only the generic discovery-call → prototype practice may appear. This applies to copy, examples, sample data, demo
   prototypes, Pao's knowledge base and alt text.
 
 ## 4. Experience
@@ -135,10 +135,11 @@ Aimed at recruiters; must not distract business owners.
 
 ## 8. Privacy (decided)
 
-- The visitor's build is held for **30 minutes** (so they can email it), then deleted. Only "Email me this
-  prototype" keeps it, for 30 days, with their email, and notifies Les as a lead (see 12a).
+- The visitor's build is held for **30 minutes** (so they can email it or share it when they book), then deleted.
+  Only "Email me this prototype" or a booking keeps it, for 30 days, and Les is notified (see 12a, 12b).
 - Analytics count events only, never content.
-- One line under the input says this. Aligns with RA 10173.
+- One line under the input says this, exactly: "Your build is kept for 30 minutes so you can email it or share it
+  when you book, then deleted." Aligns with RA 10173.
 
 ## 9. Measurement (decided)
 
@@ -190,8 +191,7 @@ Vercel Analytics (already installed) funnel events:
   browser can't tamper with what gets stored). "Email me this prototype" asks for email only, promotes the build to
   30-day storage, and sends a fixed-template email containing only the business name and an unlisted link to
   `/studio/p/[id]` (noindex, 2D glass viewer with light 3D). Lead goes to Les via the existing notify stack.
-  Own limit: 2 emails per device per day. Privacy line reworded: "Your build is kept for 30 minutes so you can email
-  it to yourself, then deleted."
+  Own limit: 2 emails per device per day. Privacy line: see section 8.
 
 ## 12b. Les's answers after builder review (2026-11-10)
 
@@ -204,6 +204,13 @@ Vercel Analytics (already installed) funnel events:
   atomically in Redis like the chat budget), in addition to the chat's existing `CHAT_DAILY_BUDGET_USD`. Studio
   traffic can never shut down the chat. One build ≈ one Haiku call ≈ $0.005–0.01, so ~200–400 builds/day before
   fallback examples take over. Worst case ≈ $60/month if maxed every day; expected far lower.
+
+## 12c. Addendum from Les's design review (2026-11-10)
+
+- A 7th, industry-specific screen type **`odontogram`**: a digital dental chart per patient (FDI numbering,
+  conditions with a colour legend, tap a tooth to change it). The model uses it only for dental businesses and
+  always includes it for them. A dental fallback example includes it. Les: dentists' charts are a real pain point.
+- Sample money in pesos (₱); kanban cards in the last column stay put.
 
 ## 13. Left to the builder
 

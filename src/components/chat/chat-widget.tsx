@@ -228,9 +228,10 @@ export function ChatWidget() {
                     <Link
                       key={l.href}
                       href={l.href}
+                      onClick={l.href.startsWith("/studio") ? () => track("studio_from_chat") : undefined}
                       className="mt-2 flex items-center justify-between gap-2 rounded-xl border border-primary/30 px-3 py-2 text-xs font-medium text-primary hover:bg-primary/10"
                     >
-                      Open the {l.label}
+                      {l.label}
                       <ArrowUpRight className="h-3.5 w-3.5 shrink-0" aria-hidden />
                     </Link>
                   ))}

@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // ponytail: no lastModified; a build-time date on every URL teaches Google to ignore it
   return [
     { url: siteUrl, changeFrequency: "monthly", priority: 1 },
+    { url: `${siteUrl}/studio`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${siteUrl}/gallery`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${siteUrl}/les-john-paul-oliver-resume.pdf`, changeFrequency: "monthly", priority: 0.5 },
     { url: `${siteUrl}/pandora`, changeFrequency: "yearly", priority: 0.3 },

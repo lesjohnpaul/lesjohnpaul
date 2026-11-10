@@ -39,5 +39,5 @@ export function caseStudyLinks(reply: string, exclude?: string) {
     (n) => n.slug !== exclude && (lower.includes(n.title) || new RegExp(`\\b${escape(n.short)}\\b`).test(reply)),
   )
     .slice(0, 2)
-    .map((n) => ({ label: `${n.short} case study`, href: `/work/${n.slug}` }));
+    .map((n) => ({ label: `Open the ${n.short} case study`, href: `/work/${n.slug}` }));
 }

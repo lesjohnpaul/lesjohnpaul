@@ -2,8 +2,7 @@ import type Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { notifyLead, sendAutoReply } from "@/lib/notify";
 import { rateLimit } from "@/lib/guards";
-
-const CAL_API = "https://api.cal.com/v2";
+import { createBooking, fetchSlots, isTimeZone, slotLabel } from "@/lib/cal";
 
 export const TOOLS: Anthropic.Tool[] = [
   {
@@ -58,14 +57,7 @@ export const TOOLS: Anthropic.Tool[] = [
   },
 ];
 
-const tz = z.string().max(64).refine((v) => {
-  try {
-    new Intl.DateTimeFormat("en-US", { timeZone: v });
-    return true;
-  } catch {
-    return false;
-  }
-}, "unknown time zone");
+const tz = z.string().max(64).refine(isTimeZone, "unknown time zone");
 
 const SlotsInput = z.object({ time_zone: tz, days_ahead: z.number().int().min(1).max(14).optional() });
 const BookInput = z.object({
@@ -88,34 +80,8 @@ const LeadInput = z.object({
 // chips: tap-to-reply options shown to the visitor, taken from real tool data (never model-invented).
 export type ToolOutcome = { content: string; isError?: boolean; event?: "booked" | "lead"; chips?: string[] };
 
-const label = (iso: string, timeZone: string) =>
-  new Intl.DateTimeFormat("en-US", { timeZone, weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short" }).format(new Date(iso));
-
-function calHeaders(version: string) {
-  const key = process.env.CAL_API_KEY;
-  if (!key || !process.env.CAL_EVENT_TYPE_ID) throw new Error("Cal.com not configured");
-  return { Authorization: `Bearer ${key}`, "cal-api-version": version, "content-type": "application/json" };
-}
-
 async function getSlots(input: z.infer<typeof SlotsInput>): Promise<ToolOutcome> {
-  const now = new Date();
-  const end = new Date(now.getTime() + (input.days_ahead ?? 7) * 86_400_000);
-  const qs = new URLSearchParams({
-    eventTypeId: process.env.CAL_EVENT_TYPE_ID ?? "",
-    start: now.toISOString(),
-    end: end.toISOString(),
-    timeZone: input.time_zone,
-  });
-  const res = await fetch(`${CAL_API}/slots?${qs}`, { headers: calHeaders("2024-09-04") });
-  if (!res.ok) throw new Error(`cal slots ${res.status}`);
-  const body: { data: Record<string, { start: string }[]> } = await res.json();
-
-  // At most 2 per day and 6 total: a spread of days, and few enough that the model offers all of
-  // them, so the tap-to-pick buttons match the times in its reply.
-  const slots = Object.values(body.data ?? {})
-    .flatMap((day) => day.slice(0, 2))
-    .slice(0, 6)
-    .map((s) => ({ start: s.start, label: label(s.start, input.time_zone) }));
+  const slots = await fetchSlots(input.time_zone, input.days_ahead ?? 7);
   if (!slots.length) return { content: "No open times in that range. Suggest a longer range or the contact form." };
   return { content: JSON.stringify(slots), chips: slots.map((s) => s.label) };
 }
@@ -131,22 +97,16 @@ async function book(input: z.infer<typeof BookInput>, ip: string): Promise<ToolO
     return { content: "Booking limit reached for today. Suggest the contact form instead.", isError: true };
   }
 
-  const res = await fetch(`${CAL_API}/bookings`, {
-    method: "POST",
-    headers: calHeaders("2026-02-25"),
-    body: JSON.stringify({
-      start: new Date(input.start).toISOString(),
-      eventTypeId: Number(process.env.CAL_EVENT_TYPE_ID),
-      attendee: { name: input.name, email: input.email, timeZone: input.time_zone },
-      metadata: { source: "pao-assistant", problem: input.problem, company: input.company ?? "" },
-    }),
+  const ok = await createBooking({
+    start: input.start,
+    timeZone: input.time_zone,
+    name: input.name,
+    email: input.email,
+    metadata: { source: "pao-assistant", problem: input.problem, company: input.company ?? "" },
   });
-  if (!res.ok) {
-    console.error("[chat] cal booking failed", res.status, await res.text().catch(() => ""));
-    return { content: "The calendar couldn't confirm that time (it may have just been taken). Offer other slots.", isError: true };
-  }
+  if (!ok) return { content: "The calendar couldn't confirm that time (it may have just been taken). Offer other slots.", isError: true };
 
-  const when = label(input.start, input.time_zone);
+  const when = slotLabel(input.start, input.time_zone);
   await notifyLead({
     source: "booking",
     name: input.name,
