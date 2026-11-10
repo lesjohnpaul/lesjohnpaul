@@ -51,3 +51,6 @@ public/images/pao/pao-reference.png
 # agent config files
 .claude-flow/
 .mcp.json
+
+# brainstorm mockups
+.superpowers/
