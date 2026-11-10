@@ -1,0 +1,9 @@
+{
+  "dashboard": { "file": "dashboard-B.glb", "job": "efe26fb1-b642-4ce6-a474-c02c7dfa9967" },
+  "table": { "file": "table-B.glb", "job": "2b4a9369-cf7a-48de-b559-8b5de061efe3" },
+  "form": { "file": "form-A.glb", "job": "ab07d22c-f94f-4803-afb1-b692050751bd" },
+  "map": { "file": "map-B.glb", "job": "eacba465-2723-42c8-881c-e4cfeb321ca3" },
+  "booking": { "file": "booking-B.glb", "job": "1c4d3163-6316-4011-9024-69e1f6fc28fb" },
+  "kanban": { "file": "kanban-A.glb", "job": "6443c030-1fa5-42d5-a9cb-d086b19dec5a" },
+  "odontogram": { "file": "tooth-A.glb", "job": "2a293f64-e940-4bac-bc27-4df4c3a0e2e2" }
+}

@@ -2,7 +2,7 @@ import { Resend } from "resend";
 import { personalInfo } from "@/data/portfolio-data";
 
 export type Lead = {
-  source: "contact form" | "chat assistant" | "booking";
+  source: "contact form" | "chat assistant" | "booking" | "studio";
   name: string;
   email: string;
   message: string;
@@ -83,4 +83,34 @@ export async function sendAutoReply(lead: Lead): Promise<void> {
     ].join("\n"),
   });
   if (error) console.error("[notify] auto-reply failed:", error.message);
+}
+
+/** Emails the visitor their prototype link. Fixed template + business name + link only. False if Resend is missing or fails. */
+export async function sendPrototypeEmail(to: string, business: string, url: string): Promise<boolean> {
+  if (!resend) return false;
+  try {
+    const name = oneLine(business);
+    const { error } = await resend.emails.send({
+      from: FROM,
+      to,
+      replyTo: personalInfo.email,
+      subject: `Your prototype: ${name}`,
+      text: [
+        "Hi,",
+        "",
+        `Here's the prototype I built for ${name}: ${url}`,
+        "It's kept for 30 days.",
+        "",
+        "If you'd like me to build the real thing, book a short discovery call: https://lesjohnpauloliver.dev/studio#book",
+        "",
+        "Les John Paul Oliver",
+        "AI Engineer · lesjohnpauloliver.dev",
+      ].join("\n"),
+    });
+    if (error) console.error("[notify] prototype email failed:", error.message);
+    return !error;
+  } catch (err) {
+    console.error("[notify] prototype email failed:", err instanceof Error ? err.message : "unknown");
+    return false;
+  }
 }

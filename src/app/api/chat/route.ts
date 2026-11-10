@@ -3,6 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
 import { clientIp, isBot, rateLimit, redis } from "@/lib/guards";
 import { checkMessage, normalizeQuestion, REPLIES } from "@/lib/chat/guard";
+import { studioLink } from "@/lib/chat/handoff";
 import { caseStudyLinks, studyContext } from "@/lib/chat/page-context";
 import { SYSTEM_PROMPT } from "@/lib/chat/knowledge";
 import { TOOLS, runTool } from "@/lib/chat/tools";
@@ -95,7 +96,7 @@ export async function POST(req: Request) {
   if (cached) {
     await db.set(historyKey, [...history, { role: "user", content: userContent }, { role: "assistant", content: cached }], { ex: HISTORY_TTL_S });
     await db.hincrby(statsKey, "cachedAnswers", 1).catch(() => {});
-    const links = caseStudyLinks(cached, study?.slug);
+    const links = [...studioLink(verdict.text), ...caseStudyLinks(cached, study?.slug)].slice(0, 3);
     const events: Event[] = [{ t: "text", v: cached }, ...(links.length ? [{ t: "links" as const, v: links }] : []), { t: "done" }];
     return new Response(new Blob(events.map(line)).stream(), {
       headers: { "content-type": "application/x-ndjson", "cache-control": "no-store" },
@@ -173,7 +174,7 @@ export async function POST(req: Request) {
           messages.push({ role: "user", content: results });
         }
         await db.set(historyKey, messages, { ex: HISTORY_TTL_S });
-        const links = caseStudyLinks(reply, study?.slug);
+        const links = [...studioLink(verdict.text), ...caseStudyLinks(reply, study?.slug)].slice(0, 3);
         if (links.length) send({ t: "links", v: links });
         // Only a plain one-round answer is safe to replay; anything that touched a tool is personal.
         if (answerKey && finished && !usedTools && reply.trim()) await db.set(answerKey, reply, { ex: ANSWER_TTL_S });
