@@ -14,7 +14,8 @@ const jetbrainsMono = JetBrains_Mono({
 
 const siteUrl = "https://lesjohnpauloliver.dev";
 const siteName = "Les John Paul Oliver";
-const siteTitle = "Les John Paul Oliver | AI Engineer in the Philippines · Urdaneta, Pangasinan";
+// ponytail: under ~60 chars; Bing flags longer titles and both engines truncate them
+const siteTitle = "Les John Paul Oliver | AI Engineer, Pangasinan, Philippines";
 // ponytail: kept under ~160 chars so Google shows it whole instead of cutting it mid-sentence
 const siteDescription =
   "AI engineer in Urdaneta, Pangasinan, Philippines. I ship AI agents, chatbots, and automations that turn weeks into minutes, for North Luzon and clients worldwide.";
