@@ -1,0 +1,22 @@
+# After every successful Vercel production deploy, tell Bing (and other IndexNow engines)
+# that the sitemap's URLs changed. ChatGPT search leans on Bing's index.
+name: IndexNow
+
+on:
+  deployment_status:
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # No install needed: the script only uses Node's built-in fetch.
+      - run: node scripts/indexnow.mjs

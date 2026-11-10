@@ -14,10 +14,10 @@ const jetbrainsMono = JetBrains_Mono({
 
 const siteUrl = "https://lesjohnpauloliver.dev";
 const siteName = "Les John Paul Oliver";
-const siteTitle = "Les John Paul Oliver | AI Solutions Architect & Automation Engineer, Pangasinan Philippines";
+const siteTitle = "Les John Paul Oliver | AI Engineer in the Philippines · Urdaneta, Pangasinan";
 // ponytail: kept under ~160 chars so Google shows it whole instead of cutting it mid-sentence
 const siteDescription =
-  "AI Solutions Architect & Automation Engineer in Urdaneta, Pangasinan, Philippines. I ship AI agents, chatbots, and automations that turn weeks into minutes. Remote, worldwide.";
+  "AI engineer in Urdaneta, Pangasinan, Philippines. I ship AI agents, chatbots, and automations that turn weeks into minutes, for North Luzon and clients worldwide.";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -129,7 +129,7 @@ const jsonLd = {
       url: siteUrl,
       image: `${siteUrl}/images/lesjohnpaul.jpg`,
       email: "mailto:lesjohnpauloliver@gmail.com",
-      jobTitle: "AI Solutions Architect & Automation Engineer",
+      jobTitle: "AI Engineer",
       description: siteDescription,
       hasOccupation: [
         {
@@ -159,6 +159,8 @@ const jsonLd = {
       areaServed: [
         { "@type": "City", name: "Urdaneta City", addressRegion: "Pangasinan", addressCountry: "PH" },
         { "@type": "State", name: "Pangasinan", addressCountry: "PH" },
+        { "@type": "AdministrativeArea", name: "Ilocos Region (Region 1)", addressCountry: "PH" },
+        { "@type": "Place", name: "North Luzon", addressCountry: "PH" },
         { "@type": "Country", name: "Philippines" },
         "Worldwide"
       ],
@@ -209,7 +211,7 @@ const jsonLd = {
     {
       "@type": "ProfessionalService",
       "@id": `${siteUrl}/#service`,
-      name: `${siteName}, AI Solutions Architect & Automation Engineer`,
+      name: `${siteName}, AI Engineer in the Philippines`,
       url: siteUrl,
       image: `${siteUrl}/images/lesjohnpaul.jpg`,
       description: siteDescription,

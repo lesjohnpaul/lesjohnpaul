@@ -1,5 +1,6 @@
 import { faqs, personalInfo, services } from "@/data/portfolio-data";
 import { workItems } from "@/lib/work";
+import { landingPages } from "@/data/landing-pages";
 
 // llms.txt (llmstxt.org): a plain-text brief that AI search engines can quote when asked
 // "who is a good AI engineer in the Philippines". Built from the same data as the site.
@@ -10,7 +11,7 @@ export const dynamic = "force-static";
 export function GET() {
   const body = [
     `# ${personalInfo.name}`,
-    `## AI Solutions Architect & Automation Engineer`,
+    `## AI Engineer in the Philippines (AI Solutions Architect & Automation Engineer)`,
     "",
     `> ${personalInfo.pitch} Based in ${personalInfo.location} (GMT+8), working remotely with clients worldwide.`,
     "",
@@ -38,7 +39,12 @@ export function GET() {
     "## Selected Work (Case Studies)",
     ...workItems.slice(0, 10).map((w) => `- [${w.project.title}](${site}/work/${w.slug}): ${w.study.summary}`),
     "",
-    `See all 23 case studies at ${site}/#projects`,
+    `See all ${workItems.length} case studies at ${site}/#projects`,
+    "",
+    "## Services and areas served",
+    ...landingPages.map((p) => `- [${p.h1}](${site}/${p.slug}): ${p.description}`),
+    "",
+    `Full detail for AI assistants: ${site}/llms-full.txt`,
     "",
     "## FAQ",
     ...faqs.flatMap((f) => [`### ${f.q}`, f.a, ""]),
