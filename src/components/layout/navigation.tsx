@@ -20,6 +20,7 @@ import { useTheme } from "./theme-provider";
 import { navigationItems, personalInfo } from "@/data/portfolio-data";
 import { track } from "@vercel/analytics";
 import { cn } from "@/lib/utils";
+import { onStudioClick } from "@/components/studio/portal/boot";
 
 // Studio sits just before Contact (kept here so the shared data file is untouched)
 const navItems = (() => {
@@ -29,6 +30,16 @@ const navItems = (() => {
     ? [...navigationItems, studio]
     : [...navigationItems.slice(0, i), studio, ...navigationItems.slice(i)];
 })();
+
+// Green "live" dot with a ping, marks Studio as the interactive thing to try.
+function LiveDot() {
+  return (
+    <span className="relative flex h-2 w-2" aria-hidden>
+      <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 motion-safe:animate-ping" />
+      <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+    </span>
+  );
+}
 
 type IndicatorRect = { left: number; width: number } | null;
 
@@ -201,14 +212,17 @@ export function Navigation() {
                   onMouseEnter={(e) =>
                     setHoverIndicator(measureItem(e.currentTarget))
                   }
+                  onClick={item.href === "/studio" ? onStudioClick : undefined}
                   className={cn(
                     "relative z-10 whitespace-nowrap px-3 xl:px-4 py-1.5 text-sm font-medium rounded-full transition-colors duration-200",
-                    isActive
+                    isActive || item.href === "/studio"
                       ? "text-primary"
-                      : "text-muted-foreground hover:text-foreground"
+                      : "text-muted-foreground hover:text-foreground",
+                    item.href === "/studio" && "inline-flex items-center gap-1.5"
                   )}
                 >
                   {item.label}
+                  {item.href === "/studio" && <LiveDot />}
                 </Link>
               );
             })}
@@ -440,7 +454,10 @@ function MobileMenu({
                   >
                     <Link
                       href={item.href}
-                      onClick={onClose}
+                      onClick={(e) => {
+                        onClose();
+                        if (item.href === "/studio") onStudioClick(e);
+                      }}
                       className={cn(
                         "group relative flex items-center gap-4 rounded-2xl px-4 py-2.5 transition-all duration-300",
                         "hover:bg-muted/50 active:scale-[0.99]",
@@ -467,6 +484,7 @@ function MobileMenu({
                       >
                         {item.label}
                       </span>
+                      {item.href === "/studio" && <LiveDot />}
                       {isActive && (
                         <span className="ml-auto h-1.5 w-1.5 rounded-full bg-primary" />
                       )}

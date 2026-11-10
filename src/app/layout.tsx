@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import { services } from "@/data/portfolio-data";
 import { SiteAnalytics } from "@/components/site-analytics";
+import { StudioPortal } from "@/components/studio/portal/studio-portal";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -268,6 +269,7 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
         <SiteAnalytics />
+        <StudioPortal />
 
       </body>
     </html>

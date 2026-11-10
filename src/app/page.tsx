@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import { Navigation } from "@/components/layout/navigation";
 import { HeroSection } from "@/components/sections/hero-section";
+import { StudioTeaser } from "@/components/sections/studio-teaser";
 import { FaqSection } from "@/components/sections/faq-section";
 import { faqs } from "@/data/portfolio-data";
 
@@ -52,6 +53,7 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navigation />
       <HeroSection />
+      <StudioTeaser />
       <LivingGridSection />
       <ServicesSection />
       <ProjectsSection />
