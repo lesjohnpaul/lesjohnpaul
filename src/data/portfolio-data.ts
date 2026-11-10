@@ -384,7 +384,6 @@ export const experience = [
       "Authored an internal NDR-class lateral-movement detection system: east-west monitoring, in-house build",
       "Manage a 1.17TB production MS SQL Server billing instance plus MySQL/MIMS/CAS databases as DBA",
       "Cut a 2-week tax compliance reporting process to a two-click run that finishes in under 5 minutes",
-      "Architected bulk PDF email invoicing for 183K+ consumers with sectorial filtering and AWS SES",
       "Authored PFAS, a partner file ETL platform replacing manual SFTP/email ingestion workflows",
       "Automated WESM settlement invoicing: a full-workday, ~50-invoice manual batch now runs in under 30 seconds with zero transcription errors",
       "Modernized the meter reading system from procedural PHP/jQuery to Fastify + React 18 with zero-migration coexistence against the live MySQL database",
