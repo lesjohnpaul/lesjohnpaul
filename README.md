@@ -2,7 +2,7 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0b0b0f,55:3a2a06,100:F5B700&height=260&section=header&text=Les%20John%20Paul%20Oliver&fontSize=52&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=AI%20Solutions%20Architect%20%26%20Automation%20Engineer%20%E2%80%A2%20Urdaneta%2C%20Pangasinan%2C%20Philippines&descAlignY=60&descSize=19" alt="Les John Paul Oliver, AI Solutions Architect & Automation Engineer"/>
 
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3200&pause=900&color=F5B700&center=true&vCenter=true&width=820&height=60&lines=AI+agents+that+answer+leads+24%2F7;2-week+compliance+work+%E2%86%92+under+5+minutes;A+full+workday+of+invoicing+%E2%86%92+under+30+seconds;I+don't+train+LLMs.+I+ship+them+into+real+businesses.)](https://lesjohnpauloliver.dev)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3200&pause=900&color=F5B700&center=true&vCenter=true&width=820&height=60&lines=AI+agents+that+answer+leads+24%2F7;2-week+compliance+work+%E2%86%92+under+5+minutes;A+full+workday+of+invoicing+%E2%86%92+under+30+seconds;I+don%27t+train+LLMs.+I+ship+them+into+real+businesses.)](https://lesjohnpauloliver.dev)
 
 <a href="https://lesjohnpauloliver.dev"><img src="https://img.shields.io/badge/Portfolio-lesjohnpauloliver.dev-F5B700?style=for-the-badge&labelColor=0b0b0f" alt="Portfolio"/></a>
 <a href="https://lesjohnpauloliver.dev/#contact"><img src="https://img.shields.io/badge/Book_a_call-Cal.com-F5B700?style=for-the-badge&logo=googlecalendar&logoColor=F5B700&labelColor=0b0b0f" alt="Book a call"/></a>
@@ -17,6 +17,16 @@
 <a href="https://lesjohnpauloliver.dev"><img src="docs/readme/hero.webp" width="92%" alt="lesjohnpauloliver.dev hero: buyer outcomes, 3D Pao assistant, and live stats"/></a>
 
 <sub>↑ Live site. Click my photo there and <b>Pao</b>, my 3D AI assistant, pops out. Ask it anything about my work, or book a call with it.</sub>
+
+<br/><br/>
+
+<a href="#-what-i-do">What I do</a> ·
+<a href="#-featured-work">Featured work</a> ·
+<a href="#-meet-pao-the-ai-assistant-on-my-site">Meet Pao</a> ·
+<a href="#-how-i-work">How I work</a> ·
+<a href="#%EF%B8%8F-stack-i-ship-with">Stack</a> ·
+<a href="#-by-the-numbers">Numbers</a> ·
+<a href="#%EF%B8%8F-about-this-repo">This repo</a>
 
 </div>
 
@@ -61,7 +71,6 @@ I'm **Les John Paul Oliver**, an **AI Solutions Architect & Automation Engineer*
 
 > **Team of one.** Every project below was scoped, designed, built, and shipped by me alone.
 
-
 <sub>Every card opens a full case study: the problem, the architecture, and what changed. Screens use demo data, and sensitive details are blurred.</sub>
 
 <table>
@@ -101,15 +110,15 @@ I'm **Les John Paul Oliver**, an **AI Solutions Architect & Automation Engineer*
 <sub><code>Next.js</code> <code>Supabase</code> <code>Cloudflare Tunnel</code></sub>
 </td>
 <td width="50%" valign="top">
-<a href="https://lesjohnpauloliver.dev/work/consumer-e-invoicing-notification-platform"><img src="public/images/projects/e-invoicing/01-executive.webp" alt="E-invoicing executive view"/></a>
-<b>Consumer E-Invoicing & Notifications</b> <img src="https://img.shields.io/badge/live-22c55e?style=flat-square" alt="live"/><br/>
-<sub>Password-protected PDF statements by email and SMS, with automatic provider fallback. 183K+ recipients.</sub><br/>
-<sub><code>Node.js</code> <code>Amazon SES</code> <code>SQL Server</code></sub>
+<a href="https://lesjohnpauloliver.dev/work/distributed-event-registration-platform"><img src="public/images/projects/agam/01-command-center.jpg" alt="Event registration command center"/></a>
+<b>Distributed Event Registration</b> <img src="https://img.shields.io/badge/live-22c55e?style=flat-square" alt="live"/><br/>
+<sub>QR check-in for a general assembly: 13,000 attendees across 5 simultaneous venues, with real-time membership validation and an audit trail accepted as official documentation.</sub><br/>
+<sub><code>Next.js</code> <code>Supabase Realtime</code> <code>SQL Server</code></sub>
 </td>
 </tr>
 </table>
 
-<div align="center"><a href="https://lesjohnpauloliver.dev/#projects"><b>See all 23 projects →</b></a></div>
+<div align="center"><a href="https://lesjohnpauloliver.dev/#projects"><b>See all 21 case studies →</b></a></div>
 
 <br/>
 
@@ -131,6 +140,16 @@ flowchart LR
 ```
 
 <sub><b>Guardrails:</b> answers only from verified portfolio facts · ignores pasted code and prompt injection · history kept server-side in Redis · 40 messages/hour and 100/day per IP · 20 turns per conversation · atomic daily spend cap.</sub>
+
+<br/>
+
+## 🧭 How I work
+
+| | Step | What happens |
+|:-:|---|---|
+| **01** | **Map the problem** | A 30-minute call to find the workflow that costs you the most time or money. |
+| **02** | **Prototype fast** | A working version early, so you see results before committing to the full build. |
+| **03** | **Ship & hand over** | Production deployment, documentation, and support options once it's live. |
 
 <br/>
 
@@ -163,7 +182,7 @@ flowchart LR
 </tr>
 <tr>
 <td align="center"><h3>1.17 TB</h3><sub>SQL Server data<br/>run as DBA</sub></td>
-<td align="center"><h3>183K+</h3><sub>e-invoice<br/>recipients</sub></td>
+<td align="center"><h3>21</h3><sub>case studies<br/>published</sub></td>
 <td align="center"><h3>300</h3><sub>staff on the ITSM<br/>platform, 12 offices</sub></td>
 <td align="center"><h3>10 yrs</h3><sub>in production,<br/>promoted 3×</sub></td>
 </tr>
@@ -181,7 +200,7 @@ This repo is my GitHub profile **and** the source of [lesjohnpauloliver.dev](htt
 | App | Next.js 16 (App Router, Turbopack), React 19, Tailwind 4 |
 | Motion | GSAP scroll reveals and CSS-only "AI ops" scenes that play only while on screen and respect reduced motion |
 | 3D Pao | Procedural Three.js model (8.7K triangles, ~11 KB gzip) on React Three Fiber, loaded only when you meet it |
-| Case studies | 23 statically generated `/work/[slug]` pages with CreativeWork JSON-LD and a sitemap |
+| Case studies | 21 statically generated `/work/[slug]` pages with CreativeWork JSON-LD and a sitemap |
 | Chat | Anthropic SDK with prompt caching, Upstash Redis, Vercel BotID, Cal.com v2, Resend, Telegram |
 | Hosting | Vercel (Fluid Compute) with Web Analytics and Speed Insights |
 
@@ -212,13 +231,6 @@ The site builds and renders without these. Only chat, booking, and email need th
 <br/>
 
 <div align="center">
-
-<a href="https://github.com/lesjohnpaul"><img height="165" src="https://github-readme-stats.vercel.app/api?username=lesjohnpaul&show_icons=true&hide_border=true&bg_color=0b0b0f&title_color=F5B700&icon_color=F5B700&text_color=e5e5e5&count_private=true&include_all_commits=true" alt="GitHub stats"/></a>
-<a href="https://github.com/lesjohnpaul"><img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=lesjohnpaul&layout=compact&hide_border=true&bg_color=0b0b0f&title_color=F5B700&text_color=e5e5e5&langs_count=8" alt="Top languages"/></a>
-
-<a href="https://github.com/lesjohnpaul"><img width="92%" src="https://github-readme-activity-graph.vercel.app/graph?username=lesjohnpaul&bg_color=0b0b0f&color=F5B700&line=F5B700&point=ffffff&area=true&area_color=F5B700&hide_border=true&custom_title=Shipping%20cadence" alt="Contribution graph"/></a>
-
-<br/><br/>
 
 **Have a process that eats your team's week?** [Tell Pao about it](https://lesjohnpauloliver.dev) or [email me](mailto:lesjohnpauloliver@gmail.com).
 

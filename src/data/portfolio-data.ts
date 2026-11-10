@@ -805,7 +805,7 @@ export const photoGallery = [
     caption: "Live performance, Nord Stage 4 88",
   },
   {
-    src: "/images/lesjohnpaul.jpg",
+    src: "/images/les-john-paul-oliver.jpg",
     alt: "Les John Paul Oliver",
     category: "work",
     caption: "Portrait",
