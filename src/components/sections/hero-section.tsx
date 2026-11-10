@@ -361,7 +361,7 @@ export function HeroSection() {
                   {/* Image */}
                   <div className="relative w-full h-full">
                     <Image
-                      src="/images/lesjohnpaul.jpg"
+                      src="/images/les-john-paul-oliver.jpg"
                       alt="Les John Paul Oliver, AI Engineer"
                       fill
                       className="object-cover object-center transition-transform duration-700 ease-out group-hover/image:scale-105"
