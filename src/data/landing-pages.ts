@@ -122,6 +122,50 @@ export const landingPages: LandingPage[] = [
     keywords: ["AI chatbot developer Philippines", "AI agent developer Philippines", "chatbot developer Pangasinan", "customer support AI Philippines"],
   },
   {
+    slug: "agentic-ai-developer-philippines",
+    kind: "service",
+    title: "Agentic AI Developer, Philippines",
+    description:
+      "Agentic AI developer in the Philippines: AI agents with tool use, RAG over your documents, LLM evals, and MCP integrations, shipped with human approval.",
+    h1: "Agentic AI Developer in the Philippines",
+    eyebrow: "AI agents · RAG · LLM evals · MCP",
+    intro: [
+      "Agents are LLMs that do more than answer: they look things up, call your systems, and take actions. I build them for production, which means the agent only gets the tools it needs, every write is logged, and a person approves anything that touches money or records.",
+      "In production today: an approval queue where deterministic rules decide, Claude explains each flagged case, and a human confirms every action across two legacy systems. On this site, Pao answers from a scoped knowledge base and books calls through a calendar tool.",
+    ],
+    sections: [
+      {
+        heading: "What I build",
+        body: [
+          "AI agents with tool use: lookups, record creation, drafting, and booking, limited to the actions you allow.",
+          "RAG: answers grounded in your own documents and data, so the agent cites what it knows instead of guessing.",
+          "LLM evals: test sets for real questions, off-topic and adversarial prompts, run before every release so quality doesn't silently drift.",
+          "MCP servers and Claude Code skills that give agents safe, scoped access to your systems.",
+        ],
+      },
+      {
+        heading: "Guardrails I ship by default",
+        body: [
+          "Scope locks so the agent declines off-topic and prompt-injection attempts.",
+          "Human-in-the-loop approval where money or records change, with an audit trail and a way to reverse.",
+          "Rate limits and a daily budget so a busy day never becomes a surprise bill.",
+        ],
+      },
+    ],
+    proof: ["ai-assisted-refund-automation", "acirs-24-7-ai-customer-support", "sneaker-symphony-ai-run-marketplace"],
+    faqs: [
+      { q: "What is agentic AI?", a: "AI that plans and acts through tools, not just a chatbot that replies. A useful agent is scoped to a few safe actions, logs what it does, and asks a person before anything irreversible." },
+      { q: "Do you build RAG systems?", a: "Yes. RAG grounds an assistant's answers in your own documents and data, so it can answer specifics about your business and say when something isn't covered." },
+      { q: "How do you test an AI agent before launch?", a: "With evals: a set of real questions plus off-topic and adversarial prompts, checked before every release, alongside normal automated tests for the code around the model." },
+      { q: "How much does an AI agent project cost?", a: BOOK },
+    ],
+    faqsFil: [
+      { q: "Ano ang agentic AI?", a: "AI na hindi lang sumasagot kundi gumagawa rin ng aksyon gamit ang mga tool na pinapayagan mo, at humihingi muna ng approval bago ang anumang hindi na maibabalik." },
+    ],
+    areaServed: ["Philippines", "Worldwide"],
+    keywords: ["agentic AI developer Philippines", "AI agent developer Philippines", "RAG developer Philippines", "LLM evaluation", "MCP server developer"],
+  },
+  {
     slug: "ai-automation-philippines",
     kind: "service",
     title: "AI Automation Engineer, Philippines",
