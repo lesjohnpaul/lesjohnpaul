@@ -80,14 +80,6 @@ const NODE_MAP: (GridNodeDef & { projectTitle: string })[] = [
     projectTitle: "IEMOP WESM Invoice Automation",
   },
   {
-    id: "invoicing",
-    label: "BULK INVOICING",
-    sub: "183K CONSUMERS · AWS SES",
-    position: [-1.6, 0, -5.6],
-    kind: "substation",
-    projectTitle: "Bulk Email Invoicing System",
-  },
-  {
     id: "sneaker",
     label: "SNEAKER SYMPHONY",
     sub: "SOLO MARKETPLACE",

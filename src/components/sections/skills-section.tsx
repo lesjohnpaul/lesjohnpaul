@@ -213,7 +213,7 @@ export function SkillsSection() {
                 { label: "Cloud Migration Led", value: "₱14.95M" },
                 { label: "Attendees, 5 Live Venues", value: "13K" },
                 { label: "Tax Process, Was 2 Weeks", value: "5 min" },
-                { label: "Consumers on Bulk Invoicing", value: "183K+" },
+                { label: "Invoice Batch, Was a Workday", value: "30 sec" },
               ].map((stat) => (
                 <MagneticElement key={stat.label} strength={0.2}>
                   <div className="text-center cursor-default group">
