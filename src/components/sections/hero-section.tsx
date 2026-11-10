@@ -23,6 +23,7 @@ const AUTO_MEET_MS = 9000; // if nobody clicks, Pao introduces Les anyway
 const MET_KEY = "pao-met";
 import gsap from "gsap";
 import { track } from "@vercel/analytics";
+import { onStudioClick } from "@/components/studio/portal/boot";
 
 const roles = [
   "AI Agents & Chatbots",
@@ -289,8 +290,9 @@ export function HeroSection() {
                   className="rounded-none border border-primary bg-transparent px-8 py-[23px] text-base font-semibold text-primary transition-[box-shadow,background-color,scale] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-primary/10 hover:text-primary hover:shadow-[0_0_24px_-4px_var(--primary)] active:scale-[0.97] motion-reduce:active:scale-100"
                   asChild
                 >
-                  <Link href="/studio" onClick={() => track("cta_click", { location: "hero-studio" })}>
+                  <Link href="/studio" onClick={(e) => { track("cta_click", { location: "hero-studio" }); onStudioClick(e); }}>
                     <span className="flex items-center gap-2">
+                      <span className="relative flex h-2 w-2" aria-hidden><span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 motion-safe:animate-ping" /><span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" /></span>
                       Try it: build your system
                       <ArrowRight className="w-5 h-5" aria-hidden />
                     </span>

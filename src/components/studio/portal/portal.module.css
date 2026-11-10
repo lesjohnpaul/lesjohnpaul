@@ -1,0 +1,149 @@
+/* Boot overlay between any page and /studio. Always dark, whatever the site theme. */
+.overlay {
+  --gold: var(--primary, oklch(0.78 0.16 85));
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: #06070b;
+  color: oklch(0.96 0.005 260);
+  animation: in 220ms var(--ease-out) both;
+  transition: opacity 520ms var(--ease-out), filter 520ms var(--ease-out), transform 520ms var(--ease-out);
+}
+/* Exit: fly through the screen into the Studio behind it. */
+.overlay[data-phase="exit"] {
+  opacity: 0;
+  filter: blur(14px);
+  transform: scale(1.08);
+  pointer-events: none;
+}
+@keyframes in {
+  from { opacity: 0; }
+}
+
+.rain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.55;
+}
+.vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 50% at 50% 50%, rgb(6 7 11 / 0.92) 0%, rgb(6 7 11 / 0.55) 55%, transparent 100%),
+    radial-gradient(40% 30% at 50% 60%, color-mix(in oklch, var(--gold) 22%, transparent), transparent 70%);
+}
+.scan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, rgb(255 255 255 / 0.025) 0 1px, transparent 1px 3px);
+  pointer-events: none;
+}
+
+.card {
+  position: relative;
+  width: min(440px, 100%);
+  padding: 28px 28px 22px;
+  border-radius: 20px;
+  background: rgb(255 255 255 / 0.045);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.12),
+    0 0 0 1px rgb(255 255 255 / 0.08),
+    0 40px 80px -30px rgb(0 0 0 / 0.9),
+    0 0 80px -20px color-mix(in oklch, var(--gold) 35%, transparent);
+  animation: rise 420ms var(--ease-out) 60ms both;
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); filter: blur(4px); }
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 11px/1 ui-monospace, Menlo, monospace;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 99px;
+  background: var(--gold);
+  box-shadow: 0 0 10px var(--gold);
+  animation: pulse 1s ease-in-out infinite;
+}
+@keyframes pulse { 50% { opacity: 0.35; } }
+
+.title {
+  margin: 14px 0 18px;
+  font-family: var(--font-display, system-ui);
+  font-size: clamp(26px, 6vw, 32px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.log {
+  display: grid;
+  gap: 7px;
+  min-height: calc(6 * 19px + 5 * 7px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font: 12.5px/19px ui-monospace, Menlo, monospace;
+}
+.line {
+  display: grid;
+  grid-template-columns: 12px 92px 1fr auto;
+  gap: 6px;
+  animation: line 220ms var(--ease-out) both;
+}
+@keyframes line {
+  from { opacity: 0; transform: translateX(-6px); filter: blur(2px); }
+}
+.prompt { color: var(--gold); }
+.key { color: oklch(0.96 0.005 260); }
+.val { color: oklch(0.7 0.015 260); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ok { color: oklch(0.8 0.13 150); }
+.spin {
+  width: 10px;
+  height: 10px;
+  margin-top: 4px;
+  border-radius: 99px;
+  border: 1.5px solid rgb(255 255 255 / 0.2);
+  border-top-color: var(--gold);
+  animation: spin 600ms linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.bar {
+  height: 3px;
+  margin-top: 20px;
+  border-radius: 99px;
+  background: rgb(255 255 255 / 0.08);
+  overflow: hidden;
+}
+.bar span {
+  display: block;
+  height: 100%;
+  transform-origin: left;
+  background: linear-gradient(90deg, color-mix(in oklch, var(--gold) 50%, transparent), var(--gold), oklch(0.85 0.12 185));
+  box-shadow: 0 0 12px var(--gold);
+  transition: transform 160ms linear;
+}
+.pct {
+  margin: 8px 0 0;
+  text-align: right;
+  font: 11px/1 ui-monospace, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  color: oklch(0.7 0.015 260);
+}
