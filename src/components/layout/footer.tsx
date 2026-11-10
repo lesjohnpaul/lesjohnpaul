@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Github, Linkedin, Mail } from "lucide-react";
 import { personalInfo, navigationItems } from "@/data/portfolio-data";
+import { landingPages } from "@/data/landing-pages";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -82,6 +83,22 @@ export function Footer() {
             </div>
           </div>
         </div>
+
+        {/* Services & areas: crawlable links to every search landing page */}
+        <nav aria-label="Services and areas served" className="mt-12 pt-8 border-t border-border">
+          <h3 className="font-display font-semibold mb-4 text-sm uppercase tracking-wider text-muted-foreground">
+            Services &amp; areas served
+          </h3>
+          <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            {landingPages.map((p) => (
+              <li key={p.slug}>
+                <Link href={`/${p.slug}`} className="text-muted-foreground hover:text-primary transition-colors">
+                  {p.h1}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
