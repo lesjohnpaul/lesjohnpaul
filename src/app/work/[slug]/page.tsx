@@ -21,12 +21,13 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const work = getWork((await params).slug);
   if (!work) return {};
-  const title = `${work.project.title}: AI Engineer Case Study`;
+  // ponytail: plain project title; the layout template adds "| Les John Paul Oliver" (was 70+ chars)
+  const title = work.project.title;
   return {
     title,
     description: work.study.summary,
     alternates: { canonical: `/work/${work.slug}` },
-    openGraph: { title, description: work.study.summary, type: "article", url: `/work/${work.slug}` },
+    openGraph: { title, description: work.study.summary, type: "article", url: `/work/${work.slug}`, images: [{ url: "/opengraph-image", width: 1200, height: 630 }] },
   };
 }
 

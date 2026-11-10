@@ -27,7 +27,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: page.description,
     keywords: page.keywords,
     alternates: { canonical: url },
-    openGraph: { title: page.title, description: page.description, url, type: "website", locale: "en_PH" },
+    // Setting openGraph here replaces the root one, so the share image must be repeated.
+    openGraph: { title: page.title, description: page.description, url, type: "website", locale: "en_PH", images: [{ url: "/opengraph-image", width: 1200, height: 630 }] },
   };
 }
 

@@ -32,9 +32,9 @@ export const landingPages: LandingPage[] = [
   {
     slug: "ai-engineer-philippines",
     kind: "service",
-    title: "Hire an AI Engineer in the Philippines",
+    title: "Hire an AI Engineer, Philippines",
     description:
-      "Hire Les John Paul Oliver, an AI engineer in the Philippines. AI agents, chatbots, and automations shipped into real businesses. Remote worldwide, based in Pangasinan.",
+      "Hire Les John Paul Oliver, an AI engineer in the Philippines: AI agents, chatbots, and automations in production. Remote worldwide, based in Pangasinan.",
     h1: "AI Engineer in the Philippines",
     eyebrow: "Hire · Freelance · Remote",
     intro: [
@@ -83,9 +83,9 @@ export const landingPages: LandingPage[] = [
   {
     slug: "ai-chatbot-developer-philippines",
     kind: "service",
-    title: "AI Chatbot Developer in the Philippines",
+    title: "AI Chatbot Developer, Philippines",
     description:
-      "AI chatbot and AI agent developer in the Philippines. Assistants that answer from your knowledge base 24/7, book calls, and hand off to people. By Les John Paul Oliver.",
+      "AI chatbot and agent developer in the Philippines. Assistants that answer from your knowledge base 24/7, book calls, and hand off to people.",
     h1: "AI Chatbot & AI Agent Developer in the Philippines",
     eyebrow: "Chatbots · AI agents · Lead capture",
     intro: [
@@ -126,7 +126,7 @@ export const landingPages: LandingPage[] = [
     kind: "service",
     title: "AI Automation Engineer, Philippines",
     description:
-      "AI and business process automation in the Philippines: compliance reports from 2 weeks to under 5 minutes, invoicing from a workday to under 30 seconds. Les John Paul Oliver.",
+      "AI automation engineer in the Philippines: a 2-week compliance report now runs in under 5 minutes, a workday of invoicing in under 30 seconds.",
     h1: "AI Automation Engineer in the Philippines",
     eyebrow: "Business process automation · Workflow · Reporting",
     intro: [
@@ -164,9 +164,9 @@ export const landingPages: LandingPage[] = [
   {
     slug: "llm-integration-philippines",
     kind: "service",
-    title: "LLM & Claude API Developer, Philippines",
+    title: "Claude & LLM Developer, Philippines",
     description:
-      "Add LLM features to the app you already have: extraction, classification, drafting, tool use with Claude. LLM integration developer in the Philippines, Les John Paul Oliver.",
+      "Add LLM features to the app you already run: extraction, classification, drafting, and tool use with Claude. Developer in the Philippines.",
     h1: "LLM Integration Developer in the Philippines",
     eyebrow: "Claude API · Extraction · Classification",
     intro: [
@@ -203,9 +203,9 @@ export const landingPages: LandingPage[] = [
   {
     slug: "internal-tools-dashboards-philippines",
     kind: "service",
-    title: "Internal Tools & Dashboards, Philippines",
+    title: "Dashboard Developer, Philippines",
     description:
-      "Internal tools and live executive dashboards built on your existing database: registration, ticketing, monitoring. Developer in Pangasinan, Philippines: Les John Paul Oliver.",
+      "Internal tools and live dashboards on your existing database: registration, ticketing, monitoring. Developer in Pangasinan, Philippines.",
     h1: "Internal Tools & Dashboard Developer in the Philippines",
     eyebrow: "Dashboards · Registration · Ticketing",
     intro: [
@@ -242,7 +242,7 @@ export const landingPages: LandingPage[] = [
     kind: "location",
     title: "AI Engineer in Urdaneta, Pangasinan",
     description:
-      "AI engineer and software engineer in Urdaneta City, Pangasinan. Chatbots, automation, and dashboards for local businesses, with in-person meetings. Les John Paul Oliver.",
+      "AI engineer in Urdaneta City, Pangasinan: chatbots, automation, and dashboards for local businesses, with in-person meetings available.",
     h1: "AI Engineer in Urdaneta City, Pangasinan",
     eyebrow: "Urdaneta · Eastern Pangasinan",
     intro: [
@@ -279,9 +279,9 @@ export const landingPages: LandingPage[] = [
   {
     slug: "ai-engineer-pangasinan",
     kind: "location",
-    title: "AI Engineer & AI Developer in Pangasinan",
+    title: "AI Engineer in Pangasinan",
     description:
-      "AI engineer and AI developer in Pangasinan, Philippines. Chatbots, automation, and internal tools for Pangasinan businesses, co-ops, and clinics. Les John Paul Oliver.",
+      "AI engineer in Pangasinan: chatbots, automation, and internal tools for Pangasinan businesses, cooperatives, and clinics.",
     h1: "AI Engineer in Pangasinan",
     eyebrow: "Dagupan · Urdaneta · San Carlos · Alaminos",
     intro: [
@@ -317,7 +317,7 @@ export const landingPages: LandingPage[] = [
     kind: "location",
     title: "AI Engineer, Ilocos Region (Region 1)",
     description:
-      "AI engineer serving the Ilocos Region (Region 1): Pangasinan, La Union, Ilocos Sur, Ilocos Norte. Chatbots, automation, and dashboards. Les John Paul Oliver.",
+      "AI engineer for the Ilocos Region (Region 1): Pangasinan, La Union, Ilocos Sur, and Ilocos Norte. Chatbots, automation, and dashboards.",
     h1: "AI Engineer in the Ilocos Region (Region 1)",
     eyebrow: "Pangasinan · La Union · Ilocos Sur · Ilocos Norte",
     intro: [
@@ -355,7 +355,7 @@ export const landingPages: LandingPage[] = [
     kind: "location",
     title: "AI Engineer in North Luzon",
     description:
-      "AI engineer in North Luzon: Pangasinan, La Union, Baguio, Tarlac, and the Ilocos and Cagayan Valley regions. Chatbots, automation, dashboards. Les John Paul Oliver.",
+      "AI engineer in North Luzon: Pangasinan, La Union, Baguio, Tarlac, and Cagayan Valley. Chatbots, automation, and dashboards.",
     h1: "AI Engineer in North Luzon",
     eyebrow: "Pangasinan · Baguio · La Union · Tarlac · Cagayan Valley",
     intro: [
