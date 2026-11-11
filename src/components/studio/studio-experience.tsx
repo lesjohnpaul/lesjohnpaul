@@ -14,7 +14,7 @@ import { BookingPanel } from "./booking-panel";
 import { DiscoveryForm } from "./discovery-form";
 import { EmailCapture } from "./email-capture";
 import { HowItsBuilt } from "./how-its-built";
-import { PrototypeView } from "./prototype-view";
+import { BuildMagic, PrototypeView } from "./prototype-view";
 import { ProofPanels } from "./proof-panels";
 import { useBuild } from "./use-build";
 import s from "./studio.module.css";
@@ -311,9 +311,10 @@ export function StudioExperience({ proof }: { proof: ProofItem[] }) {
               </div>
 
               {proto ? (
-                <PrototypeView prototype={proto} revealed={b.status === "fallback" ? 3 : b.screens.length} />
+                <PrototypeView prototype={proto} building={busy} revealed={b.status === "fallback" ? 3 : b.screens.length} />
               ) : (
-                <div className={cn(s.glass, "grid gap-3 rounded-2xl p-4 sm:p-5")} aria-hidden>
+                <div className={cn(s.glass, "grid gap-3 overflow-hidden rounded-2xl p-4 sm:p-5")} aria-hidden>
+                  <BuildMagic />
                   <div className="grid grid-cols-3 gap-3">
                     {[0, 1, 2].map((i) => (
                       <div key={i} className={cn(s.shimmer, "h-9 rounded-lg")} />
