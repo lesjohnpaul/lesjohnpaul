@@ -54,13 +54,30 @@ export function ScreenView({ screen }: { screen: Screen }) {
   }
 }
 
+/** The frame while Pao is still building: a ring of light circles the border and sparks drift up through it. */
+export function BuildMagic() {
+  return (
+    <span aria-hidden className={s.magic}>
+      <span className={s.aura} />
+      {Array.from({ length: 14 }, (_, i) => (
+        // Spread by index, not Math.random: the server and the client must render the same sparks.
+        <i key={i} style={{ left: `${(i * 37 + 9) % 96}%`, animationDelay: `${(i * 0.37) % 2.6}s`, fontSize: `${12 + (i % 4) * 5}px` }}>
+          ✦
+        </i>
+      ))}
+    </span>
+  );
+}
+
 export function PrototypeView({
   prototype,
   revealed = 3,
+  building = false,
   className,
 }: {
   prototype: Prototype;
   revealed?: number;
+  building?: boolean;
   className?: string;
 }) {
   const uid = useId();
@@ -98,6 +115,7 @@ export function PrototypeView({
       <div className={cn(s.glass, "overflow-hidden rounded-2xl")}>
         {/* Keyed on the count, so the sheen replays each time another screen lands. */}
         {revealed > 0 && <span key={revealed} aria-hidden className={s.sheen} />}
+        {building && <BuildMagic />}
         {/* App chrome */}
         <div className="flex items-center gap-3 border-b border-white/10 px-4 py-3 sm:px-5">
           <span
@@ -162,7 +180,7 @@ export function PrototypeView({
               id={`${uid}-panel-${i}`}
               aria-labelledby={`${uid}-tab-${i}`}
               hidden={i !== active}
-              className="p-3 sm:p-5"
+              className={cn(s.materialize, "p-3 sm:p-5")}
             >
               <div className="mb-3 flex items-baseline justify-between gap-3 px-1 sm:mb-4">
                 <h3 className={cn(s.display, "truncate text-lg font-medium sm:text-xl")}>{sc.title}</h3>

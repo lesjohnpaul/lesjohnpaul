@@ -340,6 +340,60 @@ select.field option { background: oklch(0.18 0.015 260); color: var(--ink); }
   to { opacity: 1; transform: translateX(100%); }
 }
 
+/* Still building: a comet of the business's colour circles the frame's border and sparks drift up through it.
+   Transform, rotate and opacity only. Reduced motion removes the whole layer (see below). */
+.magic {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: fade 400ms ease;
+}
+.aura {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  padding: 2px;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+/* A square three frame-widths wide, so its corners never show while it turns, even on a tall phone frame. */
+.aura::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: conic-gradient(transparent 0 50%, var(--gold) 78%, #fff 84%, var(--gold) 88%, transparent 96%);
+  animation: orbit 2.8s linear infinite;
+}
+@keyframes orbit { to { rotate: 1turn; } }
+.magic i {
+  position: absolute;
+  bottom: -1rem;
+  font-style: normal;
+  line-height: 1;
+  color: color-mix(in oklch, var(--gold) 65%, white);
+  text-shadow: 0 0 8px var(--gold);
+  opacity: 0;
+  animation: spark 2.6s ease-in infinite;
+}
+@keyframes spark {
+  0% { opacity: 0; transform: translateY(0) scale(0.4) rotate(0deg); }
+  15% { opacity: 1; }
+  70% { opacity: 0.8; }
+  100% { opacity: 0; transform: translateY(-22rem) scale(1) rotate(180deg); }
+}
+/* A screen the first time it shows: it condenses out of a bright blur. No forward fill, so no filter lingers. */
+.materialize[data-enter] { animation: materialize 700ms var(--ease-out); }
+@keyframes materialize {
+  from { opacity: 0; filter: blur(12px) brightness(1.6); transform: scale(0.97); }
+}
+
 /* Stagger: children rise in 50 ms apart, only while their container is entering: a screen the first time it's shown,
    the trace panel as it opens, the proof grid as it scrolls into view. Decorative only: nothing waits on it. */
 :is([data-enter], .traceOpen) .stagger > *,
@@ -466,6 +520,7 @@ select.field option { background: oklch(0.18 0.015 260); color: var(--ink); }
   .root .stagger[data-reveal="in"] > * {
     animation: fade 200ms ease !important;
   }
+  .root .magic { display: none; }
   .root .press:active,
   .root .card:active,
   .root .card:hover,
