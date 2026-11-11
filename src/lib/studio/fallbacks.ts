@@ -4,17 +4,19 @@ import type { Prototype } from "./schema.ts";
 export const FALLBACKS = {
   clinic: {
     business: "Sample Family Clinic",
+    accent: "teal",
     spec: "Appointments, patient records and daily visit numbers in one place.",
     screens: [
       {
         type: "dashboard",
         title: "Today at the clinic",
         kpis: [
-          { label: "Visits today", value: "24" },
-          { label: "Waiting now", value: "3" },
-          { label: "No-shows", value: "2" },
+          { label: "Visits today", value: "24", delta: "+4", tone: "good" },
+          { label: "Waiting now", value: "3", delta: "-2", tone: "good" },
+          { label: "No-shows", value: "2", delta: "+1", tone: "bad" },
         ],
         chart: { label: "Visits this week", points: [18, 22, 20, 26, 24, 12, 8] },
+        breakdown: { label: "Visits by type", items: [{ label: "Check-up", value: 11 }, { label: "Follow-up", value: 7 }, { label: "Vaccination", value: 4 }, { label: "Walk-in", value: 2 }] },
       },
       {
         type: "table",
@@ -41,6 +43,7 @@ export const FALLBACKS = {
   },
   dental: {
     business: "Sample Dental Clinic",
+    accent: "sky",
     spec: "Chart every patient's teeth, book visits and track treatments in one place.",
     screens: [
       {
@@ -105,17 +108,19 @@ export const FALLBACKS = {
   },
   restaurant: {
     business: "Sample Neighborhood Eatery",
+    accent: "coral",
     spec: "Orders, daily sales and menu stock tracked from one screen.",
     screens: [
       {
         type: "dashboard",
         title: "Today's sales",
         kpis: [
-          { label: "Sales", value: "₱42,500" },
-          { label: "Orders", value: "62" },
-          { label: "Avg ticket", value: "₱685" },
+          { label: "Sales", value: "₱42,500", delta: "+18%", tone: "good" },
+          { label: "Orders", value: "62", delta: "+9", tone: "good" },
+          { label: "Avg ticket", value: "₱685", delta: "-2%", tone: "neutral" },
         ],
         chart: { label: "Sales by hour", points: [40, 90, 160, 120, 60, 140, 230] },
+        breakdown: { label: "Orders by channel", items: [{ label: "Dine-in", value: 28 }, { label: "Takeout", value: 19 }, { label: "Delivery", value: 15 }] },
       },
       {
         type: "kanban",
@@ -129,18 +134,20 @@ export const FALLBACKS = {
       {
         type: "table",
         title: "Menu stock",
-        columns: ["Item", "In stock", "Reorder at"],
+        columns: ["Item", "In stock", "Reorder at", "Status"],
         rows: [
-          ["Rice", "18 kg", "10 kg"],
-          ["Chicken", "9 kg", "8 kg"],
-          ["Cooking oil", "6 L", "5 L"],
-          ["Coffee beans", "3 kg", "2 kg"],
+          ["Rice", "18 kg", "10 kg", "In stock"],
+          ["Chicken", "9 kg", "8 kg", "Low"],
+          ["Cooking oil", "6 L", "5 L", "Low"],
+          ["Coffee beans", "3 kg", "2 kg", "Low"],
+          ["Eggs", "0 trays", "4 trays", "Out of stock"],
         ],
       },
     ],
   },
   logistics: {
     business: "Sample Courier Co.",
+    accent: "indigo",
     spec: "Dispatch deliveries, see rider locations and follow every parcel.",
     screens: [
       {
@@ -166,16 +173,18 @@ export const FALLBACKS = {
         type: "dashboard",
         title: "Delivery performance",
         kpis: [
-          { label: "Delivered", value: "48" },
-          { label: "On time", value: "94%" },
-          { label: "Active riders", value: "5" },
+          { label: "Delivered", value: "48", delta: "+6", tone: "good" },
+          { label: "On time", value: "94%", delta: "+3%", tone: "good" },
+          { label: "Active riders", value: "5", delta: "-1", tone: "bad" },
         ],
         chart: { label: "Deliveries this week", points: [32, 40, 38, 45, 48, 30, 22] },
+        breakdown: { label: "Parcels by status", items: [{ label: "Delivered", value: 48 }, { label: "In transit", value: 12 }, { label: "Pending pickup", value: 7 }, { label: "Returned", value: 2 }] },
       },
     ],
   },
   retail: {
     business: "Sample Corner Shop",
+    accent: "emerald",
     spec: "Track stock, record sales and see what to reorder before it runs out.",
     screens: [
       {
@@ -203,16 +212,18 @@ export const FALLBACKS = {
         type: "dashboard",
         title: "This week",
         kpis: [
-          { label: "Sales", value: "₱108,500" },
-          { label: "Low stock", value: "4 items" },
+          { label: "Sales", value: "₱108,500", delta: "+12%", tone: "good" },
+          { label: "Low stock", value: "4 items", delta: "+2", tone: "bad" },
           { label: "Top seller", value: "Item C" },
         ],
         chart: { label: "Daily sales", points: [260, 310, 280, 350, 420, 380, 150] },
+        breakdown: { label: "Sales by category", items: [{ label: "Groceries", value: 46 }, { label: "Drinks", value: 27 }, { label: "Snacks", value: 18 }, { label: "Household", value: 9 }] },
       },
     ],
   },
   services: {
     business: "Sample Service Studio",
+    accent: "violet",
     spec: "Capture client requests, schedule work and follow each job to done.",
     screens: [
       {

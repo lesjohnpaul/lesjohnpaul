@@ -4,13 +4,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { track } from "@vercel/analytics";
 import type { StudioEvent } from "@/lib/studio/prompt";
 import type { TraceInfo } from "@/lib/studio/trace";
-import { parsePrototype, parseScreen, type Screen, type StudioRequest } from "@/lib/studio/schema";
+import { parsePrototype, parseScreen, type Accent, type Screen, type StudioRequest } from "@/lib/studio/schema";
 
 export type BuildStatus = "idle" | "building" | "done" | "fallback" | "error";
 
 type BuildState = {
   status: BuildStatus;
-  spec?: { business: string; spec: string };
+  spec?: { business: string; spec: string; accent?: Accent };
   screens: Screen[];
   buildId?: string;
   fallbackLabel?: string;
@@ -78,7 +78,7 @@ export function useBuild() {
           return;
         }
         // Ruling 2: the labelled example replaces any partial build; it's never shown as theirs.
-        setState((s) => ({ status: "fallback", spec: { business: p.business, spec: p.spec }, screens: [...p.screens], fallbackLabel: e.v.label, trace: s.trace }));
+        setState((s) => ({ status: "fallback", spec: { business: p.business, spec: p.spec, accent: p.accent }, screens: [...p.screens], fallbackLabel: e.v.label, trace: s.trace }));
         timeRender();
         track("fallback_example_shown");
       }

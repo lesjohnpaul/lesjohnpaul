@@ -106,7 +106,7 @@ export async function POST(req: Request) {
       const finish = async (prototype: Prototype, note?: "salvaged") => {
         // Trace lines always precede the screens still to flush and the final done/fallback.
         send(mark("validate", { note }));
-        if (!sent.spec) send({ t: "spec", v: { business: prototype.business, spec: prototype.spec } });
+        if (!sent.spec) send({ t: "spec", v: { business: prototype.business, spec: prototype.spec, accent: prototype.accent } });
         sent.spec = true;
         for (; sent.screens < 3; sent.screens++) send({ t: "screen", i: sent.screens, v: prototype.screens[sent.screens] });
         send({ t: "done", buildId: await saveBuild(db, prototype) });

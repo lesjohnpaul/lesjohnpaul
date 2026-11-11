@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, useMemo, useRef, useState, type ReactNode, type RefCallback, type RefObject } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Lightformer, MeshTransmissionMaterial, useFBO, useGLTF } from "@react-three/drei";
 import { Bloom, EffectComposer, Vignette } from "@react-three/postprocessing";
 import * as THREE from "three";
@@ -12,7 +12,7 @@ import type { Screen } from "@/lib/studio/schema";
 
 type Phase = "hello" | "building" | "done";
 /** `screenTypes`: the arrived screens' types in arrival order; each one flies out of the orbit slot of its block. */
-type SceneProps = { tier: Exclude<Tier, "static">; phase: Phase; screensReady: number; screenTypes: Screen["type"][]; onReady?: () => void };
+type SceneProps = { tier: Exclude<Tier, "static">; phase: Phase; screensReady: number; screenTypes: Screen["type"][]; onReady?: () => void; onLost?: () => void };
 
 const BG = "#0a0c13"; // obsidian, globals.css dark --background
 const GOLD = "#f2c14e"; // brand --primary, oklch(0.78 0.16 85)
@@ -144,8 +144,16 @@ function ModelBlocks({
   });
 }
 
-function Rig({ tier, phase, screensReady, screenTypes, onReady }: SceneProps) {
+function Rig({ tier, phase, screensReady, screenTypes, onReady, onLost }: SceneProps) {
   const full = tier === "full";
+  // A phone under memory pressure can take the GPU context away: hand the page back to its poster/loop backdrop.
+  // Removed on unmount, so the context loss R3F forces while disposing never reports as a failure.
+  const canvas = useThree((st) => st.gl.domElement);
+  useEffect(() => {
+    if (!onLost) return;
+    canvas.addEventListener("webglcontextlost", onLost);
+    return () => canvas.removeEventListener("webglcontextlost", onLost);
+  }, [canvas, onLost]);
   const meshes = useRef<(THREE.Object3D | null)[]>([]);
   // Stable per-slot refs; the cleanup only clears a slot it still owns, so remounts are order-safe.
   const refs = useMemo(
