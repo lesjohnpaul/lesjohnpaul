@@ -1,6 +1,6 @@
 "use client";
 
-import { Component, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import { Component, useCallback, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
@@ -113,6 +113,9 @@ export function StudioExperience({ proof }: { proof: ProofItem[] }) {
   const tier = useSyncExternalStore(noSubscribe, clientTier, () => null);
   const [last, setLast] = useState<StudioRequest>();
   const [sceneReady, setSceneReady] = useState(false);
+  /** The GPU context was lost mid-visit: the scene is dropped for this page load and the loop backdrop takes over. */
+  const [sceneLost, setSceneLost] = useState(false);
+  const onSceneLost = useCallback(() => setSceneLost(true), []);
   const [traceOpen, setTraceOpen] = useState(false);
   /** Set when Escape closed the panel: keyboard actions don't animate. */
   const [traceInstant, setTraceInstant] = useState(false);
@@ -188,7 +191,7 @@ export function StudioExperience({ proof }: { proof: ProofItem[] }) {
     <main className={cn(s.root, "min-h-dvh overflow-x-clip bg-[#0a0c13]")}>
       {/* Backdrop: the 3D scene on capable devices, a still poster otherwise (and until the tier is known). */}
       <div aria-hidden className={cn(s.poster, "fixed inset-0")}>
-        {afterPaint && tier && tier !== "static" && (
+        {afterPaint && tier && tier !== "static" && !sceneLost && (
           <SceneBoundary>
             <StudioScene
               tier={tier}
@@ -196,10 +199,12 @@ export function StudioExperience({ proof }: { proof: ProofItem[] }) {
               screensReady={finished ? 3 : b.screens.length}
               screenTypes={b.screens.map((x) => x.type)}
               onReady={() => setSceneReady(true)}
+              onLost={onSceneLost}
             />
           </SceneBoundary>
         )}
-        <LoopBackdrop live={tier !== null && tier !== "static" && sceneReady} video={tier === "static"} />
+        {/* Keyed so a lost scene gets a fresh backdrop: the faded-out one has already unmounted itself. */}
+        <LoopBackdrop key={sceneLost ? "lost" : "live"} live={tier !== null && tier !== "static" && sceneReady && !sceneLost} video={tier === "static" || sceneLost} />
       </div>
 
       <div className="relative">

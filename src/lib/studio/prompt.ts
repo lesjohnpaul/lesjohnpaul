@@ -1,10 +1,10 @@
 import { z } from "zod";
 import type Anthropic from "@anthropic-ai/sdk";
 import type { TraceEvent } from "./trace.ts";
-import { PrototypeSchema, parseScreen, type Prototype, type Screen, type StudioRequest } from "./schema.ts";
+import { Accent, PrototypeSchema, parseScreen, type Prototype, type Screen, type StudioRequest } from "./schema.ts";
 
 export type StudioEvent =
-  | { t: "spec"; v: { business: string; spec: string } }
+  | { t: "spec"; v: { business: string; spec: string; accent?: Accent } }
   | { t: "screen"; i: number; v: Screen }
   | { t: "done"; buildId: string }
   | { t: "fallback"; v: { label: string; prototype: Prototype } }
@@ -49,6 +49,9 @@ export const STUDIO_SYSTEM = `You are Pao, Les's build assistant. A visitor desc
 - Pick the 3 screen types that best fit their problem.
 - Use the odontogram screen only for dental businesses, and always include it for them.
 - Write every string (business name, spec line, titles, labels, sample data) in the same language as the visitor's text: English in, English out; Taglish or Filipino in, the same Taglish or Filipino out. Never use any other language, such as Spanish.
+- Pick the accent colour that suits the business (for example emerald or teal for health, coral or rose for food and beauty, sky or indigo for logistics and services). Use gold only when nothing else fits.
+- On a dashboard, give every KPI a delta with its tone, and add a breakdown that splits one of the totals into 3 to 5 parts.
+- In tables, include one status column with short one- or two-word values.
 - Invent generic, realistic sample data: no real people, companies, brands, URLs or addresses.
 - Never mention Les's past clients or projects.
 - Output only by calling render_prototype. Do not write any other text.
@@ -63,12 +66,14 @@ export function buildUserMessage(r: StudioRequest): string {
 }
 
 export function progress(snapshot: unknown, sent: { spec: boolean; screens: number }): StudioEvent[] {
-  const s = snapshot as { business?: unknown; spec?: unknown; screens?: unknown } | null;
+  const s = snapshot as { business?: unknown; spec?: unknown; accent?: unknown; screens?: unknown } | null;
   const out: StudioEvent[] = [];
   if (!s || !Array.isArray(s.screens)) return out;
   if (!sent.spec && typeof s.business === "string" && typeof s.spec === "string") {
     sent.spec = true;
-    out.push({ t: "spec", v: { business: s.business, spec: s.spec } });
+    // `screens` comes last in the schema, so the accent has streamed by now; anything unknown just renders in gold.
+    const accent = Accent.safeParse(s.accent).data;
+    out.push({ t: "spec", v: { business: s.business, spec: s.spec, ...(accent && { accent }) } });
   }
   while (s.screens.length > sent.screens + 1) {
     const v = parseScreen(s.screens[sent.screens]);

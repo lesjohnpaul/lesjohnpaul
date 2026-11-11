@@ -13,8 +13,22 @@ export type StudioRequest = z.infer<typeof StudioRequest>;
 const Dashboard = z.object({
   type: z.literal("dashboard"),
   title,
-  kpis: z.array(z.object({ label, value: label })).min(2).max(4),
+  kpis: z
+    .array(
+      z.object({
+        label,
+        value: label,
+        delta: z.string().min(1).max(12).optional().describe('Short change vs the previous period, e.g. "+12%" or "-3"'),
+        tone: z.enum(["good", "bad", "neutral"]).optional().describe("Whether that change is good or bad for the business"),
+      }),
+    )
+    .min(2)
+    .max(4),
   chart: z.object({ label, points: z.array(z.number()).min(5).max(12) }),
+  breakdown: z
+    .object({ label, items: z.array(z.object({ label, value: z.number().positive() })).min(2).max(5) })
+    .optional()
+    .describe("A split of one total into parts, e.g. sales by category or orders by channel"),
 });
 
 const Table = z
@@ -92,9 +106,15 @@ const Odontogram = z.object({
 export const Screen = z.discriminatedUnion("type", [Dashboard, Table, Form, MapScreen, Booking, Kanban, Odontogram]);
 export type Screen = z.infer<typeof Screen>;
 
+// The prototype's own brand colour. Optional: builds stored before it existed still parse (and render in gold).
+export const ACCENTS = ["gold", "coral", "rose", "emerald", "teal", "sky", "indigo", "violet"] as const;
+export const Accent = z.enum(ACCENTS);
+export type Accent = z.infer<typeof Accent>;
+
 export const PrototypeSchema = z.object({
   business: z.string().min(1).max(40),
   spec: z.string().min(1).max(160),
+  accent: Accent.optional().describe("Brand colour that suits this business"),
   screens: z.tuple([Screen, Screen, Screen]),
 });
 export type Prototype = z.infer<typeof PrototypeSchema>;

@@ -1,8 +1,8 @@
 "use client";
 
-import { useId, useRef, useState, type ComponentType, type KeyboardEvent, type SVGProps } from "react";
+import { useId, useRef, useState, type ComponentType, type CSSProperties, type KeyboardEvent, type SVGProps } from "react";
 import { CalendarDays, ClipboardList, LayoutDashboard, Map as MapIcon, SquareKanban, Table2 } from "lucide-react";
-import type { Prototype, Screen } from "@/lib/studio/schema";
+import type { Accent, Prototype, Screen } from "@/lib/studio/schema";
 import { cn } from "@/lib/utils";
 import { BookingScreen } from "./screens/booking-screen";
 import { DashboardScreen } from "./screens/dashboard-screen";
@@ -21,6 +21,18 @@ const ICONS: Record<Screen["type"], ComponentType<SVGProps<SVGSVGElement>>> = {
   booking: CalendarDays,
   kanban: SquareKanban,
   odontogram: ToothIcon,
+};
+
+// Every accent sits at the same lightness as the brand gold, so the dark ink on buttons keeps its contrast.
+const ACCENT: Record<Accent, string> = {
+  gold: "oklch(0.78 0.16 85)",
+  coral: "oklch(0.78 0.14 40)",
+  rose: "oklch(0.78 0.13 5)",
+  emerald: "oklch(0.78 0.15 155)",
+  teal: "oklch(0.78 0.11 190)",
+  sky: "oklch(0.78 0.11 235)",
+  indigo: "oklch(0.78 0.11 275)",
+  violet: "oklch(0.78 0.13 305)",
 };
 
 export function ScreenView({ screen }: { screen: Screen }) {
@@ -81,8 +93,11 @@ export function PrototypeView({
   }
 
   return (
-    <div className={cn(s.root, className)}>
+    // The prototype wears the business's own colour: everything inside reads --gold, so one override re-themes it.
+    <div className={cn(s.root, className)} style={prototype.accent ? ({ "--gold": ACCENT[prototype.accent] } as CSSProperties) : undefined}>
       <div className={cn(s.glass, "overflow-hidden rounded-2xl")}>
+        {/* Keyed on the count, so the sheen replays each time another screen lands. */}
+        {revealed > 0 && <span key={revealed} aria-hidden className={s.sheen} />}
         {/* App chrome */}
         <div className="flex items-center gap-3 border-b border-white/10 px-4 py-3 sm:px-5">
           <span

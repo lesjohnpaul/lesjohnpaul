@@ -110,3 +110,12 @@ test("4 patients rejected", () => {
   assert.equal(parseScreen(odontogram({ patients: [{ ...p, note: "x".repeat(61) }] })), null);
   assert.equal(parseScreen(odontogram({ patients: [{ name: "P", teeth: [{ tooth: 11, condition: "chipped" }] }] })), null);
 });
+
+test("accent, KPI deltas and breakdown are optional extras", () => {
+  // Builds stored before these fields existed must keep parsing.
+  assert.equal(parsePrototype(proto())?.accent, undefined);
+  const rich = { ...dashboard, kpis: [{ label: "Orders", value: "128", delta: "+12%", tone: "good" }, { label: "Late", value: "3" }], breakdown: { label: "By channel", items: [{ label: "Walk-in", value: 80 }, { label: "Online", value: 48 }] } };
+  assert.equal(parsePrototype(proto({ accent: "teal", screens: [rich, table, kanban] }))?.accent, "teal");
+  assert.equal(parsePrototype(proto({ accent: "neon" })), null);
+  assert.equal(parseScreen({ ...rich, breakdown: { label: "x", items: [{ label: "only one", value: 1 }] } }), null);
+});
