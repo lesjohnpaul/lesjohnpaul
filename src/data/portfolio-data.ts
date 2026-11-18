@@ -386,7 +386,7 @@ export const experience = [
       "Cut a 2-week tax compliance reporting process to a two-click run that finishes in under 5 minutes",
       "Authored PFAS, a partner file ETL platform replacing manual SFTP/email ingestion workflows",
       "Automated WESM settlement invoicing: a full-workday, ~50-invoice manual batch now runs in under 30 seconds with zero transcription errors",
-      "Modernized the meter reading system from procedural PHP/jQuery to Fastify + React 18 with zero-migration coexistence against the live MySQL database, then added a case queue for every suspect reading, photo evidence, an offline inspection app, and a consumer map (660+ automated tests)",
+      "Modernized the meter reading system from procedural PHP/jQuery to Fastify + React 18 with zero-migration coexistence against the live MySQL database, then built an explainable detection engine (7 anomaly types, each with a suggested cause and verdict), a case queue with photo evidence, an offline inspection app, and a consumer map (660+ automated tests)",
       "Building the AI layer on the meter reading platform: photo-versus-typed reading checks at the meter, a plain-language assistant over the reading data, and one-prompt reports",
       "Wrote the billing system's working knowledge as five Claude skills with a 15-minute installer, so office staff ask the AI instead of waiting for the one person who knows",
       "Delivered a real-time QR-ballot election platform for the employee cooperative with live tallies and admin-approved ballot access",

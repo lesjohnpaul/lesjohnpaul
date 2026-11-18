@@ -1584,6 +1584,7 @@ const list: CaseStudy[] = [
       "~25 route-level modules in the new React app",
       "10+ report types with PDF and CSV export",
       "660+ automated tests across 51 test files",
+      "7 anomaly types and 10 named causes in the detection engine",
       "A dry run flagged 3,641 of 100,709 read accounts in one billing period, and each flag became a case",
       "~240,000 consumer locations on the map",
       "Legacy and modern stacks run side by side on the same production database",
@@ -1612,6 +1613,11 @@ const list: CaseStudy[] = [
         problem: "Revenue leaks were invisible: sudden drops in readings, “disconnected” meters still turning, and gaps or duplicates in invoice numbers.",
         fix: "Each account is checked against its own 3-period average using the cooperative's own limits, with first bills exempt, and flagged as a drop, spike, zero, or recurring anomaly with an estimated loss. Disconnected meters still consuming are ranked by kWh, and invoice series are checked for duplicates, gaps, and out-of-order numbers.",
         shots: ["/images/projects/meter-reading/04-anomaly-detection.webp", "/images/projects/meter-reading/06-invoice-analysis.webp"],
+      },
+      {
+        problem: "A flag that only says \"anomaly\" still leaves the analyst to work out what went wrong.",
+        fix: "The detection engine explains every flag in plain language with the numbers behind it, then proposes a cause and a verdict: a misread, a dial rollover, a replaced meter, a stuck or estimated reading, a stopped meter, or suspected tampering. Each suggestion is marked as backed by history or as needing a check against the photo. The analyst accepts or overrides it, and the system tracks how often its suggestions are accepted.",
+        shots: [],
       },
       {
         problem: "A suspect reading was only a badge on a screen. Nobody owned it, so misreads reached the bill.",
@@ -1680,6 +1686,20 @@ const list: CaseStudy[] = [
           "Invoice analysis: duplicates, gaps, and out-of-order numbers per area",
           "Account 360: profile, billing ledger, 12-month consumption, reading history, field findings, and the meter photo",
           "Exports to CSV, Word, and PDF, with the meter photo included",
+        ],
+      },
+      {
+        group: "Detection engine",
+        items: [
+          "7 anomaly types: spike, drop, zero, flat, reading lower than the last one, last month's reading lower than the month before, and an implausible rollover",
+          "Every flag carries a plain-language reason with the actual numbers, such as the percent above the 3-period average",
+          "Each flag proposes one of 10 causes and a verdict, with a corrected kWh where the math allows it",
+          "Suggestions are labeled as backed by history or as needing a photo check, and acceptance is tracked",
+          "Dial rollovers, meter replacements, and first bills are recognized and explained instead of flagged",
+          "Small movements are still flagged for policy but ranked low, so the queue stays about money",
+          "Location checks: a consumer's point is trusted only after three consecutive periods of photo GPS agree within 25 m, and an inspection more than 200 m off raises a mismatch",
+          "Disconnected meters still consuming, and duplicate, missing, or out-of-order invoice numbers",
+          "All rules are pure functions with unit tests, and every limit lives in one place",
         ],
       },
       {
@@ -1791,7 +1811,7 @@ const list: CaseStudy[] = [
       "Suspect readings are reviewed against photo evidence before billing, and each one has a named analyst and a recorded decision.",
     ],
     aiAngle:
-      "Today the watching is rule-based: every account is checked against its own baseline, and drops, spikes, still-running disconnected meters, and invoice gaps become cases with an estimated loss. The AI layer on top is in build: reading the meter photo and comparing it with the typed value before the reader leaves, a plain-language assistant that answers questions from the reading data, and one-prompt reports in the cooperative's own format.",
+      "Today the detection is rule-based and explainable: every account is checked against its own baseline, each flag comes with a reason, a proposed cause, and a suggested verdict, and a person decides. That gives the AI layer a labeled history to work from. The AI layer is in build: reading the meter photo and comparing it with the typed value before the reader leaves, a plain-language assistant that answers questions from the reading data, and one-prompt reports in the cooperative's own format.",
     status: "In production",
   },
   {
