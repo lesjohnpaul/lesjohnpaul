@@ -178,7 +178,7 @@ flowchart LR
 <td align="center"><h3>250K+</h3><sub>consumers served by<br/>systems I built</sub></td>
 <td align="center"><h3>16</h3><sub>production systems<br/>shipped as architect</sub></td>
 <td align="center"><h3>13,000+</h3><sub>attendees checked in<br/>across 5 venues</sub></td>
-<td align="center"><h3>₱14.95M</h3><sub>Azure hybrid migration,<br/>sole architect</sub></td>
+<td align="center"><h3>₱14.95M</h3><sub>Azure hybrid adoption,<br/>initiated & designed</sub></td>
 </tr>
 <tr>
 <td align="center"><h3>2.1 TB</h3><sub>production databases<br/>run as DBA</sub></td>

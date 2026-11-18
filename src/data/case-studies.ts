@@ -1014,10 +1014,10 @@ const list: CaseStudy[] = [
   {
     slug: "azure-hybrid-cloud-migration-in-progress",
     client: "250K-member electric cooperative",
-    role: "Solo architect",
+    role: "Initiated design, worked with Adverba cloud engineers for implementation, now maintains",
     summary:
-      "A ₱14.95M multi-milestone migration (in progress) of identity, collaboration, and disaster recovery to Microsoft Azure. The primary databases stay on hardware the cooperative owns, and a replica in Azure keeps in step with every transaction.",
-    headline: "A ₱14.95M hybrid cloud program (in progress) designed and led by a single architect, with 2.1 TB of production databases replicated off-site.",
+      "A ₱14.95M hybrid cloud adoption (in progress) of identity, collaboration, and disaster recovery to Microsoft Azure. Initiated and designed by Les, implemented by Adverba cloud engineers, now maintained by Les. The primary databases stay on hardware the cooperative owns, and a replica in Azure keeps in step with every transaction.",
+    headline: "A ₱14.95M hybrid cloud adoption (in progress) initiated and designed in-house, implemented by Adverba cloud engineers, with 2.1 TB of production databases replicated off-site.",
     scale: [
       "2.1 TB of production databases, primary kept on-prem",
       "3 workloads moved to Azure: identity, collaboration, and disaster recovery",

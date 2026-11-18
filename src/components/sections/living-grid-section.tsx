@@ -37,7 +37,7 @@ const NODE_MAP: (GridNodeDef & { projectTitle: string })[] = [
     sub: "₱14.95M MIGRATION",
     position: [-5.2, 0, -2.8],
     kind: "substation",
-    projectTitle: "Azure Hybrid Cloud Migration",
+    projectTitle: "Azure Hybrid Cloud Adoption",
   },
   {
     id: "agam",
