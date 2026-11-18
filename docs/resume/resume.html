@@ -7,9 +7,9 @@
      Top third = proof: title match, 3-line summary, deployed AI projects with live links.
      Print with Chromium to A4 PDF: public/les-john-paul-oliver-resume.pdf -->
 <style>
-  @page { size: A4; margin: 10mm 13mm; }
+  @page { size: A4; margin: 9mm 13mm; }
   * { box-sizing: border-box; }
-  body { font-family: Arial, Helvetica, sans-serif; font-size: 9.2pt; line-height: 1.28; color: #111; margin: 0; }
+  body { font-family: Arial, Helvetica, sans-serif; font-size: 9.2pt; line-height: 1.25; color: #111; margin: 0; }
   h1 { font-size: 14pt; margin: 0; letter-spacing: 0.4px; }
   .headline { font-size: 10.2pt; font-weight: bold; margin: 1px 0 2px; }
   .contact { font-size: 8.7pt; margin: 0; }
@@ -25,49 +25,61 @@
 <body>
 
 <h1>LES JOHN PAUL P. OLIVER</h1>
-<p class="headline">AI Engineer | LLM Agents, AI Automation, Full-Stack Production Systems</p>
+<p class="headline">AI Engineer | AI-Driven Full-Stack Development, Production Systems, Cloud Infrastructure</p>
 <p class="contact">Philippines (Remote) | +63 915 421 3651 | lesjohnpauloliver@gmail.com | linkedin.com/in/lesjohnpaul | github.com/lesjohnpaul | <a href="https://lesjohnpauloliver.dev">lesjohnpauloliver.dev</a></p>
 
 <h2>Summary</h2>
-<p>AI engineer who ships LLM features into real business operations, not demos. 10 years building production systems for a utility serving 250,000+ consumers; sole architect and only engineer on 16+ of them, from requirements to deployment. Recent work: an AI-assisted refund pipeline with human-in-the-loop safety, a live tool-using AI agent, and automations that turned weeks of manual work into minutes. ACS-assessed Software Engineer (ANZSCO 261313).</p>
+<p>AI engineer using modern AI coding tools to ship production systems faster while following engineering best practices. 10 years building systems for a 250,000-consumer utility; sole architect on 16+ of them. Recent work: a meter reading platform with explainable AI (660+ tests), a ₱14.95M Azure migration (2.1 TB databases), AI-assisted refund automation with human-in-the-loop safety, and Claude skills that turned 2-week reports into 5-minute runs. ACS-assessed Software Engineer (ANZSCO 261313).</p>
 
-<h2>AI Projects in Production (Sole Engineer, End to End)</h2>
+<h2>Key Projects in Production (Sole Engineer, End to End)</h2>
+<h3>PANELCO III Meter Reading Platform | React, Fastify, MySQL, AI Detection Engine | ~200,000 accounts</h3>
+<ul>
+  <li>Rebuilt legacy PHP system to React + Fastify with zero downtime on live database; added explainable AI: 7 anomaly types with suggested cause and fix analysts accept or override; flagged 3,641 of 100,709 readings; 660+ automated tests.</li>
+  <li>Built offline-first inspection app, WebGL map of ~240,000 consumer locations; AI layer adds vision checks of meter photos, a talk-to-your-data assistant, and one-prompt reports.</li>
+</ul>
+<h3>Azure Hybrid Cloud Migration | Azure, SQL Server Distributed AG, HCI | ₱14.95M budget</h3>
+<ul>
+  <li>Leading migration as sole architect: 2.1 TB of production databases replicate to Azure standby transaction by transaction (99.9% uptime); in-house builds saved estimated ₱8M+ in vendor costs.</li>
+</ul>
+<h3>Consumer Billing & Self-Service Portal | Next.js, Supabase, Cloudflare Tunnel | 250,000+ consumers</h3>
+<ul>
+  <li>Self-service portal for bills, payments, usage history, outage reporting, and staff dispatch; on-prem sync agent mirrors billing database to cloud with rate limiting so the portal never loads the system of record.</li>
+</ul>
+<h3>Billing System Skills for Claude | Claude Code, PowerShell, Private GitHub | 5 skills, 15-min setup</h3>
+<ul>
+  <li>Packaged billing-system knowledge as 5 Claude skills with one-run installer; staff ask AI instead of waiting for the one person who knows.</li>
+</ul>
 <h3>AI-Assisted Refund Automation | Claude, Python, FastAPI, SQL Server | <a href="https://lesjohnpauloliver.dev/work/ai-assisted-refund-automation">case study</a></h3>
 <ul>
-  <li>Put an LLM inside a money workflow safely: Claude reviews flagged refunds with read-only tools and a fixed JSON schema, while deterministic rules and a human confirm every ledger change.</li>
-  <li>Automated a daily approval queue spanning two legacy systems with no API: 7 request types run in single transactions with saved reverse scripts; AI failures never fail the batch; 538 automated tests.</li>
+  <li>Claude reviews flagged refunds read-only with fixed JSON schema; deterministic rules and human confirm every ledger change; 7 request types in single transactions with reverse scripts; 538 tests.</li>
 </ul>
-<h3>Pao: Live AI Agent with Tool Use | Claude API, Next.js, Redis, Cal.com | try it at <a href="https://lesjohnpauloliver.dev">lesjohnpauloliver.dev</a></h3>
+<h3>Pao: Live AI Agent | Claude API, Next.js, Redis, Cal.com | try it at <a href="https://lesjohnpauloliver.dev">lesjohnpauloliver.dev</a></h3>
 <ul>
-  <li>Built an agent that answers only from verified data, checks live calendar availability, books meetings, and alerts by email and Telegram.</li>
-  <li>Hardened it for the open internet with prompt-injection defenses, rate limits, and an atomic daily spend cap; prompt caching keeps cost near $0.0002 per message.</li>
+  <li>Agent answers from verified data, checks calendar availability, books meetings, alerts by email and Telegram; hardened with prompt-injection defenses, rate limits, atomic spend cap.</li>
 </ul>
 <h3>WeCare: Multi-Tenant Pharmacy SaaS | React 19, Supabase, PostgreSQL | <a href="https://lesjohnpauloliver.dev/work/wecare-pharmacy-pos-dispensing-platform">case study</a></h3>
 <ul>
-  <li>Shipped a platform live since August 2026 for a multi-branch pharmacy and clinic operator (POS, PhilHealth claims, FEFO inventory, CEO dashboards), with tenant isolation in row-level security proven by a two-tenant test matrix and a ledger load-tested at 10&times; production volume (143 ms worst case).</li>
+  <li>Live platform for multi-branch pharmacy (POS, PhilHealth claims, FEFO inventory, CEO dashboards); tenant isolation in row-level security, ledger load-tested at 10&times; production (143 ms worst case).</li>
 </ul>
 
 <h2>Experience</h2>
 <h3>PANELCO III Electric Cooperative, Urdaneta City, Philippines | Mar 2016 &ndash; Present</h3>
 <p class="meta"><b>System Administration Officer / Solutions Architect</b> | Sep 2022 &ndash; Present (promoted from Specialist I, 2019&ndash;2022, and Consumer Welfare Assistant, 2016&ndash;2019)</p>
 <ul>
-  <li>Cut tax compliance reporting from 2 weeks to under 5 minutes with a 2-click Python automation that generates regulated PDFs straight from SQL Server.</li>
-  <li>Cut wholesale electricity invoicing from a full workday to under 30 seconds per ~50-invoice batch, with zero transcription errors and 59 automated tests.</li>
-  <li>Architected an IT service management platform for ~300 staff across 12 offices; load-tested at 300 simultaneous requests, with 15,000-ticket reports under 500 ms (p95).</li>
-  <li>Cut annual-assembly registration from ~3 minutes to under 15 seconds per member for 13,000+ attendees across 5 venues with a real-time QR platform.</li>
-  <li>Leading ACIRS, a 24/7 AI customer-support system that answers from the knowledge base and routes escalations to the right department (launching Q1 2027).</li>
-  <li>Modernized the legacy PHP meter reading platform to React and Fastify with no downtime, and shipped a billing self-service portal and e-invoicing service for 250,000+ consumers.</li>
-  <li>Led a &#8369;14.95M Azure hybrid cloud migration as sole architect; run 4 SQL Server databases (1.17 TB+) at 99.9% uptime; in-house builds saved an estimated &#8369;8M+ in vendor costs over 3 years.</li>
+  <li>Built 16+ production systems from requirements to deployment for 250,000+ consumers and ~300 staff across 12 offices.</li>
+  <li>Cut tax compliance reporting from 2 weeks to under 5 minutes (2-click Python automation); wholesale electricity invoicing from full workday to under 30 seconds per ~50-invoice batch with zero transcription errors (59 tests).</li>
+  <li>Shipped IT service management platform load-tested at 300 simultaneous requests (15,000-ticket reports under 500 ms p95); annual-assembly registration for 13,000+ attendees across 5 venues (under 15 seconds per member).</li>
+  <li>Leading ACIRS, a 24/7 AI support system with knowledge-base answers and department routing (launching Q1 2027).</li>
 </ul>
 <h3>Founder and Engineer, Sneaker Symphony | 2024 &ndash; Present | Remote</h3>
 <ul>
-  <li>Run an online store solo with a scrape-to-catalog import pipeline and a Claude API pipeline that writes and schedules social posts (Next.js, Supabase, Inngest, PayMongo).</li>
+  <li>Solo-built Philippine sneaker marketplace with scrape-to-catalog pipeline; Claude Haiku parses product titles; GCash, bank transfer, COD payments.</li>
 </ul>
 
 <h2>Skills</h2>
-<p><b>AI / LLM:</b> Claude API (Anthropic), OpenAI API, AI agents, tool use / function calling, prompt engineering, prompt caching, RAG and knowledge-base grounding, structured outputs (JSON schema), human-in-the-loop design, guardrails and prompt-injection defense, LLM cost control, MCP, Claude Code</p>
+<p><b>AI Systems:</b> Claude API, OpenAI API, AI agents, tool use / function calling, prompt engineering, RAG and knowledge-base grounding, structured outputs (JSON schema), human-in-the-loop design, guardrails and prompt-injection defense, cost control, MCP, Claude Code</p>
 <p><b>Engineering:</b> Python, TypeScript, React, Next.js, Node.js, FastAPI, Fastify, Express, C#, PHP, REST APIs, ETL, web scraping, n8n, Inngest, automated testing (pytest, Playwright)</p>
-<p><b>Data and Cloud:</b> SQL Server (DBA), PostgreSQL, Supabase (row-level security), MySQL, Redis, Azure, AWS SES, Vercel, Docker, Linux, CI/CD, Git</p>
+<p><b>Data and Cloud:</b> SQL Server (DBA, availability groups), PostgreSQL, Supabase (row-level security), MySQL, Redis, Azure, AWS SES, Vercel, Docker, Linux, CI/CD, Git</p>
 
 <h2>Education and Certifications</h2>
 <p><b>BS Information and Communications Technology</b>, Pangasinan State University, 2015</p>

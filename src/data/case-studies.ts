@@ -466,6 +466,63 @@ const list: CaseStudy[] = [
     status: "In build",
   },
   {
+    slug: "billing-system-skills-for-claude",
+    client: "250K-member electric cooperative",
+    role: "Solo author & trainer",
+    summary:
+      "Wrote down how the cooperative's billing system works as a set of Claude skills, so any staff member can ask the AI instead of waiting for the one person who knows.",
+    headline: "Turned knowledge that lived in a few people's heads into five installable AI skills, set up in about 15 minutes per person.",
+    scale: [
+      "5 skills: collections, invoicing, areas and books, prompt payors, and notifications",
+      "About 15 minutes of one-time setup per person",
+      "One private, versioned source of system knowledge",
+    ],
+    challenge: [
+      "Knowledge of how the billing system works lived in a few people's heads.",
+      "Staff had to explain the billing system to the AI from scratch every time.",
+      "Most staff had only ever used AI on a website, never as a working tool.",
+    ],
+    fixes: [
+      {
+        problem: "Knowledge of how the billing system works lived in a few people's heads.",
+        fix: "What the experts know was written down once, as skills: how collections, invoicing, areas and books, prompt payors, and notifications actually work in this system.",
+        shots: [],
+      },
+      {
+        problem: "Staff had to explain the billing system to the AI from scratch every time.",
+        fix: "The skills install on each person's machine, so the assistant already knows the system when the question comes.",
+        shots: [],
+      },
+      {
+        problem: "Most staff had only ever used AI on a website, never as a working tool.",
+        fix: "A step-by-step guide written for people who have never opened a terminal, plus an installer that does the setup in one run.",
+        shots: [],
+      },
+    ],
+    approach: [
+      "Write the knowledge once and version it, so a correction reaches everyone on the next update.",
+      "Keep it private: access is by invitation, and the repository stays inside the organization.",
+      "Make the first 15 minutes easy, because adoption is decided there.",
+    ],
+    built: [
+      "Five skills that teach Claude the cooperative's billing system",
+      "A one-run installer and a plain-language setup guide",
+      "An invite-only private repository, improved over time",
+    ],
+    architecture: [
+      "Expert knowledge is captured as skill files in a private, versioned repository.",
+      "An installer script places the skills on each staff member's machine.",
+      "Claude Code loads the relevant skill when a billing question comes up.",
+    ],
+    outcome: [
+      "In use by office staff, not only by IT.",
+      "System knowledge has one shared, versioned source instead of a few people's memory.",
+    ],
+    aiAngle:
+      "This is AI enablement, not an AI feature: the work is turning tacit system knowledge into skills an assistant can load, and getting non-technical staff to use it as a working tool.",
+    status: "In production",
+  },
+  {
     slug: "tax-compliance-automation",
     client: "250K-member electric cooperative",
     role: "Solo engineer",
@@ -959,21 +1016,33 @@ const list: CaseStudy[] = [
     client: "250K-member electric cooperative",
     role: "Solo architect",
     summary:
-      "A ₱14.95M multi-milestone migration (in progress) of core operational workloads to Microsoft Azure, keeping compliance-bound systems on-prem.",
-    headline: "A ₱14.95M hybrid cloud program (in progress) designed and led by a single architect.",
+      "A ₱14.95M multi-milestone migration (in progress) of identity, collaboration, and disaster recovery to Microsoft Azure. The primary databases stay on hardware the cooperative owns, and a replica in Azure keeps in step with every transaction.",
+    headline: "A ₱14.95M hybrid cloud program (in progress) designed and led by a single architect, with 2.1 TB of production databases replicated off-site.",
+    scale: [
+      "2.1 TB of production databases, primary kept on-prem",
+      "3 workloads moved to Azure: identity, collaboration, and disaster recovery",
+      "About 300 staff across 12 offices sign in the same way",
+      "Azure Southeast Asia region",
+    ],
     challenge: [
       "Identity, collaboration, and disaster recovery needed to move to the cloud.",
       "Some workloads are compliance-bound and have to stay on-prem.",
+      "If the server room was lost, there was no off-site copy of the billing databases to recover from.",
     ],
     fixes: [
       {
         problem: "Identity, collaboration, and disaster recovery needed to move to the cloud.",
-        fix: "Identity and collaboration move to Microsoft Azure, and disaster recovery runs there too, so a site failure has an off-site recovery target. In progress.",
+        fix: "Identity and collaboration move to Microsoft Azure, so about 300 staff across 12 offices sign in and work together the same way. Disaster recovery runs there too. In progress.",
         shots: [],
       },
       {
         problem: "Some workloads are compliance-bound and have to stay on-prem.",
-        fix: "A hybrid topology keeps those workloads on the on-prem HCI cluster. Workloads are placed by compliance requirement first, so regulated systems never leave the premises.",
+        fix: "A hybrid topology keeps billing, membership, accounting, and meter reading on the on-prem HCI cluster. Workloads are placed by compliance requirement first, so regulated systems never leave the premises.",
+        shots: [],
+      },
+      {
+        problem: "If the server room was lost, there was no off-site copy of the billing databases to recover from.",
+        fix: "The full 2.1 TB of databases was seeded to a standby replica in Azure. A distributed availability group then copies each transaction to the cloud as it commits, so the off-site copy is seconds behind, not a night behind.",
         shots: [],
       },
       {
@@ -983,26 +1052,32 @@ const list: CaseStudy[] = [
       },
     ],
     approach: [
-      "A hybrid topology: on-prem HCI keeps the compliance-bound workloads, Azure takes identity, collaboration, and DR.",
+      "A partial migration by design: the primary stays on hardware the cooperative owns, and Azure takes identity, collaboration, and the standby replica.",
+      "Off-site recovery without exposing the billing system to the internet.",
       "Delivered in milestones, with vendor management under one architect. In progress.",
     ],
     built: [
       "Hybrid cloud topology linking on-prem HCI with Azure",
       "Identity and collaboration moved to Azure",
-      "Disaster recovery on Azure",
+      "A distributed availability group replicating 2.1 TB of databases to a standby replica in Azure",
+      "Written incident procedures, including disk-failure recovery for billing",
     ],
     architecture: [
-      "On-prem HCI keeps the compliance-bound workloads inside the cooperative.",
-      "Identity and collaboration move to Microsoft Azure.",
-      "Disaster recovery runs on Azure, so a site failure has an off-site recovery target.",
+      "On-prem HCI cluster with two-copy storage redundancy keeps the compliance-bound workloads inside the cooperative.",
+      "Identity and collaboration run on Microsoft Azure.",
+      "A distributed availability group copies each committed transaction from the on-prem primary to a standby replica in Azure.",
       "A hybrid link ties the on-prem cluster and Azure into one topology.",
     ],
     engineering: [
+      "Seeded the full database set to the cloud first, then switched to continuous replication, so the standby was complete before it started tracking live changes.",
       "Delivered as a multi-milestone program, so each phase lands before the next one starts.",
       "Workloads are placed by compliance requirement first, so regulated systems never leave the premises.",
       "Vendor work is managed under one architect, so design decisions stay consistent across milestones.",
     ],
-    outcome: ["A ₱14.95M program led by a single architect."],
+    outcome: [
+      "A ₱14.95M program led by a single architect.",
+      "The cooperative's billing databases now have an off-site replica that tracks the primary transaction by transaction.",
+    ],
     status: "In build",
   },
   {
@@ -1502,12 +1577,16 @@ const list: CaseStudy[] = [
     client: "Electric distribution cooperative with ~200,000 consumer accounts",
     role: "Solo full-stack engineer",
     summary:
-      "Rebuilt a production PHP and jQuery meter reading system as a React and Fastify app on the same live database, then grew it into the cooperative's operations hub: live cycle tracking, revenue-leak detection, reader scoring, and verified backups.",
-    headline: "Modernized a live billing-critical system with no data migration and no downtime, then turned it into a tool that finds lost revenue.",
+      "Rebuilt a production PHP and jQuery meter reading system as a React and Fastify app on the same live database, then grew it into the cooperative's meter-to-bill hub: live cycle tracking, revenue-leak detection, a case queue for every suspect reading, photo evidence, an offline inspection app, and a consumer map.",
+    headline: "Modernized a live billing-critical system with no data migration and no downtime, then turned every suspect reading into a case someone owns before the bill goes out.",
     scale: [
       "~200,000 consumer accounts across 17 municipalities",
       "~25 route-level modules in the new React app",
       "10+ report types with PDF and CSV export",
+      "660+ automated tests across 51 test files",
+      "7 anomaly types and 10 named causes in the detection engine",
+      "A dry run flagged 3,641 of 100,709 read accounts in one billing period, and each flag became a case",
+      "~240,000 consumer locations on the map",
       "Legacy and modern stacks run side by side on the same production database",
       "Before: 9 of 14 modules logged nothing",
     ],
@@ -1515,6 +1594,8 @@ const list: CaseStudy[] = [
       "Knowing the billing cycle's status meant calling around and adding up per-book reports by hand, so lagging towns were found after the deadline.",
       "Revenue leaks were invisible: sudden drops in readings, \"disconnected\" meters still turning, and gaps or duplicates in invoice numbers.",
       "Reader performance and the outside contractor's readings were judged on opinion.",
+      "A suspect reading was only a badge on a screen. Nobody owned it, so misreads reached the bill.",
+      "An account had a number and a name, but analysts and inspectors could not see where it was.",
       "There was no audit trail, backups were manual, and certain report queries crashed the production database server.",
     ],
     fixes: [
@@ -1530,8 +1611,28 @@ const list: CaseStudy[] = [
       },
       {
         problem: "Revenue leaks were invisible: sudden drops in readings, “disconnected” meters still turning, and gaps or duplicates in invoice numbers.",
-        fix: "Each account is checked against its own 3-month average and flagged as a drop, spike, zero, or recurring anomaly with an estimated loss. Disconnected meters still consuming are ranked by kWh, and invoice series are checked for duplicates, gaps, and out-of-order numbers.",
+        fix: "Each account is checked against its own 3-period average using the cooperative's own limits, with first bills exempt, and flagged as a drop, spike, zero, or recurring anomaly with an estimated loss. Disconnected meters still consuming are ranked by kWh, and invoice series are checked for duplicates, gaps, and out-of-order numbers.",
         shots: ["/images/projects/meter-reading/04-anomaly-detection.webp", "/images/projects/meter-reading/06-invoice-analysis.webp"],
+      },
+      {
+        problem: "A flag that only says \"anomaly\" still leaves the analyst to work out what went wrong.",
+        fix: "The detection engine explains every flag in plain language with the numbers behind it, then proposes a cause and a verdict: a misread, a dial rollover, a replaced meter, a stuck or estimated reading, a stopped meter, or suspected tampering. Each suggestion is marked as backed by history or as needing a check against the photo. The analyst accepts or overrides it, and the system tracks how often its suggestions are accepted.",
+        shots: [],
+      },
+      {
+        problem: "A suspect reading was only a badge on a screen. Nobody owned it, so misreads reached the bill.",
+        fix: "Every flagged reading becomes a case with a frozen evidence snapshot, a deadline inside the reading cycle, and an analyst assigned by area. The analyst opens the meter photo, compares the numbers, and records a verdict. Nobody can decide a case on a reading they took themselves, and a case closes by itself when the data clears.",
+        shots: [],
+      },
+      {
+        problem: "A disputed reading needed someone to go back to the meter, and the paper inspection report came back days later, if at all.",
+        fix: "Analysts send any account to an inspector. The inspector's phone app works offline, captures the reading, photos, GPS, and a signature, prints the inspection report on a thermal printer at the door, and syncs when signal returns without ever double-posting.",
+        shots: [],
+      },
+      {
+        problem: "An account had a number and a name, but analysts and inspectors could not see where it was.",
+        fix: "A consumer map draws every located account on a WebGL layer, filtered by area, town, book, or route. It keeps its own nightly read-only copy of consumer GPS, flags locations that disagree with where the meter photo was taken, and navigates the inspector to the meter inside the app.",
+        shots: [],
       },
       {
         problem: "Reader performance and the outside contractor's readings were judged on opinion.",
@@ -1553,13 +1654,17 @@ const list: CaseStudy[] = [
       "Zero-migration compatibility: the new stack reads and writes the existing schema exactly as the PHP system does, so modules moved over one at a time.",
       "Correctness over convenience: the current billing period is derived from the data instead of a config row frozen for years, and every account falls into exactly one of five buckets so numbers agree everywhere.",
       "Field verification writes to a separate database; the contractor's readings stay strictly read-only.",
+      "A flag is not finished work. Each one becomes a case with an owner, a deadline, and a recorded verdict, and the person who took a reading can never be the one who clears it.",
+      "Corrections are shown with their reason before anyone presses Execute, and location fixes go through a dry run, an admin approval, and a rollback.",
       "Answer management's questions directly: are we on track, where are we losing money, who is performing.",
     ],
     built: [
       "Live dashboard and a wall TV mode with a coverage map across all 17 towns",
       "Rule-based anomaly detection, disconnected-meter monitoring, and invoice series checks",
+      "Meter integrity case queue with photo evidence, verdicts, deadlines, and six reports",
+      "Offline inspection app with photos, GPS, signature capture, and thermal-printed reports",
+      "Consumer map with GPS data-quality checks and in-app navigation",
       "Account 360, reader scorecards, and contractor progress tracking",
-      "Mobile field verification app with photos and GPS",
       "Audit log, user activity monitoring, and automated encrypted backups",
     ],
     capabilities: [
@@ -1576,11 +1681,61 @@ const list: CaseStudy[] = [
       {
         group: "Revenue protection",
         items: [
-          "Anomaly detection: each account compared to its own 3-month average, flagged as drop, spike, zero, or recurring, with an estimated loss",
+          "Anomaly detection: each account compared to its own 3-period average under the cooperative's limits, with first bills exempt, flagged as drop, spike, zero, or recurring, with an estimated loss",
           "Disconnected consumer monitoring: \"disconnected\" meters still consuming, ranked by kWh, critical at 100 kWh or more",
           "Invoice analysis: duplicates, gaps, and out-of-order numbers per area",
-          "Account 360: profile, billing, 12-month consumption, reading history, and field findings",
-          "Exports to CSV, Word, and PDF",
+          "Account 360: profile, billing ledger, 12-month consumption, reading history, field findings, and the meter photo",
+          "Exports to CSV, Word, and PDF, with the meter photo included",
+        ],
+      },
+      {
+        group: "Detection engine",
+        items: [
+          "7 anomaly types: spike, drop, zero, flat, reading lower than the last one, last month's reading lower than the month before, and an implausible rollover",
+          "Every flag carries a plain-language reason with the actual numbers, such as the percent above the 3-period average",
+          "Each flag proposes one of 10 causes and a verdict, with a corrected kWh where the math allows it",
+          "Suggestions are labeled as backed by history or as needing a photo check, and acceptance is tracked",
+          "Dial rollovers, meter replacements, and first bills are recognized and explained instead of flagged",
+          "Small movements are still flagged for policy but ranked low, so the queue stays about money",
+          "Location checks: a consumer's point is trusted only after three consecutive periods of photo GPS agree within 25 m, and an inspection more than 200 m off raises a mismatch",
+          "Disconnected meters still consuming, and duplicate, missing, or out-of-order invoice numbers",
+          "All rules are pure functions with unit tests, and every limit lives in one place",
+        ],
+      },
+      {
+        group: "Meter integrity cases",
+        items: [
+          "One case per flagged reading per period, created whether or not a photo exists, with the evidence frozen at creation",
+          "Priority by rule and by estimated peso impact; a missing photo raises the priority",
+          "Deadline three days from the flag, capped at the end of the reading cycle",
+          "Automatic assignment to the analyst covering the area with the fewest open cases",
+          "Verdicts: valid, misread corrected, rollover or meter change, re-read needed, defect or tamper",
+          "A reader can never decide a case on their own reading",
+          "Cases close on their own when the data clears and reopen when a new rule fires",
+          "Bulk assign, Excel export, and printed evidence packets",
+          "Reports by book, reader, analyst work, aging, billing impact, and re-read tracking",
+        ],
+      },
+      {
+        group: "Meter photos and inspections",
+        items: [
+          "The reader's photo sits beside the typed reading, so the photo is the evidence",
+          "Photo coverage by town and month, with the list of active consumers that have none",
+          "New-meter and rollover readings are explained instead of flagged",
+          "Installable inspection app that works offline and syncs with idempotent submits, retries, and a sync monitor",
+          "Inspection report with signature capture, printed on a thermal printer as customer and office copies; reprints are stamped",
+          "Analysts send any account to an inspector and track the request",
+        ],
+      },
+      {
+        group: "Consumer map",
+        items: [
+          "WebGL map of every located consumer with area, municipality, book, and route filters",
+          "Nightly read-only copy of consumer GPS, so the map survives a failure in the source system",
+          "GPS mismatch badge and a data-quality list, built from where meter photos were actually taken",
+          "Map, terrain, satellite, and Street View on the inspection evidence",
+          "In-app navigation with rerouting, and an open-source routing fallback",
+          "Location corrections written back only after a dry run and admin approval, with rollback",
         ],
       },
       {
@@ -1634,7 +1789,9 @@ const list: CaseStudy[] = [
     architecture: [
       "React 18 and TypeScript SPA (TanStack Query, Zustand, Recharts, shadcn/ui) talking to a Fastify API with Zod validation.",
       "Existing production MySQL schema accessed through Prisma introspection, with raw SQL for complex reports over per-month history tables.",
-      "A separate SQL Server database holds field verification records.",
+      "A separate database holds field verification and inspection records, so a spot-check can never overwrite a billing reading.",
+      "The inspection app is a PWA with an on-device store and a sync engine; it never caches API responses.",
+      "The consumer map renders with deck.gl from a nightly read-only copy of consumer GPS.",
       "Runs as a Windows service with secure public access through a tunnel; the legacy PHP system keeps running in parallel.",
     ],
     engineering: [
@@ -1644,13 +1801,17 @@ const list: CaseStudy[] = [
       "Streaming keyset-paginated backups keep memory flat regardless of table size.",
       "N+1 queries removed, index-friendly date ranges, request de-duplication, short-lived caching for hot dashboard queries, and route-level code splitting.",
       "README screenshots are real renders of the app fed by a seeded synthetic-data pipeline that fails closed, so no real record can leak into an image.",
+      "660+ automated tests. Case rules, re-read lifecycle, offline sync, and report aggregation are pure functions tested without a database.",
+      "The production database engine crashes on certain aggregates, so every case and map query is a plain or indexed lookup, with aggregation done in application code.",
+      "Requests slower than one second are logged by route, and a closed period's results are cached for hours on the server and in the browser.",
     ],
     outcome: [
       "Legacy and modern stacks run side by side against the live database, with no data migration and no downtime.",
       "Management sees the billing cycle live, and lagging towns show up while there is still time to act.",
+      "Suspect readings are reviewed against photo evidence before billing, and each one has a named analyst and a recorded decision.",
     ],
     aiAngle:
-      "Rule-based detectors do the watching: every account is checked against its own baseline, and drops, spikes, still-running disconnected meters, and invoice gaps land in an inspection queue with an estimated loss.",
+      "Today the detection is rule-based and explainable: every account is checked against its own baseline, each flag comes with a reason, a proposed cause, and a suggested verdict, and a person decides. That gives the AI layer a labeled history to work from. The AI layer is in build: reading the meter photo and comparing it with the typed value before the reader leaves, a plain-language assistant that answers questions from the reading data, and one-prompt reports in the cooperative's own format.",
     status: "In production",
   },
   {

@@ -26,7 +26,7 @@ const NODE_MAP: (GridNodeDef & { projectTitle: string })[] = [
   {
     id: "core",
     label: "GRID CORE",
-    sub: "HCI · 1.17TB SQL · 250K MEMBERS",
+    sub: "HCI · 2.1TB DATA · 250K MEMBERS",
     position: [0, 0, 0],
     kind: "hub",
     projectTitle: "HCI Server Infrastructure",

@@ -107,7 +107,7 @@ Les John Paul offers services in four groups. Technology is his primary focus.
 * **What's included:** Performance tuning, query troubleshooting and optimization, indexing and data integrity, schema design and changes, backup and recovery strategy, corruption recovery, login, user, and permission management, data migration and import or export, reporting queries, health checks, and database integration with web APIs
 * **Platforms:** MS SQL Server, MySQL, MariaDB, PostgreSQL, Supabase, MongoDB
 * **How work starts:** An assessment of the engine and version, schema, workload, data volume, permissions, backup state, and acceptable downtime. No recovery or performance result is promised before that assessment.
-* **Proof:** Administers mission critical SQL Server databases (over 1 TB) at 99.9% uptime. Recovered a page corrupted production database with zero data loss. Built SafeShrink, a SQL Server transaction log recovery tool. Certified in Microsoft SQL Server Administration (2024).
+* **Proof:** Administers 2.1 TB of mission critical production databases at 99.9% uptime. Recovered a page corrupted production database with zero data loss. Built SafeShrink, a SQL Server transaction log recovery tool. Certified in Microsoft SQL Server Administration (2024).
 
 ### 4.7 Dashboards and Reporting
 * **What it is:** Making operational data easy to read and act on
@@ -231,9 +231,10 @@ Les John Paul offers services in four groups. Technology is his primary focus.
 * **Executive Dashboard:** Real time collection analytics and KPI rollups (React, Node.js, Chart.js); monthly executive review cycles shortened by 60%
 * **Online Billing Inquiry System:** Self-service billing for 250,000+ consumers (PHP, MySQL, JavaScript); in-person service traffic down 35%, about PHP 2M saved versus outsourced quotations
 * **Partner Integration API:** FastAPI middleware replacing manual FTP and SFTP workflows; 30+ hours of manual ingestion eliminated per month
-* **Azure Hybrid Cloud Migration:** Sole architect; production SQL Server databases seeded to Azure for a distributed availability group setup
+* **Azure Hybrid Cloud Migration (in progress):** Sole architect; identity, collaboration, and disaster recovery on Azure, with 2.1 TB of production databases kept primary on-prem and replicated to an Azure standby through a distributed availability group
 * **Hyperconverged Infrastructure Migration:** Production workloads moved to a 3 node HCI cluster for better availability and disaster recovery
-* **Meter Reading Management System Modernization:** Upgraded and refactored a legacy Android (Java) and C# system used daily by field crews across 5 area offices
+* **Meter Reading Platform Modernization:** Rebuilt a production PHP and jQuery meter reading system as a React and Fastify app on the same live database with no migration and no downtime, for about 200,000 accounts across 17 municipalities. Added an explainable rule-based detection engine (7 anomaly types, each with a plain-language reason, a suggested cause, and a suggested verdict that an analyst accepts or overrides), a case queue with photo evidence for every suspect reading, an offline inspection app with thermal-printed reports, a consumer map, reader scorecards, and verified backups; 660+ automated tests. An AI layer is in build (not live yet): photo-versus-typed reading checks, a plain-language assistant over the reading data, and one-prompt reports. Earlier work on the same system: upgraded the legacy Android (Java) and C# tools used daily by field crews
+* **Billing System Skills for Claude:** Five Claude skills that teach the AI how the cooperative's billing system works, with a 15-minute installer, in use by office staff
 * **IT Inventory, Warehouse Tracking, and Ticketing Workflows:** Internal systems for tracking assets, stock movement, and support requests
 * **Document Automation:** Python based PDF generation, bulk document processing, and email based delivery
 * **SafeShrink:** SQL Server transaction log recovery tool
