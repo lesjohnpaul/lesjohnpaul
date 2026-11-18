@@ -118,7 +118,7 @@ I'm **Les John Paul Oliver**, an **AI Solutions Architect & Automation Engineer*
 </tr>
 </table>
 
-<div align="center"><a href="https://lesjohnpauloliver.dev/#projects"><b>See all 21 case studies →</b></a></div>
+<div align="center"><a href="https://lesjohnpauloliver.dev/#projects"><b>See all 23 case studies →</b></a></div>
 
 <br/>
 
@@ -181,8 +181,8 @@ flowchart LR
 <td align="center"><h3>₱14.95M</h3><sub>Azure hybrid migration,<br/>sole architect</sub></td>
 </tr>
 <tr>
-<td align="center"><h3>1.17 TB</h3><sub>SQL Server data<br/>run as DBA</sub></td>
-<td align="center"><h3>21</h3><sub>case studies<br/>published</sub></td>
+<td align="center"><h3>2.1 TB</h3><sub>production databases<br/>run as DBA</sub></td>
+<td align="center"><h3>23</h3><sub>case studies<br/>published</sub></td>
 <td align="center"><h3>300</h3><sub>staff on the ITSM<br/>platform, 12 offices</sub></td>
 <td align="center"><h3>10 yrs</h3><sub>in production,<br/>promoted 3×</sub></td>
 </tr>

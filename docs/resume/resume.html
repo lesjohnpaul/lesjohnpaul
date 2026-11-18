@@ -7,9 +7,9 @@
      Top third = proof: title match, 3-line summary, deployed AI projects with live links.
      Print with Chromium to A4 PDF: public/les-john-paul-oliver-resume.pdf -->
 <style>
-  @page { size: A4; margin: 10mm 13mm; }
+  @page { size: A4; margin: 9mm 13mm; }
   * { box-sizing: border-box; }
-  body { font-family: Arial, Helvetica, sans-serif; font-size: 9.2pt; line-height: 1.28; color: #111; margin: 0; }
+  body { font-family: Arial, Helvetica, sans-serif; font-size: 9.2pt; line-height: 1.25; color: #111; margin: 0; }
   h1 { font-size: 14pt; margin: 0; letter-spacing: 0.4px; }
   .headline { font-size: 10.2pt; font-weight: bold; margin: 1px 0 2px; }
   .contact { font-size: 8.7pt; margin: 0; }
@@ -51,23 +51,26 @@
 <h3>PANELCO III Electric Cooperative, Urdaneta City, Philippines | Mar 2016 &ndash; Present</h3>
 <p class="meta"><b>System Administration Officer / Solutions Architect</b> | Sep 2022 &ndash; Present (promoted from Specialist I, 2019&ndash;2022, and Consumer Welfare Assistant, 2016&ndash;2019)</p>
 <ul>
+  <li>Rebuilt the legacy PHP meter reading system in React and Fastify on the same live database with no downtime (~200,000 accounts), then made every suspect reading an owned case with photo evidence: 3,641 of 100,709 readings flagged in one period for review before billing; 660+ automated tests.</li>
+  <li>Added an offline-first inspection app and a WebGL map of ~240,000 consumer locations; now building its AI layer: vision checks of meter photos, a "talk to your data" assistant, and one-prompt reports.</li>
+  <li>Leading a &#8369;14.95M Azure hybrid cloud migration as sole architect: 2.1 TB of production databases replicate to an Azure standby transaction by transaction (99.9% uptime); in-house builds saved an estimated &#8369;8M+ in vendor costs.</li>
+  <li>Packaged billing-system know-how as 5 Claude skills with a 15-minute installer, now used by office staff.</li>
   <li>Cut tax compliance reporting from 2 weeks to under 5 minutes with a 2-click Python automation that generates regulated PDFs straight from SQL Server.</li>
   <li>Cut wholesale electricity invoicing from a full workday to under 30 seconds per ~50-invoice batch, with zero transcription errors and 59 automated tests.</li>
   <li>Architected an IT service management platform for ~300 staff across 12 offices; load-tested at 300 simultaneous requests, with 15,000-ticket reports under 500 ms (p95).</li>
-  <li>Cut annual-assembly registration from ~3 minutes to under 15 seconds per member for 13,000+ attendees across 5 venues with a real-time QR platform.</li>
-  <li>Leading ACIRS, a 24/7 AI customer-support system that answers from the knowledge base and routes escalations to the right department (launching Q1 2027).</li>
-  <li>Modernized the legacy PHP meter reading platform to React and Fastify with no downtime, and shipped a billing self-service portal and e-invoicing service for 250,000+ consumers.</li>
-  <li>Led a &#8369;14.95M Azure hybrid cloud migration as sole architect; run 4 SQL Server databases (1.17 TB+) at 99.9% uptime; in-house builds saved an estimated &#8369;8M+ in vendor costs over 3 years.</li>
+  <li>Cut annual-assembly registration from ~3 minutes to under 15 seconds per member for 13,000+ attendees across 5 venues.</li>
+  <li>Leading ACIRS, a 24/7 AI support system with knowledge-base answers and department routing (launching Q1 2027).</li>
+  <li>Shipped a billing self-service portal and e-invoicing service for 250,000+ consumers.</li>
 </ul>
 <h3>Founder and Engineer, Sneaker Symphony | 2024 &ndash; Present | Remote</h3>
 <ul>
-  <li>Run an online store solo with a scrape-to-catalog import pipeline and a Claude API pipeline that writes and schedules social posts (Next.js, Supabase, Inngest, PayMongo).</li>
+  <li>Run an online store solo with a scrape-to-catalog pipeline and a Claude API pipeline that schedules social posts.</li>
 </ul>
 
 <h2>Skills</h2>
 <p><b>AI / LLM:</b> Claude API (Anthropic), OpenAI API, AI agents, tool use / function calling, prompt engineering, prompt caching, RAG and knowledge-base grounding, structured outputs (JSON schema), human-in-the-loop design, guardrails and prompt-injection defense, LLM cost control, MCP, Claude Code</p>
 <p><b>Engineering:</b> Python, TypeScript, React, Next.js, Node.js, FastAPI, Fastify, Express, C#, PHP, REST APIs, ETL, web scraping, n8n, Inngest, automated testing (pytest, Playwright)</p>
-<p><b>Data and Cloud:</b> SQL Server (DBA), PostgreSQL, Supabase (row-level security), MySQL, Redis, Azure, AWS SES, Vercel, Docker, Linux, CI/CD, Git</p>
+<p><b>Data and Cloud:</b> SQL Server (DBA, availability groups), PostgreSQL, Supabase (row-level security), MySQL, Redis, Azure, AWS SES, Vercel, Docker, Linux, CI/CD, Git</p>
 
 <h2>Education and Certifications</h2>
 <p><b>BS Information and Communications Technology</b>, Pangasinan State University, 2015</p>

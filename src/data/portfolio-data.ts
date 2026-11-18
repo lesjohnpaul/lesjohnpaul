@@ -243,7 +243,7 @@ export const coreSkills = [
     category: "Database Administration",
     icon: "Database",
     description:
-      "Production DBA for a 1.17TB MS SQL Server billing instance plus MySQL/PostgreSQL stacks. Backup orchestration, query optimization, and incident recovery.",
+      "Production DBA for 2.1 TB of databases across MS SQL Server, MySQL, and PostgreSQL, with a cloud replica kept in step by a distributed availability group. Backup orchestration, query optimization, and incident recovery.",
     skills: [
       "MS SQL Server",
       "MySQL",
@@ -378,15 +378,17 @@ export const experience = [
     description:
       "Sole-architect role spanning cloud infrastructure, AI systems, network security, distributed apps, and production DBA work for a 250,000+ member utility. Reports through CSD/SAD chain.",
     achievements: [
-      "Sole architect of a ₱14.95M Azure hybrid cloud migration (in progress) covering identity, collaboration, and DR",
+      "Sole architect of a ₱14.95M Azure hybrid cloud migration (in progress): identity, collaboration, and DR in Azure, with 2.1 TB of on-prem databases replicated to a cloud standby transaction by transaction",
       "Building ACIRS, a 24/7 AI customer-support system with knowledge-base answers, auto-escalation, and an automatic Customer-360 CRM (launching Q1 2027)",
       "Built a distributed QR-based registration platform handling 13K attendees across 5 simultaneous venues",
       "Authored an internal NDR-class lateral-movement detection system: east-west monitoring, in-house build",
-      "Manage a 1.17TB production MS SQL Server billing instance plus MySQL/MIMS/CAS databases as DBA",
+      "Manage 2.1 TB of production databases (billing, membership, accounting, meter reading) as DBA",
       "Cut a 2-week tax compliance reporting process to a two-click run that finishes in under 5 minutes",
       "Authored PFAS, a partner file ETL platform replacing manual SFTP/email ingestion workflows",
       "Automated WESM settlement invoicing: a full-workday, ~50-invoice manual batch now runs in under 30 seconds with zero transcription errors",
-      "Modernized the meter reading system from procedural PHP/jQuery to Fastify + React 18 with zero-migration coexistence against the live MySQL database",
+      "Modernized the meter reading system from procedural PHP/jQuery to Fastify + React 18 with zero-migration coexistence against the live MySQL database, then added a case queue for every suspect reading, photo evidence, an offline inspection app, and a consumer map (660+ automated tests)",
+      "Building the AI layer on the meter reading platform: photo-versus-typed reading checks at the meter, a plain-language assistant over the reading data, and one-prompt reports",
+      "Wrote the billing system's working knowledge as five Claude skills with a 15-minute installer, so office staff ask the AI instead of waiting for the one person who knows",
       "Delivered a real-time QR-ballot election platform for the employee cooperative with live tallies and admin-approved ballot access",
     ],
   },
@@ -519,6 +521,17 @@ const allProjects: Project[] = [
     result: "Designed so every inquiry gets an answer, even at 3 a.m. (in build, launching Q1 2027)",
   },
   {
+    title: "Billing System Skills for Claude",
+    description:
+      "AI enablement for a 250K-member utility: the billing system's working knowledge written as five Claude skills (collections, invoicing, areas and books, prompt payors, notifications), with a one-run installer and a guide for staff who have never opened a terminal. Any staff member can ask the AI how the system works instead of waiting for the one person who knows.",
+    tech: ["Claude Code", "Agent Skills", "PowerShell", "Private GitHub", "AI Enablement"],
+    link: "#",
+    image: "",
+    featured: false,
+    private: true,
+    result: "5 skills, about 15 minutes to set up per person, in use by office staff",
+  },
+  {
     title: "Tax Compliance Automation",
     description:
       "Automated regulatory tax compliance reporting for a 250K-consumer utility. A process that took the compliance team two weeks of manual work is now two clicks: data is pulled from MS SQL Server and the regulated PDFs are generated with no manual transcription.",
@@ -601,8 +614,8 @@ const allProjects: Project[] = [
   {
     title: "Azure Hybrid Cloud Migration (In progress)",
     description:
-      "Sole architect of a ₱14.95M multi-milestone migration (in progress) of core operational workloads to Microsoft Azure for a 250K-member utility cooperative. Hybrid topology preserving on-prem HCI for compliance-bound workloads while moving identity, collaboration, and disaster recovery to Azure.",
-    tech: ["Azure", "Hybrid Cloud", "Identity & DR", "ArcherOS HCI", "Vendor Mgmt"],
+      "Sole architect of a ₱14.95M multi-milestone migration (in progress) of core operational workloads to Microsoft Azure for a 250K-member utility cooperative. Hybrid topology preserving on-prem HCI for compliance-bound workloads while moving identity, collaboration, and disaster recovery to Azure. 2.1 TB of production databases stay primary on-prem and replicate to an Azure standby through a distributed availability group.",
+    tech: ["Azure", "Hybrid Cloud", "Distributed AG", "Identity & DR", "ArcherOS HCI", "Vendor Mgmt"],
     link: "#",
     image: "/images/projects/azure-migration.jpg",
     featured: true,
@@ -693,8 +706,8 @@ const allProjects: Project[] = [
   {
     title: "Meter Reading Platform: Legacy Modernization",
     description:
-      "Full-stack modernization of the cooperative's meter reading operations: rebuilt a production procedural-PHP/jQuery system into a Fastify + React 18 SPA with zero-migration backward compatibility against the live MySQL database. Legacy and modern stacks run side by side. 11 route-level pages, 12 report modules, role-based routing, JWT access/refresh auth.",
-    tech: ["React 18", "Fastify", "Prisma", "MySQL", "Legacy Modernization"],
+      "Full-stack modernization of the cooperative's meter reading operations: rebuilt a production procedural-PHP/jQuery system into a Fastify + React 18 SPA with zero-migration backward compatibility against the live MySQL database. Legacy and modern stacks run side by side. It then grew into the meter-to-bill hub: anomaly detection, a case queue with photo evidence for every suspect reading, an offline inspection app, and a consumer map. 660+ automated tests.",
+    tech: ["React 18", "Fastify", "Prisma", "MySQL", "PWA (offline)", "deck.gl", "Legacy Modernization"],
     link: "#",
     image: "/images/projects/meter-reading/01-tv-coverage-map.webp",
     featured: true,
