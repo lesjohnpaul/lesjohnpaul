@@ -378,7 +378,7 @@ export const experience = [
     description:
       "Sole-architect role spanning cloud infrastructure, AI systems, network security, distributed apps, and production DBA work for a 250,000+ member utility. Reports through CSD/SAD chain.",
     achievements: [
-      "Sole architect of a ₱14.95M Azure hybrid cloud migration (in progress): identity, collaboration, and DR in Azure, with 2.1 TB of on-prem databases replicated to a cloud standby transaction by transaction",
+      "Initiated and designed ₱14.95M Azure hybrid cloud adoption (in progress): worked with Adverba cloud engineers who implemented identity, collaboration, and DR in Azure, with 2.1 TB of on-prem databases replicated to a cloud standby transaction by transaction; now maintains Azure environment",
       "Building ACIRS, a 24/7 AI customer-support system with knowledge-base answers, auto-escalation, and an automatic Customer-360 CRM (launching Q1 2027)",
       "Built a distributed QR-based registration platform handling 13K attendees across 5 simultaneous venues",
       "Authored an internal NDR-class lateral-movement detection system: east-west monitoring, in-house build",
@@ -612,9 +612,9 @@ const allProjects: Project[] = [
     result: "13,000 attendees checked in across 5 simultaneous venues",
   },
   {
-    title: "Azure Hybrid Cloud Migration (In progress)",
+    title: "Azure Hybrid Cloud Adoption (In progress)",
     description:
-      "Sole architect of a ₱14.95M multi-milestone migration (in progress) of core operational workloads to Microsoft Azure for a 250K-member utility cooperative. Hybrid topology preserving on-prem HCI for compliance-bound workloads while moving identity, collaboration, and disaster recovery to Azure. 2.1 TB of production databases stay primary on-prem and replicate to an Azure standby through a distributed availability group.",
+      "Initiated and designed ₱14.95M Azure hybrid cloud adoption (in progress) for a 250K-member utility cooperative. Worked with Adverba cloud engineers who carried out the implementation of core operational workloads to Microsoft Azure. Hybrid topology preserving on-prem HCI for compliance-bound workloads while moving identity, collaboration, and disaster recovery to Azure. 2.1 TB of production databases stay primary on-prem and replicate to an Azure standby through a distributed availability group. Now maintains Azure environment.",
     tech: ["Azure", "Hybrid Cloud", "Distributed AG", "Identity & DR", "ArcherOS HCI", "Vendor Mgmt"],
     link: "#",
     image: "/images/projects/azure-migration.jpg",
